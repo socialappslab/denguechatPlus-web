@@ -44,8 +44,11 @@ module.exports = {
         mjs: 'never',
       },
     ],
+    'import/no-named-as-default': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
     'react/function-component-definition': [
-      2,
+      0,
       {
         namedComponents: 'arrow-function',
         unnamedComponents: 'arrow-function',

@@ -1,0 +1,22 @@
+{
+  "yes": "Yes",
+  "no": "No",
+  "back": "Back",
+  "error": "Error",
+  "success": "Success",
+  "logout": "Logout",
+  "home": "Home Admin",
+  "login": "Login",
+  "oops": "Oops!",
+  "YYYY": "YYYY",
+  "Not Found": "Page Not Found",
+  "generalError": "Something went wrong",
+  "errors": {
+    "unauthorized": "Unauthorized"
+  },
+  "menu": {
+    "chat": "Chat",
+    "homes": "Homes",
+    "profile": "Profile"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "yes": "Yes",
+  "no": "No",
+  "back": "Atrás",
+  "error": "Error",
+  "success": "'Éxito'",
+  "logout": "Cerrar Sesión",
+  "login": "Iniciar Sesión",
+  "home": "Página inicio de Admin",
+  "YYYY": "AAAA",
+  "oops": "Ups!",
+  "Not Found": "Página no encontrada",
+  "generalError": "Ha ocurrido un error",
+  "errors": {
+    "unauthorized": "No autorizado"
+  },
+  "menu": {
+    "chat": "Chat",
+    "homes": "Casas",
+    "profile": "Perfil"
+  }
+}

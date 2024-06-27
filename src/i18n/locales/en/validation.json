@@ -1,0 +1,12 @@
+{
+  "required": "Field is required",
+  "requiredField": {
+    "email": "Email is required",
+    "password": "Password is required",
+    "confirmPassword": "Please confirm your password",
+    "name": "Name is required"
+  },
+  "notMatch": "Password does not match",
+  "invalidEmail": "Invalid email",
+  "passwordLength": "Password must be at least 6 characters"
+}
