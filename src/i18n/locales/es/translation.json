@@ -18,5 +18,11 @@
     "chat": "Chat",
     "homes": "Casas",
     "profile": "Perfil"
+  },
+  "table": {
+    "actions": "Acciones",
+    "rowsInPage": "Items en página",
+    "rowsInPageOf": "de",
+    "rowsMoreThan": "más de"
   }
 }

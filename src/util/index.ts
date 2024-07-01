@@ -18,4 +18,17 @@ export function getProperty(obj: any, propertyString: string): any {
   return result;
 }
 
-export default getProperty;
+const dateFormatOptions: Intl.DateTimeFormatOptions = {
+  month: 'long', // Display full month name
+  day: 'numeric', // Display day of the month
+  year: 'numeric', // Display full year
+};
+
+export const formatDateFromString = (locale: string, date: string | null | undefined) => {
+  if (!date) {
+    return '-';
+  }
+
+  const dateObj = new Date(date);
+  return dateObj.toLocaleDateString(locale, dateFormatOptions);
+};
