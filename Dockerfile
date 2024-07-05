@@ -23,7 +23,7 @@ FROM nginx:stable-alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Uncomment and configure the nginx configuration file if necessary
-# COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY .cicd/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Add a non-root user for better security
 #RUN adduser -D -g '' nginxuser && \
