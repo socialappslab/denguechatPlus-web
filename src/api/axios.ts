@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import { configure, makeUseAxios } from 'axios-hooks';
 import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, USER_LOCAL_STORAGE_KEY } from '../constants';
 
 interface RetryConfig extends AxiosRequestConfig {
@@ -9,7 +10,7 @@ interface RetryConfig extends AxiosRequestConfig {
 export const globalConfig: RetryConfig = {
   retry: 0,
   retryDelay: 1000,
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -94,3 +95,9 @@ authApi.interceptors.response.use(
 );
 
 export const publicApi = axios.create(globalConfig);
+
+export const useAxiosNoAuth = makeUseAxios({
+  axios: publicApi,
+});
+
+configure({ axios: authApi });

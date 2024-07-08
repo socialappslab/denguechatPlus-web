@@ -1,24 +1,49 @@
-import { TypeOf, object, string } from 'zod';
+import { TypeOf, object, string, z } from 'zod';
 
 import { UserTypes } from '../constants';
 import i18nInstance from '../i18n/config';
 
 const getTranslation = (key: string) => i18nInstance.t(key);
 
-// i18next.on('initialized', function(options) {})
 export const emailSchema = string()
   .min(1, getTranslation('validation:requiredField.email'))
   .email(getTranslation('validation:invalidEmail'));
+
 const passwordSchema = string()
   .min(1, getTranslation('validation:requiredField.password'))
   .min(6, getTranslation('validation:passwordLength'));
 
+export const userNameSchema = string()
+  .min(1, getTranslation('validation:requiredField.username'))
+  .min(6, getTranslation('validation:usernameLength'));
+
+export const phoneSchema = string()
+  .min(1, getTranslation('validation:requiredField.phone'))
+  .min(6, getTranslation('validation:phoneLength'));
+
+const TYPE_LOGIN = ['username', 'phone'] as const;
+
 export const loginSchema = object({
-  email: emailSchema,
+  username: z
+    .union([z.string().length(0, ''), userNameSchema])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  phone: z
+    .union([z.string().length(0, ''), phoneSchema])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+
   password: passwordSchema,
 });
 
-export type LoginInput = TypeOf<typeof loginSchema>;
+export type LoginInputType = TypeOf<typeof loginSchema>;
+
+export type LoginRequestType = {
+  type: (typeof TYPE_LOGIN)[number];
+  username?: string;
+  phone?: string;
+  password: string;
+};
 
 const nameSchema = string().min(1, getTranslation('validation:requiredField.name'));
 
@@ -45,27 +70,33 @@ export type ResetPasswordInput = TypeOf<typeof resetPasswordSchema>;
 
 export interface IUser {
   id?: string;
-  'first-name': string;
-  'last-name': string;
+  firstName: string;
+  lastName: string;
   email: string;
-  'role-name'?: string;
+  gender?: number;
+  phoneNumber?: string;
+  points?: number;
+  country?: string;
+  city?: string;
   timezone?: string;
-  'account-status'?: string;
-  type: UserTypes;
+  language?: string;
 }
 
 export interface ILoginResponse {
   data: {
-    id: number;
+    id: string;
     type: UserTypes;
     attributes: IUser;
   };
   meta: {
     jwt: {
-      csrf: string;
-      access: string;
-      access_expires_at: string;
-      refresh_expires_at: string;
+      res: {
+        csrf: string;
+        access: string;
+        accessExpiresAt: string;
+        refresh: string;
+        refreshExpiresAt: string;
+      };
     };
   };
 }

@@ -5,10 +5,12 @@ import { DateField as MUIDateField, DatePicker as MUIDatePicker } from '@mui/x-d
 import { useTranslation } from 'react-i18next';
 
 import dayjs, { Dayjs } from 'dayjs';
+import { MuiTelInput } from 'mui-tel-input';
 import React from 'react';
 import { Controller, FieldError, FieldErrorsImpl, Merge, useFormContext } from 'react-hook-form';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
 
+import { twMerge } from 'tailwind-merge';
 import { COLORS } from '../../constants';
 import { getProperty } from '../../util';
 
@@ -147,7 +149,12 @@ export function FormInput({
       defaultValue=""
       name={name}
       render={({ field }) => (
-        <FormControl fullWidth={fullWidth} sx={{ mb: 2 }} className={formControlClasses} error={!!fieldError}>
+        <FormControl
+          fullWidth={fullWidth}
+          sx={{ mb: 2 }}
+          className={twMerge(`${formControlClasses}`)}
+          error={!!fieldError}
+        >
           {(!type || TEXT_TYPES.includes(type)) && (
             <Input
               label={label}
@@ -175,6 +182,23 @@ export function FormInput({
               fullWidth={fullWidth}
               placeholder={placeholder}
               error={!!fieldError}
+              {...otherProps}
+            />
+          )}
+          {type === 'phone' && (
+            <MuiTelInput
+              defaultCountry="PE"
+              disableFormatting
+              variant="outlined"
+              label={label}
+              type={type}
+              value={field.value}
+              onBlur={field.onBlur}
+              onChange={field.onChange}
+              fullWidth={fullWidth}
+              placeholder={placeholder}
+              error={!!fieldError}
+              className={className}
               {...otherProps}
             />
           )}

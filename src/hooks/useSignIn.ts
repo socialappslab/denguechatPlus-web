@@ -1,13 +1,13 @@
-import { useNavigate } from 'react-router-dom';
+import { ErrorResponse, useNavigate } from 'react-router-dom';
 
-import { setAccessTokenToHeaders } from '../api/axios';
-import { DISPATCH_ACTIONS, UserTypes } from '../constants';
-import { IUser, LoginInput } from '../schemas/auth';
+import { setAccessTokenToHeaders, useAxiosNoAuth } from '../api/axios';
+import { DISPATCH_ACTIONS } from '../constants';
+import { ILoginResponse, IUser, LoginRequestType } from '../schemas/auth';
 import useStateContext from './useStateContext';
 
 type IUseSignIn = {
-  signInMutation: (payload: LoginInput) => void;
-  isLoading: boolean;
+  signInMutation: (payload: LoginRequestType) => Promise<void>;
+  loading: boolean;
 };
 
 export default function useSignIn(): IUseSignIn {
@@ -15,19 +15,27 @@ export default function useSignIn(): IUseSignIn {
 
   const stateContext = useStateContext();
 
-  const signInMutation = (payload: LoginInput) => {
-    const userMock: IUser = {
-      id: '1',
-      'first-name': 'User',
-      'last-name': 'Test',
-      email: payload.email,
-      type: UserTypes.ADMIN,
+  const [{ loading }, loginPost] = useAxiosNoAuth<ILoginResponse, LoginRequestType, ErrorResponse>(
+    {
+      url: 'users/session',
+      method: 'POST',
+    },
+    { manual: true },
+  );
+
+  const signInMutation = async (data: LoginRequestType) => {
+    const loginRes = await loginPost({ data });
+    console.log('loginRes', loginRes);
+
+    const user: IUser = {
+      id: loginRes.data.data.id,
+      ...loginRes.data.data.attributes,
     };
 
-    stateContext.dispatch({ type: DISPATCH_ACTIONS.SET_USER, payload: userMock });
-    setAccessTokenToHeaders('XXX');
+    stateContext.dispatch({ type: DISPATCH_ACTIONS.SET_USER, payload: user });
+    setAccessTokenToHeaders(loginRes.data.meta.jwt.res.access);
     navigate('/');
   };
 
-  return { signInMutation, isLoading: false };
+  return { signInMutation, loading };
 }
