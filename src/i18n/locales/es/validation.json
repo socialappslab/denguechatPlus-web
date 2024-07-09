@@ -10,7 +10,7 @@
   },
   "notMatch": "Las contraseñas no coinciden",
   "invalidEmail": "Correo electrónico inválido",
-  "passwordLength": "La contraseña debe tener al menos 6 caracteres",
-  "usernameLength": "El nombre de usuario debe tener al menos 6 caracteres",
-  "phoneLength": "El teléfono debe tener al menos 6 caracteres"
+  "passwordLength": "La contraseña debe tener al menos {{length}} caracteres",
+  "usernameLength": "El nombre de usuario debe tener al menos {{length}} caracteres",
+  "phoneLength": "El teléfono es muy corto"
 }

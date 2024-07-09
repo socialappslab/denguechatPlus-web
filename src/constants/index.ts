@@ -4,7 +4,7 @@ export const COLORS: { [key: string]: string } = {
   background: '#FFFFFF',
   darkest: '#1C1917',
   gray: '#4D4D54',
-  neutral: '#FAFAF9',
+  neutral: '#F5F5F4',
   softGray: '#C4C4C4',
   lightGray: '#EEEEEE',
   secondary: '#FCC914',
@@ -27,7 +27,6 @@ export const DISPATCH_ACTIONS = {
   SET_LANG: 'SET_LANG',
 };
 
-// eslint-disable-next-line no-shadow
 export enum UserTypes {
   ADMIN = 'ADMIN',
 }

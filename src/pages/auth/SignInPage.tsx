@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useSnackbar } from 'notistack';
 import LogoSquare from '../../assets/images/logo-square.svg';
@@ -23,6 +23,8 @@ import { a11yProps, extractAxiosErrorData } from '../../util';
 
 export function SignInPage() {
   const { t } = useTranslation(['auth', 'errorCodes']);
+  const navigate = useNavigate();
+
   const [value, setValue] = useState(0);
   const { signInMutation, loading } = useSignIn();
   const { enqueueSnackbar } = useSnackbar();
@@ -43,10 +45,16 @@ export function SignInPage() {
         type: value === 0 ? 'username' : 'phone',
       };
       await signInMutation(payload);
+      navigate('/');
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
-      enqueueSnackbar(t(`errorCodes:${String(errorData?.errors[0]?.error_code)}` || 'error.generic'), {
-        variant: 'error',
+      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+      errorData?.errors?.forEach((error: any) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        enqueueSnackbar(t(`errorCodes:${String(error.error_code)}` || 'error.generic'), {
+          variant: 'error',
+        });
       });
     }
   };

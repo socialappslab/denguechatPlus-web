@@ -1,4 +1,5 @@
 {
+  "genericField": "Verify the field",
   "1000": "Malformed request",
   "1": "Does not meet the minimum character requirement",
   "2": "The field cannot be empty",
@@ -47,7 +48,7 @@
   "45": "Is not a valid RFC3986 URI",
   "46": "Invalid credentials",
   "47": "The field must be sent in the request",
-  "48": "The user must be unique",
-  "49": "The phone number must be unique",
-  "50": "The email must be unique"
+  "48": "The user '{{field}}' is already in use",
+  "49": "The phone '{{field}}' is already in use",
+  "50": "The email '{{field}}' is already in use"
 }

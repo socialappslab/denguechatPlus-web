@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react';
 import { ScrollToTop } from '../components/ScrollToTop';
 import { AppBar, AppBarProps } from './AppBar';
 
-export default function BaseLayout({ children, auth, logout }: AppBarProps & PropsWithChildren) {
+export default function BaseLayout({ children, auth, signUp, logout }: AppBarProps & PropsWithChildren) {
   return (
     <Container
       maxWidth={false}
@@ -14,7 +14,7 @@ export default function BaseLayout({ children, auth, logout }: AppBarProps & Pro
       }}
     >
       <ScrollToTop />
-      <AppBar auth={auth} logout={logout} />
+      <AppBar auth={auth} signUp={signUp} logout={logout} />
       {children}
     </Container>
   );

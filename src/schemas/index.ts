@@ -1,3 +1,5 @@
+import { ExistingResourceObject, MetaObject } from 'jsonapi-fractal';
+
 export type ErrorResponse = {
   errors: Array<{
     error_code: number;
@@ -6,7 +8,7 @@ export type ErrorResponse = {
   }>;
 };
 
-export type ApiResponse<T> = {
+export type ApiResponseCollection<T> = {
   data: T[];
   meta: {
     total: number;
@@ -17,7 +19,27 @@ export type ApiResponse<T> = {
   };
 };
 
-export type UserAccountResponse = ApiResponse<{
+export interface JsonApiResponse<T> {
+  data: T;
+}
+
+export interface JsonApiCollectionResponse<T> {
+  data: T[];
+}
+
+export interface JsonApiResource<T> {
+  id: string;
+  type: string;
+  attributes: T;
+}
+
+export type BaseDocumentObject<T> = {
+  data: T | T[] | null;
+  meta?: MetaObject;
+  included?: ExistingResourceObject[];
+};
+
+export type UserAccountResponse = ApiResponseCollection<{
   id: string;
   type: 'userAccount';
   attributes: {
@@ -55,4 +77,31 @@ export type UserAccountResponse = ApiResponse<{
       timezone: string;
     };
   }>;
+};
+
+export interface Neighborhood {
+  id: number;
+  name: string;
+}
+
+export interface City {
+  id: number;
+  name: string;
+  neighborhoods: Neighborhood[];
+}
+
+export interface State {
+  id: number;
+  name: string;
+  cities: City[];
+}
+
+export interface Locations {
+  name: string;
+  states: State[];
+}
+
+export type FormSelectOption = {
+  label: string;
+  value: string;
 };

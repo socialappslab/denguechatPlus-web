@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { ErrorResponse } from '../schemas';
+import { ErrorResponse, FormSelectOption, State } from '../schemas';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getProperty(obj: any, propertyString: string): any {
@@ -61,3 +61,38 @@ export function extractAxiosErrorData(error: unknown): ErrorResponse | null {
   }
   return null;
 }
+
+export // Function to create FormSelectOption array for cities
+function createCityOptions(states: State[]): FormSelectOption[] {
+  return states.flatMap((state) =>
+    state.cities.map((city) => ({
+      label: city.name,
+      value: String(city.id),
+    })),
+  );
+}
+
+// Function to create FormSelectOption array for neighborhoods based on selected city ID
+export function createNeighborhoodOptions(states: State[], selectedCityId: number | string): FormSelectOption[] {
+  const selectedCity = states
+    .flatMap((state) => state.cities)
+    .find((city) => String(city.id) === String(selectedCityId));
+
+  return (
+    selectedCity?.neighborhoods.map((neighborhood) => ({
+      label: neighborhood.name,
+      value: String(neighborhood.id),
+    })) || []
+  );
+}
+
+export function convertToFormSelectOptions(data: Array<{ id: string; name: string }>): FormSelectOption[] {
+  return data.map((item) => ({
+    label: item.name,
+    value: item.id,
+  }));
+}
+
+export const findOptionByName = (options: FormSelectOption[], name: string): FormSelectOption | undefined => {
+  return options.find((option) => option.label.toLowerCase() === name.toLowerCase());
+};

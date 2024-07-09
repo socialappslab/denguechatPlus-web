@@ -1,0 +1,32 @@
+{
+  "title": "Crear Cuenta",
+  "email": "Correo Electrónico",
+  "phone": "Teléfono",
+  "phone_placeholder": "Ingresa tu teléfono",
+  "username": "Nombre de Usuario",
+  "username_placeholder": "Ingresa tu nombre de usuario",
+  "email_placeholder": "Ingresa tu correo electrónico",
+  "passwordHelperText": "La contraseña debe tener al menos 8 caracteres",
+  "password": "Contraseña",
+  "password_placeholder": "Ingresa tu contraseña",
+  "passwordConfirm": "Confirmación de Contraseña",
+  "passwordConfirm_placeholder": "Repite tu contraseña",
+  "firstName": "Nombre",
+  "firstName_placeholder": "Ingresa tu nombre",
+  "lastName": "Apellido",
+  "lastName_placeholder": "Ingresa tu apellido",
+  "city": "Ciudad",
+  "city_placeholder": "Selecciona tu ciudad",
+  "neighborhood": "Barrio",
+  "neighborhood_placeholder": "Selecciona tu barrio",
+  "organization": "Organización",
+  "organization_placeholder": "Selecciona tu organización",
+  "action": "Registrarse",
+  "errors": {
+    "username_exists": "El nombre de usuario '{{username}}' ya existe",
+    "phone_exists": "El número de teléfono '{{phone}}' ya existe"
+  },
+  "success": "Estamos verificando tu cuenta",
+  "success_description": "Tu cuenta está siendo verificada y estará activa en los próximos días.",
+  "success_action": "Ir al Inicio"
+}

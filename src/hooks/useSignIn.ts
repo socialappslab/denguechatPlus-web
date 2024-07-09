@@ -1,8 +1,9 @@
-import { ErrorResponse, useNavigate } from 'react-router-dom';
+import { ErrorResponse } from 'react-router-dom';
 
+import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { setAccessTokenToHeaders, useAxiosNoAuth } from '../api/axios';
 import { DISPATCH_ACTIONS } from '../constants';
-import { ILoginResponse, IUser, LoginRequestType } from '../schemas/auth';
+import { ILoginResponse, LoginRequestType } from '../schemas/auth';
 import useStateContext from './useStateContext';
 
 type IUseSignIn = {
@@ -11,11 +12,13 @@ type IUseSignIn = {
 };
 
 export default function useSignIn(): IUseSignIn {
-  const navigate = useNavigate();
-
   const stateContext = useStateContext();
 
-  const [{ loading }, loginPost] = useAxiosNoAuth<ILoginResponse, LoginRequestType, ErrorResponse>(
+  const [{ loading }, loginPost] = useAxiosNoAuth<
+    ExistingDocumentObject & ILoginResponse,
+    LoginRequestType,
+    ErrorResponse
+  >(
     {
       url: 'users/session',
       method: 'POST',
@@ -25,16 +28,14 @@ export default function useSignIn(): IUseSignIn {
 
   const signInMutation = async (data: LoginRequestType) => {
     const loginRes = await loginPost({ data });
-    console.log('loginRes', loginRes);
 
-    const user: IUser = {
-      id: loginRes.data.data.id,
-      ...loginRes.data.data.attributes,
-    };
+    const deserializedData = deserialize(loginRes.data);
 
-    stateContext.dispatch({ type: DISPATCH_ACTIONS.SET_USER, payload: user });
+    // eslint-disable-next-line no-console
+    console.log('deserializedData login', deserializedData);
+
+    stateContext.dispatch({ type: DISPATCH_ACTIONS.SET_USER, payload: deserializedData });
     setAccessTokenToHeaders(loginRes.data.meta.jwt.res.access);
-    navigate('/');
   };
 
   return { signInMutation, loading };

@@ -10,7 +10,7 @@
   },
   "notMatch": "Password does not match",
   "invalidEmail": "Invalid email",
-  "passwordLength": "Password must be at least 6 characters",
-  "usernameLength": "Username must be at least 6 characters",
-  "phoneLength": "Phone must be at least 6 characters"
+  "passwordLength": "Password must be at least {{length}} characters",
+  "usernameLength": "Username must be at least {{length}} characters",
+  "phoneLength": "Phone is too short"
 }

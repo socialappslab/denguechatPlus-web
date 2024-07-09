@@ -8,7 +8,7 @@ import i18next from 'i18next';
 import { COLORS, DISPATCH_ACTIONS } from '../constants';
 import useLangContext from '../hooks/useLangContext';
 import { LANGUAGES } from '../i18n/config';
-import { FormSelectOption } from '../themed/form-select/FormSelect';
+import { FormSelectOption } from '../schemas';
 
 export const InputSelectSmall = styled(_Input)`
   background-color: white;

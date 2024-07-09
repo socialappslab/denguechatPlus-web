@@ -61,11 +61,9 @@ export const DatePicker = styled(MUIDatePicker)`
 `;
 
 interface CustomProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (...event: any[]) => void;
 }
 
-// eslint-disable-next-line react/display-name
 const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>((props, ref) => {
   const { onChange, ...other } = props;
 
@@ -97,7 +95,6 @@ export type FormInputProps = {
 
 const TEXT_TYPES = ['text', 'email', 'password', 'number'];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FieldErrorType = FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
 interface FormInputErrorProps {
   fieldError: FieldErrorType;
@@ -187,13 +184,19 @@ export function FormInput({
           )}
           {type === 'phone' && (
             <MuiTelInput
+              forceCallingCode
+              focusOnSelectCountry
               defaultCountry="PE"
+              preferredCountries={['PE', 'BR', 'PY']}
               disableFormatting
+              MenuProps={{ disableAutoFocusItem: true }}
               variant="outlined"
               label={label}
               type={type}
               value={field.value}
               onBlur={field.onBlur}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               onChange={field.onChange}
               fullWidth={fullWidth}
               placeholder={placeholder}
