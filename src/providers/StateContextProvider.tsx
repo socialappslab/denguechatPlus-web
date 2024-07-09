@@ -5,12 +5,12 @@ import { DISPATCH_ACTIONS } from '../constants';
 import { IUser } from '../schemas/auth';
 
 type AuthState = {
-  user: IUser | null;
+  user: IUser | null | unknown;
 };
 
 type ActionSetAuth = {
   type: string;
-  payload: IUser | null;
+  payload: IUser | null | unknown;
 };
 
 type Dispatch = (action: ActionSetAuth) => void;

@@ -1,33 +1,42 @@
-import { useNavigate } from 'react-router-dom';
+import { ErrorResponse } from 'react-router-dom';
 
-import { setAccessTokenToHeaders } from '../api/axios';
-import { DISPATCH_ACTIONS, UserTypes } from '../constants';
-import { IUser, LoginInput } from '../schemas/auth';
+import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { setAccessTokenToHeaders, useAxiosNoAuth } from '../api/axios';
+import { DISPATCH_ACTIONS } from '../constants';
+import { ILoginResponse, LoginRequestType } from '../schemas/auth';
 import useStateContext from './useStateContext';
 
 type IUseSignIn = {
-  signInMutation: (payload: LoginInput) => void;
-  isLoading: boolean;
+  signInMutation: (payload: LoginRequestType) => Promise<void>;
+  loading: boolean;
 };
 
 export default function useSignIn(): IUseSignIn {
-  const navigate = useNavigate();
-
   const stateContext = useStateContext();
 
-  const signInMutation = (payload: LoginInput) => {
-    const userMock: IUser = {
-      id: '1',
-      'first-name': 'User',
-      'last-name': 'Test',
-      email: payload.email,
-      type: UserTypes.ADMIN,
-    };
+  const [{ loading }, loginPost] = useAxiosNoAuth<
+    ExistingDocumentObject & ILoginResponse,
+    LoginRequestType,
+    ErrorResponse
+  >(
+    {
+      url: 'users/session',
+      method: 'POST',
+    },
+    { manual: true },
+  );
 
-    stateContext.dispatch({ type: DISPATCH_ACTIONS.SET_USER, payload: userMock });
-    setAccessTokenToHeaders('XXX');
-    navigate('/');
+  const signInMutation = async (data: LoginRequestType) => {
+    const loginRes = await loginPost({ data });
+
+    const deserializedData = deserialize(loginRes.data);
+
+    // eslint-disable-next-line no-console
+    console.log('deserializedData login', deserializedData);
+
+    stateContext.dispatch({ type: DISPATCH_ACTIONS.SET_USER, payload: deserializedData });
+    setAccessTokenToHeaders(loginRes.data.meta.jwt.res.access);
   };
 
-  return { signInMutation, isLoading: false };
+  return { signInMutation, loading };
 }

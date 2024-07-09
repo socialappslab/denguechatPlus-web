@@ -5,10 +5,12 @@ import { DateField as MUIDateField, DatePicker as MUIDatePicker } from '@mui/x-d
 import { useTranslation } from 'react-i18next';
 
 import dayjs, { Dayjs } from 'dayjs';
+import { MuiTelInput } from 'mui-tel-input';
 import React from 'react';
 import { Controller, FieldError, FieldErrorsImpl, Merge, useFormContext } from 'react-hook-form';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
 
+import { twMerge } from 'tailwind-merge';
 import { COLORS } from '../../constants';
 import { getProperty } from '../../util';
 
@@ -59,11 +61,9 @@ export const DatePicker = styled(MUIDatePicker)`
 `;
 
 interface CustomProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (...event: any[]) => void;
 }
 
-// eslint-disable-next-line react/display-name
 const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>((props, ref) => {
   const { onChange, ...other } = props;
 
@@ -95,7 +95,6 @@ export type FormInputProps = {
 
 const TEXT_TYPES = ['text', 'email', 'password', 'number'];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FieldErrorType = FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
 interface FormInputErrorProps {
   fieldError: FieldErrorType;
@@ -147,7 +146,12 @@ export function FormInput({
       defaultValue=""
       name={name}
       render={({ field }) => (
-        <FormControl fullWidth={fullWidth} sx={{ mb: 2 }} className={formControlClasses} error={!!fieldError}>
+        <FormControl
+          fullWidth={fullWidth}
+          sx={{ mb: 2 }}
+          className={twMerge(`${formControlClasses}`)}
+          error={!!fieldError}
+        >
           {(!type || TEXT_TYPES.includes(type)) && (
             <Input
               label={label}
@@ -175,6 +179,29 @@ export function FormInput({
               fullWidth={fullWidth}
               placeholder={placeholder}
               error={!!fieldError}
+              {...otherProps}
+            />
+          )}
+          {type === 'phone' && (
+            <MuiTelInput
+              forceCallingCode
+              focusOnSelectCountry
+              defaultCountry="PE"
+              preferredCountries={['PE', 'BR', 'PY']}
+              disableFormatting
+              MenuProps={{ disableAutoFocusItem: true }}
+              variant="outlined"
+              label={label}
+              type={type}
+              value={field.value}
+              onBlur={field.onBlur}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              onChange={field.onChange}
+              fullWidth={fullWidth}
+              placeholder={placeholder}
+              error={!!fieldError}
+              className={className}
               {...otherProps}
             />
           )}

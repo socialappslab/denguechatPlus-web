@@ -1,22 +1,18 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { FormControl, FormHelperText, TextField as Input, MenuItem, Select } from '@mui/material';
+import { Box, CircularProgress, FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import { FormSelectOption } from '../../schemas';
 import { getProperty } from '../../util';
 import { FieldErrorType } from '../form-input/FormInput';
-import { Text } from '../text/Text';
-
-export type FormSelectOption = {
-  label: string;
-  value: string;
-};
 
 export type FormSelectProps = {
   name: string;
   label: string;
+  loading?: boolean;
+  helperText?: string;
   placeholder?: string;
   className?: string;
   options: FormSelectOption[] | string[];
@@ -33,6 +29,8 @@ export function FormSelect({
   label,
   className,
   placeholder,
+  helperText,
+  loading = false,
   renderOption = defaultRenderOption,
   options,
 }: FormSelectProps) {
@@ -67,30 +65,41 @@ export function FormSelect({
       defaultValue=""
       name={name}
       render={({ field }) => (
-        <FormControl fullWidth sx={{ mb: 2 }} className={className}>
-          <Text>{label}</Text>
+        <FormControl fullWidth sx={{ mb: 2 }} className={className} error={!!fieldError}>
+          <InputLabel id={`label-${name}`}>{label}</InputLabel>
           <Select
-            displayEmpty
-            disableUnderline
+            labelId={`label-${name}`}
+            label={label}
             error={!!fieldError}
-            input={<Input />}
+            variant="outlined"
             inputProps={{ name, error: !!fieldError }}
             {...field}
+            endAdornment={
+              loading ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem' }}>
+                  <CircularProgress size={24} />
+                </Box>
+              ) : null
+            }
           >
-            {placeholder && (
+            {placeholder && !field.value && !loading && (
               <MenuItem disabled value="">
                 <div className={` ${fieldError ? 'text-red opacity-50' : 'text-darkest opacity-50'}`}>
                   {placeholder}
                 </div>
               </MenuItem>
             )}
-            {optionsChecked.map((option) => (
-              <MenuItem key={`key-${option.value}`} value={option.value}>
-                {renderOption(option)}
-              </MenuItem>
-            ))}
+            {loading && <MenuItem disabled>...</MenuItem>}
+            {!loading &&
+              optionsChecked.map((option) => (
+                <MenuItem key={`key-${option.value}`} value={option.value}>
+                  {renderOption(option)}
+                </MenuItem>
+              ))}
           </Select>
-
+          {helperText && (
+            <FormHelperText className={`font-light text-sm mx-0 ${className}`}>{helperText}</FormHelperText>
+          )}
           <FormHelperText className="text-red text-base mx-0" error={!!fieldError}>{`${
             fieldError ? message : ''
           }`}</FormHelperText>

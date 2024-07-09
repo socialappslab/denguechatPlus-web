@@ -14,6 +14,8 @@ import ProtectedRoute from './ProtectedRoute';
 
 import PageLayout from '../layout/PageLayout';
 import RouterErrorPage from '../pages/RouterErrorPage';
+import CreateAccountPage from '../pages/auth/CreateAccountPage';
+import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import Loader from '../themed/loader/Loader';
 
 // Create a React Query client
@@ -49,8 +51,26 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: (
-      <BaseLayout>
+      <BaseLayout signUp auth={false}>
         <SignInPage />
+      </BaseLayout>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: '/register',
+    element: (
+      <BaseLayout>
+        <CreateAccountPage />
+      </BaseLayout>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: '/register-success',
+    element: (
+      <BaseLayout>
+        <CreateSuccessPage />
       </BaseLayout>
     ),
     errorElement: <RouterErrorPage />,

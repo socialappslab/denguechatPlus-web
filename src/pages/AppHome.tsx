@@ -8,7 +8,7 @@ function AppHome() {
 
   return (
     <>
-      {user?.type === 'ADMIN' && <HomeAdmin />}
+      {user && <HomeAdmin />}
       {!user && <Splash />}
     </>
   );

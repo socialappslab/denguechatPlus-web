@@ -23,13 +23,12 @@ export function Button<C extends React.ElementType>({
       size={size}
       className={twMerge(
         [
-          primary ? 'bg-grass hover:bg-opacity-80' : 'bg-lightGray hover:bg-softGray',
-          'w-max text-lg text-white font-semibold disabled:opacity-50',
+          primary ? 'bg-grass text-white hover:bg-opacity-80' : 'bg-white text-darkest hover:bg-lightGray',
+          'w-max text-lg font-semibold disabled:opacity-50',
           size === 'large' ? 'px-5 py-3 w-full rounded-full' : 'px-4 py-2 text-sm rounded-md',
           `normal-case  ${className}`,
         ].join(' '),
       )}
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
     >
       {label}

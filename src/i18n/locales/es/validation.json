@@ -2,11 +2,15 @@
   "required": "Este campo es requerido",
   "requiredField": {
     "email": "El correo electrónico es requerido",
+    "username": "El nombre de usuario es requerido",
     "password": "El password es requerido",
     "confirmPassword": "Por favor confirme su password",
-    "name": "El nombre es requerido"
+    "name": "El nombre es requerido",
+    "phone": "El teléfono es requerido"
   },
   "notMatch": "Las contraseñas no coinciden",
   "invalidEmail": "Correo electrónico inválido",
-  "passwordLength": "La contraseña debe tener al menos 6 caracteres"
+  "passwordLength": "La contraseña debe tener al menos {{length}} caracteres",
+  "usernameLength": "El nombre de usuario debe tener al menos {{length}} caracteres",
+  "phoneLength": "El teléfono es muy corto"
 }

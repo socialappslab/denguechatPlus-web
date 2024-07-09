@@ -1,0 +1,32 @@
+{
+  "title": "Create Account",
+  "email": "Email",
+  "phone": "Phone",
+  "phone_placeholder": "Enter your phone",
+  "username": "Username",
+  "username_placeholder": "Enter your username",
+  "email_placeholder": "Enter your email",
+  "passwordHelperText": "Password must be at least 8 characters long",
+  "password": "Password",
+  "password_placeholder": "Enter your password",
+  "passwordConfirm": "Password Confirmation",
+  "passwordConfirm_placeholder": "Repeat your password",
+  "firstName": "First Name",
+  "firstName_placeholder": "Enter your First Name",
+  "lastName": "Last Name",
+  "lastName_placeholder": "Enter your Last Name",
+  "city": "City",
+  "city_placeholder": "Select your city",
+  "neighborhood": "Neighborhood",
+  "neighborhood_placeholder": "Select your neighborhood",
+  "organization": "Organization",
+  "organization_placeholder": "Select your organization",
+  "action": "Register",
+  "errors": {
+    "username_exists": "Username '{{username}}' already exists",
+    "phone_exists": "Phone number '{{phone}}' already exists"
+  },
+  "success": "We are verifying your account",
+  "success_description": "Your account is being verified and will be active in the next few days.",
+  "success_action": "Go to Home"
+}
