@@ -4,11 +4,12 @@ import i18nInstance from '../i18n/config';
 
 const t = (key: string, args?: { [key: string]: string | number }) => i18nInstance.t(key, args);
 
-export const emailSchema = string().email(t('validation:invalidEmail')).optional();
+export const emailSchema = z.union([z.literal(''), string().email(t('validation:invalidEmail'))]);
 
-const passwordSchema = string()
-  .min(1, t('validation:requiredField.password'))
-  .min(8, t('validation:passwordLength', { length: 8 }));
+const passwordSchema = () =>
+  string()
+    .min(1, t('validation:requiredField.password'))
+    .min(8, t('validation:passwordLength', { length: 8 }));
 
 export const userNameSchema = string()
   .min(1, t('validation:requiredField.username'))
@@ -18,19 +19,21 @@ export const phoneSchema = string().min(1, t('validation:requiredField.phone')).
 
 const TYPE_LOGIN = ['username', 'phone'] as const;
 
-export const loginSchema = object({
-  username: z
-    .union([userNameSchema, z.string().length(0, '')])
-    .optional()
-    .transform((e) => (e === '' ? undefined : e)),
-  phone: z
-    .union([phoneSchema, z.string().length(0, '')])
-    .optional()
-    .transform((e) => (e === '' ? undefined : e)),
+export const createLoginSchema = () => {
+  return object({
+    username: z
+      .union([userNameSchema, z.string().length(0, '')])
+      .optional()
+      .transform((e) => (e === '' ? undefined : e)),
+    phone: z
+      .union([phoneSchema, z.string().length(0, '')])
+      .optional()
+      .transform((e) => (e === '' ? undefined : e)),
+    password: passwordSchema(),
+  });
+};
 
-  password: passwordSchema,
-});
-
+const loginSchema = createLoginSchema();
 export type LoginInputType = TypeOf<typeof loginSchema>;
 
 export type LoginRequestType = {
@@ -42,24 +45,27 @@ export type LoginRequestType = {
 
 const passwordConfirmSchema = string().min(1, t('validation:requiredField.confirmPassword'));
 
-const requiredString = string().min(1, t('validation:requiredField.name'));
+export const createRegisterSchema = () => {
+  const requiredNameString = string().min(1, t('validation:requiredField.name'));
+  const requiredString = string().min(1, t('validation:required'));
 
-export const registerSchema = object({
-  firstName: requiredString,
-  lastName: requiredString,
-  email: emailSchema,
-  username: userNameSchema,
-  phone: phoneSchema,
-  city: string().optional(),
-  neighborhood: string().optional(),
-  organization: requiredString,
-  password: passwordSchema,
-  passwordConfirm: passwordConfirmSchema,
-}).refine((data) => data.password === data.passwordConfirm, {
-  path: ['passwordConfirm'],
-  message: t('validation:notMatch'),
-});
-
+  return object({
+    firstName: requiredNameString,
+    lastName: requiredString,
+    email: emailSchema,
+    username: userNameSchema,
+    phone: phoneSchema,
+    city: requiredString,
+    neighborhood: requiredString,
+    organization: requiredString,
+    password: passwordSchema(),
+    passwordConfirm: passwordConfirmSchema,
+  }).refine((data) => data.password === data.passwordConfirm, {
+    path: ['passwordConfirm'],
+    message: t('validation:notMatch'),
+  });
+};
+const registerSchema = createRegisterSchema();
 export type RegisterInputType = TypeOf<typeof registerSchema>;
 
 export interface UserProfile {
@@ -73,6 +79,12 @@ export interface UserProfile {
   city?: string;
   neighborhood?: string;
   organization?: string;
+
+  countryId?: number;
+  cityId?: number;
+  neighborhoodId?: number;
+  organizationId?: number;
+
   timezone?: string;
   language?: string;
 }

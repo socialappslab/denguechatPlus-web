@@ -101,7 +101,9 @@ export function MuiTheme({ children }: Props) {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SnackbarProvider maxSnack={3}>{children}</SnackbarProvider>
+        <SnackbarProvider maxSnack={3} autoHideDuration={4000}>
+          {children}
+        </SnackbarProvider>
       </ThemeProvider>
     </StyledEngineProvider>
   );

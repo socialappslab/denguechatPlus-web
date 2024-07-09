@@ -265,10 +265,10 @@ export function FormInput({
               }
             />
           )}
-          {helperText && (
+          {helperText && !fieldError && (
             <FormHelperText className={`font-light text-sm mx-0 ${className}`}>{helperText}</FormHelperText>
           )}
-          <FormInputError className={labelClassName} fieldError={fieldError} />
+          <FormInputError className={`font-light text-sm mx-0 ${labelClassName}`} fieldError={fieldError} />
         </FormControl>
       )}
     />

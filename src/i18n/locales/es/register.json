@@ -5,7 +5,7 @@
   "phone_placeholder": "Ingresa tu teléfono",
   "username": "Nombre de Usuario",
   "username_placeholder": "Ingresa tu nombre de usuario",
-  "email_placeholder": "Ingresa tu correo electrónico",
+  "email_placeholder": "Ingresa tu correo electrónico (opcional)",
   "passwordHelperText": "La contraseña debe tener al menos 8 caracteres",
   "password": "Contraseña",
   "password_placeholder": "Ingresa tu contraseña",

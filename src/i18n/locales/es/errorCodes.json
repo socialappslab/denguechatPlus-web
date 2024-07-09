@@ -1,4 +1,5 @@
 {
+  "generic": "Algo salió mal",
   "genericField": "Verifique el campo",
   "1000": "Request mal formado",
   "1": "No cumple con el requisito de número de caracteres mínimos",
@@ -50,5 +51,6 @@
   "47": "El campo debe enviarse en el request",
   "48": "El usuario '{{field}}' ya está en uso",
   "49": "El teléfono '{{field}}' ya está en uso",
-  "50": "El correo electrónico '{{field}}' ya está en uso"
+  "50": "El correo electrónico '{{field}}' ya está en uso",
+  "51": "La cuenta no está activa"
 }

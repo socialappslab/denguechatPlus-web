@@ -1,4 +1,5 @@
 {
+  "generic": "Something went wrong",
   "genericField": "Verify the field",
   "1000": "Malformed request",
   "1": "Does not meet the minimum character requirement",
@@ -50,5 +51,6 @@
   "47": "The field must be sent in the request",
   "48": "The user '{{field}}' is already in use",
   "49": "The phone '{{field}}' is already in use",
-  "50": "The email '{{field}}' is already in use"
+  "50": "The email '{{field}}' is already in use",
+  "51": "Account is not active"
 }

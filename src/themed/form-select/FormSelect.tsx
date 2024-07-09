@@ -100,7 +100,7 @@ export function FormSelect({
           {helperText && (
             <FormHelperText className={`font-light text-sm mx-0 ${className}`}>{helperText}</FormHelperText>
           )}
-          <FormHelperText className="text-red text-base mx-0" error={!!fieldError}>{`${
+          <FormHelperText className="font-light text-sm mx-0" error={!!fieldError}>{`${
             fieldError ? message : ''
           }`}</FormHelperText>
         </FormControl>

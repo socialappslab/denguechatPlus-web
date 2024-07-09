@@ -5,7 +5,7 @@
   "phone_placeholder": "Enter your phone",
   "username": "Username",
   "username_placeholder": "Enter your username",
-  "email_placeholder": "Enter your email",
+  "email_placeholder": "Enter your email (optional)",
   "passwordHelperText": "Password must be at least 8 characters long",
   "password": "Password",
   "password_placeholder": "Enter your password",

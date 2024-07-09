@@ -12,7 +12,7 @@ import { useAxiosNoAuth } from '../../api/axios';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import useCreateAccount from '../../hooks/useCreateAccount';
 import { ErrorResponse, FormSelectOption, Locations } from '../../schemas';
-import { RegisterInputType, UserAccount, registerSchema } from '../../schemas/auth';
+import { RegisterInputType, UserAccount, createRegisterSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import FormSelect from '../../themed/form-select/FormSelect';
@@ -52,7 +52,7 @@ export function CreateAccountPage() {
   });
 
   const methods = useForm<RegisterInputType>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(createRegisterSchema()),
   });
 
   const {
@@ -104,11 +104,10 @@ export function CreateAccountPage() {
           firstName,
           lastName,
           country: 'PE',
-          gender: '-',
-          organization: organization ?? undefined,
-          city: city ?? undefined,
-          neighborhood: neighborhood ?? undefined,
-          timezone: 'America/Lima',
+          organizationId: organization ? Number(organization) : undefined,
+          cityId: city ? Number(city) : undefined,
+          neighborhoodId: neighborhood ? Number(neighborhood) : undefined,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           language: currentLanguage,
         },
       };
@@ -132,11 +131,17 @@ export function CreateAccountPage() {
         } else {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          enqueueSnackbar(t(`errorCodes:${String(error?.error_code)}` || 'error.generic'), {
+          enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',
           });
         }
       });
+
+      if (!errorData?.errors) {
+        enqueueSnackbar(t('errorCodes:generic'), {
+          variant: 'error',
+        });
+      }
     }
   };
 

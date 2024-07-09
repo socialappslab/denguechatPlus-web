@@ -14,7 +14,7 @@ import { useSnackbar } from 'notistack';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import useSignIn from '../../hooks/useSignIn';
 import TabPanel from '../../layout/TabPanel';
-import { LoginInputType, LoginRequestType, loginSchema } from '../../schemas/auth';
+import { LoginInputType, LoginRequestType, createLoginSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Text } from '../../themed/text/Text';
@@ -30,11 +30,12 @@ export function SignInPage() {
   const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm<LoginInputType>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(createLoginSchema()),
   });
 
   const {
     handleSubmit,
+    setError,
     formState: { isValid },
   } = methods;
 
@@ -52,9 +53,28 @@ export function SignInPage() {
       errorData?.errors?.forEach((error: any) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        enqueueSnackbar(t(`errorCodes:${String(error.error_code)}` || 'error.generic'), {
+        enqueueSnackbar(t(`errorCodes:${error.error_code || 'generic'}`), {
           variant: 'error',
         });
+      });
+
+      if (!errorData?.errors) {
+        enqueueSnackbar(t('errorCodes:generic'), {
+          variant: 'error',
+        });
+      }
+
+      setError('username', {
+        type: 'manual',
+        message: '',
+      });
+      setError('phone', {
+        type: 'manual',
+        message: '',
+      });
+      setError('password', {
+        type: 'manual',
+        message: '',
       });
     }
   };
