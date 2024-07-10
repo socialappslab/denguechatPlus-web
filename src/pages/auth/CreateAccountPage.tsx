@@ -137,7 +137,7 @@ export function CreateAccountPage() {
         }
       });
 
-      if (!errorData?.errors) {
+      if (!errorData?.errors || errorData?.errors.length === 0) {
         enqueueSnackbar(t('errorCodes:generic'), {
           variant: 'error',
         });
