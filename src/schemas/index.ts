@@ -1,11 +1,11 @@
 import { ExistingResourceObject, MetaObject } from 'jsonapi-fractal';
 
 export type ErrorResponse = {
-  errors: Array<{
+  errors: {
     error_code: number;
     detail: string;
     field: string | null;
-  }>;
+  }[];
 };
 
 export type ApiResponseCollection<T> = {
