@@ -192,11 +192,7 @@ export function FormInput({
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        {showPassword ? (
-                          <VisibilityOffOutlinedIcon color="red" />
-                        ) : (
-                          <VisibilityOutlinedIcon color="inherit" />
-                        )}
+                        {showPassword ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />}
                       </IconButton>
                     </InputAdornment>
                   ) : null,
