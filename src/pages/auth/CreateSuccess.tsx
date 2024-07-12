@@ -29,13 +29,13 @@ export function CreateSuccessPage() {
           flexDirection: 'column',
           backgroundColor: '#ffffff',
           p: { xs: '1rem', sm: '2rem' },
-          width: { sm: '500px', xs: '100%' },
+          width: { sm: '600px', xs: '100%' },
           borderRadius: 0,
         }}
       >
         <img className="self-center mb-8" src={IconSuccess} alt="success" />
-        <Title type="section" className="self-center mb-4" label={t('success')} />
-        <Text className="self-center text-gray">{t('success_description')}</Text>
+        <Title type="page2" className="self-center mb-4 text-center" label={t('success')} />
+        <Text className="self-center text-center text-gray">{t('success_description')}</Text>
 
         <Box className="self-center flex flex-row justify-center align-middle">
           <img className="mr-1" src={ArrowLeft} alt="arrow" />
