@@ -44,19 +44,20 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
   return stabilizedThis.map((el) => el[0]);
 }
 
-export type DataCellType = 'date' | undefined;
+export type DataCellType = 'date' | 'boolean' | undefined;
 
 export interface HeadCell<T> {
-  disablePadding: boolean;
+  withPadding?: boolean;
   id: Extract<keyof T, string>;
   label: string;
   type?: DataCellType;
   render?: (row: T, headCell: HeadCell<T>) => JSX.Element;
   sortable?: boolean;
+  filterable?: boolean;
   width?: number;
 }
 
-interface DataTableHeadProps<T> {
+export interface DataTableHeadProps<T> {
   onRequestSort: (event: React.MouseEvent<unknown>, property: Extract<keyof T, string>) => void;
   order: Order | undefined;
   orderBy: string | undefined;
@@ -118,7 +119,7 @@ function DataTableHead<T>({
             width={headCell.width}
             key={String(headCell.id)}
             align="left"
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            padding={headCell.withPadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             {headCell.sortable && (
@@ -129,10 +130,10 @@ function DataTableHead<T>({
                 // IconComponent={orderBy === headCell.id ? SorterDirection : Sorter}
                 onClick={createSortHandler(headCell.id)}
               >
-                {headCell.label}
+                {t(`columns.${headCell.label}`)}
               </TableSortLabel>
             )}
-            {!headCell.sortable && <DataTableHeadLabel label={headCell.label} />}
+            {!headCell.sortable && <DataTableHeadLabel label={t(`columns.${headCell.label}`)} />}
           </DataTableHeadCell>
         ))}
         {hasActions && (
@@ -156,12 +157,17 @@ export interface DataTableProps<T> {
   useEmptyRows?: boolean;
   handleRequestSort?: (property: Extract<keyof T, string>, sortOrder: Order) => void;
   pagination?: HandlePagination;
-  actions?: (row: T) => JSX.Element;
+  actions?: (row: T, isLoading?: boolean) => JSX.Element;
+  isLoading?: boolean;
 }
 
-function renderValue<T>(row: T, headCell: HeadCell<T>) {
+function renderValue<T>(row: T, headCell: HeadCell<T>, t: (key: string) => string) {
   if (headCell.render) {
     return headCell.render(row, headCell);
+  }
+
+  if (headCell.type === 'boolean') {
+    return row[headCell.id] ? t('yes') : t('no');
   }
 
   if (headCell.type === 'date') {
@@ -178,6 +184,7 @@ export function DataTable<T>({
   handleRequestSort,
   pagination,
   actions,
+  isLoading,
 }: DataTableProps<T>) {
   const { t } = useTranslation('translation');
 
@@ -244,10 +251,10 @@ export function DataTable<T>({
                 <TableRow tabIndex={-1} key={`${String(index)}`}>
                   {headCells.map((headCell) => (
                     <DataTableCell key={`${String(`${row[headCell.id]}-${index}-${headCell.id}`)}`}>
-                      {renderValue(row, headCell)}
+                      {renderValue(row, headCell, t)}
                     </DataTableCell>
                   ))}
-                  {actions && <DataTableCell>{actions(row)}</DataTableCell>}
+                  {actions && <DataTableCell>{actions(row, isLoading)}</DataTableCell>}
                 </TableRow>
               ))}
 

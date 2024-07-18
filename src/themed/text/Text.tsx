@@ -2,13 +2,21 @@ import { Typography } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+type TextTypeType = 'menuItem';
+
 export type TextProps = {
   className?: string;
+  type?: TextTypeType;
 };
 
-export function Text({ children, className }: TextProps & PropsWithChildren) {
+export function Text({ children, type, className }: TextProps & PropsWithChildren) {
+  let textClasses = 'text-lg mb-4';
+  if (type === 'menuItem') {
+    textClasses = 'mb-0 text-sm';
+  }
+
   return (
-    <Typography variant="body1" className={twMerge(`text-darkest text-lg mb-4 ${className}`)}>
+    <Typography variant="body1" className={twMerge(`text-darkest ${textClasses} ${className}`)}>
       {children}
     </Typography>
   );

@@ -10,13 +10,17 @@ import SignInPage from '../pages/auth/SignInPage';
 
 import LangContextProvider from '../providers/LangContextProvider';
 import StateContextProvider from '../providers/StateContextProvider';
-import ProtectedRoute from './ProtectedRoute';
 
+import OrganizationList from '../components/list/OrganizationList';
+import RoleList from '../components/list/RoleList';
+import UserList from '../components/list/UserList';
 import PageLayout from '../layout/PageLayout';
 import RouterErrorPage from '../pages/RouterErrorPage';
+import BaseAdminPage from '../pages/admin/BaseAdminPage';
 import CreateAccountPage from '../pages/auth/CreateAccountPage';
 import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import Loader from '../themed/loader/Loader';
+import DataTableExample from '../themed/table/DataTableExample';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -38,14 +42,26 @@ const router = createBrowserRouter([
     errorElement: <RouterErrorPage />,
   },
   {
-    path: '/home',
-    element: (
-      <ProtectedRoute>
-        <PageLayout>
-          <AppHome />
-        </PageLayout>
-      </ProtectedRoute>
-    ),
+    path: '/admin',
+    element: <BaseAdminPage />,
+    children: [
+      {
+        path: 'organizations',
+        element: <OrganizationList />,
+      },
+      {
+        path: 'roles',
+        element: <RoleList />,
+      },
+      {
+        path: 'users',
+        element: <UserList />,
+      },
+      {
+        path: 'example',
+        element: <DataTableExample />,
+      },
+    ],
     errorElement: <RouterErrorPage />,
   },
   {

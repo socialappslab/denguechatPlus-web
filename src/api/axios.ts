@@ -23,9 +23,9 @@ export function getAccessToken(): string | null {
 export const setHeaderFromLocalStorage = () => {
   const token = getAccessToken();
   if (token && token !== 'undefined' && globalConfig.headers) {
-    globalConfig.headers.Authorization = `Bearer ${token}`;
+    globalConfig.headers['X-Authorization'] = `${token}`;
   } else if (globalConfig.headers) {
-    globalConfig.headers.Authorization = '';
+    globalConfig.headers['X-Authorization'] = '';
   }
 };
 
@@ -46,9 +46,9 @@ export const authApi = axios.create(globalConfig);
 
 export const resetAuthApi = () => {
   if (globalConfig.headers) {
-    delete globalConfig.headers.Authorization;
+    delete globalConfig.headers['X-Authorization'];
   }
-  delete authApi.defaults.headers.Authorization;
+  delete authApi.defaults.headers['X-Authorization'];
 };
 
 export const setAccessTokenToHeaders = (accessToken: string | null) => {
@@ -58,7 +58,7 @@ export const setAccessTokenToHeaders = (accessToken: string | null) => {
   }
 
   saveAccessToken(accessToken);
-  authApi.defaults.headers.Authorization = `Bearer ${accessToken}`;
+  authApi.defaults.headers['X-Authorization'] = `${accessToken}`;
 };
 
 authApi.interceptors.response.use(
@@ -100,4 +100,4 @@ export const useAxiosNoAuth = makeUseAxios({
   axios: publicApi,
 });
 
-configure({ axios: authApi });
+configure({ axios: authApi, cache: false });

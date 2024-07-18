@@ -16,14 +16,48 @@
     "unauthorized": "Unauthorized"
   },
   "menu": {
+    "search": "Search",
     "chat": "Chat",
     "homes": "Homes",
-    "profile": "Profile"
+    "profile": "Profile",
+    "users": "Users",
+    "roles": "Roles",
+    "myCity": "My City",
+    "myCommunity": "My Community",
+    "teams": "Teams",
+    "myProfile": "My Profile",
+    "settings": "Settings",
+    "organizations": "Organizations",
+    "breedingSites": "Breeding Sites",
+    "cities": "Cities",
+    "descriptions": {
+      "organizations": "List of Organizations",
+      "cities": "List of Cities",
+      "users": "List of Users",
+      "roles": "List of Roles",
+      "teams": "List of Teams"
+    }
   },
   "table": {
     "actions": "Actions",
+    "search": "Search",
+    "searchValue": "Search Value",
+    "selectAttribute": "Select Attribute",
     "rowsInPage": "Rows in page",
     "rowsInPageOf": "of",
     "rowsMoreThan": "more than"
+  },
+  "columns": {
+    "id": "ID",
+    "name": "Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "neighborhood": "Neighborhood",
+    "status": "Active Status",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "actions": "Actions"
   }
 }
