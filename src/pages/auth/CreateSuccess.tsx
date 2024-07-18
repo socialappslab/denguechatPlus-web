@@ -3,8 +3,8 @@ import { Box, Container } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import ArrowLeft from '../../assets/images/arrow-left-green.svg';
-import IconSuccess from '../../assets/images/icon-success.svg';
+import ArrowLeft from '../../assets/icons/arrow-left-green.svg';
+import IconSuccess from '../../assets/icons/icon-success.svg';
 
 import { Text } from '../../themed/text/Text';
 import { Title } from '../../themed/title/Title';
