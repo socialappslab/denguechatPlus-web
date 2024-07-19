@@ -3,6 +3,7 @@ import errorCodes from '../i18n/locales/en/errorCodes.json';
 import register from '../i18n/locales/en/register.json';
 import translation from '../i18n/locales/en/translation.json';
 import validation from '../i18n/locales/en/validation.json';
+import splash from '../i18n/locales/es/splash.json';
 
 const resources = {
   auth,
@@ -10,6 +11,7 @@ const resources = {
   register,
   translation,
   validation,
+  splash,
 } as const;
 
 export default resources;

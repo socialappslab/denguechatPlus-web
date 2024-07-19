@@ -1,0 +1,18 @@
+{
+  "main": {
+    "joinTeam": "Únete al equipo de tu comunidad",
+    "dengueChatPlus": "DengueChat+",
+    "citizensCopy": "Ciudadanos en el combate contra el dengue y los zancudos.",
+    "cta": {
+      "learnMore": "Aprender más",
+      "register": "Register"
+    }
+  },
+  "participants": {
+    "chip": "Conoce a los participantes",
+    "text": "Ve a los actores involucrados en la comunidad de Managua, Nicaragua",
+    "buttons": {
+      "primary": "Ver más videos"
+    }
+  }
+}
