@@ -23,13 +23,6 @@ export default function BaseLayout({ children, auth, signUp, logout }: AppBarPro
   }
 
   return (
-    // <Box
-    //   maxWidth={false}
-    //   className="bg-white p-0 m-0"
-    //   sx={{
-    //     minHeight: '100vh',
-    //   }}
-    // >
     <Box sx={{ display: 'flex' }}>
       <ScrollToTop />
       <AppBar auth={auth} signUp={signUp} logout={logout} />

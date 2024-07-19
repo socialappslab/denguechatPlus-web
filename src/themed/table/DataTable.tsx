@@ -130,9 +130,13 @@ function DataTableHead<T>({
                 // IconComponent={orderBy === headCell.id ? SorterDirection : Sorter}
                 onClick={createSortHandler(headCell.id)}
               >
+                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                {/* @ts-expect-error */}
                 {t(`columns.${headCell.label}`)}
               </TableSortLabel>
             )}
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/* @ts-expect-error */}
             {!headCell.sortable && <DataTableHeadLabel label={t(`columns.${headCell.label}`)} />}
           </DataTableHeadCell>
         ))}
@@ -161,7 +165,8 @@ export interface DataTableProps<T> {
   isLoading?: boolean;
 }
 
-function renderValue<T>(row: T, headCell: HeadCell<T>, t: (key: string) => string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderValue<T>(row: T, headCell: HeadCell<T>, t: (key: any) => string) {
   if (headCell.render) {
     return headCell.render(row, headCell);
   }

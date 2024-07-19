@@ -45,6 +45,7 @@ module.exports = {
       },
     ],
     'import/no-named-as-default': 'off',
+    'react/no-array-index-key': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',
     'react/function-component-definition': [

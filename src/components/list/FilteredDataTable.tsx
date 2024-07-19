@@ -37,8 +37,8 @@ export default function FilteredDataTable<T>({
   const [payload, setPayload] = useState<PaginationInput>({
     'page[number]': 1,
     'page[size]': PAGE_SIZES[0],
-    sort: '',
-    order: '',
+    // sort: '',
+    // order: '',
   });
 
   const [filter, setFilter] = useState<{ [key: string]: string }>({});
@@ -115,10 +115,16 @@ export default function FilteredDataTable<T>({
       {subtitle && <Title type="subsection" label={subtitle} />}
       {(title || subtitle) && <div className="mb-8" />}
       <Grid className="mb-8 " container spacing={3} direction="row" justifyContent="flex-start" alignItems="center">
-        <Grid item>
-          <TextField label={t(`table.searchValue`)} variant="outlined" value={searchText} onChange={handleTextChange} />
+        <Grid item xs={12} sm={5}>
+          <TextField
+            fullWidth
+            label={t(`table.searchValue`)}
+            variant="outlined"
+            value={searchText}
+            onChange={handleTextChange}
+          />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={8} sm={4}>
           <FormControl fullWidth variant="outlined">
             <InputLabel id="label-attribute-search"> {t(`table.selectAttribute`)}</InputLabel>
             <Select
@@ -132,8 +138,9 @@ export default function FilteredDataTable<T>({
                 {t(`table.selectAttribute`)}
               </MenuItem>
               {options.map((option, index) => (
-                // eslint-disable-next-line react/no-array-index-key
                 <MenuItem key={`${option}-${index}`} value={option}>
+                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                  {/* @ts-expect-error */}
                   {t(`columns.${option}`)}
                 </MenuItem>
               ))}
@@ -142,7 +149,7 @@ export default function FilteredDataTable<T>({
         </Grid>
         <Grid item>
           <Button
-            disabled={!searchText && !selectedOption}
+            disabled={!searchText || !selectedOption}
             className="justify-start text-md"
             label={t(`table.search`)}
             onClick={handleSearch}

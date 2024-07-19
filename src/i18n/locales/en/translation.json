@@ -50,6 +50,7 @@
   "columns": {
     "id": "ID",
     "name": "Name",
+    "username": "Username",
     "firstName": "First Name",
     "lastName": "Last Name",
     "email": "Email",

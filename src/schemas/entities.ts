@@ -1,8 +1,8 @@
 export interface PaginationInput {
   'page[number]': number;
   'page[size]': number;
-  sort: string;
-  order: 'asc' | 'desc';
+  sort?: string;
+  order?: 'asc' | 'desc';
 }
 
 export interface Organization {
