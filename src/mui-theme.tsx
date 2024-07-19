@@ -12,10 +12,10 @@ const rootElement = document.getElementById('root');
 const theme = createTheme({
   palette: {
     primary: {
-      main: COLORS.grass,
+      main: COLORS.grass as string,
     },
     secondary: {
-      main: COLORS.secondary,
+      main: COLORS.secondary as string,
     },
   },
   typography: {
