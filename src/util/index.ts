@@ -96,3 +96,15 @@ export function convertToFormSelectOptions(data: Array<{ id: string; name: strin
 export const findOptionByName = (options: FormSelectOption[], name: string): FormSelectOption | undefined => {
   return options.find((option) => option.label.toLowerCase() === name.toLowerCase());
 };
+
+export const constructFilterObject = (filter: { [key: string]: string }): { [key: string]: string } => {
+  if (Object.keys(filter).length === 0) {
+    return {};
+  }
+
+  const result: { [key: string]: string } = {};
+  Object.entries(filter).forEach(([key, value]) => {
+    result[`filter[${key}]`] = value;
+  });
+  return result;
+};

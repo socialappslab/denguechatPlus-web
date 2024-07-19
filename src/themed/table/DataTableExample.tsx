@@ -39,31 +39,26 @@ const rows = [
 const headCells: HeadCell<Data>[] = [
   {
     id: 'name',
-    disablePadding: false,
     label: 'Postre (100g serving)',
     sortable: true,
   },
   {
     id: 'calories',
-    disablePadding: false,
     label: 'Calories',
     sortable: true,
   },
   {
     id: 'fat',
-    disablePadding: false,
     label: 'Fat (g)',
     sortable: false,
   },
   {
     id: 'carbs',
-    disablePadding: false,
     label: 'Carbs (g)',
     sortable: true,
   },
   {
     id: 'protein',
-    disablePadding: false,
     label: 'Protein (g)',
     sortable: false,
   },

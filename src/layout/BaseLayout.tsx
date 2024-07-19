@@ -1,21 +1,35 @@
-import { Container } from '@mui/material';
+import { Box, Container, Toolbar } from '@mui/material';
 import { PropsWithChildren } from 'react';
 
 import { ScrollToTop } from '../components/ScrollToTop';
+import { drawerWidth } from '../constants';
 import { AppBar, AppBarProps } from './AppBar';
 
 export default function BaseLayout({ children, auth, signUp, logout }: AppBarProps & PropsWithChildren) {
+  if (!auth) {
+    return (
+      <Container
+        maxWidth={false}
+        className="bg-white p-0 m-0"
+        sx={{
+          minHeight: '100vh',
+        }}
+      >
+        <ScrollToTop />
+        <AppBar auth={auth} signUp={signUp} logout={logout} />
+        {children}
+      </Container>
+    );
+  }
+
   return (
-    <Container
-      maxWidth={false}
-      className="bg-white p-0 m-0"
-      sx={{
-        minHeight: '100vh',
-      }}
-    >
+    <Box sx={{ display: 'flex' }}>
       <ScrollToTop />
       <AppBar auth={auth} signUp={signUp} logout={logout} />
-      {children}
-    </Container>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+        <Toolbar disableGutters sx={{ height: '80px' }} />
+        {children}
+      </Box>
+    </Box>
   );
 }

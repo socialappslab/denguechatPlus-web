@@ -1,5 +1,5 @@
 {
-  "yes": "Yes",
+  "yes": "Sí",
   "no": "No",
   "back": "Atrás",
   "error": "Error",
@@ -16,14 +16,48 @@
     "unauthorized": "No autorizado"
   },
   "menu": {
+    "search": "Buscar",
     "chat": "Chat",
-    "homes": "Casas",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "users": "Usuarios",
+    "roles": "Roles",
+    "myCity": "Mi Ciudad",
+    "myCommunity": "Mi Comunidad",
+    "teams": "Equipos",
+    "myProfile": "Mi Perfil",
+    "settings": "Configuraciones",
+    "organizations": "Organizaciones",
+    "cities": "Ciudades",
+    "breedingSites": "Criaderos",
+    "descriptions": {
+      "organizations": "Lista de Organizaciones",
+      "cities": "Lista de Ciudades",
+      "users": "Lista de Usuarios",
+      "roles": "Lista de Roles",
+      "teams": "Lista de Equipos"
+    }
   },
   "table": {
     "actions": "Acciones",
+    "search": "Buscar",
+    "searchValue": "Valor de búsqueda",
+    "selectAttribute": "Seleccionar Atributo",
     "rowsInPage": "Items en página",
     "rowsInPageOf": "de",
     "rowsMoreThan": "más de"
+  },
+  "columns": {
+    "id": "ID",
+    "name": "Nombre",
+    "status": "Estado Activo",
+    "email": "Correo Electrónico",
+    "phone": "Teléfono",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "username": "Nombre de Usuario",
+    "neighborhood": "Barrio",
+    "createdAt": "Creado",
+    "updatedAt": "Actualizado",
+    "actions": "Acciones"
   }
 }

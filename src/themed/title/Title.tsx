@@ -21,7 +21,7 @@ export function Title({ label, type = 'section', className }: TitleProps) {
     fontSizeClass = 'text-3xl font-semibold';
   } else if (type === 'subsection') {
     variant = 'h3';
-    fontSizeClass = 'text-xl';
+    fontSizeClass = 'text-lg font-normal text-gray';
   }
 
   return (

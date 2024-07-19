@@ -87,10 +87,12 @@ export interface UserProfile {
 
   timezone?: string;
   language?: string;
+  createdAt?: string;
 }
 
-export interface IUser extends UserProfile {
+export interface IUser extends UserProfile, UserAccount {
   id: string;
+  status?: string;
 }
 
 export interface UserAccount {

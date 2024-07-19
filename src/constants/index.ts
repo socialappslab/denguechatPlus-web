@@ -30,3 +30,5 @@ export const DISPATCH_ACTIONS = {
 export enum UserTypes {
   ADMIN = 'ADMIN',
 }
+
+export const drawerWidth = 260;

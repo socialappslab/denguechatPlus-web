@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
 import App from './App';
 
 describe('Render the app correctly', () => {
@@ -8,20 +7,5 @@ describe('Render the app correctly', () => {
     const header = await screen.findByText(/DengueChat/);
 
     expect(header).toBeInTheDocument();
-  });
-
-  test('should render the button and counter', async () => {
-    render(<App />);
-
-    const button = await screen.findByRole('button');
-
-    expect(button).toBeInTheDocument();
-    expect(button.innerHTML).toBe('count is 0');
-
-    await user.click(button);
-    await user.click(button);
-    await user.click(button);
-
-    expect(button.innerHTML).toBe('count is 3');
   });
 });
