@@ -38,7 +38,13 @@
     }
   },
   "table": {
-    "actions": "Acciones",
+    "actions": {
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "view": "Ver",
+      "add": "Agregar",
+      "approve": "Aprobar"
+    },
     "search": "Buscar",
     "searchValue": "Valor de búsqueda",
     "selectAttribute": "Seleccionar Atributo",
@@ -49,15 +55,23 @@
   "columns": {
     "id": "ID",
     "name": "Nombre",
-    "status": "Estado Activo",
     "email": "Correo Electrónico",
     "phone": "Teléfono",
     "firstName": "Nombre",
     "lastName": "Apellido",
     "username": "Nombre de Usuario",
     "neighborhood": "Barrio",
+    "status": "Estado",
+    "statusActive": "Estado Activo",
     "createdAt": "Creado",
     "updatedAt": "Actualizado",
     "actions": "Acciones"
+  },
+  "options": {
+    "notDefined": "No definido",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "all": "Todos",
+    "pending": "Pendiente"
   }
 }

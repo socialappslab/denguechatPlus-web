@@ -15,7 +15,7 @@ export default function PageLayout({ children }: PropsWithChildren) {
 
   return (
     <BaseLayout auth={!!user} signUp logout={handleLogout}>
-      <Container maxWidth={false} className="lg:pt-14 lg:px-20 md:pt-8 md:px-12 sm:pt-7 sm:px-10 pt-6 px-6 pb-12 mx-0">
+      <Container maxWidth={false} className="lg:pt-6 lg:px-8 md:pt-6 md:px-8 sm:pt-5 sm:px-6 pt-4 px-4 pb-8 mx-0">
         {children}
       </Container>
     </BaseLayout>

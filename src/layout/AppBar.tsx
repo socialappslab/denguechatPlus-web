@@ -160,13 +160,20 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
 
             <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
               {auth && !!logout && (
-                <Button className="mr-4" size="small" label={t('logout')} onClick={() => logout()} />
+                <Button className="mr-4" buttonType="small" label={t('logout')} onClick={() => logout()} />
               )}
               {!auth && location.pathname !== '/login' && (
-                <Button primary={false} className="mr-4" size="small" label={t('login')} component={Link} to="/login" />
+                <Button
+                  primary={false}
+                  className="mr-4"
+                  buttonType="small"
+                  label={t('login')}
+                  component={Link}
+                  to="/login"
+                />
               )}
               {signUp && !auth && (
-                <Button className="mr-4" size="small" label={t('register')} component={Link} to="/register" />
+                <Button className="mr-4" buttonType="small" label={t('register')} component={Link} to="/register" />
               )}
 
               <SelectLanguageComponent />
@@ -203,13 +210,20 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
 
             <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
               {auth && !!logout && (
-                <Button className="mr-4" size="small" label={t('logout')} onClick={() => logout()} />
+                <Button className="mr-4" buttonType="small" label={t('logout')} onClick={() => logout()} />
               )}
               {!auth && location.pathname !== '/login' && (
-                <Button primary={false} className="mr-4" size="small" label={t('login')} component={Link} to="/login" />
+                <Button
+                  primary={false}
+                  className="mr-4"
+                  buttonType="small"
+                  label={t('login')}
+                  component={Link}
+                  to="/login"
+                />
               )}
               {signUp && !auth && (
-                <Button className="mr-4" size="small" label={t('register')} component={Link} to="/register" />
+                <Button className="mr-4" buttonType="small" label={t('register')} component={Link} to="/register" />
               )}
 
               <SelectLanguageComponent />

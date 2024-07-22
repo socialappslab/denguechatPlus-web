@@ -2,9 +2,8 @@ import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Tex
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { PAGE_SIZES } from '../../constants';
 import { PaginationInput } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
@@ -16,6 +15,14 @@ interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
   title?: string;
   subtitle?: string;
   endpoint: string;
+  defaultSort?: string;
+  defaultOrder?: Order;
+  defaultFilter?: string;
+  actions?: (row: T, loading?: boolean) => JSX.Element;
+}
+
+interface FilterOptionsObject {
+  [key: string]: string[];
 }
 
 export default function FilteredDataTable<T>({
@@ -23,6 +30,10 @@ export default function FilteredDataTable<T>({
   headCells,
   title,
   subtitle,
+  defaultSort,
+  defaultOrder = 'asc',
+  defaultFilter,
+  actions,
   ...otherDataTableProps
 }: FilteredDataTableProps<T>) {
   const { t } = useTranslation('translation');
@@ -31,14 +42,26 @@ export default function FilteredDataTable<T>({
   const TypedDataTable = DataTable<T>;
 
   const [searchText, setSearchText] = useState('');
-  const [selectedOption, setSelectedOption] = useState('');
+  const [searchSelect, setSearchSelect] = useState('');
+  const [selectedOption, setSelectedOption] = useState(defaultFilter || '');
   const options = headCells.filter((cell) => cell.filterable).map((cell) => cell.id);
+  const filterOptions = useMemo(() => {
+    const filterOptionsObject: FilterOptionsObject = {};
+
+    headCells.forEach((cell) => {
+      if (cell.filterOptions) {
+        filterOptionsObject[cell.id] = cell.filterOptions;
+      }
+    });
+
+    return filterOptionsObject;
+  }, [headCells]);
 
   const [payload, setPayload] = useState<PaginationInput>({
     'page[number]': 1,
     'page[size]': PAGE_SIZES[0],
-    // sort: '',
-    // order: '',
+    sort: defaultSort,
+    order: defaultSort ? defaultOrder : undefined,
   });
 
   const [filter, setFilter] = useState<{ [key: string]: string }>({});
@@ -49,19 +72,19 @@ export default function FilteredDataTable<T>({
     url: `/${endpoint}`,
     params: {
       ...payload,
-      ...constructFilterObject(filter),
+      ...constructFilterObject(filter, Object.keys(filterOptions)),
     },
   });
 
   const handleChangePage = (newPage: number, rowsPerPage: number) => {
     setPayload((prev) => ({
       ...prev,
-      'page[number]': newPage,
+      'page[number]': newPage + 1,
       'page[size]': rowsPerPage,
     }));
   };
 
-  const handleRequestSort = (property: Extract<keyof T, string>, sortOrder: Order) => {
+  const handleRequestSort = (property: string, sortOrder: Order) => {
     setPayload((prev) => ({
       ...prev,
       sort: property,
@@ -73,7 +96,8 @@ export default function FilteredDataTable<T>({
     if (data) {
       const deserializedData = deserialize<T>(data);
       if (!deserializedData || !Array.isArray(deserializedData)) return;
-      console.log(deserializedData);
+
+      console.log('rows', deserializedData);
       setRows(deserializedData);
       setTotalCount(data.meta.total);
     }
@@ -85,22 +109,21 @@ export default function FilteredDataTable<T>({
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     setSelectedOption(event.target.value);
+    if (filterOptions[event.target.value]) {
+      setSearchSelect('');
+    }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const actions = (row: any) => (
-    <Button
-      disabled
-      className="p-1 justify-start font-light"
-      component={Link}
-      to={`/edit/${row.name}`}
-      label="Edit"
-      size="small"
-    />
-  );
+  const handleSelectOptionChange = (event: SelectChangeEvent<string>) => {
+    setSearchSelect(event.target.value);
+  };
 
   function handleSearch(): void {
-    setFilter({ [selectedOption]: searchText });
+    if (filterOptions[selectedOption]) {
+      setFilter({ [selectedOption]: searchSelect });
+    } else {
+      setFilter({ [selectedOption]: searchText });
+    }
   }
 
   if (error) {
@@ -116,13 +139,38 @@ export default function FilteredDataTable<T>({
       {(title || subtitle) && <div className="mb-8" />}
       <Grid className="mb-8 " container spacing={3} direction="row" justifyContent="flex-start" alignItems="center">
         <Grid item xs={12} sm={5}>
-          <TextField
-            fullWidth
-            label={t(`table.searchValue`)}
-            variant="outlined"
-            value={searchText}
-            onChange={handleTextChange}
-          />
+          {!filterOptions[selectedOption] && (
+            <TextField
+              fullWidth
+              label={t(`table.searchValue`)}
+              variant="outlined"
+              value={searchText}
+              onChange={handleTextChange}
+            />
+          )}
+          {filterOptions[selectedOption] && (
+            <FormControl fullWidth variant="outlined">
+              <InputLabel id="label-attribute-search"> {t(`table.searchValue`)}</InputLabel>
+              <Select
+                variant="outlined"
+                labelId="label-attribute-search"
+                value={searchSelect}
+                onChange={handleSelectOptionChange}
+                label={t(`table.searchValue`)}
+              >
+                <MenuItem disabled value="">
+                  {t(`table.searchValue`)}
+                </MenuItem>
+                {filterOptions[selectedOption].map((option, index) => (
+                  <MenuItem key={`${option}-${index}`} value={option}>
+                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                    {/* @ts-expect-error */}
+                    {t(`options.${option}`)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
         </Grid>
         <Grid item xs={8} sm={4}>
           <FormControl fullWidth variant="outlined">
@@ -149,7 +197,7 @@ export default function FilteredDataTable<T>({
         </Grid>
         <Grid item>
           <Button
-            disabled={!searchText || !selectedOption}
+            disabled={(filterOptions[selectedOption] ? !searchSelect : !searchText) || !selectedOption}
             className="justify-start text-md"
             label={t(`table.search`)}
             onClick={handleSearch}

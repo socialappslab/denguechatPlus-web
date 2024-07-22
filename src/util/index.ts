@@ -22,7 +22,7 @@ export function getProperty(obj: any, propertyString: string): any {
 }
 
 const dateFormatOptions: Intl.DateTimeFormatOptions = {
-  month: 'long', // Display full month name
+  month: 'short', // Display month in short format
   day: 'numeric', // Display day of the month
   year: 'numeric', // Display full year
 };
@@ -97,14 +97,21 @@ export const findOptionByName = (options: FormSelectOption[], name: string): For
   return options.find((option) => option.label.toLowerCase() === name.toLowerCase());
 };
 
-export const constructFilterObject = (filter: { [key: string]: string }): { [key: string]: string } => {
+export const constructFilterObject = (
+  filter: { [key: string]: string },
+  filterOptions?: string[],
+): { [key: string]: string } => {
   if (Object.keys(filter).length === 0) {
     return {};
   }
 
   const result: { [key: string]: string } = {};
   Object.entries(filter).forEach(([key, value]) => {
-    result[`filter[${key}]`] = value;
+    if (filterOptions?.find((option) => option === key)) {
+      result[`filter[${key}][]`] = value;
+    } else {
+      result[`filter[${key}]`] = value;
+    }
   });
   return result;
 };

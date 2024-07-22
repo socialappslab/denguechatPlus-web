@@ -77,7 +77,7 @@ export default function DataTableExample() {
       component={Link}
       to={`/edit/${row.name}`}
       label="Edit"
-      size="small"
+      buttonType="small"
     />
   );
 
