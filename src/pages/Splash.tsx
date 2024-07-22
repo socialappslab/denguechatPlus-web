@@ -32,7 +32,15 @@ function Splash() {
 
             {/* Buttons */}
             <Box>
-              <Button primary={false} className="mr-4" buttonType="small" label={t('cta.learnMore')} to="" />
+              <Button
+                outlined
+                primary={false}
+                variant="outlined"
+                className="mr-4"
+                buttonType="small"
+                label={t('cta.learnMore')}
+                to=""
+              />
               <Button className="mr-4" buttonType="small" label={t('cta.register')} to="/register" />
             </Box>
           </Box>
@@ -51,7 +59,7 @@ function Splash() {
         </Box>
 
         {/* Cities */}
-        <Box className="flex flex-col items-center justify-center mt-20 bg-gray-300">
+        <Box className="flex flex-col items-center justify-center mt-20 mb-20 bg-gray-300">
           <Icon type="City" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
           <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('cities.citiesWithDengueChat')} />
           <Text className="flex-row mb-10">{t('cities.pilotSpots')}</Text>
@@ -109,22 +117,29 @@ function Splash() {
           <img src={datos} alt="" className="rounded-xl justify-self-end" />
         </Box>
 
-        {/* Registrate */}
-        <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl">
+        {/* Register */}
+        <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl mt-12">
           <Icon type="Data" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
           <Title type="page" className="flex-row mt-4 mb-5 align-center" label={t('register.platformRegister')} />
 
           <Text className="flex-row">{t('register.joinCommunity')}</Text>
 
           {/* Buttons */}
-          <Box className="mt-8">
-            <Button primary={false} className="mr-4" buttonType="small" label={t('cta.learnMore')} to="" />
+          <Box className="mt-8 ">
+            <Button
+              primary={false}
+              variant="outlined"
+              className="mr-4"
+              buttonType="small"
+              label={t('cta.learnMore')}
+              to=""
+            />
             <Button className="mr-4" buttonType="small" label={t('cta.register')} to="/register" />
           </Box>
         </Box>
 
         {/* </Footer> */}
-        <Box className="mt-8 ">
+        <Box className="mt-20">
           <Toolbar disableGutters sx={{ height: '80px' }} className="flex justify-between">
             <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
               <img src={Logo} alt="logo" />

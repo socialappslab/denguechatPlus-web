@@ -29,6 +29,16 @@ const theme = createTheme({
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        outlined: {
+          borderColor: COLORS.neutral[300],
+          ':hover': {
+            borderColor: COLORS.neutral[300],
+          },
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {
