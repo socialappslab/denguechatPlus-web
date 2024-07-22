@@ -32,8 +32,8 @@ function Splash() {
 
             {/* Buttons */}
             <Box>
-              <Button primary={false} className="mr-4" size="small" label={t('main.cta.learnMore')} to="" />
-              <Button className="mr-4" size="small" label={t('main.cta.register')} to="/register" />
+              <Button primary={false} className="mr-4" buttonType="small" label={t('main.cta.learnMore')} to="" />
+              <Button className="mr-4" buttonType="small" label={t('main.cta.register')} to="/register" />
             </Box>
           </Box>
           <Box className="flex col-span-3">
@@ -47,7 +47,7 @@ function Splash() {
           <Title type="page" className="flex-row mt-4 mb-4 align-center" label="Conoce a los participantes" />
           <Text className="flex-row">Ve a los actores involucrados en la comunidad de Managua, Nicaragua</Text>
           <img src={splash2} alt="" />
-          <Button size="small" label="Ver más videos" to="/register" />
+          <Button buttonType="small" label="Ver más videos" to="/register" />
         </Box>
 
         {/* Cities */}
@@ -121,8 +121,8 @@ function Splash() {
 
           {/* Buttons */}
           <Box className="mt-8">
-            <Button primary={false} className="mr-4" size="small" label={t('main.cta.learnMore')} to="" />
-            <Button className="mr-4" size="small" label={t('main.cta.register')} to="/register" />
+            <Button primary={false} className="mr-4" buttonType="small" label={t('main.cta.learnMore')} to="" />
+            <Button className="mr-4" buttonType="small" label={t('main.cta.register')} to="/register" />
           </Box>
         </Box>
 
@@ -133,13 +133,27 @@ function Splash() {
               <img src={Logo} alt="logo" />
             </Link>
             <Box sx={{ display: 'flex' }}>
-              <Button primary={false} className="mr-4" size="small" label="Guía de usuario" component={Link} to="/" />
-              <Button primary={false} className="mr-4" size="small" label="Sobre DengueChat+" component={Link} to="/" />
-              <Button primary={false} className="mr-4" size="small" label="El Zancudo" component={Link} to="/" />
               <Button
                 primary={false}
                 className="mr-4"
-                size="small"
+                buttonType="small"
+                label="Guía de usuario"
+                component={Link}
+                to="/"
+              />
+              <Button
+                primary={false}
+                className="mr-4"
+                buttonType="small"
+                label="Sobre DengueChat+"
+                component={Link}
+                to="/"
+              />
+              <Button primary={false} className="mr-4" buttonType="small" label="El Zancudo" component={Link} to="/" />
+              <Button
+                primary={false}
+                className="mr-4"
+                buttonType="small"
                 label="Preguntas Frecuentes"
                 component={Link}
                 to="/"
