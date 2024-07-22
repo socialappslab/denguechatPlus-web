@@ -17,7 +17,7 @@ const headCells: HeadCell<Organization>[] = [
   },
   {
     id: 'status',
-    label: 'status',
+    label: 'statusActive',
     type: 'boolean',
     sortable: false,
   },

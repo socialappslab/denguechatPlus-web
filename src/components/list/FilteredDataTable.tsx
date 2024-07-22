@@ -79,7 +79,7 @@ export default function FilteredDataTable<T>({
   const handleChangePage = (newPage: number, rowsPerPage: number) => {
     setPayload((prev) => ({
       ...prev,
-      'page[number]': newPage,
+      'page[number]': newPage + 1,
       'page[size]': rowsPerPage,
     }));
   };

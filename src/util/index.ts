@@ -22,7 +22,7 @@ export function getProperty(obj: any, propertyString: string): any {
 }
 
 const dateFormatOptions: Intl.DateTimeFormatOptions = {
-  month: 'long', // Display full month name
+  month: 'short', // Display month in short format
   day: 'numeric', // Display day of the month
   year: 'numeric', // Display full year
 };

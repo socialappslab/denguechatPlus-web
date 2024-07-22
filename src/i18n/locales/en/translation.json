@@ -62,7 +62,8 @@
     "email": "Email",
     "phone": "Phone",
     "neighborhood": "Neighborhood",
-    "status": "Active Status",
+    "status": "Status",
+    "statusActive": "Active Status",
     "createdAt": "Created At",
     "updatedAt": "Updated At",
     "actions": "Actions"

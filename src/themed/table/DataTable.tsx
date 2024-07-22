@@ -15,6 +15,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { PAGE_SIZES } from '@/constants';
 import { formatDateFromString } from '@/util';
+import useLangContext from '../../hooks/useLangContext';
 
 function descendingComparator<T>(a: T, b: T, orderBy: Extract<keyof T, string>) {
   if (b[orderBy] < a[orderBy]) {
@@ -167,27 +168,6 @@ export interface DataTableProps<T> {
   isLoading?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function renderValue<T>(row: T, headCell: HeadCell<T>, t: (key: any) => string) {
-  if (headCell.render) {
-    return headCell.render(row, headCell);
-  }
-
-  if (headCell.type === 'boolean') {
-    return row[headCell.id] ? t('yes') : t('no');
-  }
-
-  if (headCell.type === 'enum') {
-    return t(`options.${row[headCell.id]}`);
-  }
-
-  if (headCell.type === 'date') {
-    return formatDateFromString('en', String(row[headCell.id]));
-  }
-
-  return String(row[headCell.id]);
-}
-
 export function DataTable<T>({
   rows,
   headCells,
@@ -199,11 +179,36 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   const { t } = useTranslation('translation');
 
+  const langContext = useLangContext();
+
   const [visibleRows, setVisibleRows] = React.useState<T[]>(rows);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<Extract<keyof T, string> | undefined>();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(PAGE_SIZES[0]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderValue = (row: T, headCell: HeadCell<T>): string | React.ReactNode => {
+    if (headCell.render) {
+      return headCell.render(row, headCell);
+    }
+
+    if (headCell.type === 'boolean') {
+      return row[headCell.id] ? t('yes') : t('no');
+    }
+
+    if (headCell.type === 'enum') {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      return t(`options.${row[headCell.id]}`);
+    }
+
+    if (headCell.type === 'date') {
+      return formatDateFromString(langContext.state.selected, String(row[headCell.id]));
+    }
+
+    return String(row[headCell.id]);
+  };
 
   useEffect(() => {
     if (!handleRequestSort && orderBy) {
@@ -266,7 +271,7 @@ export function DataTable<T>({
                       key={`${String(`${row[headCell.id]}-${index}-${headCell.id}`)}`}
                       className={row[headCell.id] !== null ? '' : 'italic font-thin'}
                     >
-                      {row[headCell.id] === null ? t('options.notDefined') : renderValue(row, headCell, t)}
+                      {row[headCell.id] === null ? t('options.notDefined') : renderValue(row, headCell)}
                     </DataTableCell>
                   ))}
                   {actions && <DataTableCell>{actions(row, isLoading)}</DataTableCell>}
