@@ -33,6 +33,7 @@ import SelectLanguageComponent from '../components/SelectLanguageComponent';
 import { drawerWidth } from '../constants';
 import { Button } from '../themed/button/Button';
 import { Text } from '../themed/text/Text';
+import Icon from '@/components/icon';
 
 export interface AppBarProps {
   auth?: boolean;
@@ -101,13 +102,13 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
       >
         <ListItemButton>
           <ListItemIcon>
-            <img src={CityIcon} alt="city-icon" />
+            <Icon type="City" />
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.myCity')}</Text>} />
         </ListItemButton>
         <ListItemButton>
           <ListItemIcon>
-            <img src={CommunityIcon} alt="community-icon" />
+            <Icon type="Community" />
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.myCommunity')}</Text>} />
         </ListItemButton>

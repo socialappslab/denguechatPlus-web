@@ -11,6 +11,7 @@ import City from '@/assets/icons/city.svg?react';
 import Community from '@/assets/icons/community.svg?react';
 import Data from '@/assets/icons/data.svg?react';
 import Register from '@/assets/icons/register.svg?react';
+import { COLORS } from '@/constants';
 
 const IconMap = {
   Verified,
@@ -25,6 +26,7 @@ const IconMap = {
 const Icon = ({
   type,
   className,
+  fill = COLORS.gray as string,
   ...rest
 }: {
   type: keyof typeof IconMap;
@@ -33,7 +35,7 @@ const Icon = ({
   rest?: React.ImgHTMLAttributes<HTMLImageElement>;
 }) => {
   const Component = IconMap[type];
-  return <Component className={className} {...rest} />;
+  return <Component fill={fill} className={className} {...rest} />;
 };
 
 export default Icon;
