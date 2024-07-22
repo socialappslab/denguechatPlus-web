@@ -1,6 +1,6 @@
 export const COLORS: { [key: string]: string | { [key: string | number]: string } } = {
   grass: '#067507',
-  green: { 600: '#04BF00' },
+  green: { 100: '#D6FFD6', 600: '#04BF00' },
   background: '#FFFFFF',
   darkest: '#1C1917',
   gray: '#4D4D54',
