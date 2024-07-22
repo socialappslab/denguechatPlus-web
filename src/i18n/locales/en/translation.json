@@ -39,7 +39,13 @@
     }
   },
   "table": {
-    "actions": "Actions",
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View",
+      "add": "Add",
+      "approve": "Approve"
+    },
     "search": "Search",
     "searchValue": "Search Value",
     "selectAttribute": "Select Attribute",
@@ -60,5 +66,12 @@
     "createdAt": "Created At",
     "updatedAt": "Updated At",
     "actions": "Actions"
+  },
+  "options": {
+    "notDefined": "Not Defined",
+    "active": "Active",
+    "inactive": "Inactive",
+    "all": "All",
+    "pending": "Pending"
   }
 }

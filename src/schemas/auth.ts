@@ -90,9 +90,11 @@ export interface UserProfile {
   createdAt?: string;
 }
 
+export const UserStatusValues = ['active', 'pending', 'inactive'] as const;
+export type UserStatusType = (typeof UserStatusValues)[number];
 export interface IUser extends UserProfile, UserAccount {
   id: string;
-  status?: string;
+  status?: UserStatusType;
 }
 
 export interface UserAccount {
