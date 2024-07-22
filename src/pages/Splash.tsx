@@ -1,4 +1,5 @@
-import { Box, Chip } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Box, Chip, Toolbar } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import asuncion from '@/assets/images/asuncion.png';
 import comunidad from '@/assets/images/comunidad.png';
@@ -7,11 +8,12 @@ import iquitos from '@/assets/images/iquitos.png';
 import managua from '@/assets/images/managua.png';
 import splash1 from '@/assets/images/splash-1.png';
 import splash2 from '@/assets/images/splash-2.png';
-import Icon from '@/components/Icon';
+import Icon from '@/components/icon';
 import { COLORS } from '@/constants';
 import { Button } from '@/themed/button/Button';
 import Text from '@/themed/text/Text';
 import { Title } from '@/themed/title/Title';
+import Logo from '../assets/images/logo.svg';
 
 function Splash() {
   const { t } = useTranslation('splash');
@@ -41,7 +43,8 @@ function Splash() {
 
         {/* Participants */}
         <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl">
-          <Title type="page" className="flex-row mb-4 align-center" label="Conoce a los participantes" />
+          <Icon type="Hello" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+          <Title type="page" className="flex-row mt-4 mb-4 align-center" label="Conoce a los participantes" />
           <Text className="flex-row">Ve a los actores involucrados en la comunidad de Managua, Nicaragua</Text>
           <img src={splash2} alt="" />
           <Button size="small" label="Ver más videos" to="/register" />
@@ -49,7 +52,8 @@ function Splash() {
 
         {/* Cities */}
         <Box className="flex flex-col items-center justify-center mt-20 bg-gray-300">
-          <Title type="page" className="flex-row mb-4 align-center" label="Ciudades con DengueChat+" />
+          <Icon type="City" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+          <Title type="page" className="flex-row mt-4 mb-4 align-center" label="Ciudades con DengueChat+" />
           <Text className="flex-row mb-10">Ciudades y sitios de experimentación piloto utilizando DengueChat</Text>
 
           {/* Columns */}
@@ -67,15 +71,14 @@ function Splash() {
               <p className="font-bold">Asunción, Paraguay</p>
             </Box>
           </Box>
-
-          <Button className="mt-8" size="small" label="Ver más videos" to="/register" />
         </Box>
 
         {/* Comunidad */}
         <Box className="grid grid-cols-2 py-20">
           <img src={comunidad} alt="" className="rounded-xl" />
           <Box>
-            <Title type="page" className="flex-row mb-4 align-center" label="Comunidad en DengueChat+" />
+            <Icon type="Community" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+            <Title type="page" className="flex-row mt-4 mb-4 align-center" label="Comunidad en DengueChat+" />
             <Text className="mb-10">
               DengueChat+ involucra a las comunidades en la lucha contra Dengue, Zika y Chikungunya
             </Text>
@@ -93,7 +96,8 @@ function Splash() {
         {/* Datos */}
         <Box className="grid grid-cols-2 py-20">
           <Box>
-            <Title type="page" className="flex-row mb-4 align-center" label="Comunidad en DengueChat+" />
+            <Icon type="Data" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+            <Title type="page" className="flex-row mt-4 mb-4 align-center" label="Comunidad en DengueChat+" />
             <Text className="mb-10">
               DengueChat+ involucra a las comunidades en la lucha contra Dengue, Zika y Chikungunya
             </Text>
@@ -111,7 +115,8 @@ function Splash() {
 
         {/* Registrate */}
         <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl">
-          <Title type="page" className="flex-row mb-5 align-center" label="Regístrate en la plataforma" />
+          <Icon type="Data" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+          <Title type="page" className="flex-row mt-4 mb-5 align-center" label="Regístrate en la plataforma" />
           <Text className="flex-row">Únete a tu comunidad y lucha contra el mosquito del Aedes aegypti.</Text>
 
           {/* Buttons */}
@@ -121,7 +126,30 @@ function Splash() {
           </Box>
         </Box>
 
-        {/* </Center> */}
+        {/* </Footer> */}
+        <Box className="mt-8 ">
+          <Toolbar disableGutters sx={{ height: '80px' }} className="flex justify-between">
+            <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
+              <img src={Logo} alt="logo" />
+            </Link>
+            <Box sx={{ display: 'flex' }}>
+              <Button primary={false} className="mr-4" size="small" label="Guía de usuario" component={Link} to="/" />
+              <Button primary={false} className="mr-4" size="small" label="Sobre DengueChat+" component={Link} to="/" />
+              <Button primary={false} className="mr-4" size="small" label="El Zancudo" component={Link} to="/" />
+              <Button
+                primary={false}
+                className="mr-4"
+                size="small"
+                label="Preguntas Frecuentes"
+                component={Link}
+                to="/"
+              />
+            </Box>
+            <Box>
+              <Text type="menuItem">© 2024</Text>
+            </Box>
+          </Toolbar>
+        </Box>
       </Box>
     </Box>
   );
