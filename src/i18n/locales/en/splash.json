@@ -1,3 +1,36 @@
 {
-  "main": {}
+  "cta": {
+    "learnMore": "Learn more",
+    "register": "Register",
+    "watchMore": "Watch more videos"
+  },
+  "main": {
+    "joinTeam": "Join your community's team",
+    "dengueChatPlus": "DengueChat+",
+    "citizensCopy": "Citizens in the fight against dengue and mosquitoes."
+  },
+  "participants": {
+    "knowParticipants": "Meet the participants",
+    "actorsInvolved": "See the actors involved in the community of Managua, Nicaragua"
+  },
+  "cities": {
+    "citiesWithDengueChat": "Cities with DengueChat+",
+    "pilotSpots": "Cities and pilot sites using DengueChat+"
+  },
+  "community": {
+    "dengueChatCommunity": "Community in DengueChat+",
+    "communityInvolvement": "DengueChat+ involves communities in the fight against Dengue, Zika, and Chikungunya",
+    "chatWithMembers": "Chat with other community members to report and control mosquito breeding sites",
+    "joinTeams": "Join teams to fight Dengue, Zika, and Chikungunya and earn points"
+  },
+  "data": {
+    "dengueChatData": "Data in DengueChat+",
+    "analyzeAndMeasure": "Organize, analyze, and measure your community's progress in reducing Aedes mosquitoes, the vectors of Dengue, Zika, and Chikungunya viruses",
+    "versatileTools": "Versatile tools to analyze the spread or containment of Dengue, Zika, and Chikungunya vectors",
+    "generateReports": "At the community or city level, generate reports to motivate leaders"
+  },
+  "register": {
+    "platformRegister": "Register on the platform",
+    "joinCommunity": "Join your community and fight against the Aedes aegypti mosquito."
+  }
 }

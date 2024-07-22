@@ -32,8 +32,8 @@ function Splash() {
 
             {/* Buttons */}
             <Box>
-              <Button primary={false} className="mr-4" buttonType="small" label={t('main.cta.learnMore')} to="" />
-              <Button className="mr-4" buttonType="small" label={t('main.cta.register')} to="/register" />
+              <Button primary={false} className="mr-4" buttonType="small" label={t('cta.learnMore')} to="" />
+              <Button className="mr-4" buttonType="small" label={t('cta.register')} to="/register" />
             </Box>
           </Box>
           <Box className="flex col-span-3">
@@ -44,17 +44,17 @@ function Splash() {
         {/* Participants */}
         <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl">
           <Icon type="Hello" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
-          <Title type="page" className="flex-row mt-4 mb-4 align-center" label="Conoce a los participantes" />
-          <Text className="flex-row">Ve a los actores involucrados en la comunidad de Managua, Nicaragua</Text>
+          <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('participants.knowParticipants')} />
+          <Text className="flex-row">{t('participants.actorsInvolved')}</Text>
           <img src={splash2} alt="" />
-          <Button buttonType="small" label="Ver más videos" to="/register" />
+          <Button buttonType="small" label={t('cta.watchMore')} to="/" />
         </Box>
 
         {/* Cities */}
         <Box className="flex flex-col items-center justify-center mt-20 bg-gray-300">
           <Icon type="City" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
-          <Title type="page" className="flex-row mt-4 mb-4 align-center" label="Ciudades con DengueChat+" />
-          <Text className="flex-row mb-10">Ciudades y sitios de experimentación piloto utilizando DengueChat</Text>
+          <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('cities.citiesWithDengueChat')} />
+          <Text className="flex-row mb-10">{t('cities.pilotSpots')}</Text>
 
           {/* Columns */}
           <Box className="grid grid-cols-3 gap-5">
@@ -78,17 +78,15 @@ function Splash() {
           <img src={comunidad} alt="" className="rounded-xl" />
           <Box>
             <Icon type="Community" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
-            <Title type="page" className="flex-row mt-4 mb-4 align-center" label="Comunidad en DengueChat+" />
-            <Text className="mb-10">
-              DengueChat+ involucra a las comunidades en la lucha contra Dengue, Zika y Chikungunya
-            </Text>
+            <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('community.dengueChatCommunity')} />
+            <Text className="mb-10">{t('community.communityInvolvement')}</Text>
             <Box className="flex">
               <Icon type="Verified" fill={COLORS.green[600]} className="mr-2 w-8 flex-none" />
-              <Text>Chatea con otros miembros de la comunidad para reportar y controlar criaderos de mosquitos</Text>
+              <Text>{t('community.chatWithMembers')}</Text>
             </Box>
             <Box className="flex">
               <Icon type="Verified" fill={COLORS.green[600]} className="mr-2 w-8 flex-none" />
-              <Text>Únete a equipos para combatir Dengue, Zika y Chikungunya y gane puntos</Text>
+              <Text>{t('community.joinTeams')}</Text>
             </Box>
           </Box>
         </Box>
@@ -97,17 +95,15 @@ function Splash() {
         <Box className="grid grid-cols-2 py-20">
           <Box>
             <Icon type="Data" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
-            <Title type="page" className="flex-row mt-4 mb-4 align-center" label="Comunidad en DengueChat+" />
-            <Text className="mb-10">
-              DengueChat+ involucra a las comunidades en la lucha contra Dengue, Zika y Chikungunya
-            </Text>
+            <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('data.dengueChatData')} />
+            <Text className="mb-10">{t('data.analyzeAndMeasure')}</Text>
             <Box className="flex">
               <Icon type="Verified" fill={COLORS.green[600]} className="mr-2 w-8 flex-none" />
-              <Text>Chatea con otros miembros de la comunidad para reportar y controlar criaderos de mosquitos</Text>
+              <Text>{t('data.versatileTools')}</Text>
             </Box>
             <Box className="flex">
               <Icon type="Verified" fill={COLORS.green[600]} className="mr-2 w-8 flex-none" />
-              <Text>Únete a equipos para combatir Dengue, Zika y Chikungunya y gane puntos</Text>
+              <Text>{t('data.generateReports')}</Text>
             </Box>
           </Box>
           <img src={datos} alt="" className="rounded-xl justify-self-end" />
@@ -116,13 +112,14 @@ function Splash() {
         {/* Registrate */}
         <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl">
           <Icon type="Data" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
-          <Title type="page" className="flex-row mt-4 mb-5 align-center" label="Regístrate en la plataforma" />
-          <Text className="flex-row">Únete a tu comunidad y lucha contra el mosquito del Aedes aegypti.</Text>
+          <Title type="page" className="flex-row mt-4 mb-5 align-center" label={t('register.platformRegister')} />
+
+          <Text className="flex-row">{t('register.joinCommunity')}</Text>
 
           {/* Buttons */}
           <Box className="mt-8">
-            <Button primary={false} className="mr-4" buttonType="small" label={t('main.cta.learnMore')} to="" />
-            <Button className="mr-4" buttonType="small" label={t('main.cta.register')} to="/register" />
+            <Button primary={false} className="mr-4" buttonType="small" label={t('cta.learnMore')} to="" />
+            <Button className="mr-4" buttonType="small" label={t('cta.register')} to="/register" />
           </Box>
         </Box>
 
