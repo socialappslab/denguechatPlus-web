@@ -68,15 +68,24 @@ function Splash() {
           <Box className="grid grid-cols-3 gap-5">
             <Box>
               <img className="rounded-xl max-w-full" src={iquitos} alt="" />
-              <p className="font-bold">Iquitos, Perú</p>
+              <Box className="flex items-center justify-between">
+                <p className="font-bold">Iquitos, Perú</p>
+                <Icon type="Export" className="stroke-black" />
+              </Box>
             </Box>
             <Box>
               <img className="rounded-xl max-w-full" src={managua} alt="" />
-              <p className="font-bold">Managua, Nicaragua</p>
+              <Box className="flex items-center justify-between">
+                <p className="font-bold">Managua, Nicaragua</p>
+                <Icon type="Export" className="stroke-black" />
+              </Box>
             </Box>
             <Box>
               <img className="rounded-xl max-w-full" src={asuncion} alt="" />
-              <p className="font-bold">Asunción, Paraguay</p>
+              <Box className="flex items-center justify-between">
+                <p className="font-bold">Asunción, Paraguay</p>
+                <Icon type="Export" className="stroke-black" />
+              </Box>
             </Box>
           </Box>
         </Box>
