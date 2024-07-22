@@ -119,7 +119,7 @@ function Splash() {
 
         {/* Register */}
         <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl mt-12">
-          <Icon type="Data" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+          <Icon type="Register" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
           <Title type="page" className="flex-row mt-4 mb-5 align-center" label={t('register.platformRegister')} />
 
           <Text className="flex-row">{t('register.joinCommunity')}</Text>
