@@ -32,5 +32,11 @@
   "register": {
     "platformRegister": "Register on the platform",
     "joinCommunity": "Join your community and fight against the Aedes aegypti mosquito."
+  },
+  "footer": {
+    "userGuide": "User Guide",
+    "about": "About DengueChat+",
+    "mosquito": "The Mosquito",
+    "faqs": "Frequently Asked Questions"
   }
 }

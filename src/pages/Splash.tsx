@@ -50,7 +50,7 @@ function Splash() {
         </Box>
 
         {/* Participants */}
-        <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl">
+        <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl mt-10">
           <Icon type="Hello" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
           <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('participants.knowParticipants')} />
           <Text className="flex-row">{t('participants.actorsInvolved')}</Text>
@@ -149,7 +149,7 @@ function Splash() {
                 primary={false}
                 className="mr-4"
                 buttonType="small"
-                label="Guía de usuario"
+                label={t('footer.userGuide')}
                 component={Link}
                 to="/"
               />
@@ -157,22 +157,31 @@ function Splash() {
                 primary={false}
                 className="mr-4"
                 buttonType="small"
-                label="Sobre DengueChat+"
+                label={t('footer.about')}
                 component={Link}
                 to="/"
               />
-              <Button primary={false} className="mr-4" buttonType="small" label="El Zancudo" component={Link} to="/" />
               <Button
                 primary={false}
                 className="mr-4"
                 buttonType="small"
-                label="Preguntas Frecuentes"
+                label={t('footer.mosquito')}
+                component={Link}
+                to="/"
+              />
+              <Button
+                primary={false}
+                className="mr-4"
+                buttonType="small"
+                label={t('footer.faqs')}
                 component={Link}
                 to="/"
               />
             </Box>
             <Box>
-              <Text type="menuItem">© 2024</Text>
+              <Text type="menuItem" className="text-neutral-300">
+                © 2024
+              </Text>
             </Box>
           </Toolbar>
         </Box>
