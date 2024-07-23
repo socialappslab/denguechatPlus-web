@@ -41,4 +41,5 @@ bun.lockb
 
 
 .env
+.env.development
 .eslintcache

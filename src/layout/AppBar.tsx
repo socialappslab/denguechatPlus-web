@@ -23,9 +23,8 @@ import React, { useState } from 'react';
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import Icon from '@/components/icon';
 import BugIcon from '../assets/icons/bug.svg';
-import CityIcon from '../assets/icons/city.svg';
-import CommunityIcon from '../assets/icons/community.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
 import TeamsIcon from '../assets/icons/teams.svg';
 import Logo from '../assets/images/logo.svg';
@@ -101,13 +100,13 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
       >
         <ListItemButton>
           <ListItemIcon>
-            <img src={CityIcon} alt="city-icon" />
+            <Icon type="City" />
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.myCity')}</Text>} />
         </ListItemButton>
         <ListItemButton>
           <ListItemIcon>
-            <img src={CommunityIcon} alt="community-icon" />
+            <Icon type="Community" />
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.myCommunity')}</Text>} />
         </ListItemButton>
@@ -149,7 +148,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
 
   if (!auth) {
     return (
-      <MuiAppBar position="static" className="bg-white border-solid border-b border-neutral mb-4" elevation={0}>
+      <MuiAppBar position="static" className="bg-white border-solid border-neutral-100 mb-4" elevation={0}>
         <Container maxWidth={false} className="lg:px-20 md:px-12 sm:px-10 px-6 mx-0">
           <Toolbar disableGutters sx={{ height: '80px' }}>
             <div className="flex flex-1 flex-col align-middle justify-center">
