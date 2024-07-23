@@ -32,11 +32,5 @@
   "register": {
     "platformRegister": "Regístrate en la plataforma",
     "joinCommunity": "Únete a tu comunidad y lucha contra el mosquito del Aedes aegypti."
-  },
-  "footer": {
-    "userGuide": "Guía de Usuario",
-    "about": "Sobre DengueChat+",
-    "mosquito": "El Zancudo",
-    "faqs": "Preguntas Frecuentes"
   }
 }

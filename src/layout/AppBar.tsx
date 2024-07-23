@@ -37,6 +37,7 @@ export interface AppBarProps {
   auth?: boolean;
   signUp?: boolean;
   logout?: () => void | undefined;
+  footer?: boolean;
 }
 
 export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {

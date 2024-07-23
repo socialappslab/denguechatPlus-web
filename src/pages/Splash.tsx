@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-import { Box, Chip, Toolbar } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import asuncion from '@/assets/images/asuncion.png';
 import comunidad from '@/assets/images/comunidad.png';
@@ -13,7 +12,6 @@ import { COLORS } from '@/constants';
 import { Button } from '@/themed/button/Button';
 import Text from '@/themed/text/Text';
 import { Title } from '@/themed/title/Title';
-import Logo from '../assets/images/logo.svg';
 
 function Splash() {
   const { t } = useTranslation('splash');
@@ -147,53 +145,7 @@ function Splash() {
           </Box>
         </Box>
 
-        {/* </Footer> */}
-        <Box className="mt-20">
-          <Toolbar disableGutters sx={{ height: '80px' }} className="flex justify-between">
-            <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
-              <img src={Logo} alt="logo" />
-            </Link>
-            <Box sx={{ display: 'flex' }}>
-              <Button
-                primary={false}
-                className="mr-4"
-                buttonType="small"
-                label={t('footer.userGuide')}
-                component={Link}
-                to="/"
-              />
-              <Button
-                primary={false}
-                className="mr-4"
-                buttonType="small"
-                label={t('footer.about')}
-                component={Link}
-                to="/"
-              />
-              <Button
-                primary={false}
-                className="mr-4"
-                buttonType="small"
-                label={t('footer.mosquito')}
-                component={Link}
-                to="/"
-              />
-              <Button
-                primary={false}
-                className="mr-4"
-                buttonType="small"
-                label={t('footer.faqs')}
-                component={Link}
-                to="/"
-              />
-            </Box>
-            <Box>
-              <Text type="menuItem" className="text-neutral-300">
-                © 2024
-              </Text>
-            </Box>
-          </Toolbar>
-        </Box>
+        {/* </Center> */}
       </Box>
     </Box>
   );
