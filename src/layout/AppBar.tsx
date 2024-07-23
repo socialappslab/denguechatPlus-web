@@ -33,6 +33,7 @@ import SelectLanguageComponent from '../components/SelectLanguageComponent';
 import { drawerWidth } from '../constants';
 import { Button } from '../themed/button/Button';
 import { Text } from '../themed/text/Text';
+import ProtectedView from './ProtectedView';
 
 export interface AppBarProps {
   auth?: boolean;
@@ -123,26 +124,34 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.breedingSites')}</Text>} />
         </ListItemButton>
-        <ListItemButton onClick={handleClick}>
-          <ListItemIcon>
-            <img src={SettingsIcon} alt="settings-icon" />
-          </ListItemIcon>
-          <ListItemText primary={<Text type="menuItem">{t('menu.settings')}</Text>} />
-          {open ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/users">
-              <ListItemText primary={<Text type="menuItem">{t('menu.users')}</Text>} />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/roles">
-              <ListItemText primary={<Text type="menuItem">{t('menu.roles')}</Text>} />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/organizations">
-              <ListItemText primary={<Text type="menuItem">{t('menu.organizations')}</Text>} />
-            </ListItemButton>
-          </List>
-        </Collapse>
+        <ProtectedView hasSomePermission={['roles_index', 'organizations_index', 'users_index']}>
+          <ListItemButton onClick={handleClick}>
+            <ListItemIcon>
+              <img src={SettingsIcon} alt="settings-icon" />
+            </ListItemIcon>
+            <ListItemText primary={<Text type="menuItem">{t('menu.settings')}</Text>} />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ProtectedView hasPermission={['users_index']}>
+                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/users">
+                  <ListItemText primary={<Text type="menuItem">{t('menu.users')}</Text>} />
+                </ListItemButton>
+              </ProtectedView>
+              <ProtectedView hasPermission={['roles_index']}>
+                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/roles">
+                  <ListItemText primary={<Text type="menuItem">{t('menu.roles')}</Text>} />
+                </ListItemButton>
+              </ProtectedView>
+              <ProtectedView hasPermission={['organizations_index']}>
+                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/organizations">
+                  <ListItemText primary={<Text type="menuItem">{t('menu.organizations')}</Text>} />
+                </ListItemButton>
+              </ProtectedView>
+            </List>
+          </Collapse>
+        </ProtectedView>
       </List>
     </Box>
   );
