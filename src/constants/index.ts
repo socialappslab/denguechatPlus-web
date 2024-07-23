@@ -1,10 +1,10 @@
-export const COLORS: { [key: string]: string } = {
+export const COLORS: { [key: string]: string | { [key: string | number]: string } } = {
   grass: '#067507',
-  green: '#D6FFD6',
+  green: { 100: '#D6FFD6', 600: '#04BF00' },
   background: '#FFFFFF',
   darkest: '#1C1917',
   gray: '#4D4D54',
-  neutral: '#F5F5F4',
+  neutral: { 50: '#FAFAF9', 100: '#F5F5F4', 300: '#D7D3D0' },
   softGray: '#C4C4C4',
   lightGray: '#EEEEEE',
   secondary: '#FCC914',

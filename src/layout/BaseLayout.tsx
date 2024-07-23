@@ -4,8 +4,9 @@ import { PropsWithChildren } from 'react';
 import { ScrollToTop } from '../components/ScrollToTop';
 import { drawerWidth } from '../constants';
 import { AppBar, AppBarProps } from './AppBar';
+import Footer from './Footer';
 
-export default function BaseLayout({ children, auth, signUp, logout }: AppBarProps & PropsWithChildren) {
+export default function BaseLayout({ children, auth, signUp, logout, footer }: AppBarProps & PropsWithChildren) {
   if (!auth) {
     return (
       <Container
@@ -18,6 +19,7 @@ export default function BaseLayout({ children, auth, signUp, logout }: AppBarPro
         <ScrollToTop />
         <AppBar auth={auth} signUp={signUp} logout={logout} />
         {children}
+        {footer && <Footer />}
       </Container>
     );
   }
