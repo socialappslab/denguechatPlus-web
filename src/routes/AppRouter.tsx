@@ -19,6 +19,7 @@ import RouterErrorPage from '../pages/RouterErrorPage';
 import BaseAdminPage from '../pages/admin/BaseAdminPage';
 import CreateAccountPage from '../pages/auth/CreateAccountPage';
 import CreateSuccessPage from '../pages/auth/CreateSuccess';
+import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import DataTableExample from '../themed/table/DataTableExample';
 
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: <UserList />,
+      },
+      {
+        path: 'users/:id/edit',
+        element: <LoadUser />,
       },
       {
         path: 'example',

@@ -12,7 +12,6 @@ const headCells: HeadCell<IUser>[] = [
     id: 'id',
     label: 'id',
     sortKey: 'user_account.id',
-    filterable: true,
     sortable: true,
   },
   {
@@ -79,14 +78,7 @@ export default function UserList() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow
   const actions = (row: IUser, loading?: boolean) => (
     <div className="flex flex-row">
-      <Button
-        primary
-        disabled
-        component={Link}
-        to={`/edit/${row.id}`}
-        label={t('table.actions.edit')}
-        buttonType="cell"
-      />
+      <Button primary component={Link} to={`${row.id}/edit`} label={t('table.actions.edit')} buttonType="cell" />
 
       {row.status === 'pending' && (
         <Button

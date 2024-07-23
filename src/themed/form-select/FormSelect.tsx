@@ -74,6 +74,7 @@ export function FormSelect({
             variant="outlined"
             inputProps={{ name, error: !!fieldError }}
             {...field}
+            value={loading ? '' : field.value}
             endAdornment={
               loading ? (
                 <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem' }}>

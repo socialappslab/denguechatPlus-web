@@ -37,6 +37,7 @@ export default function OrganizationList() {
   return (
     <OrganizationDataTable
       endpoint="organizations"
+      defaultFilter="name"
       headCells={headCells}
       title={t('menu.organizations')}
       subtitle={t('menu.descriptions.organizations')}

@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAxiosNoAuth } from '../../api/axios';
 import LogoSquare from '../../assets/images/logo-square.svg';
+import { DEFAULT_OPTION_CITY_NAME } from '../../constants';
 import useCreateAccount from '../../hooks/useCreateAccount';
 import { ErrorResponse, FormSelectOption, Locations } from '../../schemas';
 import { RegisterInputType, UserAccount, createRegisterSchema } from '../../schemas/auth';
@@ -24,8 +25,6 @@ import {
   extractAxiosErrorData,
   findOptionByName,
 } from '../../util';
-
-const DEFAULT_OPTION_CITY_NAME = 'Iquitos';
 
 export function CreateAccountPage() {
   const { t, i18n } = useTranslation(['register', 'errorCodes']);

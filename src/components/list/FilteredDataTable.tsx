@@ -1,4 +1,15 @@
-import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import {
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material';
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
@@ -138,6 +149,17 @@ export default function FilteredDataTable<T>({
     });
   }
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleClear = () => () => {
+    setSearchText('');
+    setFilter({ [selectedOption]: '' });
+  };
+
   return (
     <>
       {title && <Title type="section" label={title} className={subtitle ? 'mb-0' : ''} />}
@@ -148,10 +170,20 @@ export default function FilteredDataTable<T>({
           {!filterOptions[selectedOption] && (
             <TextField
               fullWidth
+              onKeyDown={handleKeyPress}
               label={t(`table.searchValue`)}
               variant="outlined"
               value={searchText}
               onChange={handleTextChange}
+              InputProps={{
+                endAdornment: searchText ? (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleClear()}>
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ) : null,
+              }}
             />
           )}
           {filterOptions[selectedOption] && (

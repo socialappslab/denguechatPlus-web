@@ -28,5 +28,17 @@
   },
   "success": "Estamos verificando sua conta",
   "success_description": "Sua conta está sendo verificada e estará ativa nos próximos dias.",
-  "success_action": "Ir para a Página Inicial"
+  "success_action": "Ir para a Página Inicial",
+  "cancel": "Cancelar",
+  "back": "Voltar",
+  "approve": {
+    "title": "Aprovar Usuário",
+    "action": "Aprovar",
+    "success": "Usuário aprovado com sucesso"
+  },
+  "edit": {
+    "title": "Editar Usuário",
+    "action": "Salvar",
+    "success": "Usuário atualizado com sucesso"
+  }
 }

@@ -18,40 +18,28 @@ export const globalConfig: RetryConfig = {
   },
 };
 
+export const authApi = axios.create(globalConfig);
+
 export function getAccessToken(): string | null {
   return localStorage.getItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
 }
 
-export const setHeaderFromLocalStorage = () => {
-  const token = getAccessToken();
-  console.log('token', token);
-  if (token && token !== 'undefined' && globalConfig.headers) {
-    globalConfig.headers['X-Authorization'] = `${token}`;
-  } else if (globalConfig.headers) {
-    globalConfig.headers['X-Authorization'] = '';
-  }
-};
-
 export function removeUser(): void {
   localStorage.removeItem(USER_LOCAL_STORAGE_KEY);
   localStorage.removeItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
-  setHeaderFromLocalStorage();
+  localStorage.removeItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY);
 }
 
 export function saveAccessToken(accessToken: string): void {
   localStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, accessToken);
-  setHeaderFromLocalStorage();
 }
-
-setHeaderFromLocalStorage(); // set header token from local storage on first load
-
-export const authApi = axios.create(globalConfig);
 
 export const resetAuthApi = () => {
   if (globalConfig.headers) {
     delete globalConfig.headers['X-Authorization'];
   }
   delete authApi.defaults.headers['X-Authorization'];
+  removeUser();
 };
 
 export const setAccessTokenToHeaders = (accessToken: string | null) => {
@@ -62,6 +50,12 @@ export const setAccessTokenToHeaders = (accessToken: string | null) => {
 
   saveAccessToken(accessToken);
   authApi.defaults.headers['X-Authorization'] = `${accessToken}`;
+};
+
+export const setHeaderFromLocalStorage = () => {
+  const token = getAccessToken();
+
+  setAccessTokenToHeaders(token);
 };
 
 authApi.interceptors.response.use(
@@ -110,6 +104,8 @@ export const saveRefreshToken = (refreshToken: string) => {
 export function getRefreshToken(): string | null {
   return localStorage.getItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY);
 }
+
+setHeaderFromLocalStorage(); // set header token from local storage on first load
 
 // Function that will be called to refresh authorization
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

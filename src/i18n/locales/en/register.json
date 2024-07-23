@@ -30,9 +30,15 @@
   "success_description": "Your account is being verified and will be active in the next few days.",
   "success_action": "Go to Home",
   "cancel": "Cancel",
+  "back": "Go back",
   "approve": {
     "title": "Approve User",
     "action": "Approve",
     "success": "User approved successfully"
+  },
+  "edit": {
+    "title": "Edit User",
+    "action": "Save",
+    "success": "User updated successfully"
   }
 }

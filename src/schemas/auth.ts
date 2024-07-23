@@ -1,5 +1,6 @@
 import { TypeOf, object, string, z } from 'zod';
 
+import { BaseObject } from '.';
 import i18nInstance from '../i18n/config';
 
 const t = (key: string, args?: { [key: string]: string | number }) => i18nInstance.t(key, args);
@@ -47,11 +48,12 @@ const passwordConfirmSchema = string().min(1, t('validation:requiredField.confir
 
 export const createRegisterSchema = () => {
   const requiredNameString = string().min(1, t('validation:requiredField.name'));
+  const requiredLastNameString = string().min(1, t('validation:requiredField.lastName'));
   const requiredString = string().min(1, t('validation:required'));
 
   return object({
     firstName: requiredNameString,
-    lastName: requiredString,
+    lastName: requiredLastNameString,
     email: emailSchema,
     username: userNameSchema,
     phone: phoneSchema,
@@ -65,8 +67,40 @@ export const createRegisterSchema = () => {
     message: t('validation:notMatch'),
   });
 };
-const registerSchema = createRegisterSchema();
-export type RegisterInputType = TypeOf<typeof registerSchema>;
+
+const createRegisterSchemaForType = createRegisterSchema();
+export type RegisterInputType = TypeOf<typeof createRegisterSchemaForType>;
+
+export const updateUserSchema = () => {
+  const requiredNameString = string().min(1, t('validation:requiredField.name'));
+  const requiredLastNameString = string().min(1, t('validation:requiredField.lastName'));
+  const requiredString = string().min(1, t('validation:required'));
+
+  return object({
+    firstName: requiredNameString,
+    lastName: requiredLastNameString,
+    email: emailSchema,
+    username: userNameSchema,
+    phone: phoneSchema,
+    city: requiredString,
+    neighborhood: requiredString,
+    organization: requiredString,
+    password: z
+      .union([passwordSchema(), z.string().length(0, '')])
+      .optional()
+      .transform((e) => (e === '' ? undefined : e)),
+    passwordConfirm: z
+      .union([passwordConfirmSchema, z.string().length(0, '')])
+      .optional()
+      .transform((e) => (e === '' ? undefined : e)),
+  }).refine((data) => data.password === data.passwordConfirm, {
+    path: ['passwordConfirm'],
+    message: t('validation:notMatch'),
+  });
+};
+
+const upateUserSchemaForType = updateUserSchema();
+export type UpdateUserInputType = TypeOf<typeof upateUserSchemaForType>;
 
 export interface UserProfile {
   firstName?: string;
@@ -78,9 +112,10 @@ export interface UserProfile {
   phone?: string;
   points?: number;
   country?: string;
-  city?: string;
-  neighborhood?: string;
-  organization?: string;
+  city?: string | BaseObject;
+  neighborhood?: string | BaseObject;
+  organization?: string | BaseObject;
+  roles?: string[] | BaseObject[];
 
   countryId?: number;
   cityId?: number;
@@ -90,6 +125,8 @@ export interface UserProfile {
   timezone?: string;
   language?: string;
   createdAt?: string;
+
+  password?: string;
 }
 
 export const UserStatusValues = ['active', 'pending', 'inactive'] as const;
@@ -98,7 +135,6 @@ export type UserStatusType = (typeof UserStatusValues)[number];
 export interface IUser extends UserProfile {
   id?: string;
   status?: UserStatusType;
-  roles?: string;
   permissions?: string;
 
   cityName?: string;
@@ -112,6 +148,12 @@ export interface UserAccount {
   username?: string;
   email?: string;
   userProfile: UserProfile;
+}
+
+export interface UserUpdate {
+  status?: UserStatusType;
+  user_profile_attributes: UserProfile;
+  roles?: number[];
 }
 
 export type CreateAccountInputType = UserAccount;
