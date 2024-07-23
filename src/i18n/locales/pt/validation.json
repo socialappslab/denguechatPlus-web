@@ -6,6 +6,7 @@
     "password": "A senha é obrigatória",
     "confirmPassword": "Por favor, confirme sua senha",
     "name": "O nome é obrigatório",
+    "lastName": "O sobrenome é obrigatório",
     "phone": "O telefone é obrigatório"
   },
   "notMatch": "As senhas não coincidem",

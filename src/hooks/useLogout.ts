@@ -13,6 +13,7 @@ export default function useSignOut(): IUseSignOut {
   const onSignOut = async () => {
     stateContext.dispatch({ type: DISPATCH_ACTIONS.SET_USER, payload: null });
     resetAuthApi();
+
     navigate('/login');
   };
 

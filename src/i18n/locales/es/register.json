@@ -30,9 +30,15 @@
   "success_description": "Tu cuenta está siendo verificada y estará activa en los próximos días.",
   "success_action": "Ir al Inicio",
   "cancel": "Cancelar",
+  "back": "Ir atrás",
   "approve": {
     "title": "Aprobar Usuario",
     "action": "Aprobar",
     "success": "Usuario aprobado correctamente"
+  },
+  "edit": {
+    "title": "Editar Usuario",
+    "action": "Guardar",
+    "success": "Usuario actualizado correctamente"
   }
 }

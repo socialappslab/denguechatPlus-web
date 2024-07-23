@@ -65,3 +65,8 @@ export type FormSelectOption = {
   label: string;
   value: string;
 };
+
+export type BaseObject = {
+  id: number;
+  name: string;
+};
