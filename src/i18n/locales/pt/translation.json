@@ -1,0 +1,77 @@
+{
+  "yes": "Sim",
+  "no": "Não",
+  "back": "Voltar",
+  "error": "Erro",
+  "success": "Sucesso",
+  "logout": "Terminar Sessão",
+  "login": "Iniciar Sessão",
+  "register": "Registar",
+  "home": "Página Inicial de Admin",
+  "YYYY": "AAAA",
+  "oops": "Ops!",
+  "Not Found": "Página não encontrada",
+  "generalError": "Ocorreu um erro",
+  "errors": {
+    "unauthorized": "Não autorizado"
+  },
+  "menu": {
+    "search": "Pesquisar",
+    "chat": "Chat",
+    "profile": "Perfil",
+    "users": "Utilizadores",
+    "roles": "Funções",
+    "myCity": "Minha Cidade",
+    "myCommunity": "Minha Comunidade",
+    "teams": "Equipas",
+    "myProfile": "Meu Perfil",
+    "settings": "Configurações",
+    "organizations": "Organizações",
+    "cities": "Cidades",
+    "breedingSites": "Criadouros",
+    "descriptions": {
+      "organizations": "Lista de Organizações",
+      "cities": "Lista de Cidades",
+      "users": "Lista de Utilizadores",
+      "roles": "Lista de Funções",
+      "teams": "Lista de Equipas"
+    }
+  },
+  "table": {
+    "actions": {
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "view": "Ver",
+      "add": "Adicionar",
+      "approve": "Aprovar"
+    },
+    "search": "Pesquisar",
+    "searchValue": "Valor de pesquisa",
+    "selectAttribute": "Selecionar Atributo",
+    "rowsInPage": "Itens por página",
+    "rowsInPageOf": "de",
+    "rowsMoreThan": "mais de"
+  },
+  "columns": {
+    "id": "ID",
+    "name": "Nome",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "firstName": "Nome",
+    "lastName": "Apelido",
+    "username": "Nome de Utilizador",
+    "neighborhood": "Bairro",
+    "status": "Estado",
+    "statusActive": "Estado Ativo",
+    "createdAt": "Criado em",
+    "updatedAt": "Atualizado em",
+    "actions": "Ações"
+  },
+  "options": {
+    "notDefined": "Não definido",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "all": "Todos",
+    "pending": "Pendente"
+  }
+}
