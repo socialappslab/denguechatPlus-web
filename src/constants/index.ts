@@ -18,6 +18,7 @@ export const COLORS: { [key: string]: string } = {
 
 export const USER_LOCAL_STORAGE_KEY = 'DENGUECHAT_USER';
 export const ACCESS_TOKEN_LOCAL_STORAGE_KEY = 'DENGUECHAT_USER_ACCESS_TOKEN';
+export const REFRESH_TOKEN_LOCAL_STORAGE_KEY = 'DENGUECHAT_USER_REFRESH_TOKEN';
 export const LANG_STORAGE_KEY = 'DENGUECHAT_LANG';
 
 export const PAGE_SIZES = [5, 10, 25];
