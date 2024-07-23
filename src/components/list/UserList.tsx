@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { IUser, UserStatusValues } from '../../schemas/auth';
 import Button from '../../themed/button/Button';
 import { HeadCell } from '../../themed/table/DataTable';
+import ApproveUserDialog from '../dialog/ApproveUserDialog';
 import FilteredDataTable from './FilteredDataTable';
 
 const headCells: HeadCell<IUser>[] = [
@@ -62,8 +64,19 @@ const IUserDataTable = FilteredDataTable<IUser>;
 
 export default function UserList() {
   const { t } = useTranslation('translation');
+  const [updateControl, setUpdateControl] = useState<number>(0);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const updateTable = () => {
+    setUpdateControl((prev) => prev + 1);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow
   const actions = (row: IUser, loading?: boolean) => (
     <div className="flex flex-row">
       <Button
@@ -74,12 +87,15 @@ export default function UserList() {
         label={t('table.actions.edit')}
         buttonType="cell"
       />
+
       {row.status === 'pending' && (
         <Button
           primary
           disabled={loading}
-          component={Link}
-          to={`/approve/${row.id}`}
+          onClick={() => {
+            setSelectedUser(row);
+            setOpenDialog(true);
+          }}
           label={t('table.actions.approve')}
           buttonType="cell"
         />
@@ -88,13 +104,19 @@ export default function UserList() {
   );
 
   return (
-    <IUserDataTable
-      endpoint="users"
-      defaultFilter="username"
-      headCells={headCells}
-      title={t('menu.users')}
-      subtitle={t('menu.descriptions.users')}
-      actions={actions}
-    />
+    <>
+      <IUserDataTable
+        updateControl={updateControl}
+        endpoint="users"
+        defaultFilter="username"
+        headCells={headCells}
+        title={t('menu.users')}
+        subtitle={t('menu.descriptions.users')}
+        actions={actions}
+      />
+      {selectedUser && (
+        <ApproveUserDialog open={openDialog} updateTable={updateTable} handleClose={handleClose} user={selectedUser} />
+      )}
+    </>
   );
 }

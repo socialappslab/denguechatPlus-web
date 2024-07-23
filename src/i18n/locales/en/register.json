@@ -28,5 +28,11 @@
   },
   "success": "We are verifying your account",
   "success_description": "Your account is being verified and will be active in the next few days.",
-  "success_action": "Go to Home"
+  "success_action": "Go to Home",
+  "cancel": "Cancel",
+  "approve": {
+    "title": "Approve User",
+    "action": "Approve",
+    "success": "User approved successfully"
+  }
 }
