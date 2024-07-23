@@ -18,6 +18,7 @@ interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
   defaultSort?: string;
   defaultOrder?: Order;
   defaultFilter?: string;
+  updateControl?: number;
   actions?: (row: T, loading?: boolean) => JSX.Element;
 }
 
@@ -33,6 +34,7 @@ export default function FilteredDataTable<T>({
   defaultSort,
   defaultOrder = 'asc',
   defaultFilter,
+  updateControl,
   actions,
   ...otherDataTableProps
 }: FilteredDataTableProps<T>) {
@@ -68,13 +70,17 @@ export default function FilteredDataTable<T>({
   const [rows, setRows] = useState<T[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
 
-  const [{ data, loading, error }] = useAxios({
+  const [{ data, loading, error }, refetch] = useAxios({
     url: `/${endpoint}`,
     params: {
       ...payload,
       ...constructFilterObject(filter, Object.keys(filterOptions)),
     },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [updateControl, refetch]);
 
   const handleChangePage = (newPage: number, rowsPerPage: number) => {
     setPayload((prev) => ({
@@ -97,7 +103,7 @@ export default function FilteredDataTable<T>({
       const deserializedData = deserialize<T>(data);
       if (!deserializedData || !Array.isArray(deserializedData)) return;
 
-      console.log('rows', deserializedData);
+      // console.log('rows', deserializedData);
       setRows(deserializedData);
       setTotalCount(data.meta.total);
     }

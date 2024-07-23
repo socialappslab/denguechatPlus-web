@@ -69,9 +69,11 @@ const registerSchema = createRegisterSchema();
 export type RegisterInputType = TypeOf<typeof registerSchema>;
 
 export interface UserProfile {
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
+  username?: string;
+
   gender?: number | string;
   phone?: string;
   points?: number;
@@ -92,9 +94,16 @@ export interface UserProfile {
 
 export const UserStatusValues = ['active', 'pending', 'inactive'] as const;
 export type UserStatusType = (typeof UserStatusValues)[number];
-export interface IUser extends UserProfile, UserAccount {
-  id: string;
+
+export interface IUser extends UserProfile {
+  id?: string;
   status?: UserStatusType;
+  roles?: string;
+  permissions?: string;
+
+  cityName?: string;
+  neighborhoodName?: string;
+  organizationName?: string;
 }
 
 export interface UserAccount {
@@ -120,3 +129,7 @@ export interface ILoginResponse {
     };
   };
 }
+
+export type ChangeStatus = {
+  status: UserStatusType;
+};

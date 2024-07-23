@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { configure, makeUseAxios } from 'axios-hooks';
-import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, USER_LOCAL_STORAGE_KEY } from '../constants';
+import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, REFRESH_TOKEN_LOCAL_STORAGE_KEY, USER_LOCAL_STORAGE_KEY } from '../constants';
+import { extractAxiosErrorData } from '../util';
 
 interface RetryConfig extends AxiosRequestConfig {
   retry: number;
@@ -22,6 +24,7 @@ export function getAccessToken(): string | null {
 
 export const setHeaderFromLocalStorage = () => {
   const token = getAccessToken();
+  console.log('token', token);
   if (token && token !== 'undefined' && globalConfig.headers) {
     globalConfig.headers['X-Authorization'] = `${token}`;
   } else if (globalConfig.headers) {
@@ -98,6 +101,73 @@ export const publicApi = axios.create(globalConfig);
 
 export const useAxiosNoAuth = makeUseAxios({
   axios: publicApi,
+});
+
+export const saveRefreshToken = (refreshToken: string) => {
+  localStorage.setItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY, refreshToken);
+};
+
+export function getRefreshToken(): string | null {
+  return localStorage.getItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY);
+}
+
+// Function that will be called to refresh authorization
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const refreshAuthLogic = (failedRequest: any) => {
+  const refreshToken = getRefreshToken();
+  console.log('refreshAuthLogic with refresh>>>>>>', refreshToken);
+  return publicApi
+    .post(
+      '/users/session/refresh_token',
+      {},
+      {
+        headers: {
+          'X-Refresh-Token': refreshToken,
+        },
+      },
+    )
+    .then((refreshResult) => {
+      const newToken = refreshResult.data?.meta?.jwt?.res?.access;
+      console.log('refreshResult newToken', newToken);
+
+      if (!newToken) {
+        return Promise.reject();
+      }
+
+      console.log('failedRequest with new token>>>>>>', newToken);
+      // eslint-disable-next-line no-param-reassign
+      failedRequest.response.config.headers['X-Authorization'] = `${newToken}`;
+      setAccessTokenToHeaders(newToken);
+      return Promise.resolve();
+    })
+    .catch((error) => {
+      console.log('error refreshAuthLogic', JSON.stringify(error));
+
+      return Promise.reject();
+    });
+};
+
+createAuthRefreshInterceptor(authApi, refreshAuthLogic, {
+  statusCodes: [401],
+  shouldRefresh: (error) => {
+    const { config } = error;
+    if (config?.url?.endsWith('refresh_token')) {
+      return false;
+    }
+    const errorData = extractAxiosErrorData(error);
+
+    console.log('shouldRefresh url >>>>>>', JSON.stringify(error.response));
+    if (errorData?.errors && `${errorData?.errors[0]?.error_code}` === 'expired_token') {
+      return true;
+    }
+
+    return false;
+  },
+  onRetry: (requestConfig) => {
+    console.log('onRetry url >>>>>>', requestConfig.url);
+    return requestConfig;
+  },
+  pauseInstanceWhileRefreshing: false,
 });
 
 configure({ axios: authApi, cache: false });
