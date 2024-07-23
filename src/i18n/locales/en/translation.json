@@ -74,5 +74,11 @@
     "inactive": "Inactive",
     "all": "All",
     "pending": "Pending"
+  },
+  "footer": {
+    "userGuide": "User Guide",
+    "about": "About DengueChat+",
+    "mosquito": "The Mosquito",
+    "faqs": "Frequently Asked Questions"
   }
 }

@@ -73,5 +73,11 @@
     "inactive": "Inactivo",
     "all": "Todos",
     "pending": "Pendiente"
+  },
+  "footer": {
+    "userGuide": "Guía de Usuario",
+    "about": "Sobre DengueChat+",
+    "mosquito": "El Zancudo",
+    "faqs": "Preguntas Frecuentes"
   }
 }
