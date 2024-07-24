@@ -52,5 +52,6 @@
   "48": "O usuário '{{field}}' já está em uso",
   "49": "O telefone '{{field}}' já está em uso",
   "50": "O e-mail '{{field}}' já está em uso",
-  "51": "A conta não está ativa"
+  "51": "A conta não está ativa",
+  "55": "A conta foi temporariamente bloqueada. Várias tentativas de login falhadas ocorreram. Tente novamente mais tarde."
 }
