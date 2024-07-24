@@ -43,7 +43,8 @@
       "delete": "Eliminar",
       "view": "Ver",
       "add": "Agregar",
-      "approve": "Aprobar"
+      "approve": "Aprobar",
+      "unlock": "Desbloquear"
     },
     "search": "Buscar",
     "searchValue": "Valor de búsqueda",
@@ -72,7 +73,8 @@
     "active": "Activo",
     "inactive": "Inactivo",
     "all": "Todos",
-    "pending": "Pendiente"
+    "pending": "Pendiente",
+    "locked": "Bloqueado"
   },
   "footer": {
     "userGuide": "Guía de Usuario",

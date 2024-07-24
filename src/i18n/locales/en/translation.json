@@ -44,7 +44,8 @@
       "delete": "Delete",
       "view": "View",
       "add": "Add",
-      "approve": "Approve"
+      "approve": "Approve",
+      "unlock": "Unlock"
     },
     "search": "Search",
     "searchValue": "Search Value",
@@ -73,7 +74,8 @@
     "active": "Active",
     "inactive": "Inactive",
     "all": "All",
-    "pending": "Pending"
+    "pending": "Pending",
+    "locked": "Locked"
   },
   "footer": {
     "userGuide": "User Guide",
