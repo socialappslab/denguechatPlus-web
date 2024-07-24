@@ -106,13 +106,13 @@ export function EditUser({ user }: EditUserProps) {
       const { phone, username, password, email, firstName, lastName, organization, city, neighborhood } = values;
 
       const payload: UserUpdate = {
+        password: password !== '' ? password : undefined,
         user_profile_attributes: {
           firstName,
           lastName,
           email: email !== '' ? email : undefined,
           username,
           phone,
-          password: password !== '' ? password : undefined,
           organizationId: organization ? Number(organization) : undefined,
           cityId: city ? Number(city) : undefined,
           neighborhoodId: neighborhood ? Number(neighborhood) : undefined,

@@ -32,8 +32,9 @@
   "cancel": "Cancelar",
   "back": "Voltar",
   "approve": {
-    "title": "Aprovar Usuário",
+    "title": "Alterar Status do Usuário",
     "action": "Aprovar",
+    "actionUnlock": "Desbloquear",
     "success": "Usuário aprovado com sucesso"
   },
   "edit": {

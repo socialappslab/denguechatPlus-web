@@ -168,7 +168,12 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
           </div>
 
           <div>
-            <Button buttonType="medium" label={t('approve.action')} disabled={loading} onClick={confirmApprove} />
+            <Button
+              buttonType="medium"
+              label={user.status === 'pending' ? t('approve.action') : t('approve.actionUnlock')}
+              disabled={loading}
+              onClick={confirmApprove}
+            />
           </div>
         </div>
       </div>

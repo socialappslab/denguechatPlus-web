@@ -125,11 +125,9 @@ export interface UserProfile {
   timezone?: string;
   language?: string;
   createdAt?: string;
-
-  password?: string;
 }
 
-export const UserStatusValues = ['active', 'pending', 'inactive'] as const;
+export const UserStatusValues = ['active', 'pending', 'inactive', 'locked'] as const;
 export type UserStatusType = (typeof UserStatusValues)[number];
 
 export interface IUser extends UserProfile {
@@ -152,6 +150,7 @@ export interface UserAccount {
 
 export interface UserUpdate {
   status?: UserStatusType;
+  password?: string;
   user_profile_attributes: UserProfile;
   roles?: number[];
 }

@@ -43,7 +43,8 @@
       "delete": "Eliminar",
       "view": "Ver",
       "add": "Adicionar",
-      "approve": "Aprovar"
+      "approve": "Aprovar",
+      "unlock": "Desbloquear"
     },
     "search": "Pesquisar",
     "searchValue": "Valor de pesquisa",
@@ -72,6 +73,13 @@
     "active": "Ativo",
     "inactive": "Inativo",
     "all": "Todos",
-    "pending": "Pendente"
+    "pending": "Pendente",
+    "locked": "Bloqueado"
+  },
+  "footer": {
+    "userGuide": "Guia do Usuário",
+    "about": "Sobre o DengueChat+",
+    "mosquito": "O Mosquito",
+    "faqs": "Perguntas Frequentes"
   }
 }

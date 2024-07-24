@@ -80,7 +80,7 @@ export default function UserList() {
     <div className="flex flex-row">
       <Button primary component={Link} to={`${row.id}/edit`} label={t('table.actions.edit')} buttonType="cell" />
 
-      {row.status === 'pending' && (
+      {(row.status === 'pending' || row.status === 'locked') && (
         <Button
           primary
           disabled={loading}
@@ -88,7 +88,7 @@ export default function UserList() {
             setSelectedUser(row);
             setOpenDialog(true);
           }}
-          label={t('table.actions.approve')}
+          label={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}
           buttonType="cell"
         />
       )}
