@@ -1,4 +1,5 @@
 {
+  "create_role": "Crear Rol",
   "name": "Nombre",
   "name_placeholder": "Ingresa un nombre",
   "permissions": "Permissions",
