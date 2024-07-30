@@ -1,0 +1,70 @@
+{
+  "name": "Name",
+  "name_placeholder": "Enter a name",
+  "permissions": "Permisos",
+  "organization": {
+    "title": "Organization",
+    "index": "View Organizations",
+    "create": "Create Organizations",
+    "update": "Edit Organizations",
+    "destroy": "Delete Organizations"
+  },
+  "users": {
+    "title": "Users",
+    "update": "Edit User Roles",
+    "edit": "Edit User Information",
+    "destroy": "Delete User"
+  },
+  "roles": {
+    "title": "Roles",
+    "show": "View Roles",
+    "edit": "Edit Roles",
+    "create": "Create Role",
+    "destroy": "Delete Roles"
+  },
+  "teams": {
+    "title": "Teams",
+    "index": "View Teams",
+    "create": "Create Teams",
+    "destroy": "Delete Teams",
+    "update": "Switch User Team"
+  },
+  "post_comments": {
+    "title": "Post / Comments",
+    "show": "View to post/ comments resources",
+    "create": "Create post / comments",
+    "update": "Edit post / comments"
+  },
+  "houses": {
+    "title": "Houses",
+    "show": "View Houses",
+    "create": "Create Houses",
+    "update": "Edit Houses",
+    "destroy": "Delete Houses"
+  },
+  "breading_sites": {
+    "title": "Breading Sites",
+    "show": "View breading sites",
+    "update": "Edit breading sites",
+    "destroy": "Delete breading sites"
+  },
+  "elimination_methods": {
+    "title": "Elimination Methods",
+    "show": "View elimination methods",
+    "update": "Edit elimination methods",
+    "destroy": "Delete elimination methods"
+  },
+  "breading_types": {
+    "title": "Breading Sites",
+    "show": "View breading types",
+    "update": "Edit breading types",
+    "destroy": "Delete breading types"
+  },
+  "visits": {
+    "title": "Visits",
+    "show": "View visit",
+    "index": "View visits",
+    "update": "Edit visit",
+    "create": "Create visit"
+  }
+}

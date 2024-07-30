@@ -1,0 +1,70 @@
+{
+  "name": "Nome",
+  "name_placeholder": "Insira um nome",
+  "permissions": "Permissões",
+  "organization": {
+    "title": "Organização",
+    "index": "Ver Organizações",
+    "create": "Criar Organizações",
+    "update": "Editar Organizações",
+    "destroy": "Excluir Organizações"
+  },
+  "users": {
+    "title": "Usuários",
+    "update": "Editar Papéis de Usuário",
+    "edit": "Editar Informações do Usuário",
+    "destroy": "Excluir Usuário"
+  },
+  "roles": {
+    "title": "Papéis",
+    "show": "Ver Papéis",
+    "edit": "Editar Papéis",
+    "create": "Criar Papel",
+    "destroy": "Excluir Papéis"
+  },
+  "teams": {
+    "title": "Equipes",
+    "index": "Ver Equipes",
+    "create": "Criar Equipes",
+    "destroy": "Excluir Equipes",
+    "update": "Mudar Equipe do Usuário"
+  },
+  "post_comments": {
+    "title": "Publicações / Comentários",
+    "show": "Ver recursos de publicações / comentários",
+    "create": "Criar publicações / comentários",
+    "update": "Editar publicações / comentários"
+  },
+  "houses": {
+    "title": "Casas",
+    "show": "Ver Casas",
+    "create": "Criar Casas",
+    "update": "Editar Casas",
+    "destroy": "Excluir Casas"
+  },
+  "breading_sites": {
+    "title": "Locais de Reprodução",
+    "show": "Ver locais de reprodução",
+    "update": "Editar locais de reprodução",
+    "destroy": "Excluir locais de reprodução"
+  },
+  "elimination_methods": {
+    "title": "Métodos de Eliminação",
+    "show": "Ver métodos de eliminação",
+    "update": "Editar métodos de eliminação",
+    "destroy": "Excluir métodos de eliminação"
+  },
+  "breading_types": {
+    "title": "Tipos de Reprodução",
+    "show": "Ver tipos de reprodução",
+    "update": "Editar tipos de reprodução",
+    "destroy": "Excluir tipos de reprodução"
+  },
+  "visits": {
+    "title": "Visitas",
+    "show": "Ver visita",
+    "index": "Ver visitas",
+    "update": "Editar visita",
+    "create": "Criar visita"
+  }
+}
