@@ -15,6 +15,7 @@ import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { PAGE_SIZES } from '../../constants';
 import { PaginationInput } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
@@ -31,6 +32,7 @@ interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
   defaultFilter?: string;
   updateControl?: number;
   actions?: (row: T, loading?: boolean) => JSX.Element;
+  createButton?: boolean;
 }
 
 interface FilterOptionsObject {
@@ -47,6 +49,7 @@ export default function FilteredDataTable<T>({
   defaultFilter,
   updateControl,
   actions,
+  createButton,
   ...otherDataTableProps
 }: FilteredDataTableProps<T>) {
   const { t } = useTranslation('translation');
@@ -241,6 +244,19 @@ export default function FilteredDataTable<T>({
             onClick={handleSearch}
           />
         </Grid>
+        {createButton && (
+          <Grid item>
+            <Button
+              primary={false}
+              variant="outlined"
+              className="justify-start text-md"
+              label={t(`table.create`)}
+              component={Link}
+              to="create"
+              onClick={handleSearch}
+            />
+          </Grid>
+        )}
       </Grid>
       <TypedDataTable
         {...otherDataTableProps}

@@ -29,6 +29,7 @@ export default function RoleList() {
       headCells={headCells}
       title={t('menu.roles')}
       subtitle={t('menu.descriptions.roles')}
+      createButton
     />
   );
 }
