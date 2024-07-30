@@ -20,6 +20,7 @@ export interface EditUserProps {
   user: IUser;
 }
 
+// Based on DB and https://docs.google.com/spreadsheets/d/1SKZ-qW-5fvgyS1INllLZhXu1emn1__KCKiNZirsJpjo/edit?gid=0#gid=0
 const PERMISSIONS = {
   organization: [
     { name: 'index', id: 8 },
