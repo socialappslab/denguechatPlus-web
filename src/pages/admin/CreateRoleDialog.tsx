@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -47,15 +47,18 @@ const PERMISSIONS = {
   ],
 } as const;
 
-export function CreateRolePage() {
+interface CreateRoleDialogProps {
+  goBack: () => void;
+}
+
+export function CreateRoleDialog({ goBack }: CreateRoleDialogProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'permissions']);
-  const navigate = useNavigate();
   const { createRoleMutation } = useCreateRole();
 
   const { enqueueSnackbar } = useSnackbar();
 
   const onGoBackHandler = () => {
-    navigate('/admin/roles');
+    if (goBack) goBack();
   };
 
   const methods = useForm<CreateRoleInputType>({
@@ -134,19 +137,16 @@ export function CreateRolePage() {
   };
 
   return (
-    <Container
-      maxWidth={false}
-      className="bg-background"
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
+    <div className="flex flex-col py-6 px-4">
       <FormProvider {...methods}>
-        <Box component="form" onSubmit={handleSubmit(onSubmitHandler)} noValidate autoComplete="off" className="w-full">
-          <Title type="section" className="self-center mb-8i w-full" label="Crear role" />
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmitHandler)}
+          noValidate
+          autoComplete="off"
+          className="w-full p-8"
+        >
+          <Title type="section" className="self-center mb-8i w-full" label={t('permissions:create_role')} />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <FormInput
@@ -164,12 +164,11 @@ export function CreateRolePage() {
                 className="mt-2"
                 label={t('permissions:permissions')}
                 options={permissionOptions as FormSelectOption[]}
-                placeholder="Select roles"
               />
             </Grid>
           </Grid>
 
-          <div className="mt-8 grid grid-cols-1 gap-4 md:flex md:justify-start md:gap-0">
+          <div className="mt-8 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
             <div className="md:mr-2">
               <Button buttonType="large" label={t('edit.action')} disabled={false} type="submit" />
             </div>
@@ -180,8 +179,8 @@ export function CreateRolePage() {
           </div>
         </Box>
       </FormProvider>
-    </Container>
+    </div>
   );
 }
 
-export default CreateRolePage;
+export default CreateRoleDialog;
