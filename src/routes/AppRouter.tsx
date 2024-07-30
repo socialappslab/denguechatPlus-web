@@ -22,6 +22,7 @@ import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import DataTableExample from '../themed/table/DataTableExample';
+import CreateRole from '@/pages/admin/CreateRolePage';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: 'roles',
         element: <RoleList />,
+      },
+      {
+        path: 'roles/create',
+        element: <CreateRole />,
       },
       {
         path: 'users',

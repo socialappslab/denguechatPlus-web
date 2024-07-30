@@ -64,6 +64,7 @@ export interface Locations {
 export type FormSelectOption = {
   label: string;
   value: string;
+  disabled?: boolean;
 };
 
 export type BaseObject = {
