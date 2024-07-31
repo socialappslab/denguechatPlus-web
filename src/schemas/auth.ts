@@ -1,16 +1,20 @@
 import { TypeOf, object, string, z } from 'zod';
-
 import { BaseObject } from '.';
-import i18nInstance from '../i18n/config';
 
-const t = (key: string, args?: { [key: string]: string | number }) => i18nInstance.t(key, args);
+export type FieldErrorForTranslation = {
+  key: string;
+  args?: { [key: string]: string | number };
+};
+
+const t = (key: string, args?: { [key: string]: string | number }) => {
+  return JSON.stringify({ key, args });
+};
 
 export const emailSchema = z.union([z.literal(''), string().email(t('validation:invalidEmail'))]);
 
-const passwordSchema = () =>
-  string()
-    .min(1, t('validation:requiredField.password'))
-    .min(8, t('validation:passwordLength', { length: 8 }));
+const passwordSchema = string()
+  .min(1, t('validation:requiredField.password'))
+  .min(8, t('validation:passwordLength', { length: 8 }));
 
 export const userNameSchema = string()
   .min(1, t('validation:requiredField.username'))
@@ -20,21 +24,18 @@ export const phoneSchema = string().min(1, t('validation:requiredField.phone')).
 
 const TYPE_LOGIN = ['username', 'phone'] as const;
 
-export const createLoginSchema = () => {
-  return object({
-    username: z
-      .union([userNameSchema, z.string().length(0, '')])
-      .optional()
-      .transform((e) => (e === '' ? undefined : e)),
-    phone: z
-      .union([phoneSchema, z.string().length(0, '')])
-      .optional()
-      .transform((e) => (e === '' ? undefined : e)),
-    password: passwordSchema(),
-  });
-};
+export const loginSchema = object({
+  username: z
+    .union([userNameSchema, z.string().length(0, '')])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  phone: z
+    .union([phoneSchema, z.string().length(0, '')])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  password: passwordSchema,
+});
 
-const loginSchema = createLoginSchema();
 export type LoginInputType = TypeOf<typeof loginSchema>;
 
 export type LoginRequestType = {
@@ -45,62 +46,53 @@ export type LoginRequestType = {
 };
 
 const passwordConfirmSchema = string().min(1, t('validation:requiredField.confirmPassword'));
+const requiredNameString = string().min(1, t('validation:requiredField.name'));
+const requiredLastNameString = string().min(1, t('validation:requiredField.lastName'));
+const requiredCity = string().min(1, t('validation:requiredField.city'));
+const requiredNeighborhood = string().min(1, t('validation:requiredField.neighborhood'));
+const requiredOrganization = string().min(1, t('validation:requiredField.organization'));
 
-export const createRegisterSchema = () => {
-  const requiredNameString = string().min(1, t('validation:requiredField.name'));
-  const requiredLastNameString = string().min(1, t('validation:requiredField.lastName'));
-  const requiredString = string().min(1, t('validation:required'));
+export const RegisterSchema = object({
+  firstName: requiredNameString,
+  lastName: requiredLastNameString,
+  email: emailSchema,
+  username: userNameSchema,
+  phone: phoneSchema,
+  city: requiredCity,
+  neighborhood: requiredNeighborhood,
+  organization: requiredOrganization,
+  password: passwordSchema,
+  passwordConfirm: passwordConfirmSchema,
+}).refine((data) => data.password === data.passwordConfirm, {
+  path: ['passwordConfirm'],
+  message: t('validation:notMatch'),
+});
 
-  return object({
-    firstName: requiredNameString,
-    lastName: requiredLastNameString,
-    email: emailSchema,
-    username: userNameSchema,
-    phone: phoneSchema,
-    city: requiredString,
-    neighborhood: requiredString,
-    organization: requiredString,
-    password: passwordSchema(),
-    passwordConfirm: passwordConfirmSchema,
-  }).refine((data) => data.password === data.passwordConfirm, {
-    path: ['passwordConfirm'],
-    message: t('validation:notMatch'),
-  });
-};
+export type RegisterInputType = TypeOf<typeof RegisterSchema>;
 
-const createRegisterSchemaForType = createRegisterSchema();
-export type RegisterInputType = TypeOf<typeof createRegisterSchemaForType>;
+export const UpdateUserSchema = object({
+  firstName: requiredNameString,
+  lastName: requiredLastNameString,
+  email: emailSchema,
+  username: userNameSchema,
+  phone: phoneSchema,
+  city: requiredCity,
+  neighborhood: requiredNeighborhood,
+  organization: requiredOrganization,
+  password: z
+    .union([passwordSchema, z.string().length(0, '')])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  passwordConfirm: z
+    .union([passwordConfirmSchema, z.string().length(0, '')])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+}).refine((data) => data.password === data.passwordConfirm, {
+  path: ['passwordConfirm'],
+  message: t('validation:notMatch'),
+});
 
-export const updateUserSchema = () => {
-  const requiredNameString = string().min(1, t('validation:requiredField.name'));
-  const requiredLastNameString = string().min(1, t('validation:requiredField.lastName'));
-  const requiredString = string().min(1, t('validation:required'));
-
-  return object({
-    firstName: requiredNameString,
-    lastName: requiredLastNameString,
-    email: emailSchema,
-    username: userNameSchema,
-    phone: phoneSchema,
-    city: requiredString,
-    neighborhood: requiredString,
-    organization: requiredString,
-    password: z
-      .union([passwordSchema(), z.string().length(0, '')])
-      .optional()
-      .transform((e) => (e === '' ? undefined : e)),
-    passwordConfirm: z
-      .union([passwordConfirmSchema, z.string().length(0, '')])
-      .optional()
-      .transform((e) => (e === '' ? undefined : e)),
-  }).refine((data) => data.password === data.passwordConfirm, {
-    path: ['passwordConfirm'],
-    message: t('validation:notMatch'),
-  });
-};
-
-const upateUserSchemaForType = updateUserSchema();
-export type UpdateUserInputType = TypeOf<typeof upateUserSchemaForType>;
+export type UpdateUserInputType = TypeOf<typeof UpdateUserSchema>;
 
 export interface UserProfile {
   firstName?: string;
@@ -151,6 +143,8 @@ export interface UserAccount {
 export interface UserUpdate {
   status?: UserStatusType;
   password?: string;
+  username?: string;
+  phone?: string;
   user_profile_attributes: UserProfile;
   roles?: number[];
 }

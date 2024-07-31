@@ -7,7 +7,10 @@
     "confirmPassword": "Please confirm your password",
     "name": "Name is required",
     "lastName": "Last Name is required",
-    "phone": "Phone is required"
+    "phone": "Phone is required",
+    "city": "City is required",
+    "neighborhood": "Neighborhood is required",
+    "organization": "Organization is required"
   },
   "notMatch": "Password does not match",
   "invalidEmail": "Invalid email",

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router-dom';
+
 import useCreateRole from '@/hooks/useCreateRole';
 import { FormSelectOption } from '@/schemas';
 import { CreateRole, CreateRoleInputType, createRoleSchema } from '@/schemas/create';
@@ -85,6 +85,8 @@ export function CreateRoleDialog({ goBack }: CreateRoleDialogProps) {
       },
       ...PERMISSIONS[resource as RoleKey].map((permission) => {
         return {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           label: t(`permissions:${resource as RoleKey}.${permission.name}`),
           value: permission.id,
         };

@@ -14,7 +14,7 @@ import { useSnackbar } from 'notistack';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import useSignIn from '../../hooks/useSignIn';
 import TabPanel from '../../layout/TabPanel';
-import { LoginInputType, LoginRequestType, createLoginSchema } from '../../schemas/auth';
+import { LoginInputType, LoginRequestType, loginSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Text } from '../../themed/text/Text';
@@ -30,7 +30,7 @@ export function SignInPage() {
   const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm<LoginInputType>({
-    resolver: zodResolver(createLoginSchema()),
+    resolver: zodResolver(loginSchema),
   });
 
   const {

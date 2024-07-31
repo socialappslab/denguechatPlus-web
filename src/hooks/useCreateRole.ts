@@ -1,9 +1,9 @@
 import { ErrorResponse } from 'react-router-dom';
 
-import { CreateRole } from '@/schemas/create';
 import useAxios from 'axios-hooks';
 import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { IUser } from '../schemas/auth';
+import { CreateRole } from '../schemas/create';
 
 type IUseCreateRole = {
   createRoleMutation: (payload: CreateRole) => Promise<void>;

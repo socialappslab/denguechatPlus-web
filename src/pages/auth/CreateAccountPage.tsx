@@ -13,7 +13,7 @@ import LogoSquare from '../../assets/images/logo-square.svg';
 import { DEFAULT_OPTION_CITY_NAME } from '../../constants';
 import useCreateAccount from '../../hooks/useCreateAccount';
 import { ErrorResponse, FormSelectOption, Locations } from '../../schemas';
-import { RegisterInputType, UserAccount, createRegisterSchema } from '../../schemas/auth';
+import { RegisterInputType, RegisterSchema, UserAccount } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import FormSelect from '../../themed/form-select/FormSelect';
@@ -51,7 +51,7 @@ export function CreateAccountPage() {
   });
 
   const methods = useForm<RegisterInputType>({
-    resolver: zodResolver(createRegisterSchema()),
+    resolver: zodResolver(RegisterSchema),
   });
 
   const {

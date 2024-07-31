@@ -1,12 +1,11 @@
 import { Box, Chip, CircularProgress, FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 
 import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { FormSelectOption } from '../../schemas';
 import { getProperty } from '../../util';
-import { FieldErrorType } from '../form-input/FormInput';
+import { FieldErrorType, FormInputError } from '../form-input/FormInputError';
 
 export type FormSelectProps = {
   name: string;
@@ -36,8 +35,6 @@ export function FormSelect({
   options,
   multiple,
 }: FormSelectProps) {
-  const { t } = useTranslation('translation');
-
   const {
     control,
     formState: { errors },
@@ -54,12 +51,6 @@ export function FormSelect({
   }, [options]);
 
   const fieldError: FieldErrorType = getProperty(errors, name);
-
-  let message = '';
-  if (typeof fieldError?.message === 'string') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    message = t(fieldError.message as any);
-  }
 
   const mapLabel = (items: FormSelectOption[], val: string) =>
     (items as FormSelectOption[]).find((item: FormSelectOption) => item.value === val)?.label;
@@ -109,6 +100,7 @@ export function FormSelect({
                   </div>
                 </MenuItem>
               )}
+
               {loading && <MenuItem disabled>...</MenuItem>}
               {!loading &&
                 optionsChecked.map((option) => {
@@ -128,12 +120,10 @@ export function FormSelect({
                   );
                 })}
             </Select>
-            {helperText && (
+            {helperText && !fieldError && (
               <FormHelperText className={`font-light text-sm mx-0 ${className}`}>{helperText}</FormHelperText>
             )}
-            <FormHelperText className="font-light text-sm mx-0" error={!!fieldError}>{`${
-              fieldError ? message : ''
-            }`}</FormHelperText>
+            <FormInputError className={`font-light text-sm mx-0 ${className}`} fieldError={fieldError} />
           </FormControl>
         );
       }}
