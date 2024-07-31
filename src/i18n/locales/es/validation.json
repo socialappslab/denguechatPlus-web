@@ -3,11 +3,14 @@
   "requiredField": {
     "email": "El correo electrónico es requerido",
     "username": "El nombre de usuario es requerido",
-    "password": "El password es requerido",
-    "confirmPassword": "Por favor confirme su password",
+    "password": "La contraseña es requerida",
+    "confirmPassword": "Por favor confirme su contraseña",
     "name": "El nombre es requerido",
     "lastName": "El apellido es requerido",
-    "phone": "El teléfono es requerido"
+    "phone": "El teléfono es requerido",
+    "city": "La ciudad es requerida",
+    "neighborhood": "El barrio es requerido",
+    "organization": "La organización es requerida"
   },
   "notMatch": "Las contraseñas no coinciden",
   "invalidEmail": "Correo electrónico inválido",

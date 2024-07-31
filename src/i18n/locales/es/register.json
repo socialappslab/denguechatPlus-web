@@ -19,6 +19,8 @@
   "city_placeholder": "Selecciona tu ciudad",
   "neighborhood": "Barrio",
   "neighborhood_placeholder": "Selecciona tu barrio",
+  "roles": "Roles",
+  "roles_placeholder": "Seleccione sus roles",
   "organization": "Organización",
   "organization_placeholder": "Selecciona tu organización",
   "action": "Registrarse",
@@ -40,6 +42,17 @@
   "edit": {
     "title": "Editar Usuario",
     "action": "Guardar",
-    "success": "Usuario actualizado correctamente"
+    "success": "Usuario actualizado correctamente",
+    "username_placeholder": "Ingrese el nombre de usuario",
+    "firstName_placeholder": "Ingrese el nombre",
+    "lastName_placeholder": "Ingrese el apellido",
+    "phone_placeholder": "Ingrese el teléfono",
+    "email_placeholder": "Ingrese el correo electrónico (opcional)",
+    "city_placeholder": "Seleccione la ciudad",
+    "neighborhood_placeholder": "Seleccione el barrio",
+    "organization_placeholder": "Seleccione la organización",
+    "roles_placeholder": "Seleccione los roles",
+    "password_placeholder": "Ingrese la contraseña",
+    "passwordConfirm_placeholder": "Repita la contraseña"
   }
 }

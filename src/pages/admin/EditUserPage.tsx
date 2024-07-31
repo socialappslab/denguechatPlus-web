@@ -12,7 +12,7 @@ import { useAxiosNoAuth } from '../../api/axios';
 import { DEFAULT_OPTION_CITY_NAME } from '../../constants';
 import useUpdateUser from '../../hooks/useUpdateUser';
 import { BaseObject, ErrorResponse, FormSelectOption, Locations } from '../../schemas';
-import { IUser, UpdateUserInputType, UserUpdate, updateUserSchema } from '../../schemas/auth';
+import { IUser, UpdateUserInputType, UpdateUserSchema, UserUpdate } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import FormSelect from '../../themed/form-select/FormSelect';
@@ -55,7 +55,7 @@ export function EditUser({ user }: EditUserProps) {
   };
 
   const methods = useForm<UpdateUserInputType>({
-    resolver: zodResolver(updateUserSchema()),
+    resolver: zodResolver(UpdateUserSchema),
     defaultValues:
       {
         firstName: user.firstName || '',
@@ -106,13 +106,13 @@ export function EditUser({ user }: EditUserProps) {
       const { phone, username, password, email, firstName, lastName, organization, city, neighborhood } = values;
 
       const payload: UserUpdate = {
+        username,
+        phone,
         password: password !== '' ? password : undefined,
         user_profile_attributes: {
           firstName,
           lastName,
           email: email !== '' ? email : undefined,
-          username,
-          phone,
           organizationId: organization ? Number(organization) : undefined,
           cityId: city ? Number(city) : undefined,
           neighborhoodId: neighborhood ? Number(neighborhood) : undefined,
@@ -175,7 +175,7 @@ export function EditUser({ user }: EditUserProps) {
                 name="firstName"
                 label={t('firstName')}
                 type="text"
-                placeholder={t('firstName_placeholder')}
+                placeholder={t('edit.firstName_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -184,7 +184,7 @@ export function EditUser({ user }: EditUserProps) {
                 name="lastName"
                 label={t('lastName')}
                 type="text"
-                placeholder={t('lastName_placeholder')}
+                placeholder={t('edit.lastName_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -193,7 +193,7 @@ export function EditUser({ user }: EditUserProps) {
                 name="username"
                 label={t('username')}
                 type="text"
-                placeholder={t('username_placeholder')}
+                placeholder={t('edit.username_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -202,7 +202,7 @@ export function EditUser({ user }: EditUserProps) {
                 name="phone"
                 label={t('phone')}
                 type="phone"
-                placeholder={t('phone_placeholder')}
+                placeholder={t('edit.phone_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -211,7 +211,7 @@ export function EditUser({ user }: EditUserProps) {
                 name="email"
                 label={t('email')}
                 type="text"
-                placeholder={t('email_placeholder')}
+                placeholder={t('edit.email_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -221,7 +221,7 @@ export function EditUser({ user }: EditUserProps) {
                 label={t('organization')}
                 loading={loadingOrganizations}
                 options={organizationOptions}
-                placeholder={t('organization_placeholder')}
+                placeholder={t('edit.organization_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -231,7 +231,7 @@ export function EditUser({ user }: EditUserProps) {
                 label={t('password')}
                 type="password"
                 helperText={t('passwordHelperText')}
-                placeholder={t('password_placeholder')}
+                placeholder={t('edit.password_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -240,7 +240,7 @@ export function EditUser({ user }: EditUserProps) {
                 className="mt-2"
                 label={t('passwordConfirm')}
                 type="password"
-                placeholder={t('passwordConfirm_placeholder')}
+                placeholder={t('edit.passwordConfirm_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -250,7 +250,7 @@ export function EditUser({ user }: EditUserProps) {
                 label={t('city')}
                 options={cityOptions}
                 loading={loadingLocations}
-                placeholder={t('city_placeholder')}
+                placeholder={t('edit.city_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -260,7 +260,7 @@ export function EditUser({ user }: EditUserProps) {
                 label={t('neighborhood')}
                 options={neighborhoodOptions}
                 loading={loadingLocations}
-                placeholder={t('neighborhood_placeholder')}
+                placeholder={t('edit.neighborhood_placeholder')}
               />
             </Grid>
           </Grid>

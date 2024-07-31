@@ -1,11 +1,10 @@
 import { Dialog, Grid } from '@mui/material';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import useApproveUser from '../../hooks/useApproveUser';
-import { createRegisterSchema, IUser, RegisterInputType } from '../../schemas/auth';
+import { IUser, RegisterInputType } from '../../schemas/auth';
 import Button from '../../themed/button/Button';
 import FormInput from '../../themed/form-input/FormInput';
 import Title from '../../themed/title/Title';
@@ -51,9 +50,7 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
     }
   };
 
-  const methods = useForm<RegisterInputType>({
-    resolver: zodResolver(createRegisterSchema()),
-  });
+  const methods = useForm<RegisterInputType>();
 
   return (
     <Dialog fullWidth maxWidth="sm" container={rootElement} open={open} onClose={handleClose}>

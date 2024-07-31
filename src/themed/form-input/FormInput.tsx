@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import dayjs, { Dayjs } from 'dayjs';
 import { MuiTelInput } from 'mui-tel-input';
 import React from 'react';
-import { Controller, FieldError, FieldErrorsImpl, Merge, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
 
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
@@ -23,6 +23,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { twMerge } from 'tailwind-merge';
 import { COLORS } from '../../constants';
 import { getProperty } from '../../util';
+import { FieldErrorType, FormInputError } from './FormInputError';
 
 export const DateField = styled(MUIDateField)`
   .MuiInputBase-root.MuiInput-root:before,
@@ -105,31 +106,6 @@ export type FormInputProps = {
 
 const TEXT_TYPES = ['text', 'email', 'password', 'number'];
 
-export type FieldErrorType = FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
-interface FormInputErrorProps {
-  fieldError: FieldErrorType;
-  className?: string;
-}
-
-export function FormInputError({ fieldError, className = '' }: FormInputErrorProps) {
-  const { t } = useTranslation('validation');
-
-  if (!fieldError) {
-    return null;
-  }
-
-  let message = '';
-  if (typeof fieldError?.message === 'string') {
-    message = t(fieldError.message as any);
-  }
-
-  return (
-    <FormHelperText className={`text-red text-base mx-0 ${className}`} error={!!fieldError}>{`${
-      fieldError ? message : ''
-    }`}</FormHelperText>
-  );
-}
-
 export function FormInput({
   name,
   label,
@@ -158,6 +134,7 @@ export function FormInput({
   };
 
   const fieldError: FieldErrorType = getProperty(errors, name);
+
   return (
     <Controller
       control={control}
