@@ -15,6 +15,7 @@ import OrganizationList from '../components/list/OrganizationList';
 import RoleList from '../components/list/RoleList';
 import SpecialPlaceList from '../components/list/SpecialPlacesList';
 import UserList from '../components/list/UserList';
+import CityList from '../components/list/CityList';
 import PageLayout from '../layout/PageLayout';
 import RouterErrorPage from '../pages/RouterErrorPage';
 import BaseAdminPage from '../pages/admin/BaseAdminPage';
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: <UserList />,
+      },
+      {
+        path: 'cities',
+        element: <CityList />,
       },
       {
         path: 'users/:id/edit',

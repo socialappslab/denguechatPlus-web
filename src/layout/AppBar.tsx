@@ -152,6 +152,9 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
               <ProtectedView hasPermission={['special_places-index']}>
                 <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/special-places">
                   <ListItemText primary={<Text type="menuItem">{t('menu.specialPlaces')}</Text>} />
+              <ProtectedView hasPermission={['cities_index']}>
+                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/cities">
+                  <ListItemText primary={<Text type="menuItem">{t('menu.cities')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
             </List>

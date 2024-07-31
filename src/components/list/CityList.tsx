@@ -1,7 +1,7 @@
 import { Dialog } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CreateRoleDialog from '@/pages/admin/CreateRoleDialog';
+import CreateRolePage from '@/pages/admin/CreateRoleDialog';
 import { Role } from '../../schemas/entities';
 import { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
@@ -32,14 +32,14 @@ export default function RoleList() {
   return (
     <>
       <Dialog container={rootElement} fullWidth maxWidth="sm" open={open} onClose={handleClose}>
-        <CreateRoleDialog goBack={() => setOpen(false)} />
+        <CreateRolePage goBack={() => setOpen(false)} />
       </Dialog>
       <RoleDataTable
-        endpoint="roles"
+        endpoint="admin/countries/1/states/1/cities"
         defaultFilter="name"
         headCells={headCells}
-        title={t('menu.roles')}
-        subtitle={t('menu.descriptions.roles')}
+        title={t('menu.cities')}
+        subtitle={t('menu.descriptions.cities')}
         createButton
         onCreate={() => setOpen(true)}
       />
