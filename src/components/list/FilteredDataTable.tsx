@@ -31,6 +31,8 @@ interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
   defaultFilter?: string;
   updateControl?: number;
   actions?: (row: T, loading?: boolean) => JSX.Element;
+  createButton?: boolean;
+  onCreate?: () => void;
 }
 
 interface FilterOptionsObject {
@@ -47,6 +49,8 @@ export default function FilteredDataTable<T>({
   defaultFilter,
   updateControl,
   actions,
+  createButton,
+  onCreate,
   ...otherDataTableProps
 }: FilteredDataTableProps<T>) {
   const { t } = useTranslation('translation');
@@ -241,6 +245,17 @@ export default function FilteredDataTable<T>({
             onClick={handleSearch}
           />
         </Grid>
+        {createButton && (
+          <Grid item>
+            <Button
+              primary={false}
+              variant="outlined"
+              className="justify-start text-md"
+              label={t(`table.create`)}
+              onClick={onCreate}
+            />
+          </Grid>
+        )}
       </Grid>
       <TypedDataTable
         {...otherDataTableProps}
