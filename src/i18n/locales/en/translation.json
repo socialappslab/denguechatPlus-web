@@ -52,7 +52,8 @@
     "selectAttribute": "Select Attribute",
     "rowsInPage": "Rows in page",
     "rowsInPageOf": "of",
-    "rowsMoreThan": "more than"
+    "rowsMoreThan": "more than",
+    "create": "Create"
   },
   "columns": {
     "id": "ID",

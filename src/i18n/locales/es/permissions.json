@@ -1,0 +1,71 @@
+{
+  "create_role": "Crear Rol",
+  "name": "Nombre",
+  "name_placeholder": "Ingresa un nombre",
+  "permissions": "Permissions",
+  "organization": {
+    "title": "Organización",
+    "index": "Ver Organizaciones",
+    "create": "Crear Organizaciones",
+    "update": "Editar Organizaciones",
+    "destroy": "Eliminar Organizaciones"
+  },
+  "users": {
+    "title": "Usuarios",
+    "update": "Editar Roles de Usuario",
+    "edit": "Editar Información del Usuario",
+    "destroy": "Eliminar Usuario"
+  },
+  "roles": {
+    "title": "Roles",
+    "show": "Ver Roles",
+    "edit": "Editar Roles",
+    "create": "Crear Rol",
+    "destroy": "Eliminar Roles"
+  },
+  "teams": {
+    "title": "Equipos",
+    "index": "Ver Equipos",
+    "create": "Crear Equipos",
+    "destroy": "Eliminar Equipos",
+    "update": "Cambiar Equipo de Usuario"
+  },
+  "post_comments": {
+    "title": "Publicaciones / Comentarios",
+    "show": "Ver recursos de publicaciones / comentarios",
+    "create": "Crear publicaciones / comentarios",
+    "update": "Editar publicaciones / comentarios"
+  },
+  "houses": {
+    "title": "Casas",
+    "show": "Ver Casas",
+    "create": "Crear Casas",
+    "update": "Editar Casas",
+    "destroy": "Eliminar Casas"
+  },
+  "breading_sites": {
+    "title": "Sitios de Cría",
+    "show": "Ver sitios de cría",
+    "update": "Editar sitios de cría",
+    "destroy": "Eliminar sitios de cría"
+  },
+  "elimination_methods": {
+    "title": "Métodos de Eliminación",
+    "show": "Ver métodos de eliminación",
+    "update": "Editar métodos de eliminación",
+    "destroy": "Eliminar métodos de eliminación"
+  },
+  "breading_types": {
+    "title": "Tipos de Cría",
+    "show": "Ver tipos de cría",
+    "update": "Editar tipos de cría",
+    "destroy": "Eliminar tipos de cría"
+  },
+  "visits": {
+    "title": "Visitas",
+    "show": "Ver visita",
+    "index": "Ver visitas",
+    "update": "Editar visita",
+    "create": "Crear visita"
+  }
+}

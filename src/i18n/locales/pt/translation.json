@@ -51,7 +51,8 @@
     "selectAttribute": "Selecionar Atributo",
     "rowsInPage": "Itens por página",
     "rowsInPageOf": "de",
-    "rowsMoreThan": "mais de"
+    "rowsMoreThan": "mais de",
+    "create": "Criar"
   },
   "columns": {
     "id": "ID",
