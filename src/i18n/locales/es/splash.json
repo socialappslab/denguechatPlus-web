@@ -1,6 +1,7 @@
 {
   "cta": {
-    "learnMore": "Aprender más",
+    "learnMore": "Aprende más",
+    "whatIs": "Qué es DengueChat+",
     "register": "Registrarse",
     "watchMore": "Ver más videos"
   },
@@ -14,19 +15,18 @@
     "actorsInvolved": "Ve a los actores involucrados en la comunidad de Managua, Nicaragua"
   },
   "cities": {
-    "citiesWithDengueChat": "Ciudades con DengueChat+",
-    "pilotSpots": "Ciudades y sitios de experimentación piloto utilizando DengueChat+"
+    "citiesWithDengueChat": "Ciudades con DengueChat+"
   },
   "community": {
     "dengueChatCommunity": "Comunidad en DengueChat+",
-    "communityInvolvement": "DengueChat+ involucra a las comunidades en la lucha contra Dengue, Zika y Chikungunya",
+    "communityInvolvement": "DengueChat+ involucra a las comunidades en la lucha contra el dengue",
     "chatWithMembers": "Chatea con otros miembros de la comunidad para reportar y controlar criaderos de mosquitos",
     "joinTeams": "Únete a equipos para combatir Dengue, Zika y Chikungunya y gane puntos"
   },
   "data": {
     "dengueChatData": "Datos en DengueChat+",
-    "analyzeAndMeasure": "Organiza, analiza y mide el progreso de su comunidad en la reducción del Aedes, el mosquito transmisor de los viruses del Dengue, Zika y Chikungunya ",
-    "versatileTools": "Herramientas versátiles para analizar la expansión o el contenimiento del vector del Dengue, Zika y Chikungunya",
+    "analyzeAndMeasure": "Organiza, analiza y mide el progreso de su comunidad en la reducción del Aedes, el mosquito transmisor de los viruses del dengue",
+    "versatileTools": "Herramientas versátiles para analizar la expansión o el contenimiento del vector del dengue",
     "generateReports": "Al nivel de la comunidad o de la ciudad generan reportes para motivar a líderes"
   },
   "register": {

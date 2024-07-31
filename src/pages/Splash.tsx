@@ -1,4 +1,5 @@
 import { Box, Chip } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import asuncion from '@/assets/images/asuncion.png';
 import comunidad from '@/assets/images/comunidad.png';
@@ -6,7 +7,6 @@ import datos from '@/assets/images/datos.png';
 import iquitos from '@/assets/images/iquitos.png';
 import managua from '@/assets/images/managua.png';
 import splash1 from '@/assets/images/splash-1.png';
-import splash2 from '@/assets/images/splash-2.png';
 import Icon from '@/components/icon';
 import { COLORS } from '@/constants';
 import { Button } from '@/themed/button/Button';
@@ -36,10 +36,10 @@ function Splash() {
                 variant="outlined"
                 className="mr-4"
                 buttonType="small"
-                label={t('cta.learnMore')}
+                label={t('cta.whatIs')}
                 to=""
               />
-              <Button className="mr-4" buttonType="small" label={t('cta.register')} to="/register" />
+              <Button className="mr-4" buttonType="small" label={t('cta.register')} component={Link} to="/register" />
             </Box>
           </Box>
           <Box className="flex col-span-3">
@@ -52,38 +52,68 @@ function Splash() {
           <Icon type="Hello" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
           <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('participants.knowParticipants')} />
           <Text className="flex-row">{t('participants.actorsInvolved')}</Text>
-          <img src={splash2} alt="" />
-          <Button buttonType="small" label={t('cta.watchMore')} to="/" />
+          <Box className="mt-10">
+            <iframe
+              title="video"
+              width="900"
+              height="480"
+              src="https://www.youtube.com/embed/hwod5NOxiNM"
+              allow="encrypted-media"
+              allowFullScreen
+              className="rounded-xl border-none"
+            />
+          </Box>
+          <Button
+            buttonType="small"
+            label={t('cta.watchMore')}
+            href="https://www.youtube.com/@denguechat4442/videos"
+            className="mt-10"
+            target="_blank"
+          />
         </Box>
 
         {/* Cities */}
         <Box className="flex flex-col items-center justify-center mt-20 mb-20 bg-gray-300">
           <Icon type="City" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
-          <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('cities.citiesWithDengueChat')} />
-          <Text className="flex-row mb-10">{t('cities.pilotSpots')}</Text>
+          <Title type="page" className="flex-row mt-4 mb-12 align-center" label={t('cities.citiesWithDengueChat')} />
 
           {/* Columns */}
           <Box className="grid grid-cols-3 gap-5">
             <Box>
               <img className="rounded-xl max-w-full" src={iquitos} alt="" />
-              <Box className="flex items-center justify-between">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.denguechat.org/"
+                className="flex items-center justify-between no-underline decoration-black visited:text-black"
+              >
                 <p className="font-bold">Iquitos, Perú</p>
                 <Icon type="Export" className="stroke-black" />
-              </Box>
+              </a>
             </Box>
             <Box>
               <img className="rounded-xl max-w-full" src={managua} alt="" />
-              <Box className="flex items-center justify-between">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.denguechat.org/cities/4"
+                className="flex items-center justify-between no-underline decoration-black visited:text-black"
+              >
                 <p className="font-bold">Managua, Nicaragua</p>
                 <Icon type="Export" className="stroke-black" />
-              </Box>
+              </a>
             </Box>
             <Box>
               <img className="rounded-xl max-w-full" src={asuncion} alt="" />
-              <Box className="flex items-center justify-between">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.denguechat.org/cities/9"
+                className="flex items-center justify-between no-underline decoration-black visited:text-black"
+              >
                 <p className="font-bold">Asunción, Paraguay</p>
                 <Icon type="Export" className="stroke-black" />
-              </Box>
+              </a>
             </Box>
           </Box>
         </Box>
@@ -141,7 +171,7 @@ function Splash() {
               label={t('cta.learnMore')}
               to=""
             />
-            <Button className="mr-4" buttonType="small" label={t('cta.register')} to="/register" />
+            <Button className="mr-4" buttonType="small" component={Link} label={t('cta.register')} to="/register" />
           </Box>
         </Box>
 
