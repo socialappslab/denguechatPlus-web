@@ -5,6 +5,9 @@ import CreateRolePage from '@/pages/admin/CreateRoleDialog';
 import { Role } from '../../schemas/entities';
 import { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
+import Button from '@/themed/button/Button';
+import { Link } from 'react-router-dom';
+import { City } from '@/schemas';
 
 const headCells: HeadCell<Role>[] = [
   {
@@ -29,6 +32,19 @@ export default function RoleList() {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
+  const actions = (row: City, loading?: boolean) => (
+    <div className="flex flex-row">
+      <Button
+        primary
+        disabled={loading}
+        component={Link}
+        to={`${row.id}/edit`}
+        label={t('table.actions.edit')}
+        buttonType="cell"
+      />
+    </div>
+  );
+
   return (
     <>
       <Dialog container={rootElement} fullWidth maxWidth="sm" open={open} onClose={handleClose}>
@@ -42,6 +58,7 @@ export default function RoleList() {
         subtitle={t('menu.descriptions.cities')}
         createButton
         onCreate={() => setOpen(true)}
+        actions={actions}
       />
     </>
   );

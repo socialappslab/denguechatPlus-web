@@ -60,11 +60,15 @@ const router = createBrowserRouter([
         element: <UserList />,
       },
       {
+        path: 'users/:id/edit',
+        element: <LoadUser />,
+      },
+      {
         path: 'cities',
         element: <CityList />,
       },
       {
-        path: 'users/:id/edit',
+        path: 'cities/:id/edit',
         element: <LoadUser />,
       },
       {
