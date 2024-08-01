@@ -44,7 +44,8 @@
       "view": "Ver",
       "add": "Agregar",
       "approve": "Aprobar",
-      "unlock": "Desbloquear"
+      "unlock": "Desbloquear",
+      "roles": "Roles"
     },
     "search": "Buscar",
     "searchValue": "Valor de búsqueda",

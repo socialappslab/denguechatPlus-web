@@ -4,11 +4,11 @@ import { Box, Container, Grid } from '@mui/material';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import useAxios from 'axios-hooks';
 import { ExistingDocumentObject, deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAxiosNoAuth } from '../../api/axios';
 import { DEFAULT_OPTION_CITY_NAME } from '../../constants';
 import useUpdateUser from '../../hooks/useUpdateUser';
 import { BaseObject, ErrorResponse, FormSelectOption, Locations } from '../../schemas';
@@ -37,17 +37,22 @@ export function EditUser({ user }: EditUserProps) {
   const [neighborhoodOptions, setNeighborhoodOptions] = useState<FormSelectOption[]>([]);
   const [cityOptions, setCityOptions] = useState<FormSelectOption[]>([]);
   const [organizationOptions, setOrganizationOptions] = useState<FormSelectOption[]>([]);
+  const [teamOptions, setTeamOptions] = useState<FormSelectOption[]>([]);
 
-  const [{ data: locationsData, loading: loadingLocations }] = useAxiosNoAuth<Locations[], unknown, ErrorResponse>({
+  const [{ data: locationsData, loading: loadingLocations }] = useAxios<Locations[], unknown, ErrorResponse>({
     url: '/locations?filter[country_id]=1',
   });
 
-  const [{ data: organizationData, loading: loadingOrganizations }] = useAxiosNoAuth<
+  const [{ data: organizationData, loading: loadingOrganizations }] = useAxios<
     ExistingDocumentObject,
     unknown,
     ErrorResponse
   >({
     url: '/organizations?page[number]=1&page[size]=100&sort=name',
+  });
+
+  const [{ data: teamData, loading: loadingTeams }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
+    url: 'admin/teams?page[number]=1&page[size]=100&sort=name',
   });
 
   const onGoBackHandler = () => {
@@ -60,6 +65,7 @@ export function EditUser({ user }: EditUserProps) {
       {
         firstName: user.firstName || '',
         lastName: user.lastName || '',
+        team: user.team !== null ? String((user?.team as BaseObject)?.id) : '',
         organization: user.organization !== null ? String((user?.organization as BaseObject)?.id) : '',
         neighborhood: user.neighborhood !== null ? String((user?.neighborhood as BaseObject)?.id) : '',
         city: user.city !== null ? String((user?.city as BaseObject)?.id) : '',
@@ -69,13 +75,7 @@ export function EditUser({ user }: EditUserProps) {
       } || {},
   });
 
-  const {
-    handleSubmit,
-    setError,
-    setValue,
-    watch,
-    // formState: { isValid, errors },
-  } = methods;
+  const { handleSubmit, setError, setValue, watch } = methods;
 
   useEffect(() => {
     if (!locationsData) return;
@@ -99,23 +99,33 @@ export function EditUser({ user }: EditUserProps) {
       const organizations = convertToFormSelectOptions(deserializedData);
       setOrganizationOptions(organizations);
     }
-  }, [organizationData, setValue]);
+  }, [organizationData]);
+
+  useEffect(() => {
+    if (!teamData) return;
+    const deserializedData = deserialize(teamData);
+    if (Array.isArray(deserializedData)) {
+      const teams = convertToFormSelectOptions(deserializedData);
+      setTeamOptions(teams);
+    }
+  }, [teamData]);
 
   const onSubmitHandler: SubmitHandler<UpdateUserInputType> = async (values) => {
     try {
-      const { phone, username, password, email, firstName, lastName, organization, city, neighborhood } = values;
+      const { phone, username, password, email, firstName, lastName, organization, team, city, neighborhood } = values;
 
       const payload: UserUpdate = {
         username,
         phone,
         password: password !== '' ? password : undefined,
-        user_profile_attributes: {
+        userProfileAttributes: {
           firstName,
           lastName,
           email: email !== '' ? email : undefined,
           organizationId: organization ? Number(organization) : undefined,
           cityId: city ? Number(city) : undefined,
           neighborhoodId: neighborhood ? Number(neighborhood) : undefined,
+          teamId: team ? Number(team) : undefined,
         },
       };
       await udpateUserMutation(payload);
@@ -261,6 +271,16 @@ export function EditUser({ user }: EditUserProps) {
                 options={neighborhoodOptions}
                 loading={loadingLocations}
                 placeholder={t('edit.neighborhood_placeholder')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormSelect
+                name="team"
+                className="mt-2"
+                label={t('team')}
+                options={teamOptions}
+                loading={loadingTeams}
+                placeholder={t('edit.team_placeholder')}
               />
             </Grid>
           </Grid>

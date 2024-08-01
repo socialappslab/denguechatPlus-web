@@ -1,5 +1,5 @@
 import { TypeOf, object, string, z } from 'zod';
-import { BaseObject } from '.';
+import { BaseObject, FormSelectOption } from '.';
 
 export type FieldErrorForTranslation = {
   key: string;
@@ -79,6 +79,7 @@ export const UpdateUserSchema = object({
   city: requiredCity,
   neighborhood: requiredNeighborhood,
   organization: requiredOrganization,
+  team: string().optional(),
   password: z
     .union([passwordSchema, z.string().length(0, '')])
     .optional()
@@ -107,12 +108,14 @@ export interface UserProfile {
   city?: string | BaseObject;
   neighborhood?: string | BaseObject;
   organization?: string | BaseObject;
+  team?: string | BaseObject;
   roles?: string[] | BaseObject[];
 
   countryId?: number;
   cityId?: number;
   neighborhoodId?: number;
   organizationId?: number;
+  teamId?: number;
 
   timezone?: string;
   language?: string;
@@ -132,6 +135,10 @@ export interface IUser extends UserProfile {
   organizationName?: string;
 }
 
+export type ChangeUserRoleInputType = {
+  roles: FormSelectOption[];
+};
+
 export interface UserAccount {
   phone?: string;
   password: string;
@@ -145,8 +152,8 @@ export interface UserUpdate {
   password?: string;
   username?: string;
   phone?: string;
-  user_profile_attributes: UserProfile;
-  roles?: number[];
+  userProfileAttributes?: UserProfile;
+  roleIds?: number[];
 }
 
 export type CreateAccountInputType = UserAccount;

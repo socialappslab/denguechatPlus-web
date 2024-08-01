@@ -23,6 +23,7 @@
   "roles_placeholder": "Seleccione sus roles",
   "organization": "Organización",
   "organization_placeholder": "Selecciona tu organización",
+  "team": "Brigada",
   "action": "Registrarse",
   "errors": {
     "username_exists": "El nombre de usuario '{{username}}' ya existe",
@@ -39,6 +40,11 @@
     "actionUnlock": "Desbloquear",
     "success": "Usuario aprobado correctamente"
   },
+  "changeRoles": {
+    "title": "Cambiar Roles del Usuario",
+    "action": "Actualizar",
+    "success": "Roles del usuario actualizados con éxito"
+  },
   "edit": {
     "title": "Editar Usuario",
     "action": "Guardar",
@@ -51,6 +57,7 @@
     "city_placeholder": "Seleccione la ciudad",
     "neighborhood_placeholder": "Seleccione el barrio",
     "organization_placeholder": "Seleccione la organización",
+    "team_placeholder": "Seleccione la brigada",
     "roles_placeholder": "Seleccione los roles",
     "password_placeholder": "Ingrese la contraseña",
     "passwordConfirm_placeholder": "Repita la contraseña"
