@@ -23,6 +23,7 @@
   "roles_placeholder": "Selecione seus papéis",
   "organization": "Organização",
   "organization_placeholder": "Selecione sua organização",
+  "team": "Equipe",
   "action": "Registrar",
   "errors": {
     "username_exists": "O nome de usuário '{{username}}' já está em uso",
@@ -39,6 +40,11 @@
     "actionUnlock": "Desbloquear",
     "success": "Usuário aprovado com sucesso"
   },
+  "changeRoles": {
+    "title": "Alterar Papéis do Usuário",
+    "action": "Atualizar",
+    "success": "Papéis do usuário atualizados com sucesso"
+  },
   "edit": {
     "title": "Editar Usuário",
     "action": "Salvar",
@@ -51,6 +57,7 @@
     "city_placeholder": "Selecione a cidade",
     "neighborhood_placeholder": "Selecione o bairro",
     "organization_placeholder": "Selecione a organização",
+    "team_placeholder": "Selecione a equipe",
     "roles_placeholder": "Selecione os papéis",
     "password_placeholder": "Digite a senha",
     "passwordConfirm_placeholder": "Repita a senha"

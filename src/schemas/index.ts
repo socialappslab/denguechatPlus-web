@@ -39,20 +39,18 @@ export type BaseDocumentObject<T> = {
   included?: ExistingResourceObject[];
 };
 
-export interface Neighborhood {
+export type BaseObject = {
   id: number;
   name: string;
-}
+};
 
-export interface City {
-  id: number;
-  name: string;
+export interface Neighborhood extends BaseObject {}
+
+export interface City extends Neighborhood {
   neighborhoods: Neighborhood[];
 }
 
-export interface State {
-  id: number;
-  name: string;
+export interface State extends BaseObject {
   cities: City[];
 }
 
@@ -65,9 +63,4 @@ export type FormSelectOption = {
   label: string;
   value: string;
   disabled?: boolean;
-};
-
-export type BaseObject = {
-  id: number;
-  name: string;
 };

@@ -5,6 +5,7 @@ import { IUser, UserStatusValues } from '../../schemas/auth';
 import Button from '../../themed/button/Button';
 import { HeadCell } from '../../themed/table/DataTable';
 import ApproveUserDialog from '../dialog/ApproveUserDialog';
+import ChangeUserRoleDialog from '../dialog/ChangeUserRoleDialog';
 import FilteredDataTable from './FilteredDataTable';
 
 const headCells: HeadCell<IUser>[] = [
@@ -64,11 +65,14 @@ const IUserDataTable = FilteredDataTable<IUser>;
 export default function UserList() {
   const { t } = useTranslation('translation');
   const [updateControl, setUpdateControl] = useState<number>(0);
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [openStatusDialog, setOpenStatusDialog] = useState<boolean>(false);
+
+  const [openRolesDialog, setOpenRolesDialog] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
   const handleClose = () => {
-    setOpenDialog(false);
+    setOpenStatusDialog(false);
+    setOpenRolesDialog(false);
   };
 
   const updateTable = () => {
@@ -86,12 +90,22 @@ export default function UserList() {
           disabled={loading}
           onClick={() => {
             setSelectedUser(row);
-            setOpenDialog(true);
+            setOpenStatusDialog(true);
           }}
           label={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}
           buttonType="cell"
         />
       )}
+      <Button
+        primary
+        disabled={loading}
+        onClick={() => {
+          setSelectedUser(row);
+          setOpenRolesDialog(true);
+        }}
+        label={t('table.actions.roles')}
+        buttonType="cell"
+      />
     </div>
   );
 
@@ -107,7 +121,20 @@ export default function UserList() {
         actions={actions}
       />
       {selectedUser && (
-        <ApproveUserDialog open={openDialog} updateTable={updateTable} handleClose={handleClose} user={selectedUser} />
+        <>
+          <ApproveUserDialog
+            open={openStatusDialog}
+            updateTable={updateTable}
+            handleClose={handleClose}
+            user={selectedUser}
+          />
+          <ChangeUserRoleDialog
+            open={openRolesDialog}
+            updateTable={updateTable}
+            handleClose={handleClose}
+            user={selectedUser}
+          />
+        </>
       )}
     </>
   );

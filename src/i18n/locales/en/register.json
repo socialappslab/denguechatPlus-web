@@ -23,6 +23,7 @@
   "roles_placeholder": "Select your roles",
   "organization": "Organization",
   "organization_placeholder": "Select your organization",
+  "team": "Team",
   "action": "Register",
   "errors": {
     "username_exists": "Username '{{username}}' already exists",
@@ -39,6 +40,11 @@
     "actionUnlock": "Unlock",
     "success": "User approved successfully"
   },
+  "changeRoles": {
+    "title": "Change User Roles",
+    "action": "Update",
+    "success": "User roles updated successfully"
+  },
   "edit": {
     "title": "Edit User",
     "action": "Save",
@@ -51,6 +57,7 @@
     "city_placeholder": "Select the city",
     "neighborhood_placeholder": "Select the neighborhood",
     "organization_placeholder": "Select the organization",
+    "team_placeholder": "Select the team",
     "roles_placeholder": "Select the roles",
     "password_placeholder": "Enter the password",
     "passwordConfirm_placeholder": "Repeat the password"
