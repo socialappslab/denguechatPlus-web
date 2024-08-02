@@ -22,6 +22,7 @@
     "profile": "Profile",
     "users": "Users",
     "roles": "Roles",
+    "specialPlaces": "Special Places",
     "myCity": "My City",
     "myCommunity": "My Community",
     "teams": "Teams",
@@ -35,7 +36,8 @@
       "cities": "List of Cities",
       "users": "List of Users",
       "roles": "List of Roles",
-      "teams": "List of Teams"
+      "teams": "List of Teams",
+      "specialPlaces": "List of Special Places"
     }
   },
   "table": {

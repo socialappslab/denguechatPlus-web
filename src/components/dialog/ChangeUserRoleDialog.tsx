@@ -30,6 +30,7 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
   const { enqueueSnackbar } = useSnackbar();
   const [roleOptions, setRoleOptions] = useState<FormSelectOption[]>([]);
 
+  console.log('user', user);
   const [{ data: rolesData, loading: loadingRoles }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: '/roles?page[number]=1&page[size]=100&sort=name',
   });
@@ -43,7 +44,11 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
     }
   }, [rolesData]);
 
-  const methods = useForm<ChangeUserRoleInputType>();
+  const methods = useForm<ChangeUserRoleInputType>({
+    defaultValues: {
+      roles: user.roles?.map((role) => ({ label: role.name, value: String(role.id) })),
+    },
+  });
 
   const {
     handleSubmit,
@@ -99,83 +104,86 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
 
   return (
     <Dialog fullWidth maxWidth="sm" container={rootElement} open={open} onClose={handleClose}>
-      <Box
-        className="flex flex-col py-7 px-8"
-        component="form"
-        onSubmit={handleSubmit(onSubmitHandler)}
-        noValidate
-        autoComplete="off"
-      >
-        <Title type="section" label={t('changeRoles.title')} className="mb-8" />
+      <Box className="flex flex-col py-7 px-8" component="div">
         <FormProvider {...methods}>
-          <Grid container spacing={2}>
-            {user.firstName && (
-              <Grid item xs={12} sm={6}>
-                <FormInput disabled value={user.firstName} name="firstName" label={t('firstName')} type="text" />
-              </Grid>
-            )}
+          <Box component="form" onSubmit={handleSubmit(onSubmitHandler)} noValidate autoComplete="off">
+            <Title type="section" label={t('changeRoles.title')} className="mb-8" />
 
-            {user.lastName && (
-              <Grid item xs={12} sm={6}>
-                <FormInput disabled value={user.lastName} name="lastName" label={t('lastName')} type="text" />
-              </Grid>
-            )}
+            <Grid container spacing={2}>
+              {user.firstName && (
+                <Grid item xs={12} sm={6}>
+                  <FormInput disabled value={user.firstName} name="firstName" label={t('firstName')} type="text" />
+                </Grid>
+              )}
 
-            {user.username && (
-              <Grid item xs={12} sm={6}>
-                <FormInput disabled value={user.username} name="username" label={t('username')} type="text" />
-              </Grid>
-            )}
+              {user.lastName && (
+                <Grid item xs={12} sm={6}>
+                  <FormInput disabled value={user.lastName} name="lastName" label={t('lastName')} type="text" />
+                </Grid>
+              )}
 
-            {user.phone && (
-              <Grid item xs={12} sm={6}>
-                <FormInput disabled value={user.phone} name="phone" label={t('phone')} type="phone" />
-              </Grid>
-            )}
+              {user.username && (
+                <Grid item xs={12} sm={6}>
+                  <FormInput disabled value={user.username} name="username" label={t('username')} type="text" />
+                </Grid>
+              )}
 
-            {user.email && (
-              <Grid item xs={12} sm={6}>
-                <FormInput disabled value={user.email} name="email" label={t('email')} type="text" />
-              </Grid>
-            )}
+              {user.phone && (
+                <Grid item xs={12} sm={6}>
+                  <FormInput disabled value={user.phone} name="phone" label={t('phone')} type="phone" />
+                </Grid>
+              )}
 
-            {user.cityName && (
-              <Grid item xs={12} sm={6}>
-                <FormInput disabled value={user.cityName} name="city" label={t('city')} />
-              </Grid>
-            )}
-            {user.neighborhoodName && (
-              <Grid item xs={12} sm={6}>
-                <FormInput disabled value={user.neighborhoodName} name="neighborhood" label={t('neighborhood')} />
-              </Grid>
-            )}
+              {user.email && (
+                <Grid item xs={12} sm={6}>
+                  <FormInput disabled value={user.email} name="email" label={t('email')} type="text" />
+                </Grid>
+              )}
 
-            {user.organizationName && (
-              <Grid item xs={12} sm={6}>
-                <FormInput disabled value={user.organizationName} name="organization" label={t('organization')} />
-              </Grid>
-            )}
+              {user.cityName && (
+                <Grid item xs={12} sm={6}>
+                  <FormInput disabled value={user.cityName} name="city" label={t('city')} />
+                </Grid>
+              )}
+              {user.neighborhoodName && (
+                <Grid item xs={12} sm={6}>
+                  <FormInput disabled value={user.neighborhoodName} name="neighborhood" label={t('neighborhood')} />
+                </Grid>
+              )}
 
-            <Grid item xs={12} sm={12}>
-              <FormMultipleSelect
-                name="roles"
-                loading={loadingRoles}
-                label={t('roles')}
-                placeholder={t('edit.roles_placeholder')}
-                options={roleOptions}
-              />
+              {user.organizationName && (
+                <Grid item xs={12} sm={6}>
+                  <FormInput disabled value={user.organizationName} name="organization" label={t('organization')} />
+                </Grid>
+              )}
+
+              <Grid item xs={12} sm={12}>
+                <FormMultipleSelect
+                  name="roles"
+                  loading={loadingRoles}
+                  label={t('roles')}
+                  placeholder={t('edit.roles_placeholder')}
+                  options={roleOptions}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </FormProvider>
-        <div className="mt-4 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
-          <div className="md:mr-2">
-            <Button buttonType="medium" primary={false} disabled={loading} label={t('cancel')} onClick={handleClose} />
-          </div>
+            <div className="mt-4 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
+              <div className="md:mr-2">
+                <Button
+                  buttonType="medium"
+                  primary={false}
+                  disabled={loading}
+                  label={t('cancel')}
+                  onClick={handleClose}
+                />
+              </div>
 
-          <div>
-            <Button buttonType="medium" label={t('changeRoles.action')} disabled={loading} type="submit" />
-          </div>
-        </div>
+              <div>
+                <Button buttonType="medium" label={t('changeRoles.action')} disabled={loading} type="submit" />
+              </div>
+            </div>
+          </Box>
+        </FormProvider>
       </Box>
     </Dialog>
   );

@@ -5,14 +5,17 @@ export interface PaginationInput {
   order?: 'asc' | 'desc';
 }
 
-export interface Organization {
+export interface BaseEntity {
   id: string | number;
   name: string;
+}
+export interface BaseWithStatus extends BaseEntity {
   status: boolean;
   createdAt: string;
 }
 
-export interface Role {
-  id: string | number;
-  name: string;
-}
+export interface Organization extends BaseWithStatus {}
+
+export interface SpecialPlace extends BaseWithStatus {}
+
+export interface Role extends BaseEntity {}

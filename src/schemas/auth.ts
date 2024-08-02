@@ -109,7 +109,7 @@ export interface UserProfile {
   neighborhood?: string | BaseObject;
   organization?: string | BaseObject;
   team?: string | BaseObject;
-  roles?: string[] | BaseObject[];
+  roles?: BaseObject[];
 
   countryId?: number;
   cityId?: number;
