@@ -71,7 +71,7 @@ export function FormSelect({
               variant="outlined"
               inputProps={{ name, error: !!fieldError }}
               {...field}
-              value={loading ? '' : field.value}
+              value={loading || optionsChecked?.length === 0 ? '' : field.value}
               multiple={multiple}
               renderValue={(selected) => {
                 if (multiple) {

@@ -21,9 +21,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import React, { useState } from 'react';
 
+import Icon from '@/components/icon';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import Icon from '@/components/icon';
 import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
 import TeamsIcon from '../assets/icons/teams.svg';
@@ -124,7 +124,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.breedingSites')}</Text>} />
         </ListItemButton>
-        <ProtectedView hasSomePermission={['roles_index', 'organizations_index', 'users_index']}>
+        <ProtectedView hasSomeResource={['roles', 'organizations', 'users']}>
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               <img src={SettingsIcon} alt="settings-icon" />
@@ -134,17 +134,17 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ProtectedView hasPermission={['users_index']}>
+              <ProtectedView hasPermission={['users-index']}>
                 <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/users">
                   <ListItemText primary={<Text type="menuItem">{t('menu.users')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
-              <ProtectedView hasPermission={['roles_index']}>
+              <ProtectedView hasPermission={['roles-index']}>
                 <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/roles">
                   <ListItemText primary={<Text type="menuItem">{t('menu.roles')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
-              <ProtectedView hasPermission={['organizations_index']}>
+              <ProtectedView hasPermission={['organizations-index']}>
                 <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/organizations">
                   <ListItemText primary={<Text type="menuItem">{t('menu.organizations')}</Text>} />
                 </ListItemButton>

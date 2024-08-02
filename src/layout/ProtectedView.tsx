@@ -8,6 +8,7 @@ import { IUser } from '../schemas/auth';
 export interface ProtectedViewProps extends PropsWithChildren {
   hasPermission?: string | string[];
   hasSomePermission?: string | string[];
+  hasSomeResource?: string | string[];
 }
 
 const chekcHasPermission = _.memoize((user: IUser, requiredPermission: string | string[]): boolean => {
@@ -24,7 +25,27 @@ const checkHasSomePermission = _.memoize((user: IUser, requiredPermission: strin
   return !!user.permissions?.includes(requiredPermission);
 });
 
-export default function ProtectedView({ children, hasPermission, hasSomePermission }: ProtectedViewProps) {
+const checkHasSomeResource = _.memoize((user: IUser, requiredResource: string | string[]): boolean => {
+  if (Array.isArray(requiredResource)) {
+    return requiredResource.some((resource) =>
+      user.permissions?.some((element) => {
+        const resourceOfPermission = element.split('-')[0];
+        return resourceOfPermission === resource;
+      }),
+    );
+  }
+  return !!user.permissions?.some((element) => {
+    const resourceOfPermission = element.split('-')[0];
+    return resourceOfPermission === requiredResource;
+  });
+});
+
+export default function ProtectedView({
+  children,
+  hasPermission,
+  hasSomePermission,
+  hasSomeResource,
+}: ProtectedViewProps) {
   const user = useUser();
 
   if (!user) return null;
@@ -35,6 +56,11 @@ export default function ProtectedView({ children, hasPermission, hasSomePermissi
   }
 
   if (hasSomePermission && checkHasSomePermission(user, hasSomePermission)) {
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    return <>{children}</>;
+  }
+
+  if (hasSomeResource && checkHasSomeResource(user, hasSomeResource)) {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }

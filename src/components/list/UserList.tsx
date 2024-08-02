@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import ProtectedView from '../../layout/ProtectedView';
 import { IUser, UserStatusValues } from '../../schemas/auth';
 import Button from '../../themed/button/Button';
 import { HeadCell } from '../../themed/table/DataTable';
@@ -82,30 +83,36 @@ export default function UserList() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow
   const actions = (row: IUser, loading?: boolean) => (
     <div className="flex flex-row">
-      <Button primary component={Link} to={`${row.id}/edit`} label={t('table.actions.edit')} buttonType="cell" />
+      <ProtectedView hasPermission={['users-edit']}>
+        <Button primary component={Link} to={`${row.id}/edit`} label={t('table.actions.edit')} buttonType="cell" />
+      </ProtectedView>
 
       {(row.status === 'pending' || row.status === 'locked') && (
+        <ProtectedView hasPermission={['users-users_confirm_account']}>
+          <Button
+            primary
+            disabled={loading}
+            onClick={() => {
+              setSelectedUser(row);
+              setOpenStatusDialog(true);
+            }}
+            label={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}
+            buttonType="cell"
+          />
+        </ProtectedView>
+      )}
+      <ProtectedView hasPermission={['users-update']}>
         <Button
           primary
           disabled={loading}
           onClick={() => {
             setSelectedUser(row);
-            setOpenStatusDialog(true);
+            setOpenRolesDialog(true);
           }}
-          label={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}
+          label={t('table.actions.roles')}
           buttonType="cell"
         />
-      )}
-      <Button
-        primary
-        disabled={loading}
-        onClick={() => {
-          setSelectedUser(row);
-          setOpenRolesDialog(true);
-        }}
-        label={t('table.actions.roles')}
-        buttonType="cell"
-      />
+      </ProtectedView>
     </div>
   );
 
