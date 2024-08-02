@@ -124,7 +124,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.breedingSites')}</Text>} />
         </ListItemButton>
-        <ProtectedView hasSomeResource={['roles', 'organizations', 'users']}>
+        <ProtectedView hasSomeResource={['roles', 'organizations', 'users', 'special_places']}>
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               <img src={SettingsIcon} alt="settings-icon" />
@@ -147,6 +147,11 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
               <ProtectedView hasPermission={['organizations-index']}>
                 <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/organizations">
                   <ListItemText primary={<Text type="menuItem">{t('menu.organizations')}</Text>} />
+                </ListItemButton>
+              </ProtectedView>
+              <ProtectedView hasPermission={['special_places-index']}>
+                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/special-places">
+                  <ListItemText primary={<Text type="menuItem">{t('menu.specialPlaces')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
             </List>

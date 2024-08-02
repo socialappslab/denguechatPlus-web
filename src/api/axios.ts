@@ -73,15 +73,6 @@ authApi.interceptors.response.use(
       }, config.retryDelay || 1000);
     });
 
-    // if (error.request.status === 401) {
-    //   const url = document.location.href.replace(document.location.origin, '');
-
-    //   if (!config.retry && url !== '/login') {
-    //     document.location.href = '/login';
-    //     return Promise.reject(error);
-    //   }
-    // }
-
     if (!config.retry) {
       return Promise.reject(error);
     }
@@ -138,6 +129,9 @@ const refreshAuthLogic = (failedRequest: any) => {
     })
     .catch((error) => {
       console.log('error refreshAuthLogic', JSON.stringify(error));
+      resetAuthApi();
+      window.location.href = '/login';
+      // TODO logout user
 
       return Promise.reject();
     });

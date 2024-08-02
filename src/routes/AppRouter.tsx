@@ -13,6 +13,7 @@ import StateContextProvider from '../providers/StateContextProvider';
 
 import OrganizationList from '../components/list/OrganizationList';
 import RoleList from '../components/list/RoleList';
+import SpecialPlaceList from '../components/list/SpecialPlacesList';
 import UserList from '../components/list/UserList';
 import PageLayout from '../layout/PageLayout';
 import RouterErrorPage from '../pages/RouterErrorPage';
@@ -21,7 +22,6 @@ import CreateAccountPage from '../pages/auth/CreateAccountPage';
 import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
-import DataTableExample from '../themed/table/DataTableExample';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -63,8 +63,8 @@ const router = createBrowserRouter([
         element: <LoadUser />,
       },
       {
-        path: 'example',
-        element: <DataTableExample />,
+        path: 'special-places',
+        element: <SpecialPlaceList />,
       },
     ],
     errorElement: <RouterErrorPage />,

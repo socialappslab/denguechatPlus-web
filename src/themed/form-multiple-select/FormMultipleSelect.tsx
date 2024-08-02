@@ -47,7 +47,7 @@ export function FormMultipleSelect({
     formState: { errors },
   } = useFormContext();
 
-  const [value, setValue] = useState<FormSelectOption[]>([]);
+  const [value, setValue] = useState<FormSelectOption[] | undefined>();
 
   const optionsChecked: FormSelectOption[] = useMemo(() => {
     if (isStringArray(options)) {

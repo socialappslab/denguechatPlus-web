@@ -74,6 +74,7 @@ export default function UserList() {
   const handleClose = () => {
     setOpenStatusDialog(false);
     setOpenRolesDialog(false);
+    setSelectedUser(null);
   };
 
   const updateTable = () => {
