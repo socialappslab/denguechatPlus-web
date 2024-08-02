@@ -128,7 +128,7 @@ export type UserStatusType = (typeof UserStatusValues)[number];
 export interface IUser extends UserProfile {
   id?: string;
   status?: UserStatusType;
-  permissions?: string;
+  permissions?: string[];
 
   cityName?: string;
   neighborhoodName?: string;

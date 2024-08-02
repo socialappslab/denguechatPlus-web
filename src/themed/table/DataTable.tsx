@@ -222,6 +222,10 @@ export function DataTable<T>({
     }
   }, [order, orderBy, handleRequestSort, rows]);
 
+  useEffect(() => {
+    setPage(0);
+  }, [pagination?.totalCount, rows]);
+
   const onRequestSort = (_event: React.MouseEvent<unknown>, property: Extract<keyof T, string>) => {
     const isAsc = orderBy === property && order === 'asc';
     const newOrder = isAsc ? 'desc' : 'asc';
