@@ -1,0 +1,29 @@
+{
+  "roles": {
+    "create_role": "Crear rol",
+    "form": {
+      "name": "Nombre",
+      "name_placeholder": "Introduce un nombre",
+      "permissions": "Permisos",
+      "permissions_placeholder": "Selecciona permisos"
+    }
+  },
+  "cities": {
+    "create_city": "Crear ciudad",
+    "neighborhoods": "Barrios",
+    "form": {
+      "name": "Nombre",
+      "name_placeholder": "Introduce un nombre",
+      "neighborhood": "Barrio",
+      "neighborhood_placeholder": "Introduce el nombre del barrio",
+      "add_button": "Agregar"
+    },
+    "edit": {
+      "edit_city": "Editar ciudad",
+      "edit_current_neighborhoods": "Editar barrios actuales",
+      "add_new_neighborhoods": "Agregar nuevos barrios",
+      "add_new_button": "Agregar nuevo",
+      "deleted": "Eliminado"
+    }
+  }
+}

@@ -1,8 +1,4 @@
 {
-  "create_role": "Create Role",
-  "name": "Name",
-  "name_placeholder": "Enter a name",
-  "permissions": "Permisos",
   "organization": {
     "title": "Organization",
     "index": "View Organizations",
