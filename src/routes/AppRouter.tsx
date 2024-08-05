@@ -23,6 +23,7 @@ import CreateAccountPage from '../pages/auth/CreateAccountPage';
 import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
+import LoadCity from '@/pages/loader/LoadCity';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -69,7 +70,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'cities/:id/edit',
-        element: <LoadUser />,
+        element: <LoadCity />,
       },
       {
         path: 'special-places',

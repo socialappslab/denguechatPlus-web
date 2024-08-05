@@ -133,6 +133,10 @@ export interface IUser extends UserProfile {
   cityName?: string;
   neighborhoodName?: string;
   organizationName?: string;
+  state: {
+    id: number;
+    name: string;
+  };
 }
 
 export type ChangeUserRoleInputType = {
