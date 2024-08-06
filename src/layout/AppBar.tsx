@@ -30,11 +30,6 @@ import {
   ROLES_INDEX,
   USERS_INDEX,
   SPECIAL_PLACES_INDEX,
-  ROLES,
-  ORGANIZATIONS,
-  USERS,
-  CITIES,
-  SPECIAL_PLACES,
 } from '@/constants/permissions';
 import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
@@ -144,7 +139,9 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.breedingSites')}</Text>} />
         </ListItemButton>
-        <ProtectedView hasSomePermission={[ROLES, ORGANIZATIONS, USERS, CITIES, SPECIAL_PLACES]}>
+        <ProtectedView
+          hasSomePermission={[ROLES_INDEX, ORGANIZATIONS_INDEX, USERS_INDEX, CITIES_INDEX, SPECIAL_PLACES_INDEX]}
+        >
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               <img src={SettingsIcon} alt="settings-icon" />
