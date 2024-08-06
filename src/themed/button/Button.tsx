@@ -31,7 +31,7 @@ export function Button<C extends React.ElementType>({
       sizeClass = 'px-4 py-2 text-base rounded-full';
       break;
     default: // cell
-      sizeClass = 'px-2 py-1 text-xs rounded-full font-light mr-1';
+      sizeClass = 'px-2 py-1 text-xs rounded-full mr-1';
       if (!primary) {
         sizeClass += ' justify-start';
       }
