@@ -1,15 +1,16 @@
 import { Dialog } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CreateRolePage from '@/pages/admin/CreateRoleDialog';
-import { Role } from '../../schemas/entities';
+import { Link } from 'react-router-dom';
+import Button from '@/themed/button/Button';
+import { City } from '@/schemas';
+import CreateCityDialog from '@/pages/admin/CreateCityDialog';
 import { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
-import Button from '@/themed/button/Button';
-import { Link } from 'react-router-dom';
-import { City } from '@/schemas';
+import useStateContext from '@/hooks/useStateContext';
+import { IUser } from '@/schemas/auth';
 
-const headCells: HeadCell<Role>[] = [
+const headCells: HeadCell<City>[] = [
   {
     id: 'id',
     label: 'id',
@@ -23,9 +24,11 @@ const headCells: HeadCell<Role>[] = [
   },
 ];
 
-const RoleDataTable = FilteredDataTable<Role>;
+const RoleDataTable = FilteredDataTable<City>;
 
 export default function RoleList() {
+  const { state } = useStateContext();
+  const user = state.user as IUser;
   const { t } = useTranslation('translation');
 
   const rootElement = document.getElementById('root-app');
@@ -48,15 +51,14 @@ export default function RoleList() {
   return (
     <>
       <Dialog container={rootElement} fullWidth maxWidth="sm" open={open} onClose={handleClose}>
-        <CreateRolePage goBack={() => setOpen(false)} />
+        <CreateCityDialog goBack={() => setOpen(false)} />
       </Dialog>
       <RoleDataTable
-        endpoint="admin/countries/1/states/1/cities"
+        endpoint={`admin/countries/1/states/${user.state.id}/cities`}
         defaultFilter="name"
         headCells={headCells}
         title={t('menu.cities')}
         subtitle={t('menu.descriptions.cities')}
-        createButton
         onCreate={() => setOpen(true)}
         actions={actions}
       />
