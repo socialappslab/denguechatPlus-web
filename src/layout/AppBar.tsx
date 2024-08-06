@@ -54,9 +54,16 @@ export interface AppBarProps {
   footer?: boolean;
 }
 
+// routes
+const ADMIN_USERS = '/admin/users';
+const ADMIN_ROLES = '/admin/roles';
+const ADMIN_ORGANIZATIONS = '/admin/organizations';
+const ADMIN_CITIES = '/admin/cities';
+
 export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
   const { t } = useTranslation('translation');
   const location = useLocation();
+  const { pathname } = location;
   const matches = useMediaQuery('(min-width:600px)');
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -148,22 +155,27 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ProtectedView hasPermission={[USERS_INDEX]}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/users">
+                <ListItemButton sx={{ pl: 4 }} component={Link} to={ADMIN_USERS} selected={pathname === ADMIN_USERS}>
                   <ListItemText primary={<Text type="menuItem">{t('menu.users')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
               <ProtectedView hasPermission={[ROLES_INDEX]}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/roles">
+                <ListItemButton sx={{ pl: 4 }} component={Link} to={ADMIN_ROLES} selected={pathname === ADMIN_ROLES}>
                   <ListItemText primary={<Text type="menuItem">{t('menu.roles')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
               <ProtectedView hasPermission={[ORGANIZATIONS_INDEX]}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/organizations">
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={ADMIN_ORGANIZATIONS}
+                  selected={pathname === ADMIN_ORGANIZATIONS}
+                >
                   <ListItemText primary={<Text type="menuItem">{t('menu.organizations')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
               <ProtectedView hasPermission={[CITIES_INDEX]}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/cities">
+                <ListItemButton sx={{ pl: 4 }} component={Link} to={ADMIN_CITIES} selected={pathname === ADMIN_CITIES}>
                   <ListItemText primary={<Text type="menuItem">{t('menu.cities')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
