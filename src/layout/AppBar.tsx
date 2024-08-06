@@ -54,6 +54,7 @@ const ADMIN_USERS = '/admin/users';
 const ADMIN_ROLES = '/admin/roles';
 const ADMIN_ORGANIZATIONS = '/admin/organizations';
 const ADMIN_CITIES = '/admin/cities';
+const ADMIN_SPECIAL_PLACES = '/admin/special-places';
 
 export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
   const { t } = useTranslation('translation');
@@ -192,7 +193,12 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
                 </ListItemButton>
               </ProtectedView>
               <ProtectedView hasPermission={[SPECIAL_PLACES_INDEX]}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/special-places">
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={ADMIN_SPECIAL_PLACES}
+                  selected={pathname.includes(ADMIN_SPECIAL_PLACES)}
+                >
                   <ListItemText primary={<Text type="menuItem">{t('menu.specialPlaces')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
