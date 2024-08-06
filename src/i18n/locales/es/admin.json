@@ -10,7 +10,7 @@
   },
   "cities": {
     "create_city": "Crear ciudad",
-    "neighborhoods": "Barrios",
+    "neighborhoods": "Sectores",
     "form": {
       "name": "Nombre",
       "name_placeholder": "Introduce un nombre",
@@ -20,8 +20,8 @@
     },
     "edit": {
       "edit_city": "Editar ciudad",
-      "edit_current_neighborhoods": "Editar barrios actuales",
-      "add_new_neighborhoods": "Agregar nuevos barrios",
+      "edit_current_neighborhoods": "Editar sectores actuales",
+      "add_new_neighborhoods": "Agregar nuevos sectores",
       "add_new_button": "Agregar nuevo",
       "deleted": "Eliminado"
     }
