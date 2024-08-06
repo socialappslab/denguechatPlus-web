@@ -21,9 +21,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import React, { useState } from 'react';
 
-import Icon from '@/components/icon';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import Icon from '@/components/icon';
+import {
+  CITIES_INDEX,
+  ORGANIZATIONS_INDEX,
+  ROLES_INDEX,
+  USERS_INDEX,
+  SPECIAL_PLACES_INDEX,
+  ROLES,
+  ORGANIZATIONS,
+  USERS,
+  CITIES,
+  SPECIAL_PLACES,
+} from '@/constants/permissions';
 import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
 import TeamsIcon from '../assets/icons/teams.svg';
@@ -38,6 +50,7 @@ export interface AppBarProps {
   auth?: boolean;
   signUp?: boolean;
   logout?: () => void | undefined;
+  // eslint-disable-next-line react/no-unused-prop-types
   footer?: boolean;
 }
 
@@ -124,7 +137,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.breedingSites')}</Text>} />
         </ListItemButton>
-        <ProtectedView hasSomeResource={['roles', 'organizations', 'users', 'special_places']}>
+        <ProtectedView hasSomePermission={[ROLES, ORGANIZATIONS, USERS, CITIES, SPECIAL_PLACES]}>
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               <img src={SettingsIcon} alt="settings-icon" />
@@ -134,27 +147,29 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ProtectedView hasPermission={['users-index']}>
+              <ProtectedView hasPermission={[USERS_INDEX]}>
                 <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/users">
                   <ListItemText primary={<Text type="menuItem">{t('menu.users')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
-              <ProtectedView hasPermission={['roles-index']}>
+              <ProtectedView hasPermission={[ROLES_INDEX]}>
                 <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/roles">
                   <ListItemText primary={<Text type="menuItem">{t('menu.roles')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
-              <ProtectedView hasPermission={['organizations-index']}>
+              <ProtectedView hasPermission={[ORGANIZATIONS_INDEX]}>
                 <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/organizations">
                   <ListItemText primary={<Text type="menuItem">{t('menu.organizations')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
-              <ProtectedView hasPermission={['special_places-index']}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/special-places">
-                  <ListItemText primary={<Text type="menuItem">{t('menu.specialPlaces')}</Text>} />
-              <ProtectedView hasPermission={['cities_index']}>
+              <ProtectedView hasPermission={[CITIES_INDEX]}>
                 <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/cities">
                   <ListItemText primary={<Text type="menuItem">{t('menu.cities')}</Text>} />
+                </ListItemButton>
+              </ProtectedView>
+              <ProtectedView hasPermission={[SPECIAL_PLACES_INDEX]}>
+                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/special-places">
+                  <ListItemText primary={<Text type="menuItem">{t('menu.specialPlaces')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
             </List>

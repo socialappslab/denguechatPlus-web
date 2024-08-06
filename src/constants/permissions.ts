@@ -5,6 +5,7 @@ const TEAMS_EDIT = 'teams-edit';
 const TEAMS_UPDATE = 'teams-update';
 const TEAMS_DESTROY = 'teams-destroy';
 
+const ORGANIZATIONS = 'organizations';
 const ORGANIZATIONS_INDEX = 'organizations-index';
 const ORGANIZATIONS_SHOW = 'organizations-show';
 const ORGANIZATIONS_CREATE = 'organizations-create';
@@ -12,6 +13,7 @@ const ORGANIZATIONS_EDIT = 'organizations-edit';
 const ORGANIZATIONS_UPDATE = 'organizations-update';
 const ORGANIZATIONS_DESTROY = 'organizations-destroy';
 
+const USERS = 'users';
 const USERS_INDEX = 'users-index';
 const USERS_SHOW = 'users-show';
 const USERS_CREATE = 'users-create';
@@ -19,6 +21,7 @@ const USERS_EDIT = 'users-edit';
 const USERS_UPDATE = 'users-update';
 const USERS_DESTROY = 'users-destroy';
 
+const ROLES = 'roles';
 const ROLES_INDEX = 'roles-index';
 const ROLES_SHOW = 'roles-show';
 const ROLES_CREATE = 'roles-create';
@@ -40,6 +43,7 @@ const COUNTRIES_EDIT = 'countries-edit';
 const COUNTRIES_UPDATE = 'countries-update';
 const COUNTRIES_DESTROY = 'countries-destroy';
 
+const CITIES = 'cities';
 const CITIES_INDEX = 'cities-index';
 const CITIES_SHOW = 'cities-show';
 const CITIES_CREATE = 'cities-create';
@@ -63,6 +67,9 @@ const NEIGHBORHOODS_DESTROY = 'neighborhoods-destroy';
 
 const USERS_USERS_CONFIRM_ACCOUNT = 'users-users_confirm_account';
 
+const SPECIAL_PLACES = 'special_places';
+const SPECIAL_PLACES_INDEX = 'special_places-index';
+
 export {
   TEAMS_INDEX,
   TEAMS_SHOW,
@@ -70,18 +77,21 @@ export {
   TEAMS_EDIT,
   TEAMS_UPDATE,
   TEAMS_DESTROY,
+  ORGANIZATIONS,
   ORGANIZATIONS_INDEX,
   ORGANIZATIONS_SHOW,
   ORGANIZATIONS_CREATE,
   ORGANIZATIONS_EDIT,
   ORGANIZATIONS_UPDATE,
   ORGANIZATIONS_DESTROY,
+  USERS,
   USERS_INDEX,
   USERS_SHOW,
   USERS_CREATE,
   USERS_EDIT,
   USERS_UPDATE,
   USERS_DESTROY,
+  ROLES,
   ROLES_INDEX,
   ROLES_SHOW,
   ROLES_CREATE,
@@ -100,6 +110,7 @@ export {
   COUNTRIES_EDIT,
   COUNTRIES_UPDATE,
   COUNTRIES_DESTROY,
+  CITIES,
   CITIES_INDEX,
   CITIES_SHOW,
   CITIES_CREATE,
@@ -119,4 +130,6 @@ export {
   NEIGHBORHOODS_UPDATE,
   NEIGHBORHOODS_DESTROY,
   USERS_USERS_CONFIRM_ACCOUNT,
+  SPECIAL_PLACES,
+  SPECIAL_PLACES_INDEX,
 };
