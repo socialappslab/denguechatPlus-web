@@ -26,13 +26,21 @@ export default function RoleList() {
   const { t } = useTranslation('translation');
 
   const rootElement = document.getElementById('root-app');
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [updateControl, setUpdateControl] = useState(0);
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const updateTable = () => {
+    setUpdateControl((prev) => prev + 1);
+  };
 
   return (
     <>
-      <Dialog container={rootElement} fullWidth maxWidth="sm" open={open} onClose={handleClose}>
-        <CreateRoleDialog goBack={() => setOpen(false)} />
+      <Dialog container={rootElement} fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
+        <CreateRoleDialog handleClose={handleClose} updateTable={updateTable} />
       </Dialog>
       <RoleDataTable
         endpoint="roles"
@@ -40,7 +48,8 @@ export default function RoleList() {
         headCells={headCells}
         title={t('menu.roles')}
         subtitle={t('menu.descriptions.roles')}
-        onCreate={() => setOpen(true)}
+        onCreate={() => setOpenDialog(true)}
+        updateControl={updateControl}
       />
     </>
   );

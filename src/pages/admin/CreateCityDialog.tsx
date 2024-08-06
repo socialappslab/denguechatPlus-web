@@ -21,10 +21,11 @@ export interface EditUserProps {
 }
 
 interface CreateCityDialogProps {
-  goBack: () => void;
+  handleClose: () => void;
+  updateTable: () => void;
 }
 
-export function CreateCityDialog({ goBack }: CreateCityDialogProps) {
+export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogProps) {
   const { state } = useStateContext();
   const user = state.user as IUser;
   const { t } = useTranslation(['register', 'errorCodes', 'admin']);
@@ -33,10 +34,6 @@ export function CreateCityDialog({ goBack }: CreateCityDialogProps) {
   );
 
   const { enqueueSnackbar } = useSnackbar();
-
-  const onGoBackHandler = () => {
-    if (goBack) goBack();
-  };
 
   const methods = useForm<CreateCityInputType>({
     resolver: zodResolver(createCitySchema()),
@@ -72,7 +69,8 @@ export function CreateCityDialog({ goBack }: CreateCityDialogProps) {
         variant: 'success',
       });
 
-      onGoBackHandler();
+      updateTable();
+      handleClose();
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
@@ -163,7 +161,7 @@ export function CreateCityDialog({ goBack }: CreateCityDialogProps) {
             </div>
 
             <div>
-              <Button buttonType="large" primary={false} disabled={false} label={t('back')} onClick={onGoBackHandler} />
+              <Button buttonType="large" primary={false} disabled={false} label={t('back')} onClick={handleClose} />
             </div>
           </div>
         </Box>

@@ -32,8 +32,16 @@ export default function RoleList() {
   const { t } = useTranslation('translation');
 
   const rootElement = document.getElementById('root-app');
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [updateControl, setUpdateControl] = useState(0);
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const updateTable = () => {
+    setUpdateControl((prev) => prev + 1);
+  };
 
   const actions = (row: City, loading?: boolean) => (
     <div className="flex flex-row">
@@ -50,8 +58,8 @@ export default function RoleList() {
 
   return (
     <>
-      <Dialog container={rootElement} fullWidth maxWidth="sm" open={open} onClose={handleClose}>
-        <CreateCityDialog goBack={() => setOpen(false)} />
+      <Dialog container={rootElement} fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
+        <CreateCityDialog handleClose={handleClose} updateTable={updateTable} />
       </Dialog>
       <RoleDataTable
         endpoint={`admin/countries/1/states/${user.state.id}/cities`}
@@ -59,8 +67,9 @@ export default function RoleList() {
         headCells={headCells}
         title={t('menu.cities')}
         subtitle={t('menu.descriptions.cities')}
-        onCreate={() => setOpen(true)}
+        onCreate={() => setOpenDialog(true)}
         actions={actions}
+        updateControl={updateControl}
       />
     </>
   );

@@ -48,18 +48,15 @@ const PERMISSIONS = {
 } as const;
 
 interface CreateRoleDialogProps {
-  goBack: () => void;
+  handleClose: () => void;
+  updateTable: () => void;
 }
 
-export function CreateRoleDialog({ goBack }: CreateRoleDialogProps) {
+export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin']);
   const { createMutation: createRoleMutation } = useCreateMutation<CreateRole>('roles');
 
   const { enqueueSnackbar } = useSnackbar();
-
-  const onGoBackHandler = () => {
-    if (goBack) goBack();
-  };
 
   const methods = useForm<CreateRoleInputType>({
     resolver: zodResolver(createRoleSchema()),
@@ -106,7 +103,8 @@ export function CreateRoleDialog({ goBack }: CreateRoleDialogProps) {
       enqueueSnackbar(t('edit.success'), {
         variant: 'success',
       });
-      onGoBackHandler();
+      updateTable();
+      handleClose();
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
@@ -176,7 +174,7 @@ export function CreateRoleDialog({ goBack }: CreateRoleDialogProps) {
             </div>
 
             <div>
-              <Button buttonType="large" primary={false} disabled={false} label={t('back')} onClick={onGoBackHandler} />
+              <Button buttonType="large" primary={false} disabled={false} label={t('back')} onClick={handleClose} />
             </div>
           </div>
         </Box>
