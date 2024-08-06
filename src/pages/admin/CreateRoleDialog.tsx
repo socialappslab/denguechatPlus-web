@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
 
-import useCreateRole from '@/hooks/useCreateRole';
+import useCreateMutation from '@/hooks/useCreateMutation';
 import { FormSelectOption } from '@/schemas';
 import { CreateRole, CreateRoleInputType, createRoleSchema } from '@/schemas/create';
 import { IUser } from '../../schemas/auth';
@@ -52,8 +52,8 @@ interface CreateRoleDialogProps {
 }
 
 export function CreateRoleDialog({ goBack }: CreateRoleDialogProps) {
-  const { t } = useTranslation(['register', 'errorCodes', 'permissions']);
-  const { createRoleMutation } = useCreateRole();
+  const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin']);
+  const { createMutation: createRoleMutation } = useCreateMutation<CreateRole>('roles');
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -148,15 +148,15 @@ export function CreateRoleDialog({ goBack }: CreateRoleDialogProps) {
           autoComplete="off"
           className="w-full p-8"
         >
-          <Title type="section" className="self-center mb-8i w-full" label={t('permissions:create_role')} />
+          <Title type="section" className="self-center mb-8i w-full" label={t('admin:roles.create_role')} />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <FormInput
                 className="mt-2"
                 name="name"
-                label={t('permissions:name')}
+                label={t('admin:roles.form.name')}
                 type="text"
-                placeholder={t('permissions:name_placeholder')}
+                placeholder={t('admin:roles.form.name_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -164,7 +164,7 @@ export function CreateRoleDialog({ goBack }: CreateRoleDialogProps) {
                 multiple
                 name="permissionIds"
                 className="mt-2"
-                label={t('permissions:permissions')}
+                label={t('admin:roles.form.permissions')}
                 options={permissionOptions as FormSelectOption[]}
               />
             </Grid>
