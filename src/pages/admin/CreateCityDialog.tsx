@@ -88,9 +88,9 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
         } else {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          // enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
-          //   variant: 'error',
-          // });
+          enqueueSnackbar(t([`errorCodes:${error?.error_code}`, 'errorCodes:generic']), {
+            variant: 'error',
+          });
         }
       });
 
