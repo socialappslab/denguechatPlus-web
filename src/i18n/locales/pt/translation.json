@@ -65,7 +65,7 @@
     "firstName": "Nome",
     "lastName": "Apelido",
     "username": "Nome de Utilizador",
-    "neighborhood": "Bairro",
+    "neighborhood": "Setor",
     "status": "Estado",
     "statusActive": "Estado Ativo",
     "createdAt": "Criado em",

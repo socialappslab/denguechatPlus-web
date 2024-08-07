@@ -9,7 +9,7 @@
     "lastName": "O sobrenome é obrigatório",
     "phone": "O telefone é obrigatório",
     "city": "A cidade é obrigatória",
-    "neighborhood": "O bairro é obrigatório",
+    "neighborhood": "O setor é obrigatório",
     "organization": "A organização é obrigatória"
   },
   "notMatch": "As senhas não coincidem",
