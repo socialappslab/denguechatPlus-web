@@ -18,7 +18,7 @@ export type UpdateCityInputType = TypeOf<typeof updateCitySchemaForType>;
 
 export interface CityUpdate {
   name?: string;
-  neighborhoods_attributes?: {
+  neighborhoodsAttributes?: {
     _destroy?: string;
     id?: string;
     name?: string;
