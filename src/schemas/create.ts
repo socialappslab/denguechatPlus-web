@@ -36,5 +36,5 @@ export type CreateCityInputType = TypeOf<typeof createCitySchemaForType>;
 
 export interface CreateCity {
   name: string;
-  neighborhoods_attributes: { name: string }[];
+  neighborhoodsAttributes: { name: string }[];
 }

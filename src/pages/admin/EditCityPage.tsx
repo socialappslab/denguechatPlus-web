@@ -80,7 +80,7 @@ export function EditCity({ city }: EditCityProps) {
     const addNeighborhoods = data.newNeighborhoods.map((name) => ({ name }));
     const payload = {
       name: data.name,
-      neighborhoods_attributes: [...removeNeighborhoods, ...editNeighborhoods, ...addNeighborhoods],
+      neighborhoodsAttributes: [...removeNeighborhoods, ...editNeighborhoods, ...addNeighborhoods],
     };
     return payload;
   };
