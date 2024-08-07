@@ -52,8 +52,11 @@ export function FormSelect({
 
   const fieldError: FieldErrorType = getProperty(errors, name);
 
-  const mapLabel = (items: FormSelectOption[], val: string) =>
-    (items as FormSelectOption[]).find((item: FormSelectOption) => item.value === val)?.label;
+  const mapLabel = (items: FormSelectOption[], val: string) => {
+    return (items as FormSelectOption[]).find((item: FormSelectOption) => item.value === val)?.label;
+  };
+
+  const multipleLoadingValue = multiple ? [] : '';
 
   return (
     <Controller
@@ -71,15 +74,16 @@ export function FormSelect({
               variant="outlined"
               inputProps={{ name, error: !!fieldError }}
               {...field}
-              value={loading || optionsChecked?.length === 0 ? '' : field.value}
+              value={loading ? multipleLoadingValue : field.value}
               multiple={multiple}
               renderValue={(selected) => {
                 if (multiple) {
                   return (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((val: string, key: string) => (
-                        <Chip key={key} label={mapLabel(optionsChecked, val)} />
-                      ))}
+                      {selected.map((val: string, key: string) => {
+                        console.log('val', val, mapLabel(optionsChecked, val));
+                        return <Chip key={key} label={mapLabel(optionsChecked, val)} />;
+                      })}
                     </Box>
                   );
                 }

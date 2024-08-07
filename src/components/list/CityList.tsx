@@ -1,12 +1,16 @@
 import { Dialog } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CreateRoleDialog from '@/pages/admin/CreateRoleDialog';
-import { Role } from '../../schemas/entities';
+import { Link } from 'react-router-dom';
+import Button from '@/themed/button/Button';
+import { City } from '@/schemas';
+import CreateCityDialog from '@/pages/admin/CreateCityDialog';
 import { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
+import useStateContext from '@/hooks/useStateContext';
+import { IUser } from '@/schemas/auth';
 
-const headCells: HeadCell<Role>[] = [
+const headCells: HeadCell<City>[] = [
   {
     id: 'id',
     label: 'id',
@@ -20,9 +24,11 @@ const headCells: HeadCell<Role>[] = [
   },
 ];
 
-const RoleDataTable = FilteredDataTable<Role>;
+const RoleDataTable = FilteredDataTable<City>;
 
 export default function RoleList() {
+  const { state } = useStateContext();
+  const user = state.user as IUser;
   const { t } = useTranslation('translation');
 
   const rootElement = document.getElementById('root-app');
@@ -37,18 +43,32 @@ export default function RoleList() {
     setUpdateControl((prev) => prev + 1);
   };
 
+  const actions = (row: City, loading?: boolean) => (
+    <div className="flex flex-row">
+      <Button
+        primary
+        disabled={loading}
+        component={Link}
+        to={`${row.id}/edit`}
+        label={t('table.actions.edit')}
+        buttonType="cell"
+      />
+    </div>
+  );
+
   return (
     <>
       <Dialog container={rootElement} fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
-        <CreateRoleDialog handleClose={handleClose} updateTable={updateTable} />
+        <CreateCityDialog handleClose={handleClose} updateTable={updateTable} />
       </Dialog>
       <RoleDataTable
-        endpoint="roles"
+        endpoint={`admin/countries/1/states/${user.state.id}/cities`}
         defaultFilter="name"
         headCells={headCells}
-        title={t('menu.roles')}
-        subtitle={t('menu.descriptions.roles')}
+        title={t('menu.cities')}
+        subtitle={t('menu.descriptions.cities')}
         onCreate={() => setOpenDialog(true)}
+        actions={actions}
         updateControl={updateControl}
       />
     </>

@@ -21,9 +21,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import React, { useState } from 'react';
 
-import Icon from '@/components/icon';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import Icon from '@/components/icon';
+import {
+  CITIES_INDEX,
+  ORGANIZATIONS_INDEX,
+  ROLES_INDEX,
+  USERS_INDEX,
+  SPECIAL_PLACES_INDEX,
+} from '@/constants/permissions';
 import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
 import TeamsIcon from '../assets/icons/teams.svg';
@@ -38,12 +45,21 @@ export interface AppBarProps {
   auth?: boolean;
   signUp?: boolean;
   logout?: () => void | undefined;
+  // eslint-disable-next-line react/no-unused-prop-types
   footer?: boolean;
 }
+
+// routes
+const ADMIN_USERS = '/admin/users';
+const ADMIN_ROLES = '/admin/roles';
+const ADMIN_ORGANIZATIONS = '/admin/organizations';
+const ADMIN_CITIES = '/admin/cities';
+const ADMIN_SPECIAL_PLACES = '/admin/special-places';
 
 export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
   const { t } = useTranslation('translation');
   const location = useLocation();
+  const { pathname } = location;
   const matches = useMediaQuery('(min-width:600px)');
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -124,7 +140,9 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.breedingSites')}</Text>} />
         </ListItemButton>
-        <ProtectedView hasSomeResource={['roles', 'organizations', 'users', 'special_places']}>
+        <ProtectedView
+          hasSomePermission={[ROLES_INDEX, ORGANIZATIONS_INDEX, USERS_INDEX, CITIES_INDEX, SPECIAL_PLACES_INDEX]}
+        >
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               <img src={SettingsIcon} alt="settings-icon" />
@@ -134,23 +152,53 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ProtectedView hasPermission={['users-index']}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/users">
+              <ProtectedView hasPermission={[USERS_INDEX]}>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={ADMIN_USERS}
+                  selected={pathname.includes(ADMIN_USERS)}
+                >
                   <ListItemText primary={<Text type="menuItem">{t('menu.users')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
-              <ProtectedView hasPermission={['roles-index']}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/roles">
+              <ProtectedView hasPermission={[ROLES_INDEX]}>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={ADMIN_ROLES}
+                  selected={pathname.includes(ADMIN_ROLES)}
+                >
                   <ListItemText primary={<Text type="menuItem">{t('menu.roles')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
-              <ProtectedView hasPermission={['organizations-index']}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/organizations">
+              <ProtectedView hasPermission={[ORGANIZATIONS_INDEX]}>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={ADMIN_ORGANIZATIONS}
+                  selected={pathname.includes(ADMIN_ORGANIZATIONS)}
+                >
                   <ListItemText primary={<Text type="menuItem">{t('menu.organizations')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
-              <ProtectedView hasPermission={['special_places-index']}>
-                <ListItemButton sx={{ pl: 4 }} component={Link} to="/admin/special-places">
+              <ProtectedView hasPermission={[CITIES_INDEX]}>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={ADMIN_CITIES}
+                  selected={pathname.includes(ADMIN_CITIES)}
+                >
+                  <ListItemText primary={<Text type="menuItem">{t('menu.cities')}</Text>} />
+                </ListItemButton>
+              </ProtectedView>
+              <ProtectedView hasPermission={[SPECIAL_PLACES_INDEX]}>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={ADMIN_SPECIAL_PLACES}
+                  selected={pathname.includes(ADMIN_SPECIAL_PLACES)}
+                >
                   <ListItemText primary={<Text type="menuItem">{t('menu.specialPlaces')}</Text>} />
                 </ListItemButton>
               </ProtectedView>

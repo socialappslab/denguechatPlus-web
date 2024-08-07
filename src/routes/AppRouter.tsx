@@ -15,6 +15,7 @@ import OrganizationList from '../components/list/OrganizationList';
 import RoleList from '../components/list/RoleList';
 import SpecialPlaceList from '../components/list/SpecialPlacesList';
 import UserList from '../components/list/UserList';
+import CityList from '../components/list/CityList';
 import PageLayout from '../layout/PageLayout';
 import RouterErrorPage from '../pages/RouterErrorPage';
 import BaseAdminPage from '../pages/admin/BaseAdminPage';
@@ -22,6 +23,7 @@ import CreateAccountPage from '../pages/auth/CreateAccountPage';
 import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
+import LoadCity from '@/pages/loader/LoadCity';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -61,6 +63,14 @@ const router = createBrowserRouter([
       {
         path: 'users/:id/edit',
         element: <LoadUser />,
+      },
+      {
+        path: 'cities',
+        element: <CityList />,
+      },
+      {
+        path: 'cities/:id/edit',
+        element: <LoadCity />,
       },
       {
         path: 'special-places',
