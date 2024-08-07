@@ -117,7 +117,6 @@ export default function FilteredDataTable<T>({
       if (!deserializedData || !Array.isArray(deserializedData)) return;
 
       // console.log('rows', deserializedData);
-      console.log(data, payload);
       setRows(deserializedData);
       setTotalCount(data.meta.total);
     }
