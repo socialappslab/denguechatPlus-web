@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Button from '@/themed/button/Button';
-import { City } from '@/schemas';
+import { BaseObject, City } from '@/schemas';
 import CreateCityDialog from '@/pages/admin/CreateCityDialog';
 import { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
@@ -80,7 +80,7 @@ export default function RoleList() {
         <CreateCityDialog handleClose={handleClose} updateTable={updateTable} />
       </Dialog>
       <RoleDataTable
-        endpoint={`admin/countries/${user.country.id}/states/${user.state.id}/cities`}
+        endpoint={`admin/countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities`}
         defaultFilter="name"
         headCells={headCells}
         title={t('menu.cities')}
