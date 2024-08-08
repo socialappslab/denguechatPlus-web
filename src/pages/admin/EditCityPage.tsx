@@ -9,7 +9,7 @@ import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { CityUpdate, UpdateCityInputType, updateCitySchema } from '@/schemas/update';
 import useUpdateCity from '@/hooks/useUpdateCity';
-import { City } from '../../schemas';
+import { BaseObject, City } from '../../schemas';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
@@ -29,7 +29,7 @@ export function EditCity({ city }: EditCityProps) {
   const { state } = useStateContext();
   const user = state.user as IUser;
 
-  const updateEndpoint = `admin/countries/${user.country.id}/states/${user.state.id}/cities/${city.id}`;
+  const updateEndpoint = `admin/countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities/${city.id}`;
   const { udpateCityMutation, loading } = useUpdateCity(updateEndpoint);
   const { enqueueSnackbar } = useSnackbar();
   const mappedNeighborhoods = city.neighborhoods.reduce((acc, { id, name }) => ({ ...acc, [id]: name }), {});
