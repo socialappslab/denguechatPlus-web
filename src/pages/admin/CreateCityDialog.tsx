@@ -30,7 +30,7 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
   const user = state.user as IUser;
   const { t } = useTranslation(['register', 'errorCodes', 'admin']);
   const { createMutation: createCityMutation } = useCreateMutation<CreateCity>(
-    `admin/countries/1/states/${user.state.id}/cities/`,
+    `admin/countries/${user.country.id}/states/${user.state.id}/cities/`,
   );
 
   const { enqueueSnackbar } = useSnackbar();

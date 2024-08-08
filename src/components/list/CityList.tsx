@@ -62,7 +62,7 @@ export default function RoleList() {
         <CreateCityDialog handleClose={handleClose} updateTable={updateTable} />
       </Dialog>
       <RoleDataTable
-        endpoint={`admin/countries/1/states/${user.state.id}/cities`}
+        endpoint={`admin/countries/${user.country.id}/states/${user.state.id}/cities`}
         defaultFilter="name"
         headCells={headCells}
         title={t('menu.cities')}
