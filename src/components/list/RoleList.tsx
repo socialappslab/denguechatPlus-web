@@ -5,6 +5,9 @@ import CreateRoleDialog from '@/pages/admin/CreateRoleDialog';
 import { Role } from '../../schemas/entities';
 import { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
+import { ROLES_CREATE } from '@/constants/permissions';
+import ProtectedView from '@/layout/ProtectedView';
+import Button from '@/themed/button/Button';
 
 const headCells: HeadCell<Role>[] = [
   {
@@ -37,6 +40,20 @@ export default function RoleList() {
     setUpdateControl((prev) => prev + 1);
   };
 
+  const create = () => (
+    <div className="flex flex-row">
+      <ProtectedView hasPermission={[ROLES_CREATE]}>
+        <Button
+          primary={false}
+          variant="outlined"
+          className="justify-start text-md"
+          label={t(`table.create`)}
+          onClick={() => setOpenDialog(true)}
+        />
+      </ProtectedView>
+    </div>
+  );
+
   return (
     <>
       <Dialog container={rootElement} fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
@@ -48,7 +65,7 @@ export default function RoleList() {
         headCells={headCells}
         title={t('menu.roles')}
         subtitle={t('menu.descriptions.roles')}
-        onCreate={() => setOpenDialog(true)}
+        create={create}
         updateControl={updateControl}
       />
     </>

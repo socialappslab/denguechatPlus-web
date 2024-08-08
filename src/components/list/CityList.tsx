@@ -9,6 +9,8 @@ import { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
 import useStateContext from '@/hooks/useStateContext';
 import { IUser } from '@/schemas/auth';
+import ProtectedView from '@/layout/ProtectedView';
+import { CITIES_CREATE, CITIES_EDIT } from '@/constants/permissions';
 
 const headCells: HeadCell<City>[] = [
   {
@@ -45,14 +47,30 @@ export default function RoleList() {
 
   const actions = (row: City, loading?: boolean) => (
     <div className="flex flex-row">
-      <Button
-        primary
-        disabled={loading}
-        component={Link}
-        to={`${row.id}/edit`}
-        label={t('table.actions.edit')}
-        buttonType="cell"
-      />
+      <ProtectedView hasPermission={[CITIES_EDIT]}>
+        <Button
+          primary
+          disabled={loading}
+          component={Link}
+          to={`${row.id}/edit`}
+          label={t('table.actions.edit')}
+          buttonType="cell"
+        />
+      </ProtectedView>
+    </div>
+  );
+
+  const create = () => (
+    <div className="flex flex-row">
+      <ProtectedView hasPermission={[CITIES_CREATE]}>
+        <Button
+          primary={false}
+          variant="outlined"
+          className="justify-start text-md"
+          label={t(`table.create`)}
+          onClick={() => setOpenDialog(true)}
+        />
+      </ProtectedView>
     </div>
   );
 
@@ -67,7 +85,7 @@ export default function RoleList() {
         headCells={headCells}
         title={t('menu.cities')}
         subtitle={t('menu.descriptions.cities')}
-        onCreate={() => setOpenDialog(true)}
+        create={create}
         actions={actions}
         updateControl={updateControl}
       />
