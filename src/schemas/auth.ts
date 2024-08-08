@@ -104,6 +104,7 @@ export interface UserProfile {
   gender?: number | string;
   phone?: string;
   points?: number;
+  country?: string | BaseObject;
   city?: string | BaseObject;
   neighborhood?: string | BaseObject;
   organization?: string | BaseObject;
@@ -133,10 +134,6 @@ export interface IUser extends UserProfile {
   neighborhoodName?: string;
   organizationName?: string;
   state: {
-    id: number;
-    name: string;
-  };
-  country: {
     id: number;
     name: string;
   };
