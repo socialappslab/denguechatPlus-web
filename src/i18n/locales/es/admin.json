@@ -14,8 +14,8 @@
     "form": {
       "name": "Nombre",
       "name_placeholder": "Introduce un nombre",
-      "neighborhood": "Barrio",
-      "neighborhood_placeholder": "Introduce el nombre del barrio",
+      "neighborhood": "Sector",
+      "neighborhood_placeholder": "Introduce el nombre del sector",
       "add_button": "Agregar"
     },
     "edit": {

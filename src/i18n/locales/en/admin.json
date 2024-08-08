@@ -10,18 +10,18 @@
   },
   "cities": {
     "create_city": "Create City",
-    "neighborhoods": "Neighborhoods",
+    "neighborhoods": "Sectors",
     "form": {
       "name": "Name",
       "name_placeholder": "Enter a name",
-      "neighborhood": "Neighborhood",
-      "neighborhood_placeholder": "Enter the neighborhood name",
+      "neighborhood": "Sector",
+      "neighborhood_placeholder": "Enter the sector name",
       "add_button": "Add"
     },
     "edit": {
       "edit_city": "Edit City",
-      "edit_current_neighborhoods": "Edit current neighborhoods",
-      "add_new_neighborhoods": "Add new neighborhoods",
+      "edit_current_neighborhoods": "Edit current sectors",
+      "add_new_neighborhoods": "Add new sectors",
       "add_new_button": "Add new",
       "deleted": "Deleted"
     }
