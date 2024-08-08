@@ -18,4 +18,14 @@ export interface Organization extends BaseWithStatus {}
 
 export interface SpecialPlace extends BaseWithStatus {}
 
-export interface Role extends BaseEntity {}
+export interface Permission extends BaseEntity {
+  attributes: {
+    id: number;
+    name: string;
+    resource: string;
+  };
+}
+
+export interface Role extends BaseEntity {
+  permissions: { data: Permission[] };
+}
