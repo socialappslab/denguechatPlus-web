@@ -2,7 +2,7 @@ import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
 import { z } from 'zod';
-import { City } from '@/schemas';
+import { BaseObject, City } from '@/schemas';
 import { useParamsTypeSafe } from '../../hooks/useParamsTypeSafe';
 import Loader from '../../themed/loader/Loader';
 import AppErrorPage from '../AppErrorPage';
@@ -23,7 +23,7 @@ export function LoadCity() {
 
   const [{ data, loading, error }, fetchEntity] = useAxios(
     {
-      url: `admin/countries/${user.country.id}/states/${user.state.id}/cities/${id}`,
+      url: `admin/countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities/${id}`,
     },
     { manual: true },
   );
