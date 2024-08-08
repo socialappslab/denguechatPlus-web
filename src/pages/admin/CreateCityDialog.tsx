@@ -30,6 +30,7 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
   const { state } = useStateContext();
   const user = state.user as IUser;
   const { t } = useTranslation(['register', 'errorCodes', 'admin']);
+  // Add casting to remove typing errors
   const { createMutation: createCityMutation } = useCreateMutation<CreateCity>(
     `admin/countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities/`,
   );
