@@ -10,10 +10,10 @@ type IUseUpdateCity = {
   loading: boolean;
 };
 
-export default function useUpdateCity(idParam?: string): IUseUpdateCity {
+export default function useUpdateCity(endpoint: string): IUseUpdateCity {
   const [{ loading }, userEdit] = useAxios<ExistingDocumentObject, CityUpdate, ErrorResponse>(
     {
-      url: `admin/countries/1/states/1/cities/${idParam}`,
+      url: endpoint,
       method: 'PUT',
     },
     { manual: true },

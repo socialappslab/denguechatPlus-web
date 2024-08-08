@@ -14,6 +14,8 @@ import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
+import useStateContext from '@/hooks/useStateContext';
+import { IUser } from '@/schemas/auth';
 
 export interface EditCityProps {
   city: City;
@@ -24,8 +26,11 @@ const DESTROY_FLAG = '_destroy';
 export function EditCity({ city }: EditCityProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'admin']);
   const navigate = useNavigate();
+  const { state } = useStateContext();
+  const user = state.user as IUser;
 
-  const { udpateCityMutation, loading } = useUpdateCity(city.id.toString());
+  const updateEndpoint = `admin/countries/${user.country.id}/states/${user.state.id}/cities/${city.id}`;
+  const { udpateCityMutation, loading } = useUpdateCity(updateEndpoint);
   const { enqueueSnackbar } = useSnackbar();
   const mappedNeighborhoods = city.neighborhoods.reduce((acc, { id, name }) => ({ ...acc, [id]: name }), {});
 

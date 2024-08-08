@@ -7,6 +7,8 @@ import { useParamsTypeSafe } from '../../hooks/useParamsTypeSafe';
 import Loader from '../../themed/loader/Loader';
 import AppErrorPage from '../AppErrorPage';
 import EditCityPage from '../admin/EditCityPage';
+import { IUser } from '@/schemas/auth';
+import useStateContext from '@/hooks/useStateContext';
 
 export function LoadCity() {
   const [city, setCity] = useState<City | undefined>();
@@ -16,9 +18,12 @@ export function LoadCity() {
     }),
   );
 
+  const { state } = useStateContext();
+  const user = state.user as IUser;
+
   const [{ data, loading, error }, fetchEntity] = useAxios(
     {
-      url: `admin/countries/1/states/1/cities/${id}`,
+      url: `admin/countries/${user.country.id}/states/${user.state.id}/cities/${id}`,
     },
     { manual: true },
   );
