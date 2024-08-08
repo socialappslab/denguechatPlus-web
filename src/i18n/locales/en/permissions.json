@@ -60,8 +60,51 @@
   "visits": {
     "title": "Visits",
     "show": "View visit",
-    "index": "View visits",
+    "index": "List visits",
     "update": "Edit visit",
     "create": "Create visit"
+  },
+  "special_places": {
+    "title": "Special Places",
+    "destroy": "Delete special places",
+    "update": "Edit special places",
+    "create": "Create special places",
+    "index": "View special places"
+  },
+  "locations": {
+    "title": "Locations",
+    "index": "View locations"
+  },
+  "neighborhoods": {
+    "title": "Sectors",
+    "destroy": "Delete sectors",
+    "update": "Change sectors",
+    "create": "Create sectors",
+    "index": "List sectors",
+    "show": "View sector",
+    "edit": "Edit sectors"
+  },
+  "states": {
+    "title": "States",
+    "destroy": "Delete states",
+    "update": "Edit states",
+    "create": "Create states",
+    "index": "List states",
+    "show": "View state",
+    "edit": "Change states"
+  },
+  "cities": {
+    "title": "Cities",
+    "destroy": "Delete cities",
+    "update": "Change cities",
+    "edit": "Edit cities",
+    "create": "Create cities",
+    "index": "List cities",
+    "show": "View city"
+  },
+  "countries": {
+    "title": "Countries",
+    "destroy": "Delete countries",
+    "update": "Change countries"
   }
 }
