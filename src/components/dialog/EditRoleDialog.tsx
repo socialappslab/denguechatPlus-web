@@ -80,8 +80,10 @@ export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDia
       const { name, permissionIds } = values;
 
       const payload: CreateRole = {
-        name,
-        permissionIds: permissionIds.map((permission: FormSelectOption) => parseInt(permission.value, 10)),
+        role: {
+          name,
+          permissionIds: permissionIds.map((permission: FormSelectOption) => parseInt(permission.value, 10)),
+        },
       };
       await updateRoleMutation(payload);
       enqueueSnackbar(t('edit.success'), {
