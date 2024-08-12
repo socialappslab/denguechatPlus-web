@@ -71,7 +71,11 @@
     "statusActive": "Active Status",
     "createdAt": "Created At",
     "updatedAt": "Updated At",
-    "actions": "Actions"
+    "actions": "Actions",
+    "organization": "Organization",
+    "sector": "Sector",
+    "wedge": "Wedge",
+    "members": "Members"
   },
   "options": {
     "notDefined": "Not Defined",

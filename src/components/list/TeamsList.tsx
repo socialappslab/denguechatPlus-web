@@ -10,6 +10,11 @@ const headCells: HeadCell<Team>[] = [
     sortable: true,
   },
   {
+    id: 'name',
+    label: 'name',
+    sortable: true,
+  },
+  {
     id: 'organization',
     label: 'organization',
     filterable: true,
@@ -27,6 +32,11 @@ const headCells: HeadCell<Team>[] = [
     filterable: true,
     sortable: true,
   },
+  {
+    id: 'userProfiles',
+    label: 'members',
+    filterable: false,
+  },
 ];
 
 const ITeamDataTable = FilteredDataTable<Team>;
@@ -37,10 +47,10 @@ export default function TeamList() {
   return (
     <ITeamDataTable
       endpoint="admin/teams"
-      // defaultFilter="username"
+      defaultFilter="sector"
       headCells={headCells}
-      title={t('menu.users')}
-      subtitle={t('menu.descriptions.users')}
+      title={t('menu.teams')}
+      subtitle={t('menu.descriptions.teams')}
     />
   );
 }
