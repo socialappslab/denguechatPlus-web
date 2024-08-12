@@ -15,7 +15,7 @@ import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
-import { BaseObject } from '@/schemas';
+import { City } from '@/schemas';
 
 export interface EditUserProps {
   user: IUser;
@@ -30,9 +30,8 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
   const { state } = useStateContext();
   const user = state.user as IUser;
   const { t } = useTranslation(['register', 'errorCodes', 'admin']);
-  // Add casting to remove typing errors
-  const { createMutation: createCityMutation } = useCreateMutation<CreateCity>(
-    `admin/countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities/`,
+  const { createMutation: createCityMutation } = useCreateMutation<CreateCity, City>(
+    `admin/countries/1/states/${user.state.id}/cities/`,
   );
 
   const { enqueueSnackbar } = useSnackbar();

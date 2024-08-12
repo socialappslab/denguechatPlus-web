@@ -1,4 +1,4 @@
-import { TypeOf, array, number, object, string } from 'zod';
+import { TypeOf, array, boolean, object, string } from 'zod';
 import i18nInstance from '../i18n/config';
 
 const t = (key: string, args?: { [key: string]: string | number }) => i18nInstance.t(key, args);
@@ -9,7 +9,10 @@ export const createRoleSchema = () => {
 
   return object({
     name: requiredNameString,
-    permissionIds: array(number()).min(1, t('validation:required')),
+    permissionIds: array(object({ label: string(), value: string(), disabled: boolean().optional() })).min(
+      1,
+      t('validation:required'),
+    ),
   });
 };
 

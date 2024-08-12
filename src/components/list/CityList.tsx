@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Button from '@/themed/button/Button';
 import { BaseObject, City } from '@/schemas';
-import CreateCityDialog from '@/pages/admin/CreateCityDialog';
+import CreateCityDialog from '@/components/dialog/CreateCityDialog';
 import { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
 import useStateContext from '@/hooks/useStateContext';

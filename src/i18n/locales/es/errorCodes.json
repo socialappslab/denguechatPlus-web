@@ -53,5 +53,6 @@
   "49": "El teléfono '{{field}}' ya está en uso",
   "50": "El correo electrónico '{{field}}' ya está en uso",
   "51": "La cuenta no está activa",
+  "52": "El nombre ya está en uso, por favor elige otro nombre",
   "55": "La cuenta fue bloqueada temporalmente. Se produjeron varios intentos fallidos de inicio de sesión. Vuelve a intentarlo más tarde."
 }

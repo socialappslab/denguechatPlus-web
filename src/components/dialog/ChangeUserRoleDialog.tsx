@@ -30,7 +30,6 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
   const { enqueueSnackbar } = useSnackbar();
   const [roleOptions, setRoleOptions] = useState<FormSelectOption[]>([]);
 
-  console.log('user', user);
   const [{ data: rolesData, loading: loadingRoles }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: '/roles?page[number]=1&page[size]=100&sort=name',
   });

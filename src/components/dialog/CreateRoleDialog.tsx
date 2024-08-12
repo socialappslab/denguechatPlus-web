@@ -6,46 +6,22 @@ import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
 
+import useAxios from 'axios-hooks';
+import { useEffect, useState } from 'react';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import { FormSelectOption } from '@/schemas';
 import { CreateRole, CreateRoleInputType, createRoleSchema } from '@/schemas/create';
+import { Permission, Role } from '@/schemas/entities';
+import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
-import FormSelect from '../../themed/form-select/FormSelect';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 
 export interface EditUserProps {
   user: IUser;
 }
-
-// Based on DB and https://docs.google.com/spreadsheets/d/1SKZ-qW-5fvgyS1INllLZhXu1emn1__KCKiNZirsJpjo/edit?gid=0#gid=0
-const PERMISSIONS = {
-  organization: [
-    { name: 'index', id: 8 },
-    { name: 'create', id: 11 },
-    { name: 'update', id: 13 },
-    { name: 'destroy', id: 14 },
-  ],
-  users: [
-    { name: 'edit', id: 19 },
-    { name: 'update', id: 20 },
-    { name: 'destroy', id: 21 },
-  ],
-  roles: [
-    { name: 'show', id: 23 },
-    { name: 'edit', id: 26 },
-    { name: 'create', id: 25 },
-    { name: 'destroy', id: 28 },
-  ],
-  teams: [
-    { name: 'index', id: 1 },
-    { name: 'create', id: 4 },
-    { name: 'destroy', id: 7 },
-    { name: 'update', id: 6 },
-  ],
-} as const;
 
 interface CreateRoleDialogProps {
   handleClose: () => void;
@@ -54,12 +30,31 @@ interface CreateRoleDialogProps {
 
 export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin']);
-  const { createMutation: createRoleMutation } = useCreateMutation<CreateRole>('roles');
+  const { createMutation: createRoleMutation } = useCreateMutation<CreateRole, Role>('roles');
+  const [permissionsOptions, setPermissionsOptions] = useState([]);
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const [{ data, loading, error }, refetch] = useAxios({
+    url: `/permissions`,
+  });
+
+  const normalizePermissions = (rows: Permission[]) => {
+    if (!rows) return [];
+    return rows.map((row: Permission) => {
+      const attr = row.attributes;
+      return { label: `${attr.resource}.${attr.name}`, value: attr.id };
+    }, []);
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      const normalizedPermissions = normalizePermissions(data.data);
+      setPermissionsOptions(normalizedPermissions);
+    }
+  }, [data, loading]);
+
   const methods = useForm<CreateRoleInputType>({
-    resolver: zodResolver(createRoleSchema()),
     defaultValues: {},
   });
 
@@ -71,34 +66,15 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
     // formState: { isValid, errors },
   } = methods;
 
-  const permissionOptions = Object.keys(PERMISSIONS).flatMap((resource) => {
-    type RoleKey = keyof typeof PERMISSIONS;
-    // type RoleItem = (typeof PERMISSIONS)[RoleKey][number];
-    return [
-      {
-        label: t(`permissions:${resource as RoleKey}.title`),
-        value: '',
-        disabled: true,
-      },
-      ...PERMISSIONS[resource as RoleKey].map((permission) => {
-        return {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          label: t(`permissions:${resource as RoleKey}.${permission.name}`),
-          value: permission.id,
-        };
-      }),
-    ];
-  });
-
   const onSubmitHandler: SubmitHandler<CreateRoleInputType> = async (values) => {
     try {
-      const { name, permissionIds } = values;
+      const { name, permissions } = values;
 
       const payload: CreateRole = {
         name,
-        permissionIds,
+        permissionIds: permissions.map((permission) => parseInt(permission.value, 10)),
       };
+
       await createRoleMutation(payload);
       enqueueSnackbar(t('edit.success'), {
         variant: 'success',
@@ -158,12 +134,13 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
               />
             </Grid>
             <Grid item xs={12} sm={12}>
-              <FormSelect
-                multiple
-                name="permissionIds"
-                className="mt-2"
-                label={t('admin:roles.form.permissions')}
-                options={permissionOptions as FormSelectOption[]}
+              <FormMultipleSelect
+                name="permissions"
+                loading={loading}
+                label={t('roles')}
+                placeholder={t('edit.roles_placeholder')}
+                options={permissionsOptions}
+                renderOption={(option: FormSelectOption) => t(`permissions:${option.label}`)}
               />
             </Grid>
           </Grid>
