@@ -37,7 +37,8 @@
     "show": "View Houses",
     "create": "Create Houses",
     "update": "Edit Houses",
-    "destroy": "Delete Houses"
+    "destroy": "Delete Houses",
+    "index": "View houses"
   },
   "breading_sites": {
     "title": "Breading Sites",
