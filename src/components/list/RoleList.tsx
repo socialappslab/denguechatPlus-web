@@ -9,7 +9,6 @@ import EditRoleDialog from '../dialog/EditRoleDialog';
 import FilteredDataTable from './FilteredDataTable';
 import { ROLES_CREATE } from '@/constants/permissions';
 import ProtectedView from '@/layout/ProtectedView';
-import Button from '@/themed/button/Button';
 
 const headCells: HeadCell<Role>[] = [
   {
