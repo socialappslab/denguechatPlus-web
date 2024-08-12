@@ -1,3 +1,5 @@
+import { JsonApiResource, Member, Neighborhood, Wedge } from '.';
+
 export interface PaginationInput {
   'page[number]': number;
   'page[size]': number;
@@ -14,9 +16,9 @@ export interface BaseWithStatus extends BaseEntity {
   createdAt: string;
 }
 
-export interface Organization extends BaseWithStatus {}
+export interface Organization extends BaseEntity {}
 
-export interface SpecialPlace extends BaseWithStatus {}
+export interface SpecialPlace extends BaseEntity {}
 
 export interface Permission extends BaseEntity {
   attributes: {
@@ -28,4 +30,12 @@ export interface Permission extends BaseEntity {
 
 export interface Role extends BaseEntity {
   permissions: { data: Permission[] };
+}
+
+export interface Team extends BaseEntity {
+  organization: Organization;
+  sector: Neighborhood;
+  wedge: Wedge;
+  leader: Member;
+  userProfiles: Member[];
 }

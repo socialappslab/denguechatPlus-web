@@ -46,6 +46,14 @@ export type BaseObject = {
 
 export interface Neighborhood extends BaseObject {}
 
+export interface Wedge extends BaseObject {}
+
+export interface Member {
+  id: number;
+  first_name: string;
+  last_name: string;
+}
+
 export interface City extends Neighborhood {
   neighborhoods: Neighborhood[];
 }

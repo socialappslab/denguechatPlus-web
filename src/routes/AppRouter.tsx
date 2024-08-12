@@ -24,6 +24,7 @@ import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import LoadCity from '@/pages/loader/LoadCity';
+import TeamList from '@/components/list/TeamsList';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: 'special-places',
         element: <SpecialPlaceList />,
+      },
+      {
+        path: 'teams',
+        element: <TeamList />,
       },
     ],
     errorElement: <RouterErrorPage />,
