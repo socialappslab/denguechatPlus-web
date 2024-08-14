@@ -1,29 +1,47 @@
 {
   "roles": {
-    "create_role": "Crear rol",
+    "create_role": "Crear Rol",
+    "success": "Rol creado con éxito",
     "form": {
       "name": "Nombre",
-      "name_placeholder": "Introduce un nombre",
+      "name_placeholder": "Ingrese un nombre",
       "permissions": "Permisos",
-      "permissions_placeholder": "Selecciona permisos"
+      "permissions_placeholder": "Seleccione permisos"
+    },
+    "edit": {
+      "success": "Rol actualizado con éxito"
     }
   },
   "cities": {
-    "create_city": "Crear ciudad",
+    "create_city": "Crear Ciudad",
+    "success": "Ciudad creada con éxito",
     "neighborhoods": "Sectores",
     "form": {
       "name": "Nombre",
-      "name_placeholder": "Introduce un nombre",
+      "name_placeholder": "Ingrese un nombre",
       "neighborhood": "Sector",
-      "neighborhood_placeholder": "Introduce el nombre del sector",
-      "add_button": "Agregar"
+      "neighborhood_placeholder": "Ingrese el nombre del sector",
+      "add_button": "Añadir"
     },
     "edit": {
-      "edit_city": "Editar ciudad",
+      "edit_city": "Editar Ciudad",
       "edit_current_neighborhoods": "Editar sectores actuales",
-      "add_new_neighborhoods": "Agregar nuevos sectores",
-      "add_new_button": "Agregar nuevo",
-      "deleted": "Eliminado"
+      "add_new_neighborhoods": "Añadir nuevos sectores",
+      "add_new_button": "Añadir nuevo",
+      "deleted": "Eliminado",
+      "success": "Ciudad actualizada con éxito"
+    }
+  },
+  "teams": {
+    "form": {
+      "name": "Nombre",
+      "name_placeholder": "Ingrese un nombre",
+      "members": "Miembros",
+      "members_placeholder": "Seleccione miembros"
+    },
+    "edit": {
+      "edit_team": "Asignar miembros del equipo",
+      "success": "Brigada actualizada con éxito"
     }
   }
 }

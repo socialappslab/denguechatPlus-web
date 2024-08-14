@@ -1,15 +1,20 @@
 {
   "roles": {
     "create_role": "Create Role",
+    "success": "Role created successfully",
     "form": {
       "name": "Name",
       "name_placeholder": "Enter a name",
       "permissions": "Permissions",
       "permissions_placeholder": "Select permissions"
+    },
+    "edit": {
+      "success": "Role updated successfully"
     }
   },
   "cities": {
     "create_city": "Create City",
+    "success": "City created successfully",
     "neighborhoods": "Sectors",
     "form": {
       "name": "Name",
@@ -23,7 +28,20 @@
       "edit_current_neighborhoods": "Edit current sectors",
       "add_new_neighborhoods": "Add new sectors",
       "add_new_button": "Add new",
-      "deleted": "Deleted"
+      "deleted": "Deleted",
+      "success": "City updated successfully"
+    }
+  },
+  "teams": {
+    "form": {
+      "name": "Name",
+      "name_placeholder": "Enter a name",
+      "members": "Members",
+      "members_placeholder": "Select members"
+    },
+    "edit": {
+      "edit_team": "Assign team members",
+      "success": "Brigade updated successfully"
     }
   }
 }

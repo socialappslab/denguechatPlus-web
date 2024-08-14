@@ -23,7 +23,7 @@
   "roles_placeholder": "Selecione seus papéis",
   "organization": "Organização",
   "organization_placeholder": "Selecione sua organização",
-  "team": "Equipe",
+  "team": "Brigada",
   "action": "Registrar",
   "errors": {
     "username_exists": "O nome de usuário '{{username}}' já está em uso",
@@ -57,7 +57,7 @@
     "city_placeholder": "Selecione a cidade",
     "neighborhood_placeholder": "Selecione o bairro",
     "organization_placeholder": "Selecione a organização",
-    "team_placeholder": "Selecione a equipe",
+    "team_placeholder": "Selecione a brigada",
     "roles_placeholder": "Selecione os papéis",
     "password_placeholder": "Digite a senha",
     "passwordConfirm_placeholder": "Repita a senha"

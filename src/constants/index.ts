@@ -35,3 +35,5 @@ export enum UserTypes {
 export const drawerWidth = 260;
 
 export const DEFAULT_OPTION_CITY_NAME = 'Iquitos';
+
+export const TEAM_MEMBER_ROLE = 'brigadista';

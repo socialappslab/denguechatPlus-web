@@ -1,4 +1,4 @@
-import { Member, Neighborhood, Wedge } from '.';
+import { Member } from '.';
 
 export interface PaginationInput {
   'page[number]': number;
@@ -34,9 +34,9 @@ export interface Role extends BaseEntity {
 
 export interface Team extends BaseEntity {
   organization: Organization;
-  sector: Neighborhood;
-  wedge: Wedge;
-  leader: Member;
-  userProfiles: Member[];
+  sector: string;
+  wedge: string;
+  leader: string;
+  members: Member[];
   memberCount: number;
 }

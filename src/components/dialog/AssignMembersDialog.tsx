@@ -5,56 +5,66 @@ import { useTranslation } from 'react-i18next';
 
 import { useSnackbar } from 'notistack';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import useAxios from 'axios-hooks';
+import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
-import useCreateMutation from '@/hooks/useCreateMutation';
-import { FormSelectOption } from '@/schemas';
-import { CreateRole, CreateRoleInputType } from '@/schemas/create';
-import { Permission, Role } from '@/schemas/entities';
+import { ErrorResponse } from 'react-router-dom';
+import useUpdateMutation from '@/hooks/useUpdateMutation';
+import { FormSelectOption, Member } from '@/schemas';
+import { Team } from '@/schemas/entities';
+import { UpdateTeam, UpdateTeamInputType, updateTeamSchema } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
+import { TEAM_MEMBER_ROLE } from '@/constants';
 
 export interface EditUserProps {
   user: IUser;
 }
 
 interface CreateRoleDialogProps {
+  team: Team | null;
   handleClose: () => void;
   updateTable: () => void;
 }
 
-export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogProps) {
+const returnName = (member: Member) => (member.fullName ? member.fullName : `${member.firstName} ${member.lastName}`);
+
+const convertToFormSelectOptions = (rows: Member[]): FormSelectOption[] => {
+  return rows.map((row) => ({ label: returnName(row), value: String(row.id) }));
+};
+
+export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRoleDialogProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin']);
-  const { createMutation: createRoleMutation } = useCreateMutation<CreateRole, Role>('roles');
-  const [permissionsOptions, setPermissionsOptions] = useState<FormSelectOption[]>([]);
+  const { udpateMutation: updateRoleMutation } = useUpdateMutation<UpdateTeam, Team>(`admin/teams/${team?.id}`);
+
+  const [membersOptions, setMembersOptions] = useState<FormSelectOption[]>([]);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [{ data, loading }] = useAxios({
-    url: `/permissions`,
+  const [{ data, loading }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
+    url: `users?filter[roles]=${TEAM_MEMBER_ROLE}`,
   });
 
-  const normalizePermissions = (rows: Permission[]): FormSelectOption[] => {
-    if (!rows) return [];
-    return rows.map((row: Permission) => {
-      const attr = row.attributes;
-      return { label: `${attr.resource}.${attr.name}`, value: String(attr.id) };
-    }, []);
-  };
-
   useEffect(() => {
-    if (!loading) {
-      const normalizedPermissions = normalizePermissions(data.data);
-      setPermissionsOptions(normalizedPermissions);
+    if (!data) return;
+    const deserializedData = deserialize<Member>(data);
+    if (Array.isArray(deserializedData)) {
+      const members = convertToFormSelectOptions(deserializedData);
+      setMembersOptions(members);
     }
   }, [data, loading]);
 
-  const methods = useForm<CreateRoleInputType>({
-    defaultValues: {},
+  const methods = useForm<UpdateTeamInputType>({
+    resolver: zodResolver(updateTeamSchema()),
+    defaultValues: {
+      name: team?.name,
+      members: convertToFormSelectOptions(team?.members || []),
+    },
   });
 
   const {
@@ -65,17 +75,16 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
     // formState: { isValid, errors },
   } = methods;
 
-  const onSubmitHandler: SubmitHandler<CreateRoleInputType> = async (values) => {
+  const onSubmitHandler: SubmitHandler<UpdateTeamInputType> = async (values) => {
     try {
-      const { name, permissionIds } = values;
+      const { name, members } = values;
 
-      const payload: CreateRole = {
+      const payload: UpdateTeam = {
         name,
-        permissionIds: permissionIds.map((permission) => parseInt(permission.value, 10)),
+        memberIds: members.map((member) => member.value),
       };
-
-      await createRoleMutation(payload);
-      enqueueSnackbar(t('admin:roles.success'), {
+      await updateRoleMutation(payload);
+      enqueueSnackbar(t('admin:teams.edit.success'), {
         variant: 'success',
       });
       updateTable();
@@ -121,26 +130,25 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
           autoComplete="off"
           className="w-full p-8"
         >
-          <Title type="section" className="self-center mb-8i w-full" label={t('admin:roles.create_role')} />
+          <Title type="section" className="self-center mb-8i w-full" label={t('admin:teams.edit.edit_team')} />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <FormInput
                 className="mt-2"
                 name="name"
-                label={t('admin:roles.form.name')}
+                label={t('admin:teams.form.name')}
                 type="text"
-                placeholder={t('admin:roles.form.name_placeholder')}
+                disabled
+                placeholder={t('admin:teams.form.name_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormMultipleSelect
-                name="permissionIds"
+                name="members"
                 loading={loading}
-                label={t('admin:roles.form.permissions')}
-                placeholder={t('admin:roles.form.permissions_placeholder')}
-                options={permissionsOptions}
-                //  @ts-expect-error option.label is a dynamic value that does not match with our resources.ts
-                renderOption={(option: FormSelectOption) => t(`permissions:${option.label}`)}
+                label={t('admin:teams.form.members')}
+                placeholder={t('admin:teams.form.members_placeholder')}
+                options={membersOptions}
               />
             </Grid>
           </Grid>
@@ -160,4 +168,4 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
   );
 }
 
-export default CreateRoleDialog;
+export default AssignMembersDialog;

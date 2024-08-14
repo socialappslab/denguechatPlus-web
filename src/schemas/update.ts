@@ -29,3 +29,20 @@ export interface CityUpdate {
 export interface UpdateRole {
   role: CreateRole;
 }
+
+export interface UpdateTeam {
+  name: string;
+  memberIds: string[];
+}
+
+export const updateTeamSchema = () => {
+  const requiredNameString = string().min(1, t('validation:requiredField.name'));
+
+  return object({
+    name: requiredNameString,
+    members: array(object({ label: string(), value: string() })).min(1, t('validation:required')),
+  });
+};
+
+const updateTeamSchemaForType = updateTeamSchema();
+export type UpdateTeamInputType = TypeOf<typeof updateTeamSchemaForType>;

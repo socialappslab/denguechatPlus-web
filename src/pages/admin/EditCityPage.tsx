@@ -96,7 +96,7 @@ export function EditCity({ city }: EditCityProps) {
 
       await udpateCityMutation(payload);
 
-      enqueueSnackbar(t('edit.success'), {
+      enqueueSnackbar(t('admin:cities.edit.success'), {
         variant: 'success',
       });
 
