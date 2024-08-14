@@ -75,7 +75,8 @@
     "organization": "Organization",
     "sector": "Sector",
     "wedge": "Wedge",
-    "members": "Members"
+    "members": "Members",
+    "leader": "Leader"
   },
   "options": {
     "notDefined": "Not Defined",
