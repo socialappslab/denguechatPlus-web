@@ -57,6 +57,7 @@ export default function RoleList() {
       </ProtectedView>
     </div>
   );
+
   const onEdit = (role: Role) => {
     setOpenEditDialog(true);
     setSelectedRole(role);

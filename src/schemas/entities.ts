@@ -34,9 +34,9 @@ export interface Role extends BaseEntity {
 
 export interface Team extends BaseEntity {
   organization: Organization;
-  sector: Neighborhood;
-  wedge: Wedge;
-  leader: Member;
-  userProfiles: Member[];
+  sector: string;
+  wedge: string;
+  leader: string;
+  members: string[];
   memberCount: number;
 }

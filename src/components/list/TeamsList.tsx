@@ -1,7 +1,11 @@
 import { useTranslation } from 'react-i18next';
+import { Dialog } from '@mui/material';
+import { useState } from 'react';
 import useStateContext from '@/hooks/useStateContext';
 import { Team } from '@/schemas/entities';
+import Button from '@/themed/button/Button';
 import { HeadCell } from '../../themed/table/DataTable';
+import { AssignMembersDialog } from '../dialog/AssignMembersDialog';
 import FilteredDataTable from './FilteredDataTable';
 
 function headCells(isAdmin: boolean): HeadCell<Team>[] {
@@ -30,7 +34,7 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
       sortable: true,
     },
     {
-      id: 'userProfiles',
+      id: 'members',
       label: 'members',
       filterable: false,
     },
@@ -38,16 +42,11 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
       id: 'leader',
       label: 'leader',
       filterable: true,
-      render: (row) => (
-        <span>
-          {row.leader.first_name}, {row.leader.last_name}
-        </span>
-      ),
     },
     {
-      id: 'userProfiles',
+      id: 'members',
       label: 'memberCount',
-      render: (row) => <span>{row.userProfiles.length}</span>,
+      render: (row) => <span>{row.members.length}</span>,
     },
   ];
 
@@ -71,15 +70,50 @@ export default function TeamList() {
     state: { user },
   } = useStateContext() as { state: { user: { roles: string[] } } };
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
+  const [updateControl, setUpdateControl] = useState(0);
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const rootElement = document.getElementById('root-app');
   const isAdmin = user?.roles.includes('admin');
 
+  const onEdit = (team: Team) => {
+    setOpenDialog(true);
+    setSelectedTeam(team);
+  };
+
+  const updateTable = () => {
+    setUpdateControl((prev) => prev + 1);
+  };
+
+  const actions = (row: Team, loading?: boolean) => {
+    return (
+      <div className="flex flex-row">
+        <Button primary disabled={loading} label="Members" buttonType="cell" onClick={() => onEdit(row)} />
+      </div>
+    );
+  };
+
   return (
-    <ITeamDataTable
-      endpoint="admin/teams"
-      defaultFilter="sector"
-      headCells={headCells(isAdmin)}
-      title={t('menu.teams')}
-      subtitle={t('menu.descriptions.teams')}
-    />
+    <>
+      {/* Edit */}
+      <Dialog container={rootElement} fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
+        <AssignMembersDialog handleClose={() => setOpenDialog(false)} updateTable={updateTable} team={selectedTeam} />
+      </Dialog>
+
+      <ITeamDataTable
+        endpoint="admin/teams"
+        defaultFilter="sector"
+        headCells={headCells(isAdmin)}
+        title={t('menu.teams')}
+        subtitle={t('menu.descriptions.teams')}
+        actions={actions}
+        updateControl={updateControl}
+      />
+    </>
   );
 }
