@@ -16,9 +16,9 @@ export interface BaseWithStatus extends BaseEntity {
   createdAt: string;
 }
 
-export interface Organization extends BaseEntity {}
+export interface Organization extends BaseWithStatus {}
 
-export interface SpecialPlace extends BaseEntity {}
+export interface SpecialPlace extends BaseWithStatus {}
 
 export interface Permission extends BaseEntity {
   attributes: {

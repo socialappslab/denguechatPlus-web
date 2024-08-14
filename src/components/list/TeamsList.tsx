@@ -1,9 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import useStateContext from '@/hooks/useStateContext';
 import { Team } from '@/schemas/entities';
 import { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
-import useStateContext from '@/hooks/useStateContext';
-import { IUser } from '@/schemas/auth';
 
 function headCells(isAdmin: boolean): HeadCell<Team>[] {
   const cells: HeadCell<Team>[] = [
@@ -70,9 +69,9 @@ export default function TeamList() {
   const { t } = useTranslation('translation');
   const {
     state: { user },
-  } = useStateContext();
+  } = useStateContext() as { state: { user: { roles: string[] } } };
 
-  const isAdmin = (user as IUser).roles.includes('admin');
+  const isAdmin = user?.roles.includes('admin');
 
   return (
     <ITeamDataTable

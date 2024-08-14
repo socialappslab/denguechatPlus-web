@@ -37,14 +37,12 @@ export default function SpecialPlaceList() {
   const { t } = useTranslation('translation');
 
   return (
-    <>
-      <SpecialPlaceDataTable
-        endpoint="special_places"
-        defaultFilter="name"
-        headCells={headCells}
-        title={t('menu.specialPlaces')}
-        subtitle={t('menu.descriptions.specialPlaces')}
-      />
-    </>
+    <SpecialPlaceDataTable
+      endpoint="special_places"
+      defaultFilter="name"
+      headCells={headCells}
+      title={t('menu.specialPlaces')}
+      subtitle={t('menu.descriptions.specialPlaces')}
+    />
   );
 }
