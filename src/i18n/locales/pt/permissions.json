@@ -1,5 +1,5 @@
 {
-  "organization": {
+  "organizations": {
     "title": "Organização",
     "index": "Listar Organizações",
     "show": "Ver Organização",
@@ -15,7 +15,9 @@
     "create": "Criar Usuário",
     "edit": "Editar Usuário",
     "update": "Atualizar Informações do Papel",
-    "destroy": "Excluir Usuário"
+    "destroy": "Excluir Usuário",
+    "users_confirm_account": "Confirmar Conta de Usuário",
+    "change_status": "Alterar Status de Usuário"
   },
   "roles": {
     "title": "Funções",
@@ -131,5 +133,14 @@
     "title": "Países",
     "destroy": "Excluir Países",
     "update": "Alterar Países"
+  },
+  "house_blocks": {
+    "title": "Frente a frente",
+    "index": "Listar Frente a frente",
+    "show": "Ver Frente a frente",
+    "update": "Atualizar Informações de Frente a frente",
+    "edit": "Editar Frente a frente",
+    "create": "Criar Frente a frente",
+    "destroy": "Excluir Frente a frente"
   }
 }

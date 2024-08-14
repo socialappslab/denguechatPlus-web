@@ -1,5 +1,5 @@
 {
-  "organization": {
+  "organizations": {
     "title": "Organization",
     "index": "List Organizations",
     "show": "View Organization",
@@ -15,7 +15,9 @@
     "create": "Create user",
     "edit": "Edit User",
     "update": " Update Role Information",
-    "destroy": "Delete User"
+    "destroy": "Delete User",
+    "users_confirm_account": "Confirm User Account",
+    "change_status": "Change User Status"
   },
   "roles": {
     "title": "Roles",
@@ -131,5 +133,14 @@
     "title": "Countries",
     "destroy": "Delete countries",
     "update": "Change countries"
+  },
+  "house_blocks": {
+    "title": "House blocks",
+    "destroy": "Remove house blocks",
+    "update": "Update house block information",
+    "edit": "Edit house blocks",
+    "create": "Creat house blocks",
+    "index": "List house blocks",
+    "show": "Show house blocks"
   }
 }
