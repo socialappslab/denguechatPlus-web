@@ -130,6 +130,7 @@ export interface IUser extends UserProfile {
   status?: UserStatusType;
   permissions?: string[];
 
+  roles: string[];
   cityName?: string;
   neighborhoodName?: string;
   organizationName?: string;
