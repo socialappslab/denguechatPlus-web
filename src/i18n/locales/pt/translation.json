@@ -70,7 +70,13 @@
     "statusActive": "Estado Ativo",
     "createdAt": "Criado em",
     "updatedAt": "Atualizado em",
-    "actions": "Ações"
+    "actions": "Ações",
+    "organization": "Organização",
+    "sector": "Setor",
+    "wedge": "Subsetor",
+    "members": "Membros",
+    "leader": "Líder",
+    "memberCount": "Número de membros"
   },
   "options": {
     "notDefined": "Não definido",

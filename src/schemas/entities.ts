@@ -1,3 +1,5 @@
+import { Member, Neighborhood, Wedge } from '.';
+
 export interface PaginationInput {
   'page[number]': number;
   'page[size]': number;
@@ -28,4 +30,13 @@ export interface Permission extends BaseEntity {
 
 export interface Role extends BaseEntity {
   permissions: { data: Permission[] };
+}
+
+export interface Team extends BaseEntity {
+  organization: Organization;
+  sector: Neighborhood;
+  wedge: Wedge;
+  leader: Member;
+  userProfiles: Member[];
+  memberCount: number;
 }

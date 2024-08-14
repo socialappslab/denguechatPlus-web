@@ -30,6 +30,7 @@ import {
   ROLES_INDEX,
   USERS_INDEX,
   SPECIAL_PLACES_INDEX,
+  TEAMS_INDEX,
 } from '@/constants/permissions';
 import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
@@ -55,6 +56,7 @@ const ADMIN_ROLES = '/admin/roles';
 const ADMIN_ORGANIZATIONS = '/admin/organizations';
 const ADMIN_CITIES = '/admin/cities';
 const ADMIN_SPECIAL_PLACES = '/admin/special-places';
+const ADMIN_TEAMS = '/admin/teams';
 
 export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
   const { t } = useTranslation('translation');
@@ -200,6 +202,16 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
                   selected={pathname.includes(ADMIN_SPECIAL_PLACES)}
                 >
                   <ListItemText primary={<Text type="menuItem">{t('menu.specialPlaces')}</Text>} />
+                </ListItemButton>
+              </ProtectedView>
+              <ProtectedView hasPermission={[TEAMS_INDEX]}>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={ADMIN_TEAMS}
+                  selected={pathname.includes(ADMIN_TEAMS)}
+                >
+                  <ListItemText primary={<Text type="menuItem">{t('menu.teams')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
             </List>
