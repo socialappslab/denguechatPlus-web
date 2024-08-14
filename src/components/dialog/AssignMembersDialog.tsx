@@ -20,6 +20,7 @@ import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
+import { TEAM_MEMBER_ROLE } from '@/constants';
 
 export interface EditUserProps {
   user: IUser;
@@ -46,7 +47,7 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
   const { enqueueSnackbar } = useSnackbar();
 
   const [{ data, loading }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: `/users`,
+    url: `users?filter[roles]=${TEAM_MEMBER_ROLE}`,
   });
 
   useEffect(() => {
