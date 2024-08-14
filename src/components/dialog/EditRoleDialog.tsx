@@ -7,16 +7,17 @@ import { useSnackbar } from 'notistack';
 
 import useAxios from 'axios-hooks';
 import { useEffect, useState } from 'react';
+import useUpdateMutation from '@/hooks/useUpdateMutation';
 import { FormSelectOption } from '@/schemas';
-import { CreateRole, CreateRoleInputType } from '@/schemas/create';
+import { CreateRoleInputType } from '@/schemas/create';
 import { Permission, Role } from '@/schemas/entities';
+import { UpdateRole } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
-import useUpdateMutation from '@/hooks/useUpdateMutation';
 
 export interface EditUserProps {
   user: IUser;
@@ -30,13 +31,13 @@ interface CreateRoleDialogProps {
 
 export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDialogProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin']);
-  const { udpateMutation: updateRoleMutation } = useUpdateMutation<CreateRole, Role>(`roles/${role?.id}`);
+  const { udpateMutation: updateRoleMutation } = useUpdateMutation<UpdateRole, Role>(`roles/${role?.id}`);
 
   const [permissionsOptions, setPermissionsOptions] = useState<FormSelectOption[]>([]);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [{ data, loading, fetchError }, refetch] = useAxios({
+  const [{ data, loading }] = useAxios({
     url: `/permissions`,
   });
 
@@ -53,7 +54,7 @@ export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDia
       const normalizedPermissions = normalizePermissions(data.data);
       setPermissionsOptions(normalizedPermissions);
     }
-  }, [data, loading, fetchError]);
+  }, [data, loading]);
 
   const methods = useForm<CreateRoleInputType>({
     defaultValues: {
@@ -73,13 +74,14 @@ export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDia
     // formState: { isValid, errors },
   } = methods;
 
+  //  @ts-expect-error option.label is a dynamic value that does not match with our resources.ts
   const renderOption = (option: FormSelectOption): string => t(`permissions:${option.label}`);
 
   const onSubmitHandler: SubmitHandler<CreateRoleInputType> = async (values) => {
     try {
       const { name, permissionIds } = values;
 
-      const payload: CreateRole = {
+      const payload: UpdateRole = {
         role: {
           name,
           permissionIds: permissionIds.map((permission: FormSelectOption) => parseInt(permission.value, 10)),

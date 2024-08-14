@@ -9,13 +9,13 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import useStateContext from '@/hooks/useStateContext';
+import { City } from '@/schemas';
 import { CreateCity, CreateCityInputType, createCitySchema } from '@/schemas/create';
 import { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
-import { City } from '@/schemas';
 
 export interface EditUserProps {
   user: IUser;

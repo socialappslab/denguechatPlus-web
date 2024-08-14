@@ -3,14 +3,13 @@ import { Box, Grid } from '@mui/material';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
 
 import useAxios from 'axios-hooks';
 import { useEffect, useState } from 'react';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import { FormSelectOption } from '@/schemas';
-import { CreateRole, CreateRoleInputType, createRoleSchema } from '@/schemas/create';
+import { CreateRole, CreateRoleInputType } from '@/schemas/create';
 import { Permission, Role } from '@/schemas/entities';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import { IUser } from '../../schemas/auth';
@@ -31,19 +30,19 @@ interface CreateRoleDialogProps {
 export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin']);
   const { createMutation: createRoleMutation } = useCreateMutation<CreateRole, Role>('roles');
-  const [permissionsOptions, setPermissionsOptions] = useState([]);
+  const [permissionsOptions, setPermissionsOptions] = useState<FormSelectOption[]>([]);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [{ data, loading, error }, refetch] = useAxios({
+  const [{ data, loading }] = useAxios({
     url: `/permissions`,
   });
 
-  const normalizePermissions = (rows: Permission[]) => {
+  const normalizePermissions = (rows: Permission[]): FormSelectOption[] => {
     if (!rows) return [];
     return rows.map((row: Permission) => {
       const attr = row.attributes;
-      return { label: `${attr.resource}.${attr.name}`, value: attr.id };
+      return { label: `${attr.resource}.${attr.name}`, value: String(attr.id) };
     }, []);
   };
 
@@ -68,11 +67,11 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
 
   const onSubmitHandler: SubmitHandler<CreateRoleInputType> = async (values) => {
     try {
-      const { name, permissions } = values;
+      const { name, permissionIds } = values;
 
       const payload: CreateRole = {
         name,
-        permissionIds: permissions.map((permission) => parseInt(permission.value, 10)),
+        permissionIds: permissionIds.map((permission) => parseInt(permission.value, 10)),
       };
 
       await createRoleMutation(payload);
@@ -135,11 +134,12 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormMultipleSelect
-                name="permissions"
+                name="permissionIds"
                 loading={loading}
                 label={t('roles')}
                 placeholder={t('edit.roles_placeholder')}
                 options={permissionsOptions}
+                //  @ts-expect-error option.label is a dynamic value that does not match with our resources.ts
                 renderOption={(option: FormSelectOption) => t(`permissions:${option.label}`)}
               />
             </Grid>
