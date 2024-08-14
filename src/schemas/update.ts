@@ -31,8 +31,10 @@ export interface UpdateRole {
 }
 
 export interface UpdateTeam {
-  name: string;
-  memberIds: string[];
+  team: {
+    name: string;
+    memberIds: string[];
+  };
 }
 
 export const updateTeamSchema = () => {
