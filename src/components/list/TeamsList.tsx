@@ -13,6 +13,7 @@ const headCells: HeadCell<Team>[] = [
     id: 'name',
     label: 'name',
     sortable: true,
+    filterable: true,
   },
   {
     id: 'organization',
@@ -40,6 +41,7 @@ const headCells: HeadCell<Team>[] = [
   {
     id: 'leader',
     label: 'leader',
+    filterable: true,
     render: (row) => (
       <span>
         {row.leader.first_name}, {row.leader.last_name}
