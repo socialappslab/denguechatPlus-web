@@ -40,8 +40,8 @@
       "members_placeholder": "Seleccione miembros"
     },
     "edit": {
-      "edit_team": "Editar Equipo",
-      "success": "Equipo actualizado con éxito"
+      "edit_team": "Editar Brigada",
+      "success": "Brigada actualizada con éxito"
     }
   }
 }

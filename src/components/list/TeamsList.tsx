@@ -64,7 +64,7 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
 const ITeamDataTable = FilteredDataTable<Team>;
 
 export default function TeamList() {
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation(['translation', 'admin']);
   const {
     state: { user },
   } = useStateContext() as { state: { user: { roles: string[] } } };
@@ -92,7 +92,13 @@ export default function TeamList() {
   const actions = (row: Team, loading?: boolean) => {
     return (
       <div className="flex flex-row">
-        <Button primary disabled={loading} label="Members" buttonType="cell" onClick={() => onEdit(row)} />
+        <Button
+          primary
+          disabled={loading}
+          label={t('admin:teams.form.members')}
+          buttonType="cell"
+          onClick={() => onEdit(row)}
+        />
       </div>
     );
   };
