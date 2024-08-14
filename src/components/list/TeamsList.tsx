@@ -38,17 +38,14 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
       id: 'members',
       label: 'members',
       filterable: false,
-      render: (row) => <span>{row.members.map((m: Member) => `${m.fullName}`).join(', ')}</span>,
+      render: (row) => <span key={row.id}>{row.members.map((m: Member) => `${m.fullName}`).join(', ')}</span>,
+      sortKey: 'members',
     },
     {
       id: 'leader',
       label: 'leader',
       filterable: true,
-    },
-    {
-      id: 'members',
-      label: 'memberCount',
-      render: (row) => <span>{row.members.length}</span>,
+      sortKey: 'leader',
     },
   ];
 

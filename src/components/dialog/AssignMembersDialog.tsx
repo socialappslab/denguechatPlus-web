@@ -76,10 +76,11 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
 
   const onSubmitHandler: SubmitHandler<UpdateTeamInputType> = async (values) => {
     try {
-      const { name } = values;
+      const { name, members } = values;
 
       const payload: UpdateTeam = {
         name,
+        memberIds: members.map((member) => member.value),
       };
       await updateRoleMutation(payload);
       enqueueSnackbar(t('admin:teams.edit.success'), {
