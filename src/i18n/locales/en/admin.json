@@ -40,7 +40,7 @@
       "members_placeholder": "Select members"
     },
     "edit": {
-      "edit_team": "Edit Brigade",
+      "edit_team": "Assign team members",
       "success": "Brigade updated successfully"
     }
   }

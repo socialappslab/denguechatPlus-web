@@ -138,6 +138,7 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
                 name="name"
                 label={t('admin:teams.form.name')}
                 type="text"
+                disabled
                 placeholder={t('admin:teams.form.name_placeholder')}
               />
             </Grid>
