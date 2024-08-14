@@ -1,15 +1,20 @@
 {
   "roles": {
-    "create_role": "Criar função",
+    "create_role": "Criar Função",
+    "success": "Função criada com sucesso",
     "form": {
       "name": "Nome",
       "name_placeholder": "Digite um nome",
       "permissions": "Permissões",
       "permissions_placeholder": "Selecione permissões"
+    },
+    "edit": {
+      "success": "Função atualizada com sucesso"
     }
   },
   "cities": {
-    "create_city": "Criar cidade",
+    "create_city": "Criar Cidade",
+    "success": "Cidade criada com sucesso",
     "neighborhoods": "Setores",
     "form": {
       "name": "Nome",
@@ -19,11 +24,24 @@
       "add_button": "Adicionar"
     },
     "edit": {
-      "edit_city": "Editar cidade",
+      "edit_city": "Editar Cidade",
       "edit_current_neighborhoods": "Editar setores atuais",
       "add_new_neighborhoods": "Adicionar novos setores",
       "add_new_button": "Adicionar novo",
-      "deleted": "Deletado"
+      "deleted": "Excluído",
+      "success": "Cidade atualizada com sucesso"
+    }
+  },
+  "teams": {
+    "form": {
+      "name": "Nome",
+      "name_placeholder": "Digite um nome",
+      "members": "Membros",
+      "members_placeholder": "Selecione membros"
+    },
+    "edit": {
+      "edit_team": "Editar Equipe",
+      "success": "Equipe atualizada com sucesso"
     }
   }
 }
