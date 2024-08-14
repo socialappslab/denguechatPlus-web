@@ -66,7 +66,7 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
         neighborhoodsAttributes: neighborhoods.map((neighborhood: string) => ({ name: neighborhood })),
       };
       await createCityMutation(payload);
-      enqueueSnackbar(t('edit.success'), {
+      enqueueSnackbar(t('admin:cities.success'), {
         variant: 'success',
       });
 

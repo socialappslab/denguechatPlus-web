@@ -75,7 +75,7 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
       };
 
       await createRoleMutation(payload);
-      enqueueSnackbar(t('edit.success'), {
+      enqueueSnackbar(t('admin:roles.success'), {
         variant: 'success',
       });
       updateTable();
@@ -136,8 +136,8 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
               <FormMultipleSelect
                 name="permissionIds"
                 loading={loading}
-                label={t('roles')}
-                placeholder={t('edit.roles_placeholder')}
+                label={t('admin:roles.form.permissions')}
+                placeholder={t('admin:roles.form.permissions_placeholder')}
                 options={permissionsOptions}
                 //  @ts-expect-error option.label is a dynamic value that does not match with our resources.ts
                 renderOption={(option: FormSelectOption) => t(`permissions:${option.label}`)}

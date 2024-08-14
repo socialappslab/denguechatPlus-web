@@ -88,7 +88,7 @@ export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDia
         },
       };
       await updateRoleMutation(payload);
-      enqueueSnackbar(t('edit.success'), {
+      enqueueSnackbar(t('admin:roles.edit.success'), {
         variant: 'success',
       });
       updateTable();
@@ -149,8 +149,8 @@ export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDia
               <FormMultipleSelect
                 name="permissionIds"
                 loading={loading}
-                label={t('roles')}
-                placeholder={t('edit.roles_placeholder')}
+                label={t('admin:roles.form.permissions')}
+                placeholder={t('admin:roles.form.permissions_placeholder')}
                 options={permissionsOptions}
                 renderOption={renderOption}
               />
