@@ -39,7 +39,7 @@ export const updateTeamSchema = () => {
 
   return object({
     name: requiredNameString,
-    members: array(string()).min(1, t('validation:required')),
+    members: array(object({ label: string(), value: string() })).min(1, t('validation:required')),
   });
 };
 

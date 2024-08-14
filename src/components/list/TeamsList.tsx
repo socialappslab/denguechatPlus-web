@@ -7,6 +7,7 @@ import Button from '@/themed/button/Button';
 import { HeadCell } from '../../themed/table/DataTable';
 import { AssignMembersDialog } from '../dialog/AssignMembersDialog';
 import FilteredDataTable from './FilteredDataTable';
+import { Member } from '@/schemas';
 
 function headCells(isAdmin: boolean): HeadCell<Team>[] {
   const cells: HeadCell<Team>[] = [
@@ -37,6 +38,7 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
       id: 'members',
       label: 'members',
       filterable: false,
+      render: (row) => <span>{row.members.map((m: Member) => `${m.fullName}`).join(', ')}</span>,
     },
     {
       id: 'leader',

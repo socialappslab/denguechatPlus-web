@@ -54,6 +54,7 @@ export interface Member {
   last_name: string;
   firstName: string;
   lastName: string;
+  fullName: string;
 }
 
 export interface City extends Neighborhood {

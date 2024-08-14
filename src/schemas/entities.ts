@@ -1,4 +1,4 @@
-import { Member, Neighborhood, Wedge } from '.';
+import { Member } from '.';
 
 export interface PaginationInput {
   'page[number]': number;
@@ -37,6 +37,6 @@ export interface Team extends BaseEntity {
   sector: string;
   wedge: string;
   leader: string;
-  members: string[];
+  members: Member[];
   memberCount: number;
 }

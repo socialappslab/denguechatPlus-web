@@ -31,13 +31,15 @@ interface CreateRoleDialogProps {
   updateTable: () => void;
 }
 
-const convertToFormSelectOptions = (rows: Member[]) => {
-  return rows.map((row) => ({ label: `${row.firstName} ${row.lastName}`, value: String(row.id) }));
+const returnName = (member: Member) => (member.fullName ? member.fullName : `${member.firstName} ${member.lastName}`);
+
+const convertToFormSelectOptions = (rows: Member[]): FormSelectOption[] => {
+  return rows.map((row) => ({ label: returnName(row), value: String(row.id) }));
 };
 
 export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRoleDialogProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin']);
-  const { udpateMutation: updateRoleMutation } = useUpdateMutation<UpdateTeam, Team>(`teams/${team?.id}`);
+  const { udpateMutation: updateRoleMutation } = useUpdateMutation<UpdateTeam, Team>(`admin/teams/${team?.id}`);
 
   const [membersOptions, setMembersOptions] = useState<FormSelectOption[]>([]);
 
@@ -60,10 +62,7 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
     resolver: zodResolver(updateTeamSchema()),
     defaultValues: {
       name: team?.name,
-      // permissionIds: role?.permissions.data.map((permission) => ({
-      //   value: String(permission.attributes.id),
-      //   label: `${permission.attributes.resource}.${permission.attributes.name}`,
-      // })),
+      members: convertToFormSelectOptions(team?.members || []),
     },
   });
 
