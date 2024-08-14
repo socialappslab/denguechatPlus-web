@@ -1,5 +1,6 @@
 import { TypeOf, array, object, record, string } from 'zod';
 import i18nInstance from '../i18n/config';
+import { CreateRole } from './create';
 
 const t = (key: string, args?: { [key: string]: string | number }) => i18nInstance.t(key, args);
 
@@ -23,4 +24,8 @@ export interface CityUpdate {
     id?: string;
     name?: string;
   }[];
+}
+
+export interface UpdateRole {
+  role: CreateRole;
 }
