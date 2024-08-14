@@ -46,6 +46,11 @@ const headCells: HeadCell<Team>[] = [
       </span>
     ),
   },
+  {
+    id: 'userProfiles',
+    label: 'memberCount',
+    render: (row) => <span>{row.userProfiles.length}</span>,
+  },
 ];
 
 const ITeamDataTable = FilteredDataTable<Team>;

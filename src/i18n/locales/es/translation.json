@@ -75,7 +75,8 @@
     "sector": "Sector",
     "wedge": "Cuña",
     "members": "Miembros",
-    "leader": "Líder"
+    "leader": "Líder",
+    "memberCount": "Número de miembros"
   },
   "options": {
     "notDefined": "No definido",

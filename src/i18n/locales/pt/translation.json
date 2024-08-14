@@ -75,7 +75,8 @@
     "sector": "Setor",
     "wedge": "Subsetor",
     "members": "Membros",
-    "leader": "Líder"
+    "leader": "Líder",
+    "memberCount": "Número de membros"
   },
   "options": {
     "notDefined": "Não definido",

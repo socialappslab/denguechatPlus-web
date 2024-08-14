@@ -1,4 +1,4 @@
-import { JsonApiResource, Member, Neighborhood, Wedge } from '.';
+import { Member, Neighborhood, Wedge } from '.';
 
 export interface PaginationInput {
   'page[number]': number;
@@ -38,4 +38,5 @@ export interface Team extends BaseEntity {
   wedge: Wedge;
   leader: Member;
   userProfiles: Member[];
+  memberCount: number;
 }
