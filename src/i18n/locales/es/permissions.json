@@ -1,71 +1,135 @@
 {
-  "create_role": "Crear Rol",
-  "name": "Nombre",
-  "name_placeholder": "Ingresa un nombre",
-  "permissions": "Permissions",
   "organization": {
     "title": "Organización",
-    "index": "Ver Organizaciones",
+    "index": "Listar Organizaciones",
+    "show": "Ver Organización",
     "create": "Crear Organizaciones",
-    "update": "Editar Organizaciones",
+    "edit": "Editar Organización",
+    "update": "Actualizar Información de la Organización",
     "destroy": "Eliminar Organizaciones"
   },
   "users": {
     "title": "Usuarios",
-    "update": "Editar Roles de Usuario",
-    "edit": "Editar Información del Usuario",
+    "index": "Listar Usuarios",
+    "show": "Mostrar Usuario",
+    "create": "Crear Usuario",
+    "edit": "Editar Usuario",
+    "update": "Actualizar Información del Rol",
     "destroy": "Eliminar Usuario"
   },
   "roles": {
     "title": "Roles",
+    "index": "Listar Roles",
     "show": "Ver Roles",
-    "edit": "Editar Roles",
     "create": "Crear Rol",
+    "edit": "Editar Roles",
+    "update": "Actualizar Información del Rol",
     "destroy": "Eliminar Roles"
   },
   "teams": {
-    "title": "Equipos",
-    "index": "Ver Equipos",
-    "create": "Crear Equipos",
-    "destroy": "Eliminar Equipos",
-    "update": "Cambiar Equipo de Usuario"
+    "title": "Brigadas",
+    "index": "Listar Brigadas",
+    "show": "Mostrar Brigada",
+    "create": "Crear Brigadas",
+    "edit": "Editar Información del Equipo",
+    "update": "Cambiar Equipo de Usuario",
+    "destroy": "Eliminar Brigadas"
   },
   "post_comments": {
     "title": "Publicaciones / Comentarios",
-    "show": "Ver recursos de publicaciones / comentarios",
-    "create": "Crear publicaciones / comentarios",
-    "update": "Editar publicaciones / comentarios"
+    "index": "Listar Publicaciones / Comentarios",
+    "show": "Ver Recursos de Publicaciones / Comentarios",
+    "create": "Crear Publicación / Comentario",
+    "edit": "Editar Publicaciones / Comentarios",
+    "update": "Actualizar Información de Publicaciones / Comentarios"
   },
   "houses": {
     "title": "Casas",
+    "index": "Ver Casas",
     "show": "Ver Casas",
     "create": "Crear Casas",
-    "update": "Editar Casas",
+    "edit": "Editar Casas",
+    "update": "Actualizar Información de la Casa",
     "destroy": "Eliminar Casas"
   },
   "breading_sites": {
     "title": "Sitios de Cría",
-    "show": "Ver sitios de cría",
-    "update": "Editar sitios de cría",
-    "destroy": "Eliminar sitios de cría"
+    "index": "Listar Sitios de Cría",
+    "show": "Ver Sitios de Cría",
+    "create": "Crear Sitios de Cría",
+    "edit": "Editar Sitios de Cría",
+    "update": "Actualizar Información del Sitio de Cría",
+    "destroy": "Eliminar Sitios de Cría"
   },
   "elimination_methods": {
     "title": "Métodos de Eliminación",
-    "show": "Ver métodos de eliminación",
-    "update": "Editar métodos de eliminación",
-    "destroy": "Eliminar métodos de eliminación"
+    "index": "Listar Métodos de Eliminación",
+    "show": "Ver Métodos de Eliminación",
+    "create": "Crear Métodos de Eliminación",
+    "edit": "Editar Métodos de Eliminación",
+    "update": "Actualizar Información del Método de Eliminación",
+    "destroy": "Eliminar Métodos de Eliminación"
   },
   "breading_types": {
     "title": "Tipos de Cría",
-    "show": "Ver tipos de cría",
-    "update": "Editar tipos de cría",
-    "destroy": "Eliminar tipos de cría"
+    "index": "Listar Tipos de Cría",
+    "show": "Ver Tipos de Cría",
+    "create": "Crear Tipos de Cría",
+    "edit": "Editar Tipos de Cría",
+    "update": "Actualizar Información de Tipos de Cría",
+    "destroy": "Eliminar Tipos de Cría"
   },
   "visits": {
     "title": "Visitas",
-    "show": "Ver visita",
-    "index": "Ver visitas",
-    "update": "Editar visita",
-    "create": "Crear visita"
+    "index": "Listar Visitas",
+    "show": "Ver Visita",
+    "create": "Crear Visita",
+    "edit": "Editar Visita",
+    "update": "Actualizar Información de la Visita"
+  },
+  "special_places": {
+    "title": "Lugares Especiales",
+    "index": "Ver Lugares Especiales",
+    "show": "Ver Lugar Especial",
+    "create": "Crear Lugares Especiales",
+    "edit": "Editar Lugares Especiales",
+    "update": "Actualizar Información del Lugar Especial",
+    "destroy": "Eliminar Lugares Especiales"
+  },
+  "locations": {
+    "title": "Ubicaciones",
+    "index": "Ver Ubicaciones"
+  },
+  "neighborhoods": {
+    "title": "Sectores",
+    "destroy": "Eliminar Sectores",
+    "update": "Cambiar Sectores",
+    "create": "Crear Sectores",
+    "index": "Listar Sectores",
+    "show": "Ver Sector",
+    "edit": "Editar Sectores"
+  },
+  "states": {
+    "title": "Estados",
+    "destroy": "Eliminar Estados",
+    "update": "Editar Estados",
+    "create": "Crear Estados",
+    "index": "Listar Estados",
+    "show": "Ver Estado",
+    "edit": "Cambiar Estados"
+  },
+  "cities": {
+    "title": "Ciudades",
+    "destroy": "Eliminar Ciudades",
+    "update": "Cambiar Ciudades",
+    "edit": "Editar Ciudades",
+    "create": "Crear Ciudades",
+    "index": "Listar Ciudades",
+    "show": "Ver Ciudad"
+  },
+  "countries": {
+    "title": "Países",
+    "destroy": "Eliminar Países",
+    "update": "Cambiar Países"
   }
 }

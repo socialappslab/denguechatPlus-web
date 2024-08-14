@@ -1,76 +1,100 @@
 {
   "organization": {
     "title": "Organization",
-    "index": "View Organizations",
+    "index": "List Organizations",
+    "show": "View Organization",
     "create": "Create Organizations",
-    "update": "Edit Organizations",
+    "edit": "Edit Organization",
+    "update": "Update Organization Information",
     "destroy": "Delete Organizations"
   },
   "users": {
     "title": "Users",
-    "update": "Edit User Roles",
-    "edit": "Edit User Information",
+    "index": "List users",
+    "show": "Show user",
+    "create": "Create user",
+    "edit": "Edit User",
+    "update": " Update Role Information",
     "destroy": "Delete User"
   },
   "roles": {
     "title": "Roles",
+    "index": "List Roles",
     "show": "View Roles",
-    "edit": "Edit Roles",
     "create": "Create Role",
+    "edit": "Edit Roles",
+    "update": "Update Role Information",
     "destroy": "Delete Roles"
   },
   "teams": {
-    "title": "Teams",
-    "index": "View Teams",
-    "create": "Create Teams",
-    "destroy": "Delete Teams",
-    "update": "Switch User Team"
+    "title": "Brigades",
+    "index": "List Brigades",
+    "show": "Show Brigade",
+    "create": "Create Brigades",
+    "edit": "Edit Team Information",
+    "update": "Switch User Team",
+    "destroy": "Delete Brigades"
   },
   "post_comments": {
     "title": "Post / Comments",
-    "show": "View to post/ comments resources",
+    "index": "list post / comments",
+    "show": "View to post / comments resources",
     "create": "Create post / comments",
-    "update": "Edit post / comments"
+    "edit": "Edit post / comments",
+    "update": "Update post / comments information"
   },
   "houses": {
     "title": "Houses",
+    "index": "View houses",
     "show": "View Houses",
     "create": "Create Houses",
-    "update": "Edit Houses",
-    "destroy": "Delete Houses",
-    "index": "View houses"
+    "edit": "Edit Houses",
+    "update": "Update House Information",
+    "destroy": "Delete Houses"
   },
   "breading_sites": {
     "title": "Breading Sites",
+    "index": "List Breading Sites",
     "show": "View breading sites",
-    "update": "Edit breading sites",
+    "create": "Create breading sites",
+    "edit": "Edit breading sites",
+    "update": "Update breading site information",
     "destroy": "Delete breading sites"
   },
   "elimination_methods": {
     "title": "Elimination Methods",
+    "index": "List elimination methods",
     "show": "View elimination methods",
-    "update": "Edit elimination methods",
+    "create": "Create elimination methods",
+    "edit": "Edit elimination methods",
+    "update": " Update elimination method information",
     "destroy": "Delete elimination methods"
   },
   "breading_types": {
-    "title": "Breading Sites",
+    "title": "Breading types",
+    "index": "List breading types",
     "show": "View breading types",
-    "update": "Edit breading types",
+    "create": "Create breading types",
+    "edit": "Edit breading types",
+    "update": "Update breading types information",
     "destroy": "Delete breading types"
   },
   "visits": {
     "title": "Visits",
-    "show": "View visit",
     "index": "List visits",
-    "update": "Edit visit",
-    "create": "Create visit"
+    "show": "View visit",
+    "create": "Create visit",
+    "edit": "Edit visit",
+    "update": "Update visit information"
   },
   "special_places": {
     "title": "Special Places",
-    "destroy": "Delete special places",
-    "update": "Edit special places",
+    "index": "View special places",
+    "show": "View special place",
     "create": "Create special places",
-    "index": "View special places"
+    "edit": "Edit special places",
+    "update": "Update special place information",
+    "destroy": "Delete special places"
   },
   "locations": {
     "title": "Locations",
