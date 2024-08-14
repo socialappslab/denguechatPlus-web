@@ -24,7 +24,7 @@
     "myCity": "Mi Ciudad",
     "specialPlaces": "Lugares Especiales",
     "myCommunity": "Mi Comunidad",
-    "teams": "Equipos",
+    "teams": "Brigadas",
     "myProfile": "Mi Perfil",
     "settings": "Configuraciones",
     "organizations": "Organizaciones",
@@ -35,7 +35,7 @@
       "cities": "Lista de Ciudades",
       "users": "Lista de Usuarios",
       "roles": "Lista de Roles",
-      "teams": "Lista de Equipos",
+      "teams": "Lista de Brigadas",
       "specialPlaces": "Lista de Lugares Especiales"
     }
   },
