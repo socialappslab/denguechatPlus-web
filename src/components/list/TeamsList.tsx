@@ -37,6 +37,15 @@ const headCells: HeadCell<Team>[] = [
     label: 'members',
     filterable: false,
   },
+  {
+    id: 'leader',
+    label: 'leader',
+    render: (row) => (
+      <span>
+        {row.leader.first_name}, {row.leader.last_name}
+      </span>
+    ),
+  },
 ];
 
 const ITeamDataTable = FilteredDataTable<Team>;
