@@ -84,7 +84,7 @@ export default function UserList() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow
   const actions = (row: IUser, loading?: boolean) => (
     <div className="flex flex-row">
-      <ProtectedView hasPermission={['users-edit']}>
+      <ProtectedView hasPermission={['users-update']}>
         <Button primary component={Link} to={`${row.id}/edit`} label={t('table.actions.edit')} buttonType="cell" />
       </ProtectedView>
 

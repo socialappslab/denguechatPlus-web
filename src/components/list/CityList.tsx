@@ -2,15 +2,17 @@ import { Dialog } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import Button from '@/themed/button/Button';
-import { BaseObject, City } from '@/schemas';
+
 import CreateCityDialog from '@/components/dialog/CreateCityDialog';
-import { HeadCell } from '../../themed/table/DataTable';
-import FilteredDataTable from './FilteredDataTable';
-import useStateContext from '@/hooks/useStateContext';
-import { IUser } from '@/schemas/auth';
-import ProtectedView from '@/layout/ProtectedView';
 import { CITIES_CREATE, CITIES_EDIT } from '@/constants/permissions';
+import useStateContext from '@/hooks/useStateContext';
+import ProtectedView from '@/layout/ProtectedView';
+import { BaseObject, City } from '@/schemas';
+import { IUser } from '@/schemas/auth';
+import Button from '@/themed/button/Button';
+import { HeadCell } from '@/themed/table/DataTable';
+
+import FilteredDataTable from './FilteredDataTable';
 
 const headCells: HeadCell<City>[] = [
   {
@@ -26,7 +28,7 @@ const headCells: HeadCell<City>[] = [
   },
 ];
 
-const RoleDataTable = FilteredDataTable<City>;
+const CityDataTable = FilteredDataTable<City>;
 
 export default function RoleList() {
   const { state } = useStateContext();
@@ -79,8 +81,8 @@ export default function RoleList() {
       <Dialog container={rootElement} fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
         <CreateCityDialog handleClose={handleClose} updateTable={updateTable} />
       </Dialog>
-      <RoleDataTable
-        endpoint={`admin/countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities`}
+      <CityDataTable
+        endpoint={`countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities`}
         defaultFilter="name"
         headCells={headCells}
         title={t('menu.cities')}

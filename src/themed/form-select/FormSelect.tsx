@@ -110,7 +110,7 @@ export function FormSelect({
                 optionsChecked.map((option) => {
                   if (option.disabled) {
                     return (
-                      <MenuItem key={`key-${option.label}`} disabled>
+                      <MenuItem key={`key-${option.label}-${option.value}`} disabled>
                         <div className={` ${fieldError ? 'text-red opacity-50' : 'text-darkest opacity-50'}`}>
                           {option.label}
                         </div>
@@ -118,7 +118,11 @@ export function FormSelect({
                     );
                   }
                   return (
-                    <MenuItem key={`key-${option.label}`} value={option.value} disabled={option.disabled}>
+                    <MenuItem
+                      key={`key-${option.label}-${option.value}`}
+                      value={option.value}
+                      disabled={option.disabled}
+                    >
                       {renderOption(option)}
                     </MenuItem>
                   );

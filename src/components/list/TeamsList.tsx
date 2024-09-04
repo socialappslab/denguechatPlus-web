@@ -1,13 +1,13 @@
-import { useTranslation } from 'react-i18next';
-import { Dialog } from '@mui/material';
-import { useState } from 'react';
 import useStateContext from '@/hooks/useStateContext';
+import { Member } from '@/schemas';
 import { Team } from '@/schemas/entities';
 import Button from '@/themed/button/Button';
+import { Dialog } from '@mui/material';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { HeadCell } from '../../themed/table/DataTable';
 import { AssignMembersDialog } from '../dialog/AssignMembersDialog';
 import FilteredDataTable from './FilteredDataTable';
-import { Member } from '@/schemas';
 
 function headCells(isAdmin: boolean): HeadCell<Team>[] {
   const cells: HeadCell<Team>[] = [
@@ -61,7 +61,7 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
   return cells;
 }
 
-const ITeamDataTable = FilteredDataTable<Team>;
+const TeamDataTable = FilteredDataTable<Team>;
 
 export default function TeamList() {
   const { t } = useTranslation(['translation', 'admin']);
@@ -110,8 +110,8 @@ export default function TeamList() {
         <AssignMembersDialog handleClose={() => setOpenDialog(false)} updateTable={updateTable} team={selectedTeam} />
       </Dialog>
 
-      <ITeamDataTable
-        endpoint="admin/teams"
+      <TeamDataTable
+        endpoint="teams"
         defaultFilter="sector"
         headCells={headCells(isAdmin)}
         title={t('menu.teams')}
