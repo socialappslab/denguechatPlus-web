@@ -9,6 +9,7 @@
     "lastName": "O sobrenome é obrigatório",
     "phone": "O telefone é obrigatório",
     "city": "A cidade é obrigatória",
+    "houseBlock": "O bloco da casa é obrigatório",
     "neighborhood": "O setor é obrigatório",
     "organization": "A organização é obrigatória"
   },

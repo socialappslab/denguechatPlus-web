@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import useUpdateUser from '@/hooks/useUpdateUser';
 import { BaseObject, City, ErrorResponse, FormSelectOption, Neighborhood } from '@/schemas';
 import { IUser, UpdateUserInputType, UpdateUserSchema, UserUpdate } from '@/schemas/auth';
+import { HouseBlock, Team } from '@/schemas/entities';
 import { Button } from '@/themed/button/Button';
 import { FormInput } from '@/themed/form-input/FormInput';
 import FormSelect from '@/themed/form-select/FormSelect';
@@ -31,6 +32,7 @@ export function EditUser({ user }: EditUserProps) {
   const [cityOptions, setCityOptions] = useState<FormSelectOption[]>([]);
   const [organizationOptions, setOrganizationOptions] = useState<FormSelectOption[]>([]);
   const [teamOptions, setTeamOptions] = useState<FormSelectOption[]>([]);
+  const [houseBlockOptions, setHouseBlockOptions] = useState<FormSelectOption[]>([]);
 
   const methods = useForm<UpdateUserInputType>({
     resolver: zodResolver(UpdateUserSchema),
@@ -42,6 +44,7 @@ export function EditUser({ user }: EditUserProps) {
         organization: user.organization !== null ? String((user?.organization as BaseObject)?.id) : '',
         neighborhood: user.neighborhood !== null ? String((user?.neighborhood as BaseObject)?.id) : '',
         city: user.city !== null ? String((user?.city as BaseObject)?.id) : '',
+        houseBlock: user.houseBlock !== null ? String((user?.houseBlock as BaseObject)?.id) : '',
         phone: user.phone ? `+${user.phone}` : '',
         email: user.email || '',
         username: user.username || '',
@@ -49,7 +52,12 @@ export function EditUser({ user }: EditUserProps) {
   });
 
   const { handleSubmit, setError, setValue, watch } = methods;
-  const [cityValue, neighborhoodValue] = watch(['city', 'neighborhood']);
+  const [cityValue, neighborhoodValue, teamValue, houseBlockValue] = watch([
+    'city',
+    'neighborhood',
+    'team',
+    'houseBlock',
+  ]);
 
   const [{ data: citiesData, loading: loadingCities }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: `cities?page[number]=1&page[size]=1000`,
@@ -73,6 +81,14 @@ export function EditUser({ user }: EditUserProps) {
 
   const [{ data: teamData, loading: loadingTeams }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: 'teams?page[number]=1&page[size]=100&sort=name',
+  });
+
+  const [{ data: houseBlocksData, loading: loadingHouseBlocks }] = useAxios<
+    ExistingDocumentObject,
+    unknown,
+    ErrorResponse
+  >({
+    url: `house_blocks?filter[team_id]=${teamValue || (user?.team as BaseObject)?.id}&page[number]=1&page[size]=1000`,
   });
 
   const onGoBackHandler = () => {
@@ -101,6 +117,19 @@ export function EditUser({ user }: EditUserProps) {
   }, [cityValue, setValue]);
 
   useEffect(() => {
+    if (
+      teamValue !== undefined &&
+      (teamValue !== String((user?.team as BaseObject)?.id) ||
+        (teamValue === String((user?.team as BaseObject)?.id) &&
+          user?.houseBlock !== undefined &&
+          houseBlockValue !== String((user?.houseBlock as BaseObject)?.id)))
+    ) {
+      setValue('houseBlock', '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamValue, setValue]);
+
+  useEffect(() => {
     if (!citiesData) return;
     const deserializedData = deserialize<City>(citiesData);
     if (Array.isArray(deserializedData)) {
@@ -120,16 +149,37 @@ export function EditUser({ user }: EditUserProps) {
 
   useEffect(() => {
     if (!teamData) return;
-    const deserializedData = deserialize(teamData);
+    const deserializedData = deserialize<Team>(teamData);
     if (Array.isArray(deserializedData)) {
       const teams = convertToFormSelectOptions(deserializedData);
       setTeamOptions(teams);
     }
   }, [teamData]);
 
+  useEffect(() => {
+    if (!houseBlocksData) return;
+    const deserializedData = deserialize<HouseBlock>(houseBlocksData);
+    if (Array.isArray(deserializedData)) {
+      const houseBlocks = convertToFormSelectOptions(deserializedData);
+      setHouseBlockOptions(houseBlocks);
+    }
+  }, [houseBlocksData]);
+
   const onSubmitHandler: SubmitHandler<UpdateUserInputType> = async (values) => {
     try {
-      const { phone, username, password, email, firstName, lastName, organization, team, city, neighborhood } = values;
+      const {
+        phone,
+        username,
+        password,
+        email,
+        firstName,
+        lastName,
+        organization,
+        team,
+        houseBlock,
+        city,
+        neighborhood,
+      } = values;
 
       const payload: UserUpdate = {
         username,
@@ -143,6 +193,7 @@ export function EditUser({ user }: EditUserProps) {
           cityId: city ? Number(city) : undefined,
           neighborhoodId: neighborhood ? Number(neighborhood) : undefined,
           teamId: team ? Number(team) : undefined,
+          houseBlockId: houseBlock ? Number(houseBlock) : undefined,
         },
       };
       await udpateUserMutation(payload);
@@ -298,6 +349,16 @@ export function EditUser({ user }: EditUserProps) {
                 options={teamOptions}
                 loading={loadingTeams}
                 placeholder={t('edit.team_placeholder')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormSelect
+                name="houseBlock"
+                className="mt-2"
+                label={t('houseBlock')}
+                options={houseBlockOptions}
+                loading={loadingHouseBlocks}
+                placeholder={t('edit.house_block_placeholder')}
               />
             </Grid>
           </Grid>

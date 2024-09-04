@@ -24,6 +24,7 @@
   "organization": "Organização",
   "organization_placeholder": "Selecione sua organização",
   "team": "Brigada",
+  "houseBlock": "Bloco da Casa",
   "action": "Registrar",
   "errors": {
     "username_exists": "O nome de usuário '{{username}}' já está em uso",
@@ -58,6 +59,7 @@
     "neighborhood_placeholder": "Selecione o bairro",
     "organization_placeholder": "Selecione a organização",
     "team_placeholder": "Selecione a brigada",
+    "house_block_placeholder": "Selecione o bloco da casa",
     "roles_placeholder": "Selecione os papéis",
     "password_placeholder": "Digite a senha",
     "passwordConfirm_placeholder": "Repita a senha"

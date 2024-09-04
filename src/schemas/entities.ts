@@ -40,3 +40,8 @@ export interface Team extends BaseEntity {
   members: Member[];
   memberCount: number;
 }
+
+export interface HouseBlock extends BaseEntity {
+  team: string;
+  houseIds: number[];
+}

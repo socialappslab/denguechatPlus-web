@@ -9,6 +9,7 @@
     "lastName": "El apellido es requerido",
     "phone": "El teléfono es requerido",
     "city": "La ciudad es requerida",
+    "houseBlock": "Frente a Frente es requerido",
     "neighborhood": "El sector es requerido",
     "organization": "La organización es requerida"
   },

@@ -24,6 +24,7 @@
   "organization": "Organización",
   "organization_placeholder": "Selecciona tu organización",
   "team": "Brigada",
+  "houseBlock": "Frente a Frente",
   "action": "Registrarse",
   "errors": {
     "username_exists": "El nombre de usuario '{{username}}' ya existe",
@@ -58,6 +59,7 @@
     "neighborhood_placeholder": "Seleccione el sector",
     "organization_placeholder": "Seleccione la organización",
     "team_placeholder": "Seleccione la brigada",
+    "house_block_placeholder": "Seleccione el frente a frente",
     "roles_placeholder": "Seleccione los roles",
     "password_placeholder": "Ingrese la contraseña",
     "passwordConfirm_placeholder": "Repita la contraseña"

@@ -24,6 +24,7 @@
   "organization": "Organization",
   "organization_placeholder": "Select your organization",
   "team": "Team",
+  "houseBlock": "House Block",
   "action": "Register",
   "errors": {
     "username_exists": "Username '{{username}}' already exists",
@@ -58,6 +59,7 @@
     "neighborhood_placeholder": "Select the sector",
     "organization_placeholder": "Select the organization",
     "team_placeholder": "Select the team",
+    "house_block_placeholder": "Select the house block",
     "roles_placeholder": "Select the roles",
     "password_placeholder": "Enter the password",
     "passwordConfirm_placeholder": "Repeat the password"
