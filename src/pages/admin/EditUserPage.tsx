@@ -1,29 +1,23 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Container, Grid } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-
 import useAxios from 'axios-hooks';
 import { ExistingDocumentObject, deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { DEFAULT_OPTION_CITY_NAME } from '../../constants';
-import useUpdateUser from '../../hooks/useUpdateUser';
-import { BaseObject, ErrorResponse, FormSelectOption, Locations } from '../../schemas';
-import { IUser, UpdateUserInputType, UpdateUserSchema, UserUpdate } from '../../schemas/auth';
-import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
-import FormSelect from '../../themed/form-select/FormSelect';
-import { Title } from '../../themed/title/Title';
-import {
-  convertToFormSelectOptions,
-  createCityOptions,
-  createNeighborhoodOptions,
-  extractAxiosErrorData,
-  findOptionByName,
-} from '../../util';
+
+import useUpdateUser from '@/hooks/useUpdateUser';
+import { BaseObject, City, ErrorResponse, FormSelectOption, Neighborhood } from '@/schemas';
+import { IUser, UpdateUserInputType, UpdateUserSchema, UserUpdate } from '@/schemas/auth';
+import { HouseBlock, Team } from '@/schemas/entities';
+import { Button } from '@/themed/button/Button';
+import { FormInput } from '@/themed/form-input/FormInput';
+import FormSelect from '@/themed/form-select/FormSelect';
+import { Title } from '@/themed/title/Title';
+import { convertToFormSelectOptions, extractAxiosErrorData } from '@/util';
 
 export interface EditUserProps {
   user: IUser;
@@ -38,26 +32,7 @@ export function EditUser({ user }: EditUserProps) {
   const [cityOptions, setCityOptions] = useState<FormSelectOption[]>([]);
   const [organizationOptions, setOrganizationOptions] = useState<FormSelectOption[]>([]);
   const [teamOptions, setTeamOptions] = useState<FormSelectOption[]>([]);
-
-  const [{ data: locationsData, loading: loadingLocations }] = useAxios<Locations[], unknown, ErrorResponse>({
-    url: '/locations?filter[country_id]=1',
-  });
-
-  const [{ data: organizationData, loading: loadingOrganizations }] = useAxios<
-    ExistingDocumentObject,
-    unknown,
-    ErrorResponse
-  >({
-    url: '/organizations?page[number]=1&page[size]=100&sort=name',
-  });
-
-  const [{ data: teamData, loading: loadingTeams }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: 'admin/teams?page[number]=1&page[size]=100&sort=name',
-  });
-
-  const onGoBackHandler = () => {
-    navigate('/admin/users');
-  };
+  const [houseBlockOptions, setHouseBlockOptions] = useState<FormSelectOption[]>([]);
 
   const methods = useForm<UpdateUserInputType>({
     resolver: zodResolver(UpdateUserSchema),
@@ -69,28 +44,56 @@ export function EditUser({ user }: EditUserProps) {
         organization: user.organization !== null ? String((user?.organization as BaseObject)?.id) : '',
         neighborhood: user.neighborhood !== null ? String((user?.neighborhood as BaseObject)?.id) : '',
         city: user.city !== null ? String((user?.city as BaseObject)?.id) : '',
-        phone: user.phone || '',
+        houseBlock: user.houseBlock !== null ? String((user?.houseBlock as BaseObject)?.id) : '',
+        phone: user.phone ? `+${user.phone}` : '',
         email: user.email || '',
         username: user.username || '',
       } || {},
   });
 
   const { handleSubmit, setError, setValue, watch } = methods;
+  const [cityValue, neighborhoodValue, teamValue, houseBlockValue] = watch([
+    'city',
+    'neighborhood',
+    'team',
+    'houseBlock',
+  ]);
 
-  useEffect(() => {
-    if (!locationsData) return;
-    const cities = createCityOptions(locationsData[0]?.states);
-    setCityOptions(cities);
+  const [{ data: citiesData, loading: loadingCities }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
+    url: `cities?page[number]=1&page[size]=1000`,
+  });
 
-    if (cities.length > 0) {
-      const defaultOption = findOptionByName(cities, DEFAULT_OPTION_CITY_NAME);
-      if (defaultOption) {
-        // For city (Iquitos)
-        const neighborhoods = createNeighborhoodOptions(locationsData[0]?.states, defaultOption.value);
-        setNeighborhoodOptions(neighborhoods);
-      }
-    }
-  }, [locationsData, user, setValue]);
+  const [{ data: neighborhoodsData, loading: loadingNeighborhoods }] = useAxios<
+    ExistingDocumentObject,
+    unknown,
+    ErrorResponse
+  >({
+    url: `neighborhoods?filter[city_id]=${cityValue || (user?.city as BaseObject)?.id}&page[number]=1&page[size]=1000`,
+  });
+
+  const [{ data: organizationData, loading: loadingOrganizations }] = useAxios<
+    ExistingDocumentObject,
+    unknown,
+    ErrorResponse
+  >({
+    url: 'organizations?page[number]=1&page[size]=100&sort=name',
+  });
+
+  const [{ data: teamData, loading: loadingTeams }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
+    url: 'teams?page[number]=1&page[size]=100&sort=name',
+  });
+
+  const [{ data: houseBlocksData, loading: loadingHouseBlocks }] = useAxios<
+    ExistingDocumentObject,
+    unknown,
+    ErrorResponse
+  >({
+    url: `house_blocks?filter[team_id]=${teamValue || (user?.team as BaseObject)?.id}&page[number]=1&page[size]=1000`,
+  });
+
+  const onGoBackHandler = () => {
+    navigate('/admin/users');
+  };
 
   useEffect(() => {
     if (!organizationData) return;
@@ -102,17 +105,81 @@ export function EditUser({ user }: EditUserProps) {
   }, [organizationData]);
 
   useEffect(() => {
+    if (
+      cityValue !== undefined &&
+      (cityValue !== String((user?.city as BaseObject)?.id) ||
+        (cityValue === String((user?.city as BaseObject)?.id) &&
+          neighborhoodValue !== String((user?.neighborhood as BaseObject)?.id)))
+    ) {
+      setValue('neighborhood', '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cityValue, setValue]);
+
+  useEffect(() => {
+    if (
+      teamValue !== undefined &&
+      (teamValue !== String((user?.team as BaseObject)?.id) ||
+        (teamValue === String((user?.team as BaseObject)?.id) &&
+          user?.houseBlock !== undefined &&
+          houseBlockValue !== String((user?.houseBlock as BaseObject)?.id)))
+    ) {
+      setValue('houseBlock', '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamValue, setValue]);
+
+  useEffect(() => {
+    if (!citiesData) return;
+    const deserializedData = deserialize<City>(citiesData);
+    if (Array.isArray(deserializedData)) {
+      const cities = convertToFormSelectOptions(deserializedData);
+      setCityOptions(cities);
+    }
+  }, [citiesData]);
+
+  useEffect(() => {
+    if (!neighborhoodsData) return;
+    const deserializedData = deserialize<Neighborhood>(neighborhoodsData);
+    if (Array.isArray(deserializedData)) {
+      const neighborhoods = convertToFormSelectOptions(deserializedData);
+      setNeighborhoodOptions(neighborhoods);
+    }
+  }, [neighborhoodsData]);
+
+  useEffect(() => {
     if (!teamData) return;
-    const deserializedData = deserialize(teamData);
+    const deserializedData = deserialize<Team>(teamData);
     if (Array.isArray(deserializedData)) {
       const teams = convertToFormSelectOptions(deserializedData);
       setTeamOptions(teams);
     }
   }, [teamData]);
 
+  useEffect(() => {
+    if (!houseBlocksData) return;
+    const deserializedData = deserialize<HouseBlock>(houseBlocksData);
+    if (Array.isArray(deserializedData)) {
+      const houseBlocks = convertToFormSelectOptions(deserializedData);
+      setHouseBlockOptions(houseBlocks);
+    }
+  }, [houseBlocksData]);
+
   const onSubmitHandler: SubmitHandler<UpdateUserInputType> = async (values) => {
     try {
-      const { phone, username, password, email, firstName, lastName, organization, team, city, neighborhood } = values;
+      const {
+        phone,
+        username,
+        password,
+        email,
+        firstName,
+        lastName,
+        organization,
+        team,
+        houseBlock,
+        city,
+        neighborhood,
+      } = values;
 
       const payload: UserUpdate = {
         username,
@@ -126,6 +193,7 @@ export function EditUser({ user }: EditUserProps) {
           cityId: city ? Number(city) : undefined,
           neighborhoodId: neighborhood ? Number(neighborhood) : undefined,
           teamId: team ? Number(team) : undefined,
+          houseBlockId: houseBlock ? Number(houseBlock) : undefined,
         },
       };
       await udpateUserMutation(payload);
@@ -259,7 +327,7 @@ export function EditUser({ user }: EditUserProps) {
                 className="mt-2"
                 label={t('city')}
                 options={cityOptions}
-                loading={loadingLocations}
+                loading={loadingCities}
                 placeholder={t('edit.city_placeholder')}
               />
             </Grid>
@@ -269,7 +337,7 @@ export function EditUser({ user }: EditUserProps) {
                 className="mt-2"
                 label={t('neighborhood')}
                 options={neighborhoodOptions}
-                loading={loadingLocations}
+                loading={loadingNeighborhoods}
                 placeholder={t('edit.neighborhood_placeholder')}
               />
             </Grid>
@@ -281,6 +349,16 @@ export function EditUser({ user }: EditUserProps) {
                 options={teamOptions}
                 loading={loadingTeams}
                 placeholder={t('edit.team_placeholder')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormSelect
+                name="houseBlock"
+                className="mt-2"
+                label={t('houseBlock')}
+                options={houseBlockOptions}
+                loading={loadingHouseBlocks}
+                placeholder={t('edit.house_block_placeholder')}
               />
             </Grid>
           </Grid>

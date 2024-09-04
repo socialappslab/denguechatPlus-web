@@ -49,6 +49,7 @@ const passwordConfirmSchema = string().min(1, t('validation:requiredField.confir
 const requiredNameString = string().min(1, t('validation:requiredField.name'));
 const requiredLastNameString = string().min(1, t('validation:requiredField.lastName'));
 const requiredCity = string().min(1, t('validation:requiredField.city'));
+const requiredHouseBlock = string().min(1, t('validation:requiredField.city'));
 const requiredNeighborhood = string().min(1, t('validation:requiredField.neighborhood'));
 const requiredOrganization = string().min(1, t('validation:requiredField.organization'));
 
@@ -77,6 +78,7 @@ export const UpdateUserSchema = object({
   username: userNameSchema,
   phone: phoneSchema,
   city: requiredCity,
+  houseBlock: requiredHouseBlock,
   neighborhood: requiredNeighborhood,
   organization: requiredOrganization,
   team: string().optional(),
@@ -109,6 +111,7 @@ export interface UserProfile {
   neighborhood?: string | BaseObject;
   organization?: string | BaseObject;
   team?: string | BaseObject;
+  houseBlock?: string | BaseObject;
   roles?: BaseObject[];
 
   countryId?: number;
@@ -116,6 +119,7 @@ export interface UserProfile {
   neighborhoodId?: number;
   organizationId?: number;
   teamId?: number;
+  houseBlockId?: number;
 
   timezone?: string;
   language?: string;
