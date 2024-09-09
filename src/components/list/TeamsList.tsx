@@ -1,10 +1,10 @@
+import { Dialog } from '@mui/material';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import useStateContext from '@/hooks/useStateContext';
 import { Member } from '@/schemas';
 import { Team } from '@/schemas/entities';
 import Button from '@/themed/button/Button';
-import { Dialog } from '@mui/material';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { HeadCell } from '../../themed/table/DataTable';
 import { AssignMembersDialog } from '../dialog/AssignMembersDialog';
 import FilteredDataTable from './FilteredDataTable';
@@ -23,6 +23,12 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
       filterable: true,
     },
     {
+      id: 'city',
+      label: 'city',
+      filterable: true,
+      sortable: true,
+    },
+    {
       id: 'sector',
       label: 'sector',
       filterable: true,
@@ -35,10 +41,9 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
       sortable: true,
     },
     {
-      id: 'members',
-      label: 'members',
+      id: 'memberCount',
+      label: 'memberCount',
       filterable: false,
-      render: (row) => <span key={row.id}>{row.members.map((m: Member) => `${m.fullName}`).join(', ')}</span>,
       sortKey: 'members',
     },
     {

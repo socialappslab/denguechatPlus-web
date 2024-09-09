@@ -76,7 +76,8 @@
     "wedge": "Cuña",
     "members": "Miembros",
     "leader": "Líder",
-    "memberCount": "Número de miembros"
+    "memberCount": "Número de miembros",
+    "city": "Ciudad"
   },
   "options": {
     "notDefined": "No definido",
