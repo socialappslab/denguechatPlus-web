@@ -77,7 +77,8 @@
     "wedge": "Wedge",
     "members": "Members",
     "leader": "Leader",
-    "memberCount": "Number of members"
+    "memberCount": "Number of members",
+    "city": "City"
   },
   "options": {
     "notDefined": "Not Defined",

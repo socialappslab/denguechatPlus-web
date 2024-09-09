@@ -76,7 +76,8 @@
     "wedge": "Subsetor",
     "members": "Membros",
     "leader": "Líder",
-    "memberCount": "Número de membros"
+    "memberCount": "Número de membros",
+    "city": "Cidade"
   },
   "options": {
     "notDefined": "Não definido",
