@@ -2,7 +2,6 @@ import { Dialog } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useStateContext from '@/hooks/useStateContext';
-import { Member } from '@/schemas';
 import { Team } from '@/schemas/entities';
 import Button from '@/themed/button/Button';
 import { HeadCell } from '../../themed/table/DataTable';
