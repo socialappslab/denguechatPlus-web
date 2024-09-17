@@ -132,3 +132,11 @@ export const validation = <T extends ZodType>(schema: T, data: unknown, errorMes
 
   throw new ValidationError(errorMessage ?? 'Validation error', result.error);
 };
+
+export const setPhone = (phone?: string): string => {
+  if (!phone) return '';
+  if (phone.startsWith('+')) {
+    return phone;
+  }
+  return `+${phone}`;
+};

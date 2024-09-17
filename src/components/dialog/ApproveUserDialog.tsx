@@ -8,7 +8,7 @@ import { IUser, RegisterInputType } from '../../schemas/auth';
 import Button from '../../themed/button/Button';
 import FormInput from '../../themed/form-input/FormInput';
 import Title from '../../themed/title/Title';
-import { extractAxiosErrorData } from '../../util';
+import { extractAxiosErrorData, setPhone } from '../../util';
 
 export interface ApproveUserDialogProps {
   open: boolean;
@@ -101,7 +101,7 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
               <Grid item xs={12} sm={6}>
                 <FormInput
                   disabled
-                  value={user.phone}
+                  value={setPhone(user.phone)}
                   name="phone"
                   label={t('phone')}
                   type="phone"

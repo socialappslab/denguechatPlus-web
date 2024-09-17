@@ -12,19 +12,13 @@ import { useAxiosNoAuth } from '../../api/axios';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { DEFAULT_OPTION_CITY_NAME } from '../../constants';
 import useCreateAccount from '../../hooks/useCreateAccount';
-import { ErrorResponse, FormSelectOption, Locations } from '../../schemas';
+import { City, ErrorResponse, FormSelectOption, Neighborhood } from '../../schemas';
 import { RegisterInputType, RegisterSchema, UserAccount } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import FormSelect from '../../themed/form-select/FormSelect';
 import { Title } from '../../themed/title/Title';
-import {
-  convertToFormSelectOptions,
-  createCityOptions,
-  createNeighborhoodOptions,
-  extractAxiosErrorData,
-  findOptionByName,
-} from '../../util';
+import { convertToFormSelectOptions, extractAxiosErrorData, findOptionByName } from '../../util';
 
 export function CreateAccountPage() {
   const { t, i18n } = useTranslation(['register', 'errorCodes']);
@@ -38,8 +32,25 @@ export function CreateAccountPage() {
   const [cityOptions, setCityOptions] = useState<FormSelectOption[]>([]);
   const [organizationOptions, setOrganizationOptions] = useState<FormSelectOption[]>([]);
 
-  const [{ data: locationsData, loading: loadingLocations }] = useAxiosNoAuth<Locations[], unknown, ErrorResponse>({
-    url: '/locations?filter[country_id]=1',
+  const methods = useForm<RegisterInputType>({
+    resolver: zodResolver(RegisterSchema),
+  });
+
+  const { handleSubmit, setError, setValue, watch } = methods;
+  const [cityValue] = watch(['city']);
+
+  const [{ data: citiesData, loading: loadingCities }] = useAxiosNoAuth<ExistingDocumentObject, unknown, ErrorResponse>(
+    {
+      url: `public/cities?page[number]=1&page[size]=1000`,
+    },
+  );
+
+  const [{ data: neighborhoodsData, loading: loadingNeighborhoods }] = useAxiosNoAuth<
+    ExistingDocumentObject,
+    unknown,
+    ErrorResponse
+  >({
+    url: `public/neighborhoods?filter[city_id]=${cityValue}&page[number]=1&page[size]=1000`,
   });
 
   const [{ data: organizationData, loading: loadingOrganizations }] = useAxiosNoAuth<
@@ -47,36 +58,39 @@ export function CreateAccountPage() {
     unknown,
     ErrorResponse
   >({
-    url: '/organizations?page[number]=1&page[size]=100&sort=name',
+    url: 'public/organizations?page[number]=1&page[size]=100&sort=name',
   });
-
-  const methods = useForm<RegisterInputType>({
-    resolver: zodResolver(RegisterSchema),
-  });
-
-  const {
-    handleSubmit,
-    setError,
-    setValue,
-    watch,
-    // formState: { isValid, errors },
-  } = methods;
 
   useEffect(() => {
-    if (!locationsData) return;
-    const cities = createCityOptions(locationsData[0]?.states);
-    setCityOptions(cities);
-
-    if (cities.length > 0) {
-      const defaultOption = findOptionByName(cities, DEFAULT_OPTION_CITY_NAME);
-      if (defaultOption) {
-        // For city (Iquitos)
-        const neighborhoods = createNeighborhoodOptions(locationsData[0]?.states, defaultOption.value);
-        setNeighborhoodOptions(neighborhoods);
-        setValue('city', defaultOption.value);
+    if (!citiesData) return;
+    const deserializedData = deserialize<City>(citiesData);
+    if (Array.isArray(deserializedData)) {
+      const cities = convertToFormSelectOptions(deserializedData);
+      setCityOptions(cities);
+      if (cities.length > 0) {
+        const defaultOption = findOptionByName(cities, DEFAULT_OPTION_CITY_NAME);
+        if (defaultOption) {
+          setValue('city', defaultOption.value);
+        }
       }
     }
-  }, [locationsData, setValue]);
+  }, [citiesData, setValue]);
+
+  useEffect(() => {
+    if (!neighborhoodsData) return;
+    const deserializedData = deserialize<Neighborhood>(neighborhoodsData);
+    if (Array.isArray(deserializedData)) {
+      const neighborhoods = convertToFormSelectOptions(deserializedData);
+      setNeighborhoodOptions(neighborhoods);
+    }
+  }, [neighborhoodsData]);
+
+  useEffect(() => {
+    if (cityValue !== undefined) {
+      setValue('neighborhood', '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cityValue, setValue]);
 
   useEffect(() => {
     if (!organizationData) return;
@@ -98,10 +112,10 @@ export function CreateAccountPage() {
         phone,
         password,
         username,
-        email,
         userProfile: {
           firstName,
           lastName,
+          email,
           country: 'PE',
           organizationId: organization ? Number(organization) : undefined,
           cityId: city ? Number(city) : undefined,
@@ -235,7 +249,7 @@ export function CreateAccountPage() {
             className="mt-2"
             label={t('city')}
             options={cityOptions}
-            loading={loadingLocations}
+            loading={loadingCities}
             placeholder={t('city_placeholder')}
           />
 
@@ -244,7 +258,7 @@ export function CreateAccountPage() {
             className="mt-2"
             label={t('neighborhood')}
             options={neighborhoodOptions}
-            loading={loadingLocations}
+            loading={loadingNeighborhoods}
             placeholder={t('neighborhood_placeholder')}
           />
 

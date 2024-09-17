@@ -17,7 +17,7 @@ import { Button } from '@/themed/button/Button';
 import { FormInput } from '@/themed/form-input/FormInput';
 import FormSelect from '@/themed/form-select/FormSelect';
 import { Title } from '@/themed/title/Title';
-import { convertToFormSelectOptions, extractAxiosErrorData } from '@/util';
+import { convertToFormSelectOptions, extractAxiosErrorData, setPhone } from '@/util';
 
 export interface EditUserProps {
   user: IUser;
@@ -45,7 +45,7 @@ export function EditUser({ user }: EditUserProps) {
         neighborhood: user.neighborhood !== null ? String((user?.neighborhood as BaseObject)?.id) : '',
         city: user.city !== null ? String((user?.city as BaseObject)?.id) : '',
         houseBlock: user.houseBlock !== null ? String((user?.houseBlock as BaseObject)?.id) : '',
-        phone: user.phone ? `+${user.phone}` : '',
+        phone: setPhone(user.phone),
         email: user.email || '',
         username: user.username || '',
       } || {},
