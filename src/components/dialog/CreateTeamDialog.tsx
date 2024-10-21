@@ -34,7 +34,7 @@ interface CreateTeamDialogProps {
 export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogProps) {
   // const { state } = useStateContext();
   // const user = state.user as IUser;
-  const { t } = useTranslation(['register', 'errorCodes', 'admin']);
+  const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation']);
   const { createMutation: createTeamMutation } = useCreateMutation<CreateTeam, Team>(`/teams`);
 
   const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
@@ -117,7 +117,7 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
         memberIds: values.memberIds.map((member) => member.value),
       };
       await createTeamMutation(payload);
-      enqueueSnackbar(t('admin:cities.success'), {
+      enqueueSnackbar(t('translation:success'), {
         variant: 'success',
       });
 
