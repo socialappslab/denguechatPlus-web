@@ -87,9 +87,13 @@ export function createNeighborhoodOptions(states: State[], selectedCityId: numbe
   );
 }
 
-export function convertToFormSelectOptions(data: Array<{ id: string | number; name: string }>): FormSelectOption[] {
+export function convertToFormSelectOptions(
+  data: Array<Record<string, string>>,
+  key?: string,
+  key2?: string,
+): FormSelectOption[] {
   return data.map((item) => ({
-    label: item.name,
+    label: `${key ? item[key] : item.name} ${key2 ? item[key2] : ''}`,
     value: `${item.id}`,
   }));
 }

@@ -33,11 +33,20 @@
     }
   },
   "teams": {
+    "create_team": "Crear brigada",
     "form": {
       "name": "Nombre",
-      "name_placeholder": "Ingrese un nombre",
+      "name_placeholder": "Ingresa un nombre",
       "members": "Miembros",
-      "members_placeholder": "Seleccione miembros"
+      "members_placeholder": "Selecciona miembros",
+      "team_leader": "Líder del equipo",
+      "team_leader_placeholder": "Selecciona líder del equipo",
+      "organization": "Organización",
+      "organization_placeholder": "Selecciona organización",
+      "sector": "Sector",
+      "sector_placeholder": "Selecciona sector",
+      "wedge": "Cuña",
+      "wedge_placeholder": "Selecciona cuña"
     },
     "edit": {
       "edit_team": "Asignar miembros del equipo",
