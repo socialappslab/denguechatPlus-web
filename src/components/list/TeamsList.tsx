@@ -1,12 +1,21 @@
-import { Dialog } from '@mui/material';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { TEAMS_CREATE } from '@/constants/permissions';
 import useStateContext from '@/hooks/useStateContext';
-import { Team } from '@/schemas/entities';
+import ProtectedView from '@/layout/ProtectedView';
+import { BaseEntity, Team } from '@/schemas/entities';
 import Button from '@/themed/button/Button';
+import { convertToFormSelectOptions } from '@/util';
+import { Dialog } from '@mui/material';
+import useAxios from 'axios-hooks';
+import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ErrorResponse } from 'react-router-dom';
 import { HeadCell } from '../../themed/table/DataTable';
 import { AssignMembersDialog } from '../dialog/AssignMembersDialog';
+import CreateTeamDialog from '../dialog/CreateTeamDialog';
 import FilteredDataTable from './FilteredDataTable';
+import { IUser, UserProfile } from '@/schemas/auth';
+import { FormSelectOption } from '@/schemas';
 
 function headCells(isAdmin: boolean): HeadCell<Team>[] {
   const cells: HeadCell<Team>[] = [
@@ -74,11 +83,13 @@ export default function TeamList() {
   } = useStateContext() as { state: { user: { roles: string[] } } };
 
   const [openDialog, setOpenDialog] = useState(false);
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [updateControl, setUpdateControl] = useState(0);
 
   const handleClose = () => {
     setOpenDialog(false);
+    setOpenCreateDialog(false);
   };
 
   const rootElement = document.getElementById('root-app');
@@ -107,11 +118,29 @@ export default function TeamList() {
     );
   };
 
+  const create = () => (
+    <div className="flex flex-row">
+      <ProtectedView hasPermission={[TEAMS_CREATE]}>
+        <Button
+          primary={false}
+          variant="outlined"
+          className="justify-start text-md"
+          label={t(`table.create`)}
+          onClick={() => setOpenCreateDialog(true)}
+        />
+      </ProtectedView>
+    </div>
+  );
+
   return (
     <>
       {/* Edit */}
       <Dialog container={rootElement} fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
         <AssignMembersDialog handleClose={() => setOpenDialog(false)} updateTable={updateTable} team={selectedTeam} />
+      </Dialog>
+
+      <Dialog container={rootElement} fullWidth maxWidth="sm" open={openCreateDialog} onClose={handleClose}>
+        <CreateTeamDialog handleClose={() => setOpenCreateDialog(false)} updateTable={updateTable} />
       </Dialog>
 
       <TeamDataTable
@@ -121,6 +150,7 @@ export default function TeamList() {
         title={t('menu.teams')}
         subtitle={t('menu.descriptions.teams')}
         actions={actions}
+        create={create}
         updateControl={updateControl}
       />
     </>
