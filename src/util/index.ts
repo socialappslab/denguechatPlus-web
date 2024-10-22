@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { ZodError, ZodType, z } from 'zod';
 import { ErrorResponse, FormSelectOption, State } from '../schemas';
+import { BaseEntity } from '@/schemas/entities';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getProperty(obj: any, propertyString: string): any {
@@ -87,13 +88,13 @@ export function createNeighborhoodOptions(states: State[], selectedCityId: numbe
   );
 }
 
-export function convertToFormSelectOptions(
-  data: Array<Record<string, string>>,
-  key?: string,
-  key2?: string,
+export function convertToFormSelectOptions<G extends BaseEntity = BaseEntity>(
+  data: Array<G>,
+  key?: keyof G,
+  key2?: keyof G,
 ): FormSelectOption[] {
   return data.map((item) => ({
-    label: `${key ? item[key] : item.name} ${key2 ? item[key2] : ''}`,
+    label: `${key ? (item[key] as string) : item.name} ${key2 ? item[key2] : ''}`,
     value: `${item.id}`,
   }));
 }

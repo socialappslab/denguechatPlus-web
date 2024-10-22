@@ -1,21 +1,15 @@
+import { Dialog } from '@mui/material';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TEAMS_CREATE } from '@/constants/permissions';
 import useStateContext from '@/hooks/useStateContext';
 import ProtectedView from '@/layout/ProtectedView';
-import { BaseEntity, Team } from '@/schemas/entities';
+import { Team } from '@/schemas/entities';
 import Button from '@/themed/button/Button';
-import { convertToFormSelectOptions } from '@/util';
-import { Dialog } from '@mui/material';
-import useAxios from 'axios-hooks';
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ErrorResponse } from 'react-router-dom';
 import { HeadCell } from '../../themed/table/DataTable';
 import { AssignMembersDialog } from '../dialog/AssignMembersDialog';
 import CreateTeamDialog from '../dialog/CreateTeamDialog';
 import FilteredDataTable from './FilteredDataTable';
-import { IUser, UserProfile } from '@/schemas/auth';
-import { FormSelectOption } from '@/schemas';
 
 function headCells(isAdmin: boolean): HeadCell<Team>[] {
   const cells: HeadCell<Team>[] = [
