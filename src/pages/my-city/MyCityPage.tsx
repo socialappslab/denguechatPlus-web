@@ -14,6 +14,7 @@ import Loader from '@/themed/loader/Loader';
 import { ProgressBar } from '@/themed/progress-bar/ProgressBar';
 import Text from '@/themed/text/Text';
 import Title from '@/themed/title/Title';
+import { BaseObject } from '@/schemas';
 
 function a11yProps(index: number) {
   return {
@@ -141,7 +142,7 @@ const RiskChart = () => {
   const { t } = useTranslation('myCity');
   const user = useUser();
 
-  const label = `${user?.team?.name!}: ${t('riskChart.title')}`;
+  const label = `${(user?.team as BaseObject)?.name}: ${t('riskChart.title')}`;
 
   return (
     <Box className="border-solid border-neutral-100 rounded-md p-6 mb-4">
@@ -161,7 +162,6 @@ const MyCity = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [dataList, setDataList] = useState<Post[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [all, setAll] = useState<boolean>(true);
   const user = useUser();
@@ -251,7 +251,6 @@ const MyCity = () => {
       console.log('error>>>>>>', err);
       setError(t('errorCodes.generic'));
     } finally {
-      setLoading(false);
       setLoadingMore(false);
     }
   };
@@ -292,7 +291,7 @@ const MyCity = () => {
 
   return (
     <>
-      <Title type="page2" label="Mi ciudad" />
+      <Title type="page2" label={`${t('title')} ${(user?.city as BaseObject)?.name}`} />
       <Divider />
       <Box className="flex pt-6 gap-6">
         <Box className="w-2/3 bg-gray-300 h-full">
