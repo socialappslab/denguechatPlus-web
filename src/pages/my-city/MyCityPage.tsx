@@ -1,4 +1,5 @@
 import { Box, Divider, FormControl, InputLabel, MenuItem, Select, Tab, Tabs } from '@mui/material';
+import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,10 +10,10 @@ import ThumbsUp from '@/assets/icons/thumbs-up.svg';
 import Trash from '@/assets/icons/trash.svg';
 import useUser from '@/hooks/useUser';
 import { Post, Team } from '@/schemas/entities';
+import Loader from '@/themed/loader/Loader';
 import { ProgressBar } from '@/themed/progress-bar/ProgressBar';
 import Text from '@/themed/text/Text';
 import Title from '@/themed/title/Title';
-import Loader from '@/themed/loader/Loader';
 
 function a11yProps(index: number) {
   return {
@@ -21,15 +22,9 @@ function a11yProps(index: number) {
   };
 }
 
-const Items = [
-  { label: 'engelmendez', value: '18980' },
-  { label: 'cristhianlopez', value: '17720' },
-  { label: 'alejandrix_villarreal', value: '14090' },
-  { label: 'isaacmendez', value: '7895' },
-  { label: 'jose', value: '7705' },
-];
-
 const PostBox = ({ author, date, location, text, likes, image, id }: PostProps) => {
+  const { t } = useTranslation('myCity');
+
   return (
     <Box key={id} className="flex-col border-solid border-neutral-100 rounded-md p-8 flex justify-between mb-4">
       <Box className="flex items-center gap-4 mb-6">
@@ -53,34 +48,116 @@ const PostBox = ({ author, date, location, text, likes, image, id }: PostProps) 
           </Box>
           <Box className="flex gap-2 hover:bg-neutral-100 px-2 py-1 rounded-md items-center cursor-pointer">
             <img className="self-center" src={Comment} alt="success" />
-            <Text className="mb-0 font-medium opacity-60">Comentar</Text>
+            <Text className="mb-0 font-medium opacity-60">{t('post.comment')}</Text>
           </Box>
         </Box>
         <Box className="flex gap-2 hover:bg-neutral-100 px-2 py-1 rounded-md items-center cursor-pointer">
           <img className="self-center" src={Trash} alt="success" />
-          <Text className="mb-0 font-medium opacity-60">Borrar</Text>
+          <Text className="mb-0 font-medium opacity-60">{t('post.delete')}</Text>
         </Box>
       </Box>
     </Box>
   );
 };
 
-type PostState = Record<
-  string,
-  {
-    post: Post;
-    commentsCount: number;
-    likedByUser: boolean;
-    likesCount: number;
-    loadingLike: boolean;
-  }
->;
+// type PostState = Record<
+//   string,
+//   {
+//     post: Post;
+//     commentsCount: number;
+//     likedByUser: boolean;
+//     likesCount: number;
+//     loadingLike: boolean;
+//   }
+// >;
+
+enum RankView {
+  VisitRank = 'visitRank',
+  GreenHouseRank = 'greenHouseRank',
+}
+
+interface Rank {
+  first_name: string;
+  last_name: string;
+  quantity: number;
+}
+
+interface BrigadistPerformance {
+  visitRank: Rank[];
+  greenHouseRank: Rank[];
+}
+
+const RankViewBox = () => {
+  const { t } = useTranslation('myCity');
+  const [rankView, setRankView] = useState(RankView.VisitRank);
+
+  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+    setRankView(Object.values(RankView)[newValue] as RankView);
+  };
+
+  const [{ data, loading, error }] = useAxios<BrigadistPerformance>({
+    url: `/reports/brigadists_performance`,
+  });
+
+  const value = Object.values(RankView).indexOf(rankView);
+
+  return (
+    <Box className="border-solid border-neutral-100 rounded-md">
+      <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tab label={t('rankView.users')} {...a11yProps(0)} className="w-1/2" />
+        <Tab label={t('rankView.greenHouses')} {...a11yProps(1)} className="w-1/2" />
+      </Tabs>
+      <Box className="flex flex-col p-6">
+        {error && <p>Error</p>}
+        {loading && <Loader />}
+        {!loading && (
+          <>
+            <Box className="flex justify-between mb-4">
+              <Text className="text-neutral-400 opacity-60">{t('rankView.ranking')}</Text>
+              <Text className="text-neutral-400 opacity-60">{t('rankView.visits')}</Text>
+            </Box>
+            <Box>
+              {data &&
+                data[rankView].map((item) => (
+                  <Box className="flex justify-between mb-6" key={item.first_name + item.quantity}>
+                    <Box className="flex flex-row items-center gap-3">
+                      <Box className="rounded-full h-10 w-10 bg-neutral-100" />
+                      <Text className="font-semibold text-neutral-400 opacity-70 mb-0">
+                        {item.first_name} {item.last_name}
+                      </Text>
+                    </Box>
+                    <Text className="font-semibold text-green-800 mb-0">{item.quantity}</Text>
+                  </Box>
+                ))}
+            </Box>
+          </>
+        )}
+      </Box>
+    </Box>
+  );
+};
+
+const RiskChart = () => {
+  const { t } = useTranslation('myCity');
+  const user = useUser();
+
+  const label = `${user?.team?.name!}: ${t('riskChart.title')}`;
+
+  return (
+    <Box className="border-solid border-neutral-100 rounded-md p-6 mb-4">
+      <Title label={label} type="subsection" className="mb-0" />
+      <Box className="flex flex-col mt-6">
+        <ProgressBar label={t('riskChart.greenSites')} progress={50} color="green-600" />
+        <ProgressBar label={t('riskChart.yellowSites')} progress={60} color="yellow-600" />
+        <ProgressBar label={t('riskChart.redSites')} progress={60} color="red-600" />
+      </Box>
+    </Box>
+  );
+};
 
 const MyCity = () => {
-  const { t } = useTranslation();
-  const [value, setValue] = useState(0);
+  const { t } = useTranslation('myCity');
   const [error, setError] = useState('');
-  const [state, setState] = useState<PostState>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [dataList, setDataList] = useState<Post[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -88,6 +165,8 @@ const MyCity = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [all, setAll] = useState<boolean>(true);
   const user = useUser();
+  // const [userRank, setUserRank] = useState();
+  // const [greenHouseRank, setGreenHouseRank] = useState();
 
   const fetchData = async (page: number, teamId?: number | string) => {
     setError('');
@@ -122,20 +201,20 @@ const MyCity = () => {
             .map((id) => deserializedData.find((item) => item.id === id))
             .filter((item) => item !== undefined);
 
-          setState((prevState) => {
-            const newState = { ...prevState };
-            uniqueList.forEach((post) => {
-              newState[`${post.id}`] = {
-                post,
-                commentsCount: post.commentsCount || 0,
-                likedByUser: post.likedByUser ?? false,
-                likesCount: post.likesCount ?? 0,
-                loadingLike: false,
-              };
-            });
+          // setState((prevState) => {
+          //   const newState = { ...prevState };
+          //   uniqueList.forEach((post) => {
+          //     newState[`${post.id}`] = {
+          //       post,
+          //       commentsCount: post.commentsCount || 0,
+          //       likedByUser: post.likedByUser ?? false,
+          //       likesCount: post.likesCount ?? 0,
+          //       loadingLike: false,
+          //     };
+          //   });
 
-            return newState;
-          });
+          //   return newState;
+          // });
 
           setDataList(uniqueList);
         } else {
@@ -146,20 +225,20 @@ const MyCity = () => {
               .map((id) => updatedList.find((item) => item.id === id))
               .filter((item) => item !== undefined);
 
-            setState((prevState) => {
-              const newState = { ...prevState };
-              uniqueList.forEach((post) => {
-                newState[`${post.id}`] = {
-                  post,
-                  commentsCount: post.commentsCount || 0,
-                  likedByUser: post.likedByUser ?? false,
-                  likesCount: post.likesCount ?? 0,
-                  loadingLike: false,
-                };
-              });
+            // setState((prevState) => {
+            //   const newState = { ...prevState };
+            //   uniqueList.forEach((post) => {
+            //     newState[`${post.id}`] = {
+            //       post,
+            //       commentsCount: post.commentsCount || 0,
+            //       likedByUser: post.likedByUser ?? false,
+            //       likesCount: post.likesCount ?? 0,
+            //       loadingLike: false,
+            //     };
+            //   });
 
-              return newState;
-            });
+            //   return newState;
+            // });
 
             return uniqueList;
           });
@@ -211,10 +290,6 @@ const MyCity = () => {
   //   }
   // };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
   return (
     <>
       <Title type="page2" label="Mi ciudad" />
@@ -222,9 +297,9 @@ const MyCity = () => {
       <Box className="flex pt-6 gap-6">
         <Box className="w-2/3 bg-gray-300 h-full">
           <Box className="border-solid border-neutral-100 rounded-md p-4 flex justify-between items-center mb-4">
-            <Title label="Filter" type="subsection" className="mb-0" />
+            <Title label={t('layout.filters')} type="subsection" className="mb-0" />
             <FormControl className="w-1/3" variant="outlined">
-              <InputLabel id="label-attribute-search">Ordenar</InputLabel>
+              <InputLabel id="label-attribute-search">{t('layout.filter.order')}</InputLabel>
               <Select
                 variant="outlined"
                 labelId="label-attribute-search"
@@ -232,7 +307,7 @@ const MyCity = () => {
                 // onChange={handleSelectOptionChange}
                 label="Search"
               >
-                <MenuItem value="0">Mas recientes</MenuItem>
+                <MenuItem value="0">{t('layout.filter.moreRecent')}</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -256,37 +331,8 @@ const MyCity = () => {
           </InfiniteScroll>
         </Box>
         <Box className="w-1/3 bg-gray-300 h-full">
-          <Box className="border-solid border-neutral-100 rounded-md p-6 mb-4">
-            <Title label="Iquitos: Gráfico de riesgo" type="subsection" className="mb-0" />
-            <Box className="flex flex-col mt-6">
-              <ProgressBar label="Sitios verdes" progress={50} color="green-600" />
-              <ProgressBar label="Sitios verdes" progress={60} color="yellow-600" />
-              <ProgressBar label="Sitios verdes" progress={60} color="red-600" />
-            </Box>
-          </Box>
-          <Box className="border-solid border-neutral-100 rounded-md">
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="Usuarios" {...a11yProps(0)} className="w-1/2" />
-              <Tab label="Casas verdes" {...a11yProps(1)} className="w-1/2" />
-            </Tabs>
-            <Box className="flex flex-col p-6">
-              <Box className="flex justify-between mb-4">
-                <Text className="text-neutral-400 opacity-60">Ranking</Text>
-                <Text className="text-neutral-400 opacity-60">Visitas</Text>
-              </Box>
-              <Box>
-                {Items.map((item) => (
-                  <Box className="flex justify-between mb-6">
-                    <Box className="flex flex-row items-center gap-3">
-                      <Box className="rounded-full h-10 w-10 bg-neutral-100" />
-                      <Text className="font-semibold text-neutral-400 opacity-70 mb-0">{item.label}</Text>
-                    </Box>
-                    <Text className="font-semibold text-green-800 mb-0">{item.value}</Text>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          </Box>
+          <RiskChart />
+          <RankViewBox />
         </Box>
       </Box>
     </>
