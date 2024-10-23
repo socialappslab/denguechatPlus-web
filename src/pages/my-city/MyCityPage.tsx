@@ -157,13 +157,13 @@ const RiskChart = () => {
 };
 
 const MyCity = () => {
-  const { t } = useTranslation('myCity');
+  const { t } = useTranslation(['myCity', 'errorCodes']);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [dataList, setDataList] = useState<Post[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [all, setAll] = useState<boolean>(true);
+  const [all] = useState<boolean>(true);
   const user = useUser();
   // const [userRank, setUserRank] = useState();
   // const [greenHouseRank, setGreenHouseRank] = useState();
@@ -249,7 +249,7 @@ const MyCity = () => {
       }
     } catch (err) {
       console.log('error>>>>>>', err);
-      setError(t('errorCodes.generic'));
+      setError(t('errorCodes:generic'));
     } finally {
       setLoadingMore(false);
     }
