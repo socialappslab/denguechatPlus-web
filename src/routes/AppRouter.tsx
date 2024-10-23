@@ -1,21 +1,23 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import BaseLayout from '../layout/BaseLayout';
 
 import MuiTheme from '../mui-theme';
 
-import AppHome from '../pages/AppHome';
 import SignInPage from '../pages/auth/SignInPage';
 
 import LangContextProvider from '../providers/LangContextProvider';
 import StateContextProvider from '../providers/StateContextProvider';
 
+import TeamList from '@/components/list/TeamsList';
+import LoadCity from '@/pages/loader/LoadCity';
+import MyCity from '@/pages/my-city/MyCityPage';
+import CityList from '../components/list/CityList';
 import OrganizationList from '../components/list/OrganizationList';
 import RoleList from '../components/list/RoleList';
 import SpecialPlaceList from '../components/list/SpecialPlacesList';
 import UserList from '../components/list/UserList';
-import CityList from '../components/list/CityList';
 import PageLayout from '../layout/PageLayout';
 import RouterErrorPage from '../pages/RouterErrorPage';
 import BaseAdminPage from '../pages/admin/BaseAdminPage';
@@ -23,8 +25,7 @@ import CreateAccountPage from '../pages/auth/CreateAccountPage';
 import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
-import LoadCity from '@/pages/loader/LoadCity';
-import TeamList from '@/components/list/TeamsList';
+import ProtectedRoute from './ProtectedRoute';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -39,10 +40,18 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <PageLayout>
-        <AppHome />
-      </PageLayout>
+      <ProtectedRoute>
+        <PageLayout>
+          <Outlet />
+        </PageLayout>
+      </ProtectedRoute>
     ),
+    children: [
+      {
+        path: 'my-city',
+        element: <MyCity />,
+      },
+    ],
     errorElement: <RouterErrorPage />,
   },
   {

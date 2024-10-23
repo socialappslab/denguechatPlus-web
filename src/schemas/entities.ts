@@ -46,3 +46,25 @@ export interface HouseBlock extends BaseEntity {
   team: string;
   houseIds: number[];
 }
+
+export interface Post {
+  id: number;
+  createdAt: number;
+  userAccountId: number;
+  canDeleteByUser: boolean;
+  createdBy: string;
+  createByUser: {
+    accountId: number;
+    userName: string;
+    lastName: string;
+  };
+  location: string;
+  postText: string;
+  photoUrl?: {
+    photo_url: string;
+  };
+  commentsCount: number | null;
+  likesCount: number;
+  likedByUser: boolean;
+  comments?: Comment[];
+}

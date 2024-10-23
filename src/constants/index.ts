@@ -1,6 +1,6 @@
 export const COLORS: { [key: string]: string | { [key: string | number]: string } } = {
   grass: '#067507',
-  green: { 100: '#D6FFD6', 600: '#04BF00' },
+  green: { 100: '#D6FFD6', 600: '#04BF00', 800: '#067507' },
   background: '#FFFFFF',
   darkest: '#1C1917',
   gray: '#4D4D54',
@@ -8,7 +8,8 @@ export const COLORS: { [key: string]: string | { [key: string | number]: string 
   softGray: '#C4C4C4',
   lightGray: '#EEEEEE',
   secondary: '#FCC914',
-  red: '#d32f2f',
+  red: { 100: '#FC0606', 600: '#FC0606' },
+  yellow: { 100: '#FC0606', 600: '#FCC914' },
   darkGreen: '#17736B',
   fieldBorder: '#DADADA',
   white: '#FFFFFF',

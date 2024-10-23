@@ -8,6 +8,9 @@ import Success from '@/assets/icons/success.svg?react';
 import Verified from '@/assets/icons/verified.svg?react';
 import Hello from '@/assets/icons/hello.svg?react';
 import City from '@/assets/icons/city.svg?react';
+import Comment from '@/assets/icons/comment.svg?react';
+import Trash from '@/assets/icons/trash.svg?react';
+import ThumbsUp from '@/assets/icons/thumbs-up.svg';
 import Community from '@/assets/icons/community.svg?react';
 import Data from '@/assets/icons/data.svg?react';
 import Register from '@/assets/icons/register.svg?react';
@@ -23,6 +26,9 @@ const IconMap = {
   Data,
   Register,
   Export,
+  Comment,
+  Trash,
+  ThumbsUp,
 };
 
 const Icon = ({
