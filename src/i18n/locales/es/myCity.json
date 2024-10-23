@@ -1,0 +1,27 @@
+{
+  "title": "Ciudad de",
+  "layout": {
+    "filters": "Filtros",
+    "filter": {
+      "order": "Ordenar por",
+      "moreRecent": "Más reciente"
+    }
+  },
+  "post": {
+    "comment": "Comentar",
+    "likes": "Me gusta",
+    "delete": "Delete"
+  },
+  "rankView": {
+    "ranking": "Ranking",
+    "users": "Usuarios",
+    "greenHouses": "Casas verdes",
+    "visits": "Visitas"
+  },
+  "riskChart": {
+    "title": "Gráfico de riesgo",
+    "greenSites": "Sitios verdes",
+    "yellowSites": "Sitios amarillos",
+    "redSites": "Sitios rojos"
+  }
+}

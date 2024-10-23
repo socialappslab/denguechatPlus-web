@@ -1,0 +1,27 @@
+{
+  "title": "Cidade de",
+  "layout": {
+    "filters": "Filtros",
+    "filter": {
+      "order": "Ordenar por",
+      "moreRecent": "Mais recente"
+    }
+  },
+  "post": {
+    "comment": "Comentar",
+    "likes": "Curtidas",
+    "delete": "Excluir"
+  },
+  "rankView": {
+    "ranking": "Classificação",
+    "users": "Usuários",
+    "greenHouses": "Estufas",
+    "visits": "Visitas"
+  },
+  "riskChart": {
+    "title": "Gráfico de risco",
+    "greenSites": "Locais verdes",
+    "yellowSites": "Locais amarelos",
+    "redSites": "Locais vermelhos"
+  }
+}

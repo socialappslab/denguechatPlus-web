@@ -58,6 +58,8 @@ const ADMIN_CITIES = '/admin/cities';
 const ADMIN_SPECIAL_PLACES = '/admin/special-places';
 const ADMIN_TEAMS = '/admin/teams';
 
+const MY_CITY = '/my-city';
+
 export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
   const { t } = useTranslation('translation');
   const location = useLocation();
@@ -118,7 +120,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </Box>
         }
       >
-        <ListItemButton>
+        <ListItemButton component={Link} to={MY_CITY} selected={pathname.includes(MY_CITY)}>
           <ListItemIcon>
             <Icon type="City" />
           </ListItemIcon>

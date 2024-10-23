@@ -1,0 +1,27 @@
+{
+  "title": "City of",
+  "layout": {
+    "filters": "Filters",
+    "filter": {
+      "order": "Order by",
+      "moreRecent": "More recent"
+    }
+  },
+  "post": {
+    "comment": "Comment",
+    "likes": "Likes",
+    "delete": "Borrar"
+  },
+  "rankView": {
+    "ranking": "Ranking",
+    "users": "Users",
+    "greenHouses": "Green Houses",
+    "visits": "Visits"
+  },
+  "riskChart": {
+    "title": "Risk Chart",
+    "greenSites": "Green sites",
+    "yellowSites": "Yellow sites",
+    "redSites": "Red sites"
+  }
+}
