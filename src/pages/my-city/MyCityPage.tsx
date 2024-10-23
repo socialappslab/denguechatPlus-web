@@ -25,6 +25,7 @@ function a11yProps(index: number) {
 
 const PostBox = ({ author, date, location, text, likes, image, id }: PostProps) => {
   const { t } = useTranslation('myCity');
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <Box key={id} className="flex-col border-solid border-neutral-100 rounded-md p-8 flex justify-between mb-4">
@@ -39,7 +40,19 @@ const PostBox = ({ author, date, location, text, likes, image, id }: PostProps) 
       </Box>
       <Text className="mb-6">{text}</Text>
       <Box className="rounded-lg mb-6 overflow-hidden">
-        {image?.photo_url && <img src={image?.photo_url} className="w-full object-cover" alt="posted" />}
+        {!imageLoaded && (
+          <div role="status" className="animate-pulse w-full">
+            <div className="h-96 w-full bg-lightGray rounded-lg" />
+          </div>
+        )}
+        {image?.photo_url && (
+          <img
+            src={image?.photo_url}
+            className="w-full object-cover"
+            alt="posted"
+            onLoad={() => setImageLoaded(true)}
+          />
+        )}
       </Box>
       <Box className="flex justify-between gap-4">
         <Box className="flex gap-6">
