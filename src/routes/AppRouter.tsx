@@ -26,6 +26,7 @@ import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import ProtectedRoute from './ProtectedRoute';
+import AppHome from '@/pages/AppHome';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <PageLayout>
+          <AppHome />
           <Outlet />
         </PageLayout>
       </ProtectedRoute>
