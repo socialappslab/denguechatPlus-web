@@ -1,10 +1,7 @@
-import { useTranslation } from 'react-i18next';
-import { Title } from '../../themed/title/Title';
+import { Navigate } from 'react-router-dom';
 
 export function HomeAdmin() {
-  const { t } = useTranslation('translation');
-
-  return <Title type="page" label={t('home')} className="mb-8" />;
+  return <Navigate to="my-city" />;
 }
 
 export default HomeAdmin;
