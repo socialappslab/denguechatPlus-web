@@ -15,6 +15,7 @@ import { ProgressBar } from '@/themed/progress-bar/ProgressBar';
 import Text from '@/themed/text/Text';
 import Title from '@/themed/title/Title';
 import { BaseObject } from '@/schemas';
+import { ErrorResponse } from 'react-router-dom';
 
 function a11yProps(index: number) {
   return {
@@ -40,7 +41,7 @@ const PostBox = ({ author, date, location, text, likes, image, id }: PostProps) 
       </Box>
       <Text className="mb-6">{text}</Text>
       <Box className="rounded-lg mb-6 overflow-hidden">
-        {!imageLoaded && (
+        {image?.photo_url && !imageLoaded && (
           <div role="status" className="animate-pulse w-full">
             <div className="h-96 w-full bg-lightGray rounded-lg" />
           </div>
@@ -150,10 +151,23 @@ const RankViewBox = () => {
     </Box>
   );
 };
+interface HouseReport {
+  greenQuantity: number;
+  houseQuantity: number;
+  orangeQuantity: number;
+  redQuantity: number;
+  siteVariationPercentage: number;
+  visitQuantity: number;
+  visitVariationPercentage: number;
+}
 
 const RiskChart = () => {
   const { t } = useTranslation('myCity');
   const user = useUser();
+
+  const [{ data, loading }] = useAxios<HouseReport, null, ErrorResponse>({
+    url: `reports/house_status`,
+  });
 
   const label = `${(user?.team as BaseObject)?.name}: ${t('riskChart.title')}`;
 
@@ -161,9 +175,14 @@ const RiskChart = () => {
     <Box className="border-solid border-neutral-100 rounded-md p-6 mb-4">
       <Title label={label} type="subsection" className="mb-0" />
       <Box className="flex flex-col mt-6">
-        <ProgressBar label={t('riskChart.greenSites')} progress={50} color="green-600" />
-        <ProgressBar label={t('riskChart.yellowSites')} progress={60} color="yellow-600" />
-        <ProgressBar label={t('riskChart.redSites')} progress={60} color="red-600" />
+        {loading && <Loader />}
+        {!loading && (
+          <>
+            <ProgressBar label={t('riskChart.greenSites')} progress={data?.greenQuantity || 0} color="green-600" />
+            <ProgressBar label={t('riskChart.yellowSites')} progress={data?.orangeQuantity || 0} color="yellow-600" />
+            <ProgressBar label={t('riskChart.redSites')} progress={data?.redQuantity || 0} color="red-600" />
+          </>
+        )}
       </Box>
     </Box>
   );
