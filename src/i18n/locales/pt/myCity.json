@@ -4,7 +4,8 @@
     "filters": "Filtros",
     "filter": {
       "order": "Ordenar por",
-      "moreRecent": "Mais recente"
+      "latest": "Mais recente",
+      "oldest": "Mais antigo"
     }
   },
   "post": {

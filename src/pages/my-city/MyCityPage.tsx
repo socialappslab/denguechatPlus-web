@@ -1,21 +1,21 @@
-import { Box, Divider, FormControl, InputLabel, MenuItem, Select, Tab, Tabs } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Box, Divider, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tab, Tabs } from '@mui/material';
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { ErrorResponse } from 'react-router-dom';
 import { authApi } from '@/api/axios';
 import Comment from '@/assets/icons/comment.svg';
 import ThumbsUp from '@/assets/icons/thumbs-up.svg';
 import Trash from '@/assets/icons/trash.svg';
 import useUser from '@/hooks/useUser';
+import { BaseObject } from '@/schemas';
 import { Post, Team } from '@/schemas/entities';
 import Loader from '@/themed/loader/Loader';
 import { ProgressBar } from '@/themed/progress-bar/ProgressBar';
 import Text from '@/themed/text/Text';
 import Title from '@/themed/title/Title';
-import { BaseObject } from '@/schemas';
-import { ErrorResponse } from 'react-router-dom';
 
 function a11yProps(index: number) {
   return {
@@ -188,6 +188,8 @@ const RiskChart = () => {
   );
 };
 
+type Sort = 'asc' | 'desc';
+
 const MyCity = () => {
   const { t } = useTranslation(['myCity', 'errorCodes']);
   const [error, setError] = useState('');
@@ -197,10 +199,12 @@ const MyCity = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [all] = useState<boolean>(true);
   const user = useUser();
+  const [sortFilter, setSortFilter] = useState<Sort>('desc');
+  const [loading, setLoading] = useState(false);
   // const [userRank, setUserRank] = useState();
   // const [greenHouseRank, setGreenHouseRank] = useState();
 
-  const fetchData = async (page: number, teamId?: number | string) => {
+  const fetchData = async (page: number, teamId?: number | string, sort?: Sort) => {
     setError('');
     try {
       const response = await authApi.get('posts', {
@@ -212,7 +216,7 @@ const MyCity = () => {
           'page[number]': page,
           'page[size]': 6,
           sort: 'created_at',
-          order: 'desc',
+          order: sort,
         },
       });
 
@@ -311,6 +315,14 @@ const MyCity = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleSelectOptionChange = async (e: SelectChangeEvent) => {
+    const selectedSort = e?.target.value as Sort;
+    setSortFilter(selectedSort);
+    setLoading(true);
+    await fetchData(currentPage, undefined, selectedSort);
+    setLoading(false);
+  };
+
   // const loadMoreData = () => {
   //   if (!loadingMore && hasMore && !error) {
   //     setLoadingMore(true);
@@ -334,32 +346,36 @@ const MyCity = () => {
               <Select
                 variant="outlined"
                 labelId="label-attribute-search"
-                value="0"
-                // onChange={handleSelectOptionChange}
+                value={sortFilter}
+                onChange={handleSelectOptionChange}
                 label="Search"
               >
-                <MenuItem value="0">{t('layout.filter.moreRecent')}</MenuItem>
+                <MenuItem value="desc">{t('layout.filter.latest')}</MenuItem>
+                <MenuItem value="asc">{t('layout.filter.oldest')}</MenuItem>
               </Select>
             </FormControl>
           </Box>
-          <InfiniteScroll
-            loader={<Loader />}
-            hasMore={hasMore}
-            dataLength={dataList.length}
-            next={() => loadMoreData()}
-          >
-            {dataList.map((post) => (
-              <PostBox
-                id={post.id}
-                author={`${post.createByUser.userName} ${post.createByUser.lastName}`}
-                text={post.postText}
-                location={post.location}
-                likes={post.likesCount}
-                date={post.createdAt}
-                image={post.photoUrl}
-              />
-            ))}
-          </InfiniteScroll>
+          {loading && <Loader />}
+          {!loading && (
+            <InfiniteScroll
+              loader={<Loader />}
+              hasMore={hasMore}
+              dataLength={dataList.length}
+              next={() => loadMoreData()}
+            >
+              {dataList.map((post) => (
+                <PostBox
+                  id={post.id}
+                  author={`${post.createByUser.userName} ${post.createByUser.lastName}`}
+                  text={post.postText}
+                  location={post.location}
+                  likes={post.likesCount}
+                  date={post.createdAt}
+                  image={post.photoUrl}
+                />
+              ))}
+            </InfiniteScroll>
+          )}
         </Box>
         <Box className="w-1/3 bg-gray-300 h-full">
           <RiskChart />
