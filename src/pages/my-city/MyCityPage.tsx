@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Box, Divider, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tab, Tabs } from '@mui/material';
 import useAxios from 'axios-hooks';
-import { deserialize } from 'jsonapi-fractal';
+import { deserialize, DocumentObject } from 'jsonapi-fractal';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ErrorResponse } from 'react-router-dom';
@@ -16,6 +16,8 @@ import Loader from '@/themed/loader/Loader';
 import { ProgressBar } from '@/themed/progress-bar/ProgressBar';
 import Text from '@/themed/text/Text';
 import Title from '@/themed/title/Title';
+import { formatDateFromString } from '@/util';
+import useLangContext from '@/hooks/useLangContext';
 
 function a11yProps(index: number) {
   return {
@@ -24,14 +26,104 @@ function a11yProps(index: number) {
   };
 }
 
-const PostBox = ({ author, date, location, text, likes, image, id }: PostProps) => {
+interface CommentBoxProps {
+  postId: number;
+}
+
+interface IComment {
+  content: string;
+  createdAt: string;
+  id: number;
+  likesCount: number;
+  photos?: string;
+  postId: number;
+  updatedAt: string;
+  canDeleteByUser: boolean;
+  canEditByUser: boolean;
+  createdBy: IPostUser;
+}
+
+interface IPostUser {
+  accountId: number;
+  lastName: string;
+  userName: string;
+}
+
+const CommentBox = ({ postId }: CommentBoxProps) => {
+  const [{ data, loading, error }] = useAxios({
+    url: `/posts/${postId}`,
+  });
+  const [comments, setComments] = useState<DocumentObject[]>([]);
+  const langContext = useLangContext();
+
+  useEffect(() => {
+    if (!data) return;
+    const deserializedData = deserialize<{ comments: DocumentObject[] }>(data) as { comments: DocumentObject[] }[];
+    const first = deserializedData.shift();
+    if (first) setComments(first.comments);
+  }, [data]);
+
+  return (
+    <>
+      {loading && <Loader height="15vh" />}
+      {!loading &&
+        comments.map((commentData) => {
+          const comment = deserialize<IComment>(commentData) as IComment;
+          const acronym = `${comment.createdBy.userName[0]}${comment.createdBy.lastName[0]}`;
+
+          return (
+            <Box>
+              <Box className="flex items-center gap-4 mt-6">
+                <Box className="min-w-20 min-h-20 -tracking-4 bg-green-100 rounded-full flex items-center justify-center">
+                  <Text className="mb-0 text-green-800 font-bold -tracking-4 uppercase">{acronym}</Text>
+                </Box>
+                <Box>
+                  <Box className="flex gap-2">
+                    <Text className="mb-0 font-semibold">
+                      {comment.createdBy.userName} {comment.createdBy.lastName}
+                    </Text>
+                    <Text className="mb-0 opacity-60 max-w-max">
+                      {formatDateFromString(langContext.state.selected, comment.createdAt)}
+                    </Text>
+                  </Box>
+                  <Text className="mb-0">{comment.content}</Text>
+                  <Box className="flex gap-2 rounded-md items-center">
+                    <img className="self-center" src={ThumbsUp} alt="success" />
+                    <Text className="mb-0 font-medium opacity-60">{comment.likesCount}</Text>
+                  </Box>
+                </Box>
+              </Box>
+              {error && <p>Something wrong happened</p>}
+            </Box>
+          );
+        })}
+    </>
+  );
+};
+
+interface PostProps {
+  id: number;
+  author: string;
+  date: number;
+  location: string;
+  text: string;
+  image?: { photo_url: string };
+  likes: number;
+  comments?: number;
+  acronym: string;
+}
+
+const PostBox = ({ author, date, location, text, likes, image, id, comments, acronym }: PostProps) => {
   const { t } = useTranslation('myCity');
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
 
   return (
     <Box key={id} className="flex-col border-solid border-neutral-100 rounded-md p-8 flex justify-between mb-4">
       <Box className="flex items-center gap-4 mb-6">
-        <Box className="w-20 h-20 bg-green-600 opacity-30 rounded-full" />
+        <Box className="w-20 h-20 -tracking-4 bg-green-100 rounded-full flex items-center justify-center">
+          <Text className="mb-0 text-green-800 font-bold -tracking-4 uppercase">{acronym}</Text>
+        </Box>
         <Box>
           <Text className="mb-0 font-semibold">{author}</Text>
           <Text className="mb-0 opacity-60">
@@ -39,11 +131,11 @@ const PostBox = ({ author, date, location, text, likes, image, id }: PostProps) 
           </Text>
         </Box>
       </Box>
-      <Text className="mb-6">{text}</Text>
-      <Box className="rounded-lg mb-6 overflow-hidden">
+      <Text className={`mb-0 ${image?.photo_url && 'mb-4'}`}>{text}</Text>
+      <Box className="rounded-lg mb-4 overflow-hidden">
         {image?.photo_url && !imageLoaded && (
           <div role="status" className="animate-pulse w-full">
-            <div className="h-96 w-full bg-lightGray rounded-lg" />
+            <div className="h-96 w-full bg-lightGray opacity-50 rounded-lg" />
           </div>
         )}
         {image?.photo_url && (
@@ -57,20 +149,29 @@ const PostBox = ({ author, date, location, text, likes, image, id }: PostProps) 
       </Box>
       <Box className="flex justify-between gap-4">
         <Box className="flex gap-6">
-          <Box className="flex gap-2 hover:bg-neutral-100 px-2 py-1 rounded-md items-center cursor-pointer">
+          <Box className="flex gap-2 px-2 py-1 rounded-md items-center cursor-default">
             <img className="self-center" src={ThumbsUp} alt="success" />
             <Text className="mb-0 font-medium opacity-60">{likes}</Text>
           </Box>
-          <Box className="flex gap-2 hover:bg-neutral-100 px-2 py-1 rounded-md items-center cursor-pointer">
+          <Box
+            onClick={() => {
+              if (!comments) return;
+              setOpenComments((prev) => !prev);
+            }}
+            className={`flex gap-2 px-2 py-1 rounded-md items-center ${comments ? 'cursor-pointer hover:bg-neutral-100' : 'cursor-default'}`}
+          >
             <img className="self-center" src={Comment} alt="success" />
-            <Text className="mb-0 font-medium opacity-60">{t('post.comment')}</Text>
+            <Text className="mb-0 font-medium opacity-60">
+              {comments} {t('post.comment')}
+            </Text>
           </Box>
         </Box>
-        <Box className="flex gap-2 hover:bg-neutral-100 px-2 py-1 rounded-md items-center cursor-pointer">
+        <Box className="flex gap-2 px-2 py-1 rounded-md items-center cursor-default">
           <img className="self-center" src={Trash} alt="success" />
           <Text className="mb-0 font-medium opacity-60">{t('post.delete')}</Text>
         </Box>
       </Box>
+      {openComments && <CommentBox postId={id} />}
     </Box>
   );
 };
@@ -367,11 +468,13 @@ const MyCity = () => {
                 <PostBox
                   id={post.id}
                   author={`${post.createByUser.userName} ${post.createByUser.lastName}`}
+                  acronym={`${post.createByUser.userName[0]}${post.createByUser.lastName[0]}`}
                   text={post.postText}
                   location={post.location}
                   likes={post.likesCount}
                   date={post.createdAt}
                   image={post.photoUrl}
+                  comments={post.commentsCount}
                 />
               ))}
             </InfiniteScroll>
@@ -385,15 +488,5 @@ const MyCity = () => {
     </>
   );
 };
-
-interface PostProps {
-  id: number;
-  author: string;
-  date: number;
-  location: string;
-  text: string;
-  image?: { photo_url: string };
-  likes: number;
-}
 
 export default MyCity;

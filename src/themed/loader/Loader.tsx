@@ -8,9 +8,9 @@ export function Progress() {
   );
 }
 
-export function Loader() {
+export function Loader({ height = '95vh' }: { height?: string }) {
   return (
-    <Container sx={{ height: '95vh' }}>
+    <Container sx={{ height }}>
       <Progress />
     </Container>
   );

@@ -63,7 +63,7 @@ export interface Post {
   photoUrl?: {
     photo_url: string;
   };
-  commentsCount: number | null;
+  commentsCount?: number;
   likesCount: number;
   likedByUser: boolean;
   comments?: Comment[];
