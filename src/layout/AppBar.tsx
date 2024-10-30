@@ -59,6 +59,7 @@ const ADMIN_SPECIAL_PLACES = '/admin/special-places';
 const ADMIN_TEAMS = '/admin/teams';
 
 const MY_CITY = '/my-city';
+const MY_COMMUNITY = '/my-community';
 
 export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
   const { t } = useTranslation('translation');
@@ -126,7 +127,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           </ListItemIcon>
           <ListItemText primary={<Text type="menuItem">{t('menu.myCity')}</Text>} />
         </ListItemButton>
-        <ListItemButton>
+        <ListItemButton component={Link} to={MY_COMMUNITY} selected={pathname.includes(MY_COMMUNITY)}>
           <ListItemIcon>
             <Icon type="Community" />
           </ListItemIcon>

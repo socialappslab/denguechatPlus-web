@@ -27,6 +27,7 @@ import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import ProtectedRoute from './ProtectedRoute';
 import AppHome from '@/pages/AppHome';
+import MyCommunity from '@/pages/my-community/MyCommunityPage';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: 'my-city',
         element: <MyCity />,
+      },
+      {
+        path: 'my-community',
+        element: <MyCommunity />,
       },
     ],
     errorElement: <RouterErrorPage />,

@@ -1,5 +1,10 @@
 {
-  "title": "Ciudad de",
+  "community": "El progreso de mi comunidad",
+  "city": "Ciudad de",
+  "sitesReport": {
+    "title": "Sitios Tariki",
+    "quantity": "Cantidad de contenedores verdes"
+  },
   "layout": {
     "filters": "Filtros",
     "filter": {
