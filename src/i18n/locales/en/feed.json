@@ -1,5 +1,10 @@
 {
-  "title": "City of",
+  "community": "My community's progress",
+  "city": "City of",
+  "sitesReport": {
+    "title": "Tariki Sites",
+    "quantity": "Amount of green containers"
+  },
   "layout": {
     "filters": "Filters",
     "filter": {

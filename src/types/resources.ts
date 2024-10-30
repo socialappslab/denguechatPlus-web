@@ -6,7 +6,7 @@ import validation from '../i18n/locales/en/validation.json';
 import splash from '../i18n/locales/en/splash.json';
 import permissions from '../i18n/locales/en/permissions.json';
 import admin from '../i18n/locales/en/admin.json';
-import myCity from '../i18n/locales/en/myCity.json';
+import feed from '../i18n/locales/en/feed.json';
 
 const resources = {
   auth,
@@ -17,7 +17,7 @@ const resources = {
   splash,
   permissions,
   admin,
-  myCity,
+  feed,
 } as const;
 
 export default resources;
