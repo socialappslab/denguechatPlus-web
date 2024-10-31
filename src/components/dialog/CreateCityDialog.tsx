@@ -30,8 +30,8 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
   const { state } = useStateContext();
   const user = state.user as IUser;
   const { t } = useTranslation(['register', 'errorCodes', 'admin']);
-  const { createMutation: createCityMutation } = useCreateMutation<CreateCity, City>(
-    `admin/countries/1/states/${user.state.id}/cities/`,
+  const { createMutation: createCityMutation, loading: mutationLoading } = useCreateMutation<CreateCity, City>(
+    `countries/1/states/${user.state.id}/cities/`,
   );
 
   const { enqueueSnackbar } = useSnackbar();
@@ -77,6 +77,7 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
 
       // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
       errorData?.errors?.forEach((error: any) => {
+        console.log(error);
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
@@ -158,7 +159,7 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
 
           <div className="mt-8 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
             <div className="md:mr-2">
-              <Button buttonType="large" label={t('edit.action')} disabled={false} type="submit" />
+              <Button buttonType="large" label={t('edit.action')} disabled={mutationLoading} type="submit" />
             </div>
 
             <div>

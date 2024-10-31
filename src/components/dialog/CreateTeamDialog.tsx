@@ -35,12 +35,14 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
   // const { state } = useStateContext();
   // const user = state.user as IUser;
   const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation']);
-  const { createMutation: createTeamMutation } = useCreateMutation<CreateTeam, Team>(`/teams`);
+  const { createMutation: createTeamMutation, loading: mutationLoading } = useCreateMutation<CreateTeam, Team>(
+    `/teams`,
+  );
 
   const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
 
   const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: '/users?filter[roles][name]=brigadista',
+    url: '/users?filter[roles][name]=brigadista&filter[without_team]=true',
   });
 
   useEffect(() => {
@@ -228,7 +230,7 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
 
           <div className="mt-8 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
             <div className="md:mr-2">
-              <Button buttonType="large" label={t('edit.action')} disabled={false} type="submit" />
+              <Button buttonType="large" label={t('edit.action')} disabled={mutationLoading} type="submit" />
             </div>
 
             <div>
