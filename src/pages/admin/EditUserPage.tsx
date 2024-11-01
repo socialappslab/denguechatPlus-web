@@ -36,19 +36,18 @@ export function EditUser({ user }: EditUserProps) {
 
   const methods = useForm<UpdateUserInputType>({
     resolver: zodResolver(UpdateUserSchema),
-    defaultValues:
-      {
-        firstName: user.firstName || '',
-        lastName: user.lastName || '',
-        team: user.team !== null ? String((user?.team as BaseObject)?.id) : '',
-        organization: user.organization !== null ? String((user?.organization as BaseObject)?.id) : '',
-        neighborhood: user.neighborhood !== null ? String((user?.neighborhood as BaseObject)?.id) : '',
-        city: user.city !== null ? String((user?.city as BaseObject)?.id) : '',
-        houseBlock: user.houseBlock !== null ? String((user?.houseBlock as BaseObject)?.id) : '',
-        phone: setPhone(user.phone),
-        email: user.email || '',
-        username: user.username || '',
-      } || {},
+    defaultValues: {
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      team: user.team !== null ? String((user?.team as BaseObject)?.id) : '',
+      organization: user.organization !== null ? String((user?.organization as BaseObject)?.id) : '',
+      neighborhood: user.neighborhood !== null ? String((user?.neighborhood as BaseObject)?.id) : '',
+      city: user.city !== null ? String((user?.city as BaseObject)?.id) : '',
+      houseBlock: user.houseBlock !== null ? String((user?.houseBlock as BaseObject)?.id) : '',
+      phone: setPhone(user.phone),
+      email: user.email || '',
+      username: user.username || '',
+    },
   });
 
   const { handleSubmit, setError, setValue, watch } = methods;

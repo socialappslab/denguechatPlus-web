@@ -3,19 +3,19 @@ import { Box, Container, Grid } from '@mui/material';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import useStateContext from '@/hooks/useStateContext';
+import useUpdateCity from '@/hooks/useUpdateCity';
+import { IUser } from '@/schemas/auth';
+import { CityUpdate, UpdateCityInputType, updateCitySchema } from '@/schemas/update';
 import { zodResolver } from '@hookform/resolvers/zod';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
-import { CityUpdate, UpdateCityInputType, updateCitySchema } from '@/schemas/update';
-import useUpdateCity from '@/hooks/useUpdateCity';
 import { BaseObject, City } from '../../schemas';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
-import useStateContext from '@/hooks/useStateContext';
-import { IUser } from '@/schemas/auth';
 
 export interface EditCityProps {
   city: City;
@@ -40,12 +40,11 @@ export function EditCity({ city }: EditCityProps) {
 
   const methods = useForm<UpdateCityInputType>({
     resolver: zodResolver(updateCitySchema()),
-    defaultValues:
-      {
-        name: city.name || '',
-        neighborhoods: mappedNeighborhoods || [],
-        newNeighborhoods: [],
-      } || {},
+    defaultValues: {
+      name: city.name || '',
+      neighborhoods: mappedNeighborhoods || [],
+      newNeighborhoods: [],
+    },
   });
 
   const {
