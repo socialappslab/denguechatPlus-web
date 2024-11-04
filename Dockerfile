@@ -7,7 +7,7 @@ COPY package.json ./
 RUN yarn install --frozen-lockfile
 
 # Copy the rest of the application code
-ARG ENV_NAME="develop"
+ARG ENV_NAME
 COPY . .
 RUN if [ "$ENV_NAME" = "production" ]; then rm .env.development && mv .env.production .env ; fi
 RUN if [ "$ENV_NAME" = "develop" ]; then rm .env.production && mv .env.development .env && echo "arg: "$ENV_NAME ; fi
