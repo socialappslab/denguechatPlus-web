@@ -1,0 +1,21 @@
+{
+  "required": "Este campo é obrigatório",
+  "requiredField": {
+    "email": "O e-mail é obrigatório",
+    "username": "O nome de usuário é obrigatório",
+    "password": "A senha é obrigatória",
+    "confirmPassword": "Por favor, confirme sua senha",
+    "name": "O nome é obrigatório",
+    "lastName": "O sobrenome é obrigatório",
+    "phone": "O telefone é obrigatório",
+    "city": "A cidade é obrigatória",
+    "houseBlock": "O bloco da casa é obrigatório",
+    "neighborhood": "O setor é obrigatório",
+    "organization": "A organização é obrigatória"
+  },
+  "notMatch": "As senhas não coincidem",
+  "invalidEmail": "E-mail inválido",
+  "passwordLength": "A senha deve ter pelo menos {{length}} caracteres",
+  "usernameLength": "O nome de usuário deve ter pelo menos {{length}} caracteres",
+  "phoneLength": "O telefone é muito curto"
+}

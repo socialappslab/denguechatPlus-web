@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { twMerge } from 'tailwind-merge';
 
-type TileTypeType = 'page' | 'section' | 'subsection';
+type TileTypeType = 'page' | 'page2' | 'section' | 'subsection';
 type VariantType = 'h1' | 'h2' | 'h3';
 
 export type TitleProps = {
@@ -16,13 +16,19 @@ export function Title({ label, type = 'section', className }: TitleProps) {
   if (type === 'page') {
     variant = 'h1';
     fontSizeClass = 'text-[32px]';
+  } else if (type === 'page2') {
+    variant = 'h2';
+    fontSizeClass = 'text-3xl font-semibold';
   } else if (type === 'subsection') {
     variant = 'h3';
-    fontSizeClass = 'text-xl';
+    fontSizeClass = 'text-lg font-normal text-gray';
   }
 
   return (
-    <Typography variant={variant} className={twMerge(`text-darkest font-bold mb-4 ${fontSizeClass} ${className}`)}>
+    <Typography
+      variant={variant}
+      className={twMerge(`text-darkest text-lg font-bold mb-4 ${fontSizeClass} ${className}`)}
+    >
       {label}
     </Typography>
   );

@@ -1,0 +1,56 @@
+{
+  "roles": {
+    "create_role": "Create Role",
+    "success": "Role created successfully",
+    "form": {
+      "name": "Name",
+      "name_placeholder": "Enter a name",
+      "permissions": "Permissions",
+      "permissions_placeholder": "Select permissions"
+    },
+    "edit": {
+      "success": "Role updated successfully"
+    }
+  },
+  "cities": {
+    "create_city": "Create City",
+    "success": "City created successfully",
+    "neighborhoods": "Sectors",
+    "form": {
+      "name": "Name",
+      "name_placeholder": "Enter a name",
+      "neighborhood": "Sector",
+      "neighborhood_placeholder": "Enter the sector name",
+      "add_button": "Add"
+    },
+    "edit": {
+      "edit_city": "Edit City",
+      "edit_current_neighborhoods": "Edit current sectors",
+      "add_new_neighborhoods": "Add new sectors",
+      "add_new_button": "Add new",
+      "deleted": "Deleted",
+      "success": "City updated successfully"
+    }
+  },
+  "teams": {
+    "create_team": "Create brigade",
+    "form": {
+      "name": "Name",
+      "name_placeholder": "Enter a name",
+      "members": "Members",
+      "members_placeholder": "Select members",
+      "team_leader": "Team Leader",
+      "team_leader_placeholder": "Select team leader",
+      "organization": "Organization",
+      "organization_placeholder": "Select organization",
+      "sector": "Sector",
+      "sector_placeholder": "Select sector",
+      "wedge": "Wedge",
+      "wedge_placeholder": "Select wedge"
+    },
+    "edit": {
+      "edit_team": "Assign team members",
+      "success": "Brigade updated successfully"
+    }
+  }
+}

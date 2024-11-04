@@ -1,6 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { FormControl, FormControlLabel, FormHelperText, Checkbox as MUICheckbox, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 
 import { Controller, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
@@ -8,29 +6,23 @@ import { twMerge } from 'tailwind-merge';
 import Checked from '../../assets/icons/check-checked.svg';
 import NotChecked from '../../assets/icons/check-empty.svg';
 import { getProperty } from '../../util';
-import { FieldErrorType } from '../form-input/FormInput';
+import { FieldErrorType, FormInputError } from '../form-input/FormInputError';
 
 export type CheckboxProps = {
   name: string;
   label: string;
   className?: string;
   fieldClassName?: string;
+  helperText?: string;
   defaultValue?: boolean;
 };
 
-export function Checkbox({ name, label, fieldClassName, defaultValue = false, className }: CheckboxProps) {
+export function Checkbox({ name, label, helperText, fieldClassName, defaultValue = false, className }: CheckboxProps) {
   const {
     control,
     formState: { errors, defaultValues },
   } = useFormContext();
-  const { t } = useTranslation('translation');
-
   const fieldError: FieldErrorType = getProperty(errors, name);
-  let message = '';
-  if (typeof fieldError?.message === 'string') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    message = t(fieldError.message as any);
-  }
 
   const defultValueForm = getProperty(defaultValues, name) || defaultValue;
   return (
@@ -60,9 +52,10 @@ export function Checkbox({ name, label, fieldClassName, defaultValue = false, cl
               </Typography>
             }
           />
-          <FormHelperText className="text-red text-base mx-0" error={!!fieldError}>{`${
-            fieldError ? message : ''
-          }`}</FormHelperText>
+          {helperText && !fieldError && (
+            <FormHelperText className={`font-light text-sm mx-0 ${className}`}>{helperText}</FormHelperText>
+          )}
+          <FormInputError className={`font-light text-sm mx-0 ${className}`} fieldError={fieldError} />
         </FormControl>
       )}
     />

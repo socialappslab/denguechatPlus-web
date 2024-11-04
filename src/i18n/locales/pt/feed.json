@@ -1,0 +1,33 @@
+{
+  "community": "O progresso da minha comunidade",
+  "city": "Cidade de",
+  "sitesReport": {
+    "title": "Locais Tariki",
+    "quantity": "Quantidade de contêineres verdes"
+  },
+  "layout": {
+    "filters": "Filtros",
+    "filter": {
+      "order": "Ordenar por",
+      "latest": "Mais recente",
+      "oldest": "Mais antigo"
+    }
+  },
+  "post": {
+    "comment": "Comentários",
+    "likes": "Curtidas",
+    "delete": "Excluir"
+  },
+  "rankView": {
+    "ranking": "Classificação",
+    "users": "Usuários",
+    "greenHouses": "Estufas",
+    "visits": "Visitas"
+  },
+  "riskChart": {
+    "title": "Gráfico de risco",
+    "greenSites": "Locais verdes",
+    "yellowSites": "Locais amarelos",
+    "redSites": "Locais vermelhos"
+  }
+}

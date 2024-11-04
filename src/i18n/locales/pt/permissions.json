@@ -1,0 +1,146 @@
+{
+  "organizations": {
+    "title": "Organização",
+    "index": "Listar Organizações",
+    "show": "Ver Organização",
+    "create": "Criar Organizações",
+    "edit": "Editar Organização",
+    "update": "Atualizar Informações da Organização",
+    "destroy": "Excluir Organizações"
+  },
+  "users": {
+    "title": "Usuários",
+    "index": "Listar Usuários",
+    "show": "Mostrar Usuário",
+    "create": "Criar Usuário",
+    "edit": "Editar Usuário",
+    "update": "Atualizar Informações do Papel",
+    "destroy": "Excluir Usuário",
+    "users_confirm_account": "Confirmar Conta de Usuário",
+    "change_status": "Alterar Status de Usuário"
+  },
+  "roles": {
+    "title": "Funções",
+    "index": "Listar Funções",
+    "show": "Ver Funções",
+    "create": "Criar Função",
+    "edit": "Editar Funções",
+    "update": "Atualizar Informações da Função",
+    "destroy": "Excluir Funções"
+  },
+  "teams": {
+    "title": "Brigadas",
+    "index": "Listar Brigadas",
+    "show": "Mostrar Brigada",
+    "create": "Criar Brigadas",
+    "edit": "Editar Informações da Equipe",
+    "update": "Trocar Equipe de Usuário",
+    "destroy": "Excluir Brigadas"
+  },
+  "post_comments": {
+    "title": "Postagens / Comentários",
+    "index": "Listar Postagens / Comentários",
+    "show": "Ver Recursos de Postagens / Comentários",
+    "create": "Criar Postagem / Comentário",
+    "edit": "Editar Postagens / Comentários",
+    "update": "Atualizar Informações de Postagens / Comentários"
+  },
+  "houses": {
+    "title": "Casas",
+    "index": "Ver Casas",
+    "show": "Ver Casas",
+    "create": "Criar Casas",
+    "edit": "Editar Casas",
+    "update": "Atualizar Informações da Casa",
+    "destroy": "Excluir Casas"
+  },
+  "breading_sites": {
+    "title": "Locais de Criação",
+    "index": "Listar Locais de Criação",
+    "show": "Ver Locais de Criação",
+    "create": "Criar Locais de Criação",
+    "edit": "Editar Locais de Criação",
+    "update": "Atualizar Informações do Local de Criação",
+    "destroy": "Excluir Locais de Criação"
+  },
+  "elimination_methods": {
+    "title": "Métodos de Eliminação",
+    "index": "Listar Métodos de Eliminação",
+    "show": "Ver Métodos de Eliminação",
+    "create": "Criar Métodos de Eliminação",
+    "edit": "Editar Métodos de Eliminação",
+    "update": "Atualizar Informações do Método de Eliminação",
+    "destroy": "Excluir Métodos de Eliminação"
+  },
+  "breading_types": {
+    "title": "Tipos de Criação",
+    "index": "Listar Tipos de Criação",
+    "show": "Ver Tipos de Criação",
+    "create": "Criar Tipos de Criação",
+    "edit": "Editar Tipos de Criação",
+    "update": "Atualizar Informações de Tipos de Criação",
+    "destroy": "Excluir Tipos de Criação"
+  },
+  "visits": {
+    "title": "Visitas",
+    "index": "Listar Visitas",
+    "show": "Ver Visita",
+    "create": "Criar Visita",
+    "edit": "Editar Visita",
+    "update": "Atualizar Informações da Visita"
+  },
+  "special_places": {
+    "title": "Lugares Especiais",
+    "index": "Ver Lugares Especiais",
+    "show": "Ver Lugar Especial",
+    "create": "Criar Lugares Especiais",
+    "edit": "Editar Lugares Especiais",
+    "update": "Atualizar Informações do Lugar Especial",
+    "destroy": "Excluir Lugares Especiais"
+  },
+  "locations": {
+    "title": "Localizações",
+    "index": "Ver Localizações"
+  },
+  "neighborhoods": {
+    "title": "Setores",
+    "destroy": "Excluir Setores",
+    "update": "Alterar Setores",
+    "create": "Criar Setores",
+    "index": "Listar Setores",
+    "show": "Ver Setor",
+    "edit": "Editar Setores"
+  },
+  "states": {
+    "title": "Estados",
+    "destroy": "Excluir Estados",
+    "update": "Editar Estados",
+    "create": "Criar Estados",
+    "index": "Listar Estados",
+    "show": "Ver Estado",
+    "edit": "Alterar Estados"
+  },
+  "cities": {
+    "title": "Cidades",
+    "destroy": "Excluir Cidades",
+    "update": "Alterar Cidades",
+    "edit": "Editar Cidades",
+    "create": "Criar Cidades",
+    "index": "Listar Cidades",
+    "show": "Ver Cidade"
+  },
+  "countries": {
+    "title": "Países",
+    "destroy": "Excluir Países",
+    "update": "Alterar Países"
+  },
+  "house_blocks": {
+    "title": "Frente a frente",
+    "index": "Listar Frente a frente",
+    "show": "Ver Frente a frente",
+    "update": "Atualizar Informações de Frente a frente",
+    "edit": "Editar Frente a frente",
+    "create": "Criar Frente a frente",
+    "destroy": "Excluir Frente a frente"
+  }
+}

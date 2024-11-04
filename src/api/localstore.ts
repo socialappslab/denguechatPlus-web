@@ -6,7 +6,7 @@ export function getUser(): IUser | null {
   return user ? JSON.parse(user) : null;
 }
 
-export function saveUser(user: IUser | null): void {
+export function saveUser(user: IUser | null | unknown): void {
   if (user) {
     localStorage.setItem(USER_LOCAL_STORAGE_KEY, JSON.stringify(user));
   } else {

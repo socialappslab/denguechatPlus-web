@@ -7,6 +7,7 @@
   "logout": "Logout",
   "home": "Home Admin",
   "login": "Login",
+  "register": "Sign up",
   "oops": "Oops!",
   "YYYY": "YYYY",
   "Not Found": "Page Not Found",
@@ -15,14 +16,82 @@
     "unauthorized": "Unauthorized"
   },
   "menu": {
+    "search": "Search",
     "chat": "Chat",
     "homes": "Homes",
-    "profile": "Profile"
+    "profile": "Profile",
+    "users": "Users",
+    "roles": "Roles",
+    "specialPlaces": "Special Places",
+    "myCity": "My City",
+    "myCommunity": "My Community",
+    "teams": "Brigades",
+    "myProfile": "My Profile",
+    "settings": "Settings",
+    "organizations": "Organizations",
+    "breedingSites": "Breeding Sites",
+    "cities": "Cities",
+    "descriptions": {
+      "organizations": "List of Organizations",
+      "cities": "List of Cities",
+      "users": "List of Users",
+      "roles": "List of Roles",
+      "teams": "List of Brigades",
+      "specialPlaces": "List of Special Places"
+    }
   },
   "table": {
-    "actions": "Actions",
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View",
+      "add": "Add",
+      "approve": "Approve",
+      "unlock": "Unlock",
+      "roles": "Roles"
+    },
+    "search": "Search",
+    "searchValue": "Search Value",
+    "selectAttribute": "Select Attribute",
     "rowsInPage": "Rows in page",
     "rowsInPageOf": "of",
-    "rowsMoreThan": "more than"
+    "rowsMoreThan": "more than",
+    "create": "Create"
+  },
+  "columns": {
+    "id": "ID",
+    "name": "Name",
+    "username": "Username",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "neighborhood": "Sector",
+    "status": "Status",
+    "statusActive": "Active Status",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "actions": "Actions",
+    "organization": "Organization",
+    "sector": "Sector",
+    "wedge": "Wedge",
+    "members": "Members",
+    "leader": "Leader",
+    "memberCount": "Number of members",
+    "city": "City"
+  },
+  "options": {
+    "notDefined": "Not Defined",
+    "active": "Active",
+    "inactive": "Inactive",
+    "all": "All",
+    "pending": "Pending",
+    "locked": "Locked"
+  },
+  "footer": {
+    "userGuide": "User Guide",
+    "about": "About DengueChat+",
+    "mosquito": "The Mosquito",
+    "faqs": "Frequently Asked Questions"
   }
 }

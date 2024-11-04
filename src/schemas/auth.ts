@@ -1,71 +1,185 @@
-import { TypeOf, object, string } from 'zod';
+import { TypeOf, object, string, z } from 'zod';
+import { BaseObject, FormSelectOption } from '.';
 
-import { UserTypes } from '../constants';
-import i18nInstance from '../i18n/config';
+export type FieldErrorForTranslation = {
+  key: string;
+  args?: { [key: string]: string | number };
+};
 
-const getTranslation = (key: string) => i18nInstance.t(key);
+const t = (key: string, args?: { [key: string]: string | number }) => {
+  return JSON.stringify({ key, args });
+};
 
-// i18next.on('initialized', function(options) {})
-export const emailSchema = string()
-  .min(1, getTranslation('validation:requiredField.email'))
-  .email(getTranslation('validation:invalidEmail'));
+export const emailSchema = z.union([z.literal(''), string().email(t('validation:invalidEmail'))]);
+
 const passwordSchema = string()
-  .min(1, getTranslation('validation:requiredField.password'))
-  .min(6, getTranslation('validation:passwordLength'));
+  .min(1, t('validation:requiredField.password'))
+  .min(8, t('validation:passwordLength', { length: 8 }));
+
+export const userNameSchema = string()
+  .min(1, t('validation:requiredField.username'))
+  .min(4, t('validation:usernameLength', { length: 4 }));
+
+export const phoneSchema = string().min(1, t('validation:requiredField.phone')).min(8, t('validation:phoneLength'));
+
+const TYPE_LOGIN = ['username', 'phone'] as const;
 
 export const loginSchema = object({
-  email: emailSchema,
+  username: z
+    .union([userNameSchema, z.string().length(0, '')])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  phone: z
+    .union([phoneSchema, z.string().length(0, '')])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
   password: passwordSchema,
 });
 
-export type LoginInput = TypeOf<typeof loginSchema>;
+export type LoginInputType = TypeOf<typeof loginSchema>;
 
-const nameSchema = string().min(1, getTranslation('validation:requiredField.name'));
+export type LoginRequestType = {
+  type: (typeof TYPE_LOGIN)[number];
+  username?: string;
+  phone?: string;
+  password: string;
+};
 
-const registerSchema = object({
-  name: nameSchema,
+const passwordConfirmSchema = string().min(1, t('validation:requiredField.confirmPassword'));
+const requiredNameString = string().min(1, t('validation:requiredField.name'));
+const requiredLastNameString = string().min(1, t('validation:requiredField.lastName'));
+const requiredCity = string().min(1, t('validation:requiredField.city'));
+const requiredHouseBlock = string().min(1, t('validation:requiredField.city'));
+const requiredNeighborhood = string().min(1, t('validation:requiredField.neighborhood'));
+const requiredOrganization = string().min(1, t('validation:requiredField.organization'));
+
+export const RegisterSchema = object({
+  firstName: requiredNameString,
+  lastName: requiredLastNameString,
   email: emailSchema,
-});
-
-export type RegisterInput = TypeOf<typeof registerSchema>;
-
-export const setPasswordSchema = object({
+  username: userNameSchema,
+  phone: phoneSchema,
+  city: requiredCity,
+  neighborhood: requiredNeighborhood,
+  organization: requiredOrganization,
   password: passwordSchema,
-  passwordConfirm: string().min(1, getTranslation('validation:requiredField.confirmPassword')),
+  passwordConfirm: passwordConfirmSchema,
 }).refine((data) => data.password === data.passwordConfirm, {
   path: ['passwordConfirm'],
-  message: getTranslation('validation:notMatch'),
+  message: t('validation:notMatch'),
 });
 
-export const resetPasswordSchema = object({
+export type RegisterInputType = TypeOf<typeof RegisterSchema>;
+
+export const UpdateUserSchema = object({
+  firstName: requiredNameString,
+  lastName: requiredLastNameString,
   email: emailSchema,
+  username: userNameSchema,
+  phone: phoneSchema,
+  city: requiredCity,
+  houseBlock: requiredHouseBlock,
+  neighborhood: requiredNeighborhood,
+  organization: requiredOrganization,
+  team: string().optional(),
+  password: z
+    .union([passwordSchema, z.string().length(0, '')])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  passwordConfirm: z
+    .union([passwordConfirmSchema, z.string().length(0, '')])
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+}).refine((data) => data.password === data.passwordConfirm, {
+  path: ['passwordConfirm'],
+  message: t('validation:notMatch'),
 });
 
-export type ResetPasswordInput = TypeOf<typeof resetPasswordSchema>;
+export type UpdateUserInputType = TypeOf<typeof UpdateUserSchema>;
 
-export interface IUser {
-  id?: string;
-  'first-name': string;
-  'last-name': string;
-  email: string;
-  'role-name'?: string;
+export interface UserProfile {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  username?: string;
+
+  gender?: number | string;
+  phone?: string;
+  points?: number;
+  country?: string | BaseObject;
+  city?: string | BaseObject;
+  neighborhood?: string | BaseObject;
+  organization?: string | BaseObject;
+  team?: string | BaseObject;
+  houseBlock?: string | BaseObject;
+  roles?: BaseObject[];
+
+  countryId?: number;
+  cityId?: number;
+  neighborhoodId?: number;
+  organizationId?: number;
+  teamId?: number;
+  houseBlockId?: number;
+
   timezone?: string;
-  'account-status'?: string;
-  type: UserTypes;
+  language?: string;
+  createdAt?: string;
 }
 
-export interface ILoginResponse {
-  data: {
+export const UserStatusValues = ['active', 'pending', 'inactive', 'locked'] as const;
+export type UserStatusType = (typeof UserStatusValues)[number];
+
+export interface IUser extends UserProfile {
+  id?: string;
+  status?: UserStatusType;
+  permissions?: string[];
+
+  cityName?: string;
+  neighborhoodName?: string;
+  organizationName?: string;
+  state: {
     id: number;
-    type: UserTypes;
-    attributes: IUser;
+    name: string;
   };
+}
+
+export type ChangeUserRoleInputType = {
+  roles: FormSelectOption[];
+};
+
+export interface UserAccount {
+  phone?: string;
+  password: string;
+  username?: string;
+  email?: string;
+  userProfile: UserProfile;
+}
+
+export interface UserUpdate {
+  status?: UserStatusType;
+  password?: string;
+  username?: string;
+  phone?: string;
+  userProfileAttributes?: UserProfile;
+  roleIds?: number[];
+}
+
+export type CreateAccountInputType = UserAccount;
+
+export interface ILoginResponse {
   meta: {
     jwt: {
-      csrf: string;
-      access: string;
-      access_expires_at: string;
-      refresh_expires_at: string;
+      res: {
+        csrf: string;
+        access: string;
+        accessExpiresAt: string;
+        refresh: string;
+        refreshExpiresAt: string;
+      };
     };
   };
 }
+
+export type ChangeStatus = {
+  status: UserStatusType;
+};

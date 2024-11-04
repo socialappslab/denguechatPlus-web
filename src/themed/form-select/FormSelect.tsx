@@ -1,24 +1,20 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { FormControl, FormHelperText, TextField as Input, MenuItem, Select } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { Box, Chip, CircularProgress, FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 
 import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import { FormSelectOption } from '../../schemas';
 import { getProperty } from '../../util';
-import { FieldErrorType } from '../form-input/FormInput';
-import { Text } from '../text/Text';
-
-export type FormSelectOption = {
-  label: string;
-  value: string;
-};
+import { FieldErrorType, FormInputError } from '../form-input/FormInputError';
 
 export type FormSelectProps = {
   name: string;
   label: string;
+  loading?: boolean;
+  helperText?: string;
   placeholder?: string;
   className?: string;
+  multiple?: boolean;
   options: FormSelectOption[] | string[];
   renderOption?: (option: FormSelectOption) => string;
 };
@@ -33,11 +29,12 @@ export function FormSelect({
   label,
   className,
   placeholder,
+  helperText,
+  loading = false,
   renderOption = defaultRenderOption,
   options,
+  multiple,
 }: FormSelectProps) {
-  const { t } = useTranslation('translation');
-
   const {
     control,
     formState: { errors },
@@ -55,47 +52,89 @@ export function FormSelect({
 
   const fieldError: FieldErrorType = getProperty(errors, name);
 
-  let message = '';
-  if (typeof fieldError?.message === 'string') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    message = t(fieldError.message as any);
-  }
+  const mapLabel = (items: FormSelectOption[], val: string) => {
+    return (items as FormSelectOption[]).find((item: FormSelectOption) => item.value === val)?.label;
+  };
+
+  const multipleLoadingValue = multiple ? [] : '';
 
   return (
     <Controller
       control={control}
-      defaultValue=""
+      defaultValue={multiple ? [] : ''}
       name={name}
-      render={({ field }) => (
-        <FormControl fullWidth sx={{ mb: 2 }} className={className}>
-          <Text>{label}</Text>
-          <Select
-            displayEmpty
-            disableUnderline
-            error={!!fieldError}
-            input={<Input />}
-            inputProps={{ name, error: !!fieldError }}
-            {...field}
-          >
-            {placeholder && (
-              <MenuItem disabled value="">
-                <div className={` ${fieldError ? 'text-red opacity-50' : 'text-darkest opacity-50'}`}>
-                  {placeholder}
-                </div>
-              </MenuItem>
-            )}
-            {optionsChecked.map((option) => (
-              <MenuItem key={`key-${option.value}`} value={option.value}>
-                {renderOption(option)}
-              </MenuItem>
-            ))}
-          </Select>
+      render={({ field }) => {
+        return (
+          <FormControl fullWidth sx={{ mb: 2 }} className={className} error={!!fieldError}>
+            <InputLabel id={`label-${name}`}>{label}</InputLabel>
+            <Select
+              labelId={`label-${name}`}
+              label={label}
+              error={!!fieldError}
+              variant="outlined"
+              inputProps={{ name, error: !!fieldError }}
+              {...field}
+              value={loading ? multipleLoadingValue : field.value}
+              multiple={multiple}
+              renderValue={(selected) => {
+                if (multiple) {
+                  return (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((val: string, key: string) => {
+                        console.log('val', val, mapLabel(optionsChecked, val));
+                        return <Chip key={key} label={mapLabel(optionsChecked, val)} />;
+                      })}
+                    </Box>
+                  );
+                }
+                return mapLabel(optionsChecked, selected);
+              }}
+              endAdornment={
+                loading ? (
+                  <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem' }}>
+                    <CircularProgress size={24} />
+                  </Box>
+                ) : null
+              }
+            >
+              {placeholder && !field.value && !loading && (
+                <MenuItem disabled value="">
+                  <div className={` ${fieldError ? 'text-red opacity-50' : 'text-darkest opacity-50'}`}>
+                    {placeholder}
+                  </div>
+                </MenuItem>
+              )}
 
-          <FormHelperText className="text-red text-base mx-0" error={!!fieldError}>{`${
-            fieldError ? message : ''
-          }`}</FormHelperText>
-        </FormControl>
-      )}
+              {loading && <MenuItem disabled>...</MenuItem>}
+              {!loading &&
+                optionsChecked.map((option) => {
+                  if (option.disabled) {
+                    return (
+                      <MenuItem key={`key-${option.label}-${option.value}`} disabled>
+                        <div className={` ${fieldError ? 'text-red opacity-50' : 'text-darkest opacity-50'}`}>
+                          {option.label}
+                        </div>
+                      </MenuItem>
+                    );
+                  }
+                  return (
+                    <MenuItem
+                      key={`key-${option.label}-${option.value}`}
+                      value={option.value}
+                      disabled={option.disabled}
+                    >
+                      {renderOption(option)}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+            {helperText && !fieldError && (
+              <FormHelperText className={`font-light text-sm mx-0 ${className}`}>{helperText}</FormHelperText>
+            )}
+            <FormInputError className={`font-light text-sm mx-0 ${className}`} fieldError={fieldError} />
+          </FormControl>
+        );
+      }}
     />
   );
 }

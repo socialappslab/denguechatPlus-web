@@ -3,7 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next';
 
-export const LANGUAGES = ['en', 'es'];
+export const LANGUAGES = ['en', 'es', 'pt'];
 
 i18next
   .use(LanguageDetector)
@@ -22,6 +22,7 @@ i18next
     },
     fallbackLng: {
       es: ['es'],
+      pt: ['pt'],
       default: ['en'],
     },
   });

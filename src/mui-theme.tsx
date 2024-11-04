@@ -12,10 +12,10 @@ const rootElement = document.getElementById('root');
 const theme = createTheme({
   palette: {
     primary: {
-      main: COLORS.grass,
+      main: COLORS.grass as string,
     },
     secondary: {
-      main: COLORS.secondary,
+      main: COLORS.secondary as string,
     },
   },
   typography: {
@@ -26,6 +26,16 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: '0.25rem',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        outlined: {
+          borderColor: COLORS.neutral[300],
+          ':hover': {
+            borderColor: COLORS.neutral[300],
+          },
         },
       },
     },
@@ -101,7 +111,9 @@ export function MuiTheme({ children }: Props) {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SnackbarProvider maxSnack={3}>{children}</SnackbarProvider>
+        <SnackbarProvider maxSnack={3} autoHideDuration={4000}>
+          {children}
+        </SnackbarProvider>
       </ThemeProvider>
     </StyledEngineProvider>
   );

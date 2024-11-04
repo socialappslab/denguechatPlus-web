@@ -1,16 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormControl, FormHelperText, TextField as Input, TextFieldProps } from '@mui/material';
+import {
+  FormControl,
+  FormHelperText,
+  IconButton,
+  TextField as Input,
+  InputAdornment,
+  TextFieldProps,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DateField as MUIDateField, DatePicker as MUIDatePicker } from '@mui/x-date-pickers';
 import { useTranslation } from 'react-i18next';
 
 import dayjs, { Dayjs } from 'dayjs';
+import { MuiTelInput } from 'mui-tel-input';
 import React from 'react';
-import { Controller, FieldError, FieldErrorsImpl, Merge, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
 
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+
+import { twMerge } from 'tailwind-merge';
 import { COLORS } from '../../constants';
 import { getProperty } from '../../util';
+import { FieldErrorType, FormInputError } from './FormInputError';
 
 export const DateField = styled(MUIDateField)`
   .MuiInputBase-root.MuiInput-root:before,
@@ -59,11 +72,9 @@ export const DatePicker = styled(MUIDatePicker)`
 `;
 
 interface CustomProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (...event: any[]) => void;
 }
 
-// eslint-disable-next-line react/display-name
 const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>((props, ref) => {
   const { onChange, ...other } = props;
 
@@ -95,31 +106,6 @@ export type FormInputProps = {
 
 const TEXT_TYPES = ['text', 'email', 'password', 'number'];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type FieldErrorType = FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
-interface FormInputErrorProps {
-  fieldError: FieldErrorType;
-  className?: string;
-}
-
-export function FormInputError({ fieldError, className = '' }: FormInputErrorProps) {
-  const { t } = useTranslation('validation');
-  if (!fieldError) {
-    return null;
-  }
-
-  let message = '';
-  if (typeof fieldError?.message === 'string') {
-    message = t(fieldError.message as any);
-  }
-
-  return (
-    <FormHelperText className={`text-red text-base mx-0 ${className}`} error={!!fieldError}>{`${
-      fieldError ? message : ''
-    }`}</FormHelperText>
-  );
-}
-
 export function FormInput({
   name,
   label,
@@ -139,26 +125,55 @@ export function FormInput({
     formState: { errors },
   } = useFormContext();
   const { t } = useTranslation('translation');
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   const fieldError: FieldErrorType = getProperty(errors, name);
+
   return (
     <Controller
       control={control}
       defaultValue=""
       name={name}
       render={({ field }) => (
-        <FormControl fullWidth={fullWidth} sx={{ mb: 2 }} className={formControlClasses} error={!!fieldError}>
+        <FormControl
+          fullWidth={fullWidth}
+          sx={{ mb: 2 }}
+          className={twMerge(`${formControlClasses}`)}
+          error={!!fieldError}
+        >
           {(!type || TEXT_TYPES.includes(type)) && (
             <Input
               label={label}
               variant="outlined"
-              type={type}
+              // eslint-disable-next-line no-nested-ternary
+              type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
               {...field}
               fullWidth={fullWidth}
               placeholder={placeholder}
               error={!!fieldError}
               {...otherProps}
               className={className}
+              InputProps={{
+                endAdornment:
+                  type === 'password' ? (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />}
+                      </IconButton>
+                    </InputAdornment>
+                  ) : null,
+              }}
             />
           )}
           {type === 'currency' && (
@@ -175,6 +190,29 @@ export function FormInput({
               fullWidth={fullWidth}
               placeholder={placeholder}
               error={!!fieldError}
+              {...otherProps}
+            />
+          )}
+          {type === 'phone' && (
+            <MuiTelInput
+              forceCallingCode
+              focusOnSelectCountry
+              defaultCountry="PE"
+              preferredCountries={['PE', 'BR', 'PY']}
+              disableFormatting
+              MenuProps={{ disableAutoFocusItem: true }}
+              variant="outlined"
+              label={label}
+              type={type}
+              value={field.value}
+              onBlur={field.onBlur}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              onChange={field.onChange}
+              fullWidth={fullWidth}
+              placeholder={placeholder}
+              error={!!fieldError}
+              className={className}
               {...otherProps}
             />
           )}
@@ -238,10 +276,10 @@ export function FormInput({
               }
             />
           )}
-          {helperText && (
+          {helperText && !fieldError && (
             <FormHelperText className={`font-light text-sm mx-0 ${className}`}>{helperText}</FormHelperText>
           )}
-          <FormInputError className={labelClassName} fieldError={fieldError} />
+          <FormInputError className={`font-light text-sm mx-0 ${labelClassName}`} fieldError={fieldError} />
         </FormControl>
       )}
     />

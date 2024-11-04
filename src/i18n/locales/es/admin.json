@@ -1,0 +1,56 @@
+{
+  "roles": {
+    "create_role": "Crear Rol",
+    "success": "Rol creado con éxito",
+    "form": {
+      "name": "Nombre",
+      "name_placeholder": "Ingrese un nombre",
+      "permissions": "Permisos",
+      "permissions_placeholder": "Seleccione permisos"
+    },
+    "edit": {
+      "success": "Rol actualizado con éxito"
+    }
+  },
+  "cities": {
+    "create_city": "Crear Ciudad",
+    "success": "Ciudad creada con éxito",
+    "neighborhoods": "Sectores",
+    "form": {
+      "name": "Nombre",
+      "name_placeholder": "Ingrese un nombre",
+      "neighborhood": "Sector",
+      "neighborhood_placeholder": "Ingrese el nombre del sector",
+      "add_button": "Añadir"
+    },
+    "edit": {
+      "edit_city": "Editar Ciudad",
+      "edit_current_neighborhoods": "Editar sectores actuales",
+      "add_new_neighborhoods": "Añadir nuevos sectores",
+      "add_new_button": "Añadir nuevo",
+      "deleted": "Eliminado",
+      "success": "Ciudad actualizada con éxito"
+    }
+  },
+  "teams": {
+    "create_team": "Crear brigada",
+    "form": {
+      "name": "Nombre",
+      "name_placeholder": "Ingresa un nombre",
+      "members": "Miembros",
+      "members_placeholder": "Selecciona miembros",
+      "team_leader": "Líder del equipo",
+      "team_leader_placeholder": "Selecciona líder del equipo",
+      "organization": "Organización",
+      "organization_placeholder": "Selecciona organización",
+      "sector": "Sector",
+      "sector_placeholder": "Selecciona sector",
+      "wedge": "Cuña",
+      "wedge_placeholder": "Selecciona cuña"
+    },
+    "edit": {
+      "edit_team": "Asignar miembros del equipo",
+      "success": "Brigada actualizada con éxito"
+    }
+  }
+}

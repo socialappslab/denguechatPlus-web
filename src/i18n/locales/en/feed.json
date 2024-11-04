@@ -1,0 +1,33 @@
+{
+  "community": "My community's progress",
+  "city": "City of",
+  "sitesReport": {
+    "title": "Tariki Sites",
+    "quantity": "Amount of green containers"
+  },
+  "layout": {
+    "filters": "Filters",
+    "filter": {
+      "order": "Order by",
+      "latest": "Latest",
+      "oldest": "Oldest"
+    }
+  },
+  "post": {
+    "comment": "Comments",
+    "likes": "Likes",
+    "delete": "Borrar"
+  },
+  "rankView": {
+    "ranking": "Ranking",
+    "users": "Users",
+    "greenHouses": "Green Houses",
+    "visits": "Visits"
+  },
+  "riskChart": {
+    "title": "Risk Chart",
+    "greenSites": "Green sites",
+    "yellowSites": "Yellow sites",
+    "redSites": "Red sites"
+  }
+}

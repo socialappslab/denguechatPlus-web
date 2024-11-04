@@ -1,0 +1,42 @@
+{
+  "cta": {
+    "learnMore": "Saber mais",
+    "whatIs": "O que é DengueChat+",
+    "register": "Cadastar",
+    "watchMore": "Ver mais vídeos"
+  },
+  "main": {
+    "joinTeam": "Junte-se à equipa da sua comunidade",
+    "dengueChatPlus": "DengueChat+",
+    "citizensCopy": "Cidadãos na luta contra a dengue e os mosquitos."
+  },
+  "participants": {
+    "knowParticipants": "Conheça os participantes",
+    "actorsInvolved": "Veja os atores envolvidos na comunidade de Manágua, Nicarágua"
+  },
+  "cities": {
+    "citiesWithDengueChat": "Cidades com DengueChat+"
+  },
+  "community": {
+    "dengueChatCommunity": "Comunidade no DengueChat+",
+    "communityInvolvement": "DengueChat+ envolve as comunidades na luta contra a febre da dengue",
+    "chatWithMembers": "Converse com outros membros da comunidade para reportar e controlar criadouros de mosquitos",
+    "joinTeams": "Junte-se a equipes para combater dengue"
+  },
+  "data": {
+    "dengueChatData": "Dados no DengueChat+",
+    "analyzeAndMeasure": "Organize, analise e meça o progresso da sua comunidade na redução do Aedes, o mosquito transmissor dos vírus do dengue",
+    "versatileTools": "Ferramentas versáteis para analisar a expansão ou contenção do vetor do dengue",
+    "generateReports": "Ao nível da comunidade ou da cidade, gere relatórios para motivar líderes"
+  },
+  "register": {
+    "platformRegister": "Registe-se na plataforma",
+    "joinCommunity": "Junte-se à sua comunidade e lute contra o mosquito Aedes aegypti."
+  },
+  "footer": {
+    "userGuide": "Guia do Utilizador",
+    "about": "Sobre o DengueChat+",
+    "mosquito": "O Mosquito",
+    "faqs": "Perguntas Frequentes"
+  }
+}

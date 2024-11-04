@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 
+import useAxios from 'axios-hooks';
+import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { ErrorResponse } from 'react-router-dom';
 import { getUser, saveUser } from '../api/localstore';
 import { DISPATCH_ACTIONS } from '../constants';
 import { IUser } from '../schemas/auth';
 
 type AuthState = {
-  user: IUser | null;
+  user: IUser | null | unknown;
 };
 
 type ActionSetAuth = {
   type: string;
-  payload: IUser | null;
+  payload: IUser | null | unknown;
 };
 
 type Dispatch = (action: ActionSetAuth) => void;
@@ -21,7 +24,9 @@ const initialState: AuthState = {
 
 type StateContextProviderProps = { children: React.ReactNode };
 
-export const StateContext = React.createContext<{ state: AuthState; dispatch: Dispatch } | undefined>(undefined);
+export const StateContext = React.createContext<
+  { state: AuthState; meData?: IUser | null; dispatch: Dispatch } | undefined
+>(undefined);
 
 const authReducer = (state: AuthState, action: ActionSetAuth) => {
   switch (action.type) {
@@ -39,15 +44,37 @@ const authReducer = (state: AuthState, action: ActionSetAuth) => {
 };
 
 export function StateContextProvider({ children }: StateContextProviderProps) {
-  const [state, dispatch] = React.useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [meData, setMeData] = useState<IUser | null>(null);
 
   const value = React.useMemo(
     () => ({
       state,
       dispatch,
+      meData,
     }),
-    [state],
+    [state, meData],
   );
+
+  const [{ data: dataMe }, featchMe] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>(
+    {
+      url: `users/me`,
+    },
+    { manual: true },
+  );
+
+  useEffect(() => {
+    if (!value.state.user) return;
+    featchMe();
+  }, [value.state.user, featchMe]);
+
+  useEffect(() => {
+    if (!dataMe) return;
+    const deserializedData = deserialize<IUser>(dataMe) as IUser;
+
+    setMeData(deserializedData);
+    console.log('deserialized USER ME>>', deserializedData);
+  }, [dataMe]);
 
   return <StateContext.Provider value={value}>{children}</StateContext.Provider>;
 }

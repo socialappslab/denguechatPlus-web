@@ -1,0 +1,33 @@
+{
+  "community": "El progreso de mi comunidad",
+  "city": "Ciudad de",
+  "sitesReport": {
+    "title": "Sitios Tariki",
+    "quantity": "Cantidad de contenedores verdes"
+  },
+  "layout": {
+    "filters": "Filtros",
+    "filter": {
+      "order": "Ordenar por",
+      "latest": "Más reciente",
+      "oldest": "Más antiguo"
+    }
+  },
+  "post": {
+    "comment": "Comentarios",
+    "likes": "Me gusta",
+    "delete": "Delete"
+  },
+  "rankView": {
+    "ranking": "Ranking",
+    "users": "Usuarios",
+    "greenHouses": "Casas verdes",
+    "visits": "Visitas"
+  },
+  "riskChart": {
+    "title": "Gráfico de riesgo",
+    "greenSites": "Sitios verdes",
+    "yellowSites": "Sitios amarillos",
+    "redSites": "Sitios rojos"
+  }
+}
