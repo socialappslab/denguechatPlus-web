@@ -1,6 +1,6 @@
 import { Box, Divider } from '@mui/material';
 import { deserialize } from 'jsonapi-fractal';
-import { useEffect, useState } from 'react';
+import { IframeHTMLAttributes, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { authApi } from '@/api/axios';
@@ -16,12 +16,12 @@ type Sort = 'asc' | 'desc';
 const LookerStudioEmbed = () => {
   return (
     <iframe
-      title="Looker Stuio"
+      title="Looker Studio Report"
       width="100%"
-      height="450"
-      src="https://lookerstudio.google.com/embed/reporting/3e09d10b-e76e-4540-9627-4068431ff44b/page/e1SEE"
-      className="border-0"
-      allowFullScreen
+      height="1000"
+      src="https://lookerstudio.google.com/embed/reporting/52ffa4b7-c386-4c77-b5c8-ad765c9f15cc/page/2hjKE"
+      scrolling="no"
+      className="border-0 p-0 h-min-max overscroll-none overflow-hidden"
       sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
     />
   );
