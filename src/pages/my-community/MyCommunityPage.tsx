@@ -1,6 +1,6 @@
 import { Box, Divider } from '@mui/material';
 import { deserialize } from 'jsonapi-fractal';
-import { IframeHTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { authApi } from '@/api/axios';
