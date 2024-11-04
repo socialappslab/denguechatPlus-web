@@ -13,6 +13,20 @@ import Title from '@/themed/title/Title';
 
 type Sort = 'asc' | 'desc';
 
+const LookerStudioEmbed = () => {
+  return (
+    <iframe
+      title="Looker Stuio"
+      width="100%"
+      height="450"
+      src="https://lookerstudio.google.com/embed/reporting/3e09d10b-e76e-4540-9627-4068431ff44b/page/e1SEE"
+      className="border-0"
+      allowFullScreen
+      sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+    />
+  );
+};
+
 const MyCommunity = () => {
   const { t } = useTranslation(['feed', 'errorCodes']);
   const [error, setError] = useState('');
@@ -103,6 +117,7 @@ const MyCommunity = () => {
       <Box className="flex pt-6 gap-6">
         <Box className="bg-gray-300 h-full w-full">
           <SitesReport />
+          <LookerStudioEmbed />
           <InfiniteScroll
             loader={<Loader />}
             hasMore={hasMore}
