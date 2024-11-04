@@ -42,23 +42,31 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
+      <PageLayout>
+        <AppHome />
+      </PageLayout>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: 'my-city',
+    element: (
       <ProtectedRoute>
         <PageLayout>
-          <AppHome />
-          <Outlet />
+          <MyCity />,
         </PageLayout>
       </ProtectedRoute>
     ),
-    children: [
-      {
-        path: 'my-city',
-        element: <MyCity />,
-      },
-      {
-        path: 'my-community',
-        element: <MyCommunity />,
-      },
-    ],
+  },
+  {
+    path: 'my-community',
+    element: (
+      <ProtectedRoute>
+        <PageLayout>
+          <MyCommunity />,
+        </PageLayout>
+      </ProtectedRoute>
+    ),
     errorElement: <RouterErrorPage />,
   },
   {
