@@ -35,9 +35,13 @@ const RiskChart = () => {
         {loading && <Loader />}
         {!loading && (
           <>
-            <ProgressBar label={t('riskChart.greenSites')} progress={data?.greenQuantity || 0} color="green-600" />
-            <ProgressBar label={t('riskChart.yellowSites')} progress={data?.orangeQuantity || 0} color="yellow-600" />
-            <ProgressBar label={t('riskChart.redSites')} progress={data?.redQuantity || 0} color="red-600" />
+            <ProgressBar label={t('riskChart.greenSites')} progress={data?.greenQuantity || 0} color="bg-green-600" />
+            <ProgressBar
+              label={t('riskChart.yellowSites')}
+              progress={data?.orangeQuantity || 0}
+              color="bg-yellow-600"
+            />
+            <ProgressBar label={t('riskChart.redSites')} progress={data?.redQuantity || 0} color="bg-red-600" />
           </>
         )}
       </Box>
