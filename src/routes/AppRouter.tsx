@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import BaseLayout from '../layout/BaseLayout';
 
 import MuiTheme from '../mui-theme';
@@ -11,8 +11,10 @@ import LangContextProvider from '../providers/LangContextProvider';
 import StateContextProvider from '../providers/StateContextProvider';
 
 import TeamList from '@/components/list/TeamsList';
+import AppHome from '@/pages/AppHome';
 import LoadCity from '@/pages/loader/LoadCity';
 import MyCity from '@/pages/my-city/MyCityPage';
+import MyCommunity from '@/pages/my-community/MyCommunityPage';
 import CityList from '../components/list/CityList';
 import OrganizationList from '../components/list/OrganizationList';
 import RoleList from '../components/list/RoleList';
@@ -26,8 +28,6 @@ import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import ProtectedRoute from './ProtectedRoute';
-import AppHome from '@/pages/AppHome';
-import MyCommunity from '@/pages/my-community/MyCommunityPage';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -42,23 +42,31 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
+      <PageLayout>
+        <AppHome />
+      </PageLayout>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: 'my-city',
+    element: (
       <ProtectedRoute>
         <PageLayout>
-          <AppHome />
-          <Outlet />
+          <MyCity />,
         </PageLayout>
       </ProtectedRoute>
     ),
-    children: [
-      {
-        path: 'my-city',
-        element: <MyCity />,
-      },
-      {
-        path: 'my-community',
-        element: <MyCommunity />,
-      },
-    ],
+  },
+  {
+    path: 'my-community',
+    element: (
+      <ProtectedRoute>
+        <PageLayout>
+          <MyCommunity />,
+        </PageLayout>
+      </ProtectedRoute>
+    ),
     errorElement: <RouterErrorPage />,
   },
   {
