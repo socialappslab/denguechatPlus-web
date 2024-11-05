@@ -10,7 +10,7 @@ export type TextProps = {
 };
 
 export function Text({ children, type, className }: TextProps & PropsWithChildren) {
-  let textClasses = 'text-lg mb-4';
+  let textClasses = 'text-md mb-4';
   if (type === 'menuItem') {
     textClasses = 'mb-0 text-sm';
   }
