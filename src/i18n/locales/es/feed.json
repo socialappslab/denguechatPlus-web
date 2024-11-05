@@ -16,7 +16,7 @@
   "post": {
     "comment": "Comentarios",
     "likes": "Me gusta",
-    "delete": "Delete"
+    "delete": "Borrar"
   },
   "rankView": {
     "ranking": "Ranking",
