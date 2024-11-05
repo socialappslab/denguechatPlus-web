@@ -49,7 +49,7 @@ export interface HouseBlock extends BaseEntity {
 
 export interface Post {
   id: number;
-  createdAt: number;
+  createdAt: string;
   userAccountId: number;
   canDeleteByUser: boolean;
   createdBy: string;
