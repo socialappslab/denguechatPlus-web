@@ -46,7 +46,9 @@
       "sector": "Sector",
       "sector_placeholder": "Select sector",
       "wedge": "Wedge",
-      "wedge_placeholder": "Select wedge"
+      "wedge_placeholder": "Select wedge",
+      "city": "City",
+      "city_placeholder": "Select city"
     },
     "edit": {
       "edit_team": "Assign team members",

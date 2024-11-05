@@ -38,15 +38,17 @@
       "name": "Nombre",
       "name_placeholder": "Ingresa un nombre",
       "members": "Miembros",
-      "members_placeholder": "Selecciona miembros",
+      "members_placeholder": "Selecciona a los miembros",
       "team_leader": "Líder del equipo",
-      "team_leader_placeholder": "Selecciona líder del equipo",
+      "team_leader_placeholder": "Selecciona un líder del equipo",
       "organization": "Organización",
-      "organization_placeholder": "Selecciona organización",
+      "organization_placeholder": "Selecciona una organización",
       "sector": "Sector",
-      "sector_placeholder": "Selecciona sector",
+      "sector_placeholder": "Selecciona un sector",
       "wedge": "Cuña",
-      "wedge_placeholder": "Selecciona cuña"
+      "wedge_placeholder": "Selecciona una cuña",
+      "city": "Ciudad",
+      "city_placeholder": "Selecciona una ciudad"
     },
     "edit": {
       "edit_team": "Asignar miembros del equipo",
