@@ -46,7 +46,9 @@
       "sector": "Setor",
       "sector_placeholder": "Selecione o setor",
       "wedge": "Cunha",
-      "wedge_placeholder": "Selecione a cunha"
+      "wedge_placeholder": "Selecione a cunha",
+      "city": "Cidade",
+      "city_placeholder": "Selecione uma cidade"
     },
     "edit": {
       "edit_team": "Atribuir membros da equipe",
