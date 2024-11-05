@@ -123,7 +123,7 @@ const MyCity = () => {
                 labelId="label-attribute-search"
                 value={sortFilter}
                 onChange={handleSelectOptionChange}
-                label="Search"
+                label={t('layout.filter.order')}
               >
                 <MenuItem value="desc">{t('layout.filter.latest')}</MenuItem>
                 <MenuItem value="asc">{t('layout.filter.oldest')}</MenuItem>
