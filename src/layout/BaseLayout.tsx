@@ -29,7 +29,6 @@ export default function BaseLayout({ children, auth, signUp, logout, footer }: A
       <ScrollToTop />
       <AppBar auth={auth} signUp={signUp} logout={logout} />
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
-        <Toolbar disableGutters />
         {children}
       </Box>
     </Box>
