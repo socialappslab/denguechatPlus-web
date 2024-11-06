@@ -1,4 +1,4 @@
-import { Box, Container, Toolbar } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { PropsWithChildren } from 'react';
 
 import { ScrollToTop } from '../components/ScrollToTop';

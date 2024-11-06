@@ -76,11 +76,11 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
     setIsClosing(false);
   };
 
-  const handleDrawerToggle = () => {
-    if (!isClosing) {
-      setMobileOpen(!mobileOpen);
-    }
-  };
+  // const handleDrawerToggle = () => {
+  //   if (!isClosing) {
+  //     setMobileOpen(!mobileOpen);
+  //   }
+  // };
 
   const [searchText, setSearchText] = useState('');
 
