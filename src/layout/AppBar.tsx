@@ -3,7 +3,6 @@ import {
   Collapse,
   Container,
   Drawer,
-  IconButton,
   List,
   ListItemButton,
   ListItemIcon,
@@ -17,21 +16,19 @@ import { useTranslation } from 'react-i18next';
 
 import { Link, useLocation } from 'react-router-dom';
 
-import MenuIcon from '@mui/icons-material/Menu';
-
 import React, { useState } from 'react';
 
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import Icon from '@/components/icon';
 import {
   CITIES_INDEX,
   ORGANIZATIONS_INDEX,
   ROLES_INDEX,
-  USERS_INDEX,
   SPECIAL_PLACES_INDEX,
   TEAMS_INDEX,
+  USERS_INDEX,
 } from '@/constants/permissions';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
 import TeamsIcon from '../assets/icons/teams.svg';
