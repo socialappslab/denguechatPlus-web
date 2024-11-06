@@ -31,7 +31,7 @@ const getLocaleDisplayName = (locale: string, displayLocale?: string) => {
   return displayName.charAt(0).toLocaleUpperCase() + displayName.slice(1);
 };
 
-function SelectLanguageComponent() {
+function SelectLanguageComponent({ className }: { className?: string }) {
   const { i18n } = useTranslation();
   const { resolvedLanguage: currentLanguage } = i18n;
 
@@ -70,6 +70,7 @@ function SelectLanguageComponent() {
           onChange(e.target.value);
         }
       }}
+      className={className}
     >
       {options.map((option) => (
         <MenuItem key={`key-${option.value}`} value={option.value}>

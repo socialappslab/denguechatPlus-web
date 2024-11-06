@@ -182,7 +182,7 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
           autoComplete="off"
           className="w-full p-8"
         >
-          <Title type="section" className="self-center mb-8i w-full" label="Create team" />
+          <Title type="section" className="self-center mb-8i w-full" label={t('admin:teams.create_team')} />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <FormInput
