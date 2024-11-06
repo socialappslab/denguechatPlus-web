@@ -62,7 +62,9 @@ const RankViewBox = () => {
                 data[rankView].map((item) => (
                   <Box className="flex justify-between mb-6" key={item.first_name + item.quantity}>
                     <Box className="flex flex-row items-center gap-3">
-                      <Box className="rounded-full h-10 w-10 bg-neutral-100" />
+                      <Box className="rounded-full h-10 w-10 bg-neutral-100 flex items-center justify-center">
+                        <p className="font-semibold opacity-50 text-sm">{`${item.first_name?.[0].toUpperCase()}${item.last_name?.[0].toUpperCase()}`}</p>
+                      </Box>
                       <Text className="font-semibold text-neutral-400 opacity-70 mb-0">
                         {item.first_name} {item.last_name}
                       </Text>
