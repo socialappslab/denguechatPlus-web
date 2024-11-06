@@ -65,7 +65,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
   const matches = useMediaQuery('(min-width:600px)');
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isClosing, setIsClosing] = React.useState(false);
+  const [, setIsClosing] = React.useState(false);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
