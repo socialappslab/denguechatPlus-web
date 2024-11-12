@@ -3,7 +3,9 @@
   "city": "City of",
   "sitesReport": {
     "title": "Tariki Sites",
-    "quantity": "Amount of green containers"
+    "quantity": "Amount of green containers",
+    "tarikiSiteInfo": "A Tariki site is one that has been a green site for at least four consecutive visits",
+    "greenContainersInfo": "Status of green containers, up to the end date of the last month (monthly data)"
   },
   "layout": {
     "filters": "Filters",

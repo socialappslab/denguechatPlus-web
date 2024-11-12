@@ -3,7 +3,9 @@
   "city": "Ciudad de",
   "sitesReport": {
     "title": "Sitios Tariki",
-    "quantity": "Cantidad de contenedores verdes"
+    "quantity": "Cantidad de contenedores verdes",
+    "tarikiSiteInfo": "Un sitio Tariki es aquel que ha sido un sitio verde por lo menos durante cuatro visitas consecutivas",
+    "greenContainersInfo": "Estado de contenedores verdes, hasta la fecha del fin del último mes (dato mensual)"
   },
   "layout": {
     "filters": "Filtros",
