@@ -33,7 +33,7 @@
     }
   },
   "teams": {
-    "create_team": "Crear brigada",
+    "create_team": "Crear Brigada",
     "form": {
       "name": "Nombre",
       "name_placeholder": "Ingresa un nombre",
