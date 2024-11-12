@@ -204,16 +204,6 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormSelect
-                name="leaderId"
-                className="mt-2"
-                label={t('admin:teams.form.team_leader')}
-                loading={loadingUsers}
-                options={userOptions}
-                placeholder={t('admin:teams.form.team_leader_placeholder')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <FormSelect
                 name="organizationId"
                 className="mt-2"
                 label={t('admin:teams.form.organization')}
