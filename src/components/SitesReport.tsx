@@ -11,8 +11,18 @@ const SitesReport = () => {
       <Title label={t('sitesReport.title')} type="subsection" className="mb-0" />
       <Box className="flex flex-col mt-6">
         <>
-          <ProgressBar label={t('sitesReport.title')} progress={60} color="bg-green-600" />
-          <ProgressBar label={t('sitesReport.quantity')} progress={80} color="bg-green-800" />
+          <ProgressBar
+            label={t('sitesReport.title')}
+            progress={60}
+            color="bg-green-600"
+            tooltip={t('sitesReport.tarikiSiteInfo')}
+          />
+          <ProgressBar
+            label={t('sitesReport.quantity')}
+            progress={80}
+            color="bg-green-800"
+            tooltip={t('sitesReport.greenContainersInfo')}
+          />
         </>
       </Box>
     </Box>
