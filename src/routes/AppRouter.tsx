@@ -53,7 +53,7 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <PageLayout>
-          <MyCity />,
+          <MyCity />
         </PageLayout>
       </ProtectedRoute>
     ),
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <PageLayout>
-          <MyCommunity />,
+          <MyCommunity />
         </PageLayout>
       </ProtectedRoute>
     ),

@@ -1,6 +1,6 @@
 import { Box, Divider, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { deserialize } from 'jsonapi-fractal';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { authApi } from '@/api/axios';
@@ -27,73 +27,75 @@ const MyCity = () => {
   const [sortFilter, setSortFilter] = useState<Sort>('desc');
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async (page: number, teamId?: number | string, sort?: Sort) => {
-    setError('');
-    try {
-      const response = await authApi.get('posts', {
-        headers: {
-          source: 'mobile',
-        },
-        params: {
-          'filter[team_id]': teamId,
-          'page[number]': page,
-          'page[size]': 6,
-          sort: 'created_at',
-          order: sort,
-        },
-      });
+  const fetchData = useCallback(
+    async (page: number, teamId?: number | string, sort?: Sort) => {
+      setError('');
+      try {
+        const response = await authApi.get('posts', {
+          headers: {
+            source: 'mobile',
+          },
+          params: {
+            'filter[team_id]': teamId,
+            'page[number]': page,
+            'page[size]': 6,
+            sort: 'created_at',
+            order: sort,
+          },
+        });
 
-      const data = response?.data;
-      if (data) {
-        const deserializedData = deserialize<Post>(data);
-        if (!deserializedData || !Array.isArray(deserializedData)) return;
+        const data = response?.data;
+        if (data) {
+          const deserializedData = deserialize<Post>(data);
+          if (!deserializedData || !Array.isArray(deserializedData)) return;
 
-        if (page === 1) {
-          const uniqueList = Array.from(new Set(deserializedData.map((item) => item.id)))
-            .map((id) => deserializedData.find((item) => item.id === id))
-            .filter((item) => item !== undefined);
-
-          setDataList(uniqueList);
-        } else {
-          setDataList((prevData) => {
-            const updatedList = [...prevData, ...deserializedData];
-
-            const uniqueList = Array.from(new Set(updatedList.map((item) => item.id)))
-              .map((id) => updatedList.find((item) => item.id === id))
+          if (page === 1) {
+            const uniqueList = Array.from(new Set(deserializedData.map((item) => item.id)))
+              .map((id) => deserializedData.find((item) => item.id === id))
               .filter((item) => item !== undefined);
 
-            return uniqueList;
-          });
-        }
+            setDataList(uniqueList);
+          } else {
+            setDataList((prevData) => {
+              const updatedList = [...prevData, ...deserializedData];
 
-        // console.log("data.links>>>", data.links);
-        setHasMore(data.links?.self !== data.links?.last);
+              const uniqueList = Array.from(new Set(updatedList.map((item) => item.id)))
+                .map((id) => updatedList.find((item) => item.id === id))
+                .filter((item) => item !== undefined);
+
+              return uniqueList;
+            });
+          }
+
+          // console.log("data.links>>>", data.links);
+          setHasMore(data.links?.self !== data.links?.last);
+        }
+      } catch (err) {
+        console.log('error>>>>>>', err);
+        setError(t('errorCodes:generic'));
+      } finally {
+        setLoadingMore(false);
       }
-    } catch (err) {
-      console.log('error>>>>>>', err);
-      setError(t('errorCodes:generic'));
-    } finally {
-      setLoadingMore(false);
-    }
-  };
+    },
+    [t],
+  );
 
   const loadMoreData = () => {
     if (!loadingMore && hasMore && !error) {
       setLoadingMore(true);
       const nextPage = currentPage + 1;
-      console.log('loadMoreData>>>> ', nextPage);
       setCurrentPage(nextPage);
-      fetchData(nextPage, all ? undefined : (user?.team as Team)?.id);
+      fetchData(nextPage, all ? undefined : (user?.team as Team)?.id, sortFilter);
     }
   };
 
-  const firstLoad = () => {
+  const firstLoad = useCallback(() => {
     // setAll(true);
     setDataList([]);
     setHasMore(true);
     setCurrentPage(1);
-    fetchData(1, undefined);
-  };
+    fetchData(1, undefined, sortFilter);
+  }, [sortFilter, fetchData]);
 
   useEffect(() => {
     firstLoad();
@@ -104,7 +106,10 @@ const MyCity = () => {
     const selectedSort = e?.target.value as Sort;
     setSortFilter(selectedSort);
     setLoading(true);
-    await fetchData(currentPage, undefined, selectedSort);
+    setHasMore(true);
+    setDataList([]);
+    setCurrentPage(1);
+    await fetchData(1, undefined, selectedSort);
     setLoading(false);
   };
 
