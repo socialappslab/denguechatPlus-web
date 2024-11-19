@@ -92,12 +92,6 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
     setSearchText(event.target.value);
   };
 
-  const [open, setOpen] = React.useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
   const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({
     settingsMenu: false,
     reportsMenu: false,

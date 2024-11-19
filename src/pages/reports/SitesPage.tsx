@@ -18,7 +18,7 @@ const LookerStudioEmbed = () => {
   );
 };
 
-const MyCommunity = () => {
+const Site = () => {
   const { t } = useTranslation(['feed', 'errorCodes']);
 
   useEffect(() => {}, []);
@@ -36,4 +36,4 @@ const MyCommunity = () => {
   );
 };
 
-export default MyCommunity;
+export default Site;

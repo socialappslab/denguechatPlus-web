@@ -31,5 +31,10 @@
     "greenSites": "Green sites",
     "yellowSites": "Yellow sites",
     "redSites": "Red sites"
+  },
+  "reports": {
+    "houseResume": "Site Report",
+    "heatMap": "Heat Map",
+    "visits": "Visit Report"
   }
 }
