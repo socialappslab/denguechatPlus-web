@@ -31,5 +31,10 @@
     "greenSites": "Locais verdes",
     "yellowSites": "Locais amarelos",
     "redSites": "Locais vermelhos"
+  },
+  "reports": {
+    "houseResume": "Relatório de locais",
+    "heatMap": "Mapa de calor",
+    "visits": "Relatório de visitas"
   }
 }
