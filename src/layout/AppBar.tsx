@@ -18,6 +18,8 @@ import { Link, useLocation } from 'react-router-dom';
 
 import React, { useState } from 'react';
 
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import Icon from '@/components/icon';
 import {
   CITIES_INDEX,
@@ -27,10 +29,9 @@ import {
   TEAMS_INDEX,
   USERS_INDEX,
 } from '@/constants/permissions';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
+import ReportsIcon from '../assets/icons/reports.svg';
 import TeamsIcon from '../assets/icons/teams.svg';
 import Logo from '../assets/images/logo.svg';
 import SelectLanguageComponent from '../components/SelectLanguageComponent';
@@ -49,6 +50,9 @@ export interface AppBarProps {
 
 // routes
 const ADMIN_USERS = '/admin/users';
+const ADMIN_SITES = '/sites';
+const ADMIN_HEATMAP = '/heat-map';
+const ADMIN_VISITS = '/visits';
 const ADMIN_ROLES = '/admin/roles';
 const ADMIN_ORGANIZATIONS = '/admin/organizations';
 const ADMIN_CITIES = '/admin/cities';
@@ -92,6 +96,21 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
 
   const handleClick = () => {
     setOpen(!open);
+  };
+
+  const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({
+    settingsMenu: false,
+    reportsMenu: false,
+  });
+
+  const genericHandleClick = (menuId: string) => {
+    setOpenMenus((prev) => {
+      const isOpen = prev[menuId];
+      return {
+        ...prev,
+        [menuId]: !isOpen,
+      };
+    });
   };
 
   const drawer = (
@@ -147,14 +166,14 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           <ProtectedView
             hasSomePermission={[ROLES_INDEX, ORGANIZATIONS_INDEX, USERS_INDEX, CITIES_INDEX, SPECIAL_PLACES_INDEX]}
           >
-            <ListItemButton onClick={handleClick}>
+            <ListItemButton onClick={() => genericHandleClick('settingsMenu')}>
               <ListItemIcon>
                 <img src={SettingsIcon} alt="settings-icon" />
               </ListItemIcon>
               <ListItemText primary={<Text type="menuItem">{t('menu.settings')}</Text>} />
-              {open ? <ExpandLess /> : <ExpandMore />}
+              {openMenus.settingsMenu ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={openMenus.settingsMenu} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ProtectedView hasPermission={[USERS_INDEX]}>
                   <ListItemButton
@@ -214,6 +233,51 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
                     selected={pathname.includes(ADMIN_TEAMS)}
                   >
                     <ListItemText primary={<Text type="menuItem">{t('menu.teams')}</Text>} />
+                  </ListItemButton>
+                </ProtectedView>
+              </List>
+            </Collapse>
+          </ProtectedView>
+          <ProtectedView
+            hasSomePermission={[ROLES_INDEX, ORGANIZATIONS_INDEX, USERS_INDEX, CITIES_INDEX, SPECIAL_PLACES_INDEX]}
+          >
+            <ListItemButton onClick={() => genericHandleClick('reportsMenu')}>
+              <ListItemIcon>
+                <img src={ReportsIcon} alt="reports-icon" />
+              </ListItemIcon>
+              <ListItemText primary={<Text type="menuItem">{t('menu.reports.name')}</Text>} />
+              {openMenus.reportsMenu ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={openMenus.reportsMenu} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ProtectedView hasPermission={[USERS_INDEX]}>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    component={Link}
+                    to={ADMIN_SITES}
+                    selected={pathname.includes(ADMIN_SITES)}
+                  >
+                    <ListItemText primary={<Text type="menuItem">{t('menu.reports.sites')}</Text>} />
+                  </ListItemButton>
+                </ProtectedView>
+                <ProtectedView hasPermission={[USERS_INDEX]}>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    component={Link}
+                    to={ADMIN_HEATMAP}
+                    selected={pathname.includes(ADMIN_HEATMAP)}
+                  >
+                    <ListItemText primary={<Text type="menuItem">{t('menu.reports.heatMap')}</Text>} />
+                  </ListItemButton>
+                </ProtectedView>
+                <ProtectedView hasPermission={[USERS_INDEX]}>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    component={Link}
+                    to={ADMIN_VISITS}
+                    selected={pathname.includes(ADMIN_VISITS)}
+                  >
+                    <ListItemText primary={<Text type="menuItem">{t('menu.reports.visits')}</Text>} />
                   </ListItemButton>
                 </ProtectedView>
               </List>
