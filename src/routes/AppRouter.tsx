@@ -28,6 +28,9 @@ import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import ProtectedRoute from './ProtectedRoute';
+import SitesPage from '@/pages/reports/SitesPage';
+import HeatMapPage from '@/pages/reports/HeatMapPage';
+import VisitPage from '@/pages/reports/VisitPage';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -64,6 +67,39 @@ const router = createBrowserRouter([
       <ProtectedRoute>
         <PageLayout>
           <MyCommunity />
+        </PageLayout>
+      </ProtectedRoute>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: 'sites',
+    element: (
+      <ProtectedRoute>
+        <PageLayout>
+          <SitesPage />
+        </PageLayout>
+      </ProtectedRoute>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: 'heat-map',
+    element: (
+      <ProtectedRoute>
+        <PageLayout>
+          <HeatMapPage />
+        </PageLayout>
+      </ProtectedRoute>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: 'visits',
+    element: (
+      <ProtectedRoute>
+        <PageLayout>
+          <VisitPage />
         </PageLayout>
       </ProtectedRoute>
     ),
