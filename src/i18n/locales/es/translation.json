@@ -37,6 +37,12 @@
       "roles": "Lista de Roles",
       "teams": "Lista de Brigadas",
       "specialPlaces": "Lista de Lugares Especiales"
+    },
+    "reports" : {
+      "name": "Reportes",
+      "sites": "Sitios",
+      "heatMap": "Mapa de calor",
+      "visits": "Visitas"
     }
   },
   "table": {

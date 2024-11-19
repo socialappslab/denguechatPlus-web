@@ -38,6 +38,12 @@
       "roles": "List of Roles",
       "teams": "List of Brigades",
       "specialPlaces": "List of Special Places"
+    },
+    "reports" : {
+      "name": "Reports",
+      "sites": "Sites",
+      "heatMap": "Heat amp",
+      "visits": "Visits"
     }
   },
   "table": {
