@@ -82,8 +82,8 @@
     "sector": "Sector",
     "wedge": "Wedge",
     "members": "Members",
-    "leader": "Leader",
-    "memberCount": "Number of members",
+    "leader": "Facilitator",
+    "memberCount": "Number of brigadists",
     "city": "City"
   },
   "options": {

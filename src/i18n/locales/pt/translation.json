@@ -80,9 +80,9 @@
     "organization": "Organização",
     "sector": "Setor",
     "wedge": "Subsetor",
-    "members": "Membros",
-    "leader": "Líder",
-    "memberCount": "Número de membros",
+    "members": "Brigadistas",
+    "leader": "Facilitador",
+    "memberCount": "Número de brigadistas",
     "city": "Cidade"
   },
   "options": {
