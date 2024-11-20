@@ -1,13 +1,13 @@
 {
   "cta": {
     "learnMore": "Learn more",
-    "whatIs": "What is DengueChat+",
+    "whatIs": "What is DengueChatPlus",
     "register": "Register",
     "watchMore": "Watch more videos"
   },
   "main": {
     "joinTeam": "Join your community's team",
-    "dengueChatPlus": "DengueChat+",
+    "dengueChatPlus": "DengueChatPlus",
     "citizensCopy": "Citizens in the fight against dengue and mosquitoes."
   },
   "participants": {
@@ -15,16 +15,16 @@
     "actorsInvolved": "See the actors involved in the community of Managua, Nicaragua"
   },
   "cities": {
-    "citiesWithDengueChat": "Cities with DengueChat+"
+    "citiesWithDengueChat": "Cities with DengueChatPlus"
   },
   "community": {
-    "dengueChatCommunity": "Community in DengueChat+",
-    "communityInvolvement": "DengueChat+ involves communities in the fight against dengue fever",
+    "dengueChatCommunity": "Community in DengueChatPlus",
+    "communityInvolvement": "DengueChatPlus involves communities in the fight against dengue fever",
     "chatWithMembers": "Chat with other community members to report and control mosquito breeding sites",
     "joinTeams": "Join teams to fight dengue and earn points"
   },
   "data": {
-    "dengueChatData": "Data in DengueChat+",
+    "dengueChatData": "Data in DengueChatPlus",
     "analyzeAndMeasure": "Organize, analyze, and measure your community's progress in reducing Aedes mosquitoes, the vector of the dengue virus",
     "versatileTools": "Versatile tools to analyze the spread or containment of dengue vectors",
     "generateReports": "At the community or city level, generate reports to motivate leaders"
