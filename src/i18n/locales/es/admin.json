@@ -35,12 +35,12 @@
   "teams": {
     "create_team": "Crear Brigada",
     "form": {
-      "name": "Nombre",
+      "name": "Nombre de la brigada",
       "name_placeholder": "Ingresa un nombre",
-      "members": "Miembros",
-      "members_placeholder": "Selecciona a los miembros",
-      "team_leader": "Líder del equipo",
-      "team_leader_placeholder": "Selecciona un líder del equipo",
+      "members": "Brigadistas",
+      "members_placeholder": "Selecciona a los brigadistas",
+      "team_leader": "Facilitador del equipo",
+      "team_leader_placeholder": "Selecciona un facilitador del equipo",
       "organization": "Organización",
       "organization_placeholder": "Selecciona una organización",
       "sector": "Sector",
@@ -51,7 +51,7 @@
       "city_placeholder": "Selecciona una ciudad"
     },
     "edit": {
-      "edit_team": "Asignar miembros del equipo",
+      "edit_team": "Asignar brigadistas del equipo",
       "success": "Brigada actualizada con éxito"
     }
   }

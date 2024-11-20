@@ -204,12 +204,12 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormSelect
-                name="organizationId"
+                name="cityId"
                 className="mt-2"
-                label={t('admin:teams.form.organization')}
-                loading={loadingOrganizations}
-                options={organizationOptions}
-                placeholder={t('admin:teams.form.organization_placeholder')}
+                label={t('admin:teams.form.city')}
+                loading={loadingCities}
+                options={cityOptions}
+                placeholder={t('admin:teams.form.city_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -224,22 +224,22 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormSelect
-                name="cityId"
-                className="mt-2"
-                label={t('admin:teams.form.city')}
-                loading={loadingCities}
-                options={cityOptions}
-                placeholder={t('admin:teams.form.city_placeholder')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <FormSelect
                 name="wedgeId"
                 className="mt-2"
                 label={t('admin:teams.form.wedge')}
                 loading={loadingWedges}
                 options={wedgeOptions}
                 placeholder={t('admin:teams.form.wedge_placeholder')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormSelect
+                name="organizationId"
+                className="mt-2"
+                label={t('admin:teams.form.organization')}
+                loading={loadingOrganizations}
+                options={organizationOptions}
+                placeholder={t('admin:teams.form.organization_placeholder')}
               />
             </Grid>
           </Grid>
