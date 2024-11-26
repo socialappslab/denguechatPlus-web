@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import BaseLayout from '../layout/BaseLayout';
 
 import MuiTheme from '../mui-theme';
@@ -31,6 +31,7 @@ import ProtectedRoute from './ProtectedRoute';
 import SitesPage from '@/pages/reports/SitesPage';
 import HeatMapPage from '@/pages/reports/HeatMapPage';
 import VisitPage from '@/pages/reports/VisitPage';
+import VisitsList from '@/pages/visits/VisitsPage';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -73,37 +74,41 @@ const router = createBrowserRouter([
     errorElement: <RouterErrorPage />,
   },
   {
-    path: 'sites',
-    element: (
-      <ProtectedRoute>
-        <PageLayout>
-          <SitesPage />
-        </PageLayout>
-      </ProtectedRoute>
-    ),
-    errorElement: <RouterErrorPage />,
-  },
-  {
-    path: 'heat-map',
-    element: (
-      <ProtectedRoute>
-        <PageLayout>
-          <HeatMapPage />
-        </PageLayout>
-      </ProtectedRoute>
-    ),
-    errorElement: <RouterErrorPage />,
-  },
-  {
     path: 'visits',
     element: (
       <ProtectedRoute>
         <PageLayout>
-          <VisitPage />
+          <VisitsList />
         </PageLayout>
       </ProtectedRoute>
     ),
     errorElement: <RouterErrorPage />,
+  },
+  {
+    path: 'reports',
+    element: (
+      <ProtectedRoute>
+        <PageLayout>
+          <Outlet />
+        </PageLayout>
+      </ProtectedRoute>
+    ),
+    errorElement: <RouterErrorPage />,
+    children: [
+      {
+        path: 'sites',
+        element: <SitesPage />,
+      },
+      {
+        path: 'heat-map',
+        element: <HeatMapPage />,
+      },
+      {
+        path: 'visits',
+        element: <VisitPage />,
+        errorElement: <RouterErrorPage />,
+      },
+    ],
   },
   {
     path: '/admin',

@@ -36,14 +36,17 @@
       "users": "Lista de Usuarios",
       "roles": "Lista de Roles",
       "teams": "Lista de Brigadas",
-      "specialPlaces": "Lista de Lugares Especiales"
+      "specialPlaces": "Lista de Lugares Especiales",
+      "visits": "Lista de Visitas"
     },
-    "reports" : {
+    "reports": {
       "name": "Reportes",
       "sites": "Sitios",
       "heatMap": "Mapa de calor",
       "visits": "Visitas"
-    }
+    },
+    "visits": "Visitas",
+    "homes": "Sites"
   },
   "table": {
     "actions": {
@@ -83,7 +86,14 @@
     "members": "Miembros",
     "leader": "Facilitador",
     "memberCount": "Número de brigadistas",
-    "city": "Ciudad"
+    "city": "Ciudad",
+    "brigade": "Brigada",
+    "brigadist": "Brigadista",
+    "site": "Sitio",
+    "visitStatus": "Estado de Visita",
+    "visitedAt": "Visitado en",
+    "team": "Brigada",
+    "house": "Sitio"
   },
   "options": {
     "notDefined": "No definido",

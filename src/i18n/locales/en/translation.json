@@ -31,15 +31,17 @@
     "organizations": "Organizations",
     "breedingSites": "Breeding Sites",
     "cities": "Cities",
+    "visits": "Visits",
     "descriptions": {
       "organizations": "List of Organizations",
       "cities": "List of Cities",
       "users": "List of Users",
       "roles": "List of Roles",
       "teams": "List of Brigades",
-      "specialPlaces": "List of Special Places"
+      "specialPlaces": "List of Special Places",
+      "visits": "List of Visits"
     },
-    "reports" : {
+    "reports": {
       "name": "Reports",
       "sites": "Sites",
       "heatMap": "Heat amp",
@@ -84,7 +86,14 @@
     "members": "Members",
     "leader": "Facilitator",
     "memberCount": "Number of brigadists",
-    "city": "City"
+    "city": "City",
+    "brigade": "Brigade",
+    "brigadist": "Brigadist",
+    "site": "Site",
+    "visitStatus": "Visit Status",
+    "visitedAt": "Visited at",
+    "team": "Brigade",
+    "house": "Site"
   },
   "options": {
     "notDefined": "Not Defined",

@@ -15,7 +15,7 @@ import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PAGE_SIZES } from '../../constants';
+import { PAGE_SIZES, PageSizes } from '../../constants';
 import { PaginationInput } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
 import DataTable, { DataTableProps, Order } from '../../themed/table/DataTable';
@@ -32,6 +32,7 @@ interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
   updateControl?: number;
   actions?: (row: T, loading?: boolean) => JSX.Element;
   create?: () => JSX.Element;
+  pageSize?: PageSizes;
 }
 
 interface FilterOptionsObject {
@@ -49,6 +50,7 @@ export default function FilteredDataTable<T>({
   updateControl,
   actions,
   create,
+  pageSize = PAGE_SIZES[0],
   ...otherDataTableProps
 }: FilteredDataTableProps<T>) {
   const { t } = useTranslation('translation');
@@ -74,7 +76,7 @@ export default function FilteredDataTable<T>({
 
   const [payload, setPayload] = useState<PaginationInput>({
     'page[number]': 1,
-    'page[size]': PAGE_SIZES[0],
+    'page[size]': pageSize,
     sort: defaultSort,
     order: defaultSort ? defaultOrder : undefined,
   });
@@ -257,6 +259,7 @@ export default function FilteredDataTable<T>({
         }}
         isLoading={loading}
         actions={actions}
+        pageSize={pageSize}
       />
     </>
   );
