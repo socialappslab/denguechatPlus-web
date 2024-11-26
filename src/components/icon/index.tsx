@@ -15,6 +15,7 @@ import Community from '@/assets/icons/community.svg?react';
 import Data from '@/assets/icons/data.svg?react';
 import Register from '@/assets/icons/register.svg?react';
 import Export from '@/assets/icons/export.svg?react';
+import FactCheck from '@/assets/icons/fact-check.svg?react';
 import { COLORS } from '@/constants';
 
 const IconMap = {
@@ -29,6 +30,7 @@ const IconMap = {
   Comment,
   Trash,
   ThumbsUp,
+  FactCheck,
 };
 
 const Icon = ({

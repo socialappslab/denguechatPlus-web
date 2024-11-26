@@ -13,7 +13,7 @@ import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
-import { PAGE_SIZES } from '@/constants';
+import { PAGE_SIZES, PageSizes } from '@/constants';
 import { formatDateFromString } from '@/util';
 import useLangContext from '../../hooks/useLangContext';
 
@@ -166,6 +166,7 @@ export interface DataTableProps<T> {
   pagination?: HandlePagination;
   actions?: (row: T, isLoading?: boolean) => JSX.Element;
   isLoading?: boolean;
+  pageSize?: PageSizes;
 }
 
 export function DataTable<T>({
@@ -176,6 +177,7 @@ export function DataTable<T>({
   pagination,
   actions,
   isLoading,
+  pageSize = PAGE_SIZES[0],
 }: DataTableProps<T>) {
   const { t } = useTranslation('translation');
 
@@ -185,7 +187,7 @@ export function DataTable<T>({
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<Extract<keyof T, string> | undefined>();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(PAGE_SIZES[0]);
+  const [rowsPerPage, setRowsPerPage] = React.useState(pageSize);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderValue = (row: T, headCell: HeadCell<T>): string | React.ReactNode => {

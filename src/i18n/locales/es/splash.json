@@ -32,5 +32,11 @@
   "register": {
     "platformRegister": "Regístrate en la plataforma",
     "joinCommunity": "Únete a tu comunidad y lucha contra el mosquito del Aedes aegypti."
+  },
+  "footer": {
+    "about": "",
+    "faqs": "",
+    "mosquito": "",
+    "userGuide": ""
   }
 }

@@ -22,7 +22,8 @@ export const ACCESS_TOKEN_LOCAL_STORAGE_KEY = 'DENGUECHAT_USER_ACCESS_TOKEN';
 export const REFRESH_TOKEN_LOCAL_STORAGE_KEY = 'DENGUECHAT_USER_REFRESH_TOKEN';
 export const LANG_STORAGE_KEY = 'DENGUECHAT_LANG';
 
-export const PAGE_SIZES = [5, 10, 25];
+export const PAGE_SIZES = [5, 10, 15, 25] as const;
+export type PageSizes = (typeof PAGE_SIZES)[number];
 
 export const DISPATCH_ACTIONS = {
   SET_USER: 'SET_USER',

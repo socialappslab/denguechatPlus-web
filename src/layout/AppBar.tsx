@@ -50,9 +50,9 @@ export interface AppBarProps {
 
 // routes
 const ADMIN_USERS = '/admin/users';
-const ADMIN_SITES = '/sites';
-const ADMIN_HEATMAP = '/heat-map';
-const ADMIN_VISITS = '/visits';
+const ADMIN_SITES = '/reports/sites';
+const ADMIN_HEATMAP = '/reports/heat-map';
+const ADMIN_VISITS = '/reports/visits';
 const ADMIN_ROLES = '/admin/roles';
 const ADMIN_ORGANIZATIONS = '/admin/organizations';
 const ADMIN_CITIES = '/admin/cities';
@@ -61,6 +61,7 @@ const ADMIN_TEAMS = '/admin/teams';
 
 const MY_CITY = '/my-city';
 const MY_COMMUNITY = '/my-community';
+const VISITS = '/visits';
 
 export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
   const { t } = useTranslation('translation');
@@ -157,6 +158,57 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
             </ListItemIcon>
             <ListItemText primary={<Text type="menuItem">{t('menu.breedingSites')}</Text>} />
           </ListItemButton>
+          <ListItemButton component={Link} to={VISITS} selected={pathname.includes(VISITS)}>
+            <ListItemIcon>
+              <Icon type="FactCheck" />
+            </ListItemIcon>
+            <ListItemText primary={<Text type="menuItem">{t('menu.visits')}</Text>} />
+          </ListItemButton>
+          <ProtectedView
+            hasSomePermission={[ROLES_INDEX, ORGANIZATIONS_INDEX, USERS_INDEX, CITIES_INDEX, SPECIAL_PLACES_INDEX]}
+          >
+            <ListItemButton onClick={() => genericHandleClick('reportsMenu')}>
+              <ListItemIcon>
+                <img src={ReportsIcon} alt="reports-icon" />
+              </ListItemIcon>
+              <ListItemText primary={<Text type="menuItem">{t('menu.reports.name')}</Text>} />
+              {openMenus.reportsMenu ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={openMenus.reportsMenu} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ProtectedView hasPermission={[USERS_INDEX]}>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    component={Link}
+                    to={ADMIN_SITES}
+                    selected={pathname.includes(ADMIN_SITES)}
+                  >
+                    <ListItemText primary={<Text type="menuItem">{t('menu.reports.sites')}</Text>} />
+                  </ListItemButton>
+                </ProtectedView>
+                <ProtectedView hasPermission={[USERS_INDEX]}>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    component={Link}
+                    to={ADMIN_HEATMAP}
+                    selected={pathname.includes(ADMIN_HEATMAP)}
+                  >
+                    <ListItemText primary={<Text type="menuItem">{t('menu.reports.heatMap')}</Text>} />
+                  </ListItemButton>
+                </ProtectedView>
+                <ProtectedView hasPermission={[USERS_INDEX]}>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    component={Link}
+                    to={ADMIN_VISITS}
+                    selected={pathname.includes(ADMIN_VISITS)}
+                  >
+                    <ListItemText primary={<Text type="menuItem">{t('menu.reports.visits')}</Text>} />
+                  </ListItemButton>
+                </ProtectedView>
+              </List>
+            </Collapse>
+          </ProtectedView>
           <ProtectedView
             hasSomePermission={[ROLES_INDEX, ORGANIZATIONS_INDEX, USERS_INDEX, CITIES_INDEX, SPECIAL_PLACES_INDEX]}
           >
@@ -227,51 +279,6 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
                     selected={pathname.includes(ADMIN_TEAMS)}
                   >
                     <ListItemText primary={<Text type="menuItem">{t('menu.teams')}</Text>} />
-                  </ListItemButton>
-                </ProtectedView>
-              </List>
-            </Collapse>
-          </ProtectedView>
-          <ProtectedView
-            hasSomePermission={[ROLES_INDEX, ORGANIZATIONS_INDEX, USERS_INDEX, CITIES_INDEX, SPECIAL_PLACES_INDEX]}
-          >
-            <ListItemButton onClick={() => genericHandleClick('reportsMenu')}>
-              <ListItemIcon>
-                <img src={ReportsIcon} alt="reports-icon" />
-              </ListItemIcon>
-              <ListItemText primary={<Text type="menuItem">{t('menu.reports.name')}</Text>} />
-              {openMenus.reportsMenu ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={openMenus.reportsMenu} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ProtectedView hasPermission={[USERS_INDEX]}>
-                  <ListItemButton
-                    sx={{ pl: 4 }}
-                    component={Link}
-                    to={ADMIN_SITES}
-                    selected={pathname.includes(ADMIN_SITES)}
-                  >
-                    <ListItemText primary={<Text type="menuItem">{t('menu.reports.sites')}</Text>} />
-                  </ListItemButton>
-                </ProtectedView>
-                <ProtectedView hasPermission={[USERS_INDEX]}>
-                  <ListItemButton
-                    sx={{ pl: 4 }}
-                    component={Link}
-                    to={ADMIN_HEATMAP}
-                    selected={pathname.includes(ADMIN_HEATMAP)}
-                  >
-                    <ListItemText primary={<Text type="menuItem">{t('menu.reports.heatMap')}</Text>} />
-                  </ListItemButton>
-                </ProtectedView>
-                <ProtectedView hasPermission={[USERS_INDEX]}>
-                  <ListItemButton
-                    sx={{ pl: 4 }}
-                    component={Link}
-                    to={ADMIN_VISITS}
-                    selected={pathname.includes(ADMIN_VISITS)}
-                  >
-                    <ListItemText primary={<Text type="menuItem">{t('menu.reports.visits')}</Text>} />
                   </ListItemButton>
                 </ProtectedView>
               </List>
