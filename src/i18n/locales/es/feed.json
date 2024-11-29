@@ -1,5 +1,12 @@
 {
-  "community": "El progreso de mi comunidad",
+  "community": {
+    "title": "Datos Estadísticos",
+    "riskChart": {
+      "title": "Cambio en Riesgo en Tu Comunidad de Dengue",
+      "description": "DengueChatPlus enfoca sus acciones en la identificación y eliminación de contenedores  de almacenamiento de agua como también de barriles y sumideros. Un lugar puede ser contado doble si tiene criaderos positivos y también potenciales."
+    },
+    "postAndComments": "Posts y Comentarios"
+  },
   "city": "Ciudad de",
   "sitesReport": {
     "title": "Sitios Tariki",

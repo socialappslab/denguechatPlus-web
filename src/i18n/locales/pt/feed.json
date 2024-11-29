@@ -1,5 +1,12 @@
 {
-  "community": "O progresso da minha comunidade",
+  "community": {
+    "title": "Dados estatísticos",
+    "riskChart": {
+      "title": "Mudança no Risco de Dengue na Sua Comunidade",
+      "description": "O DengueChatPlus concentra suas ações na identificação e eliminação de recipientes de armazenamento de água, bem como barris e ralos. Um local pode ser contado duas vezes se tiver criadouros positivos e também potenciais."
+    },
+    "postAndComments": "Publicações e Comentários"
+  },
   "city": "Cidade de",
   "sitesReport": {
     "title": "Locais Tariki",
