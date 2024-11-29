@@ -7,7 +7,7 @@ const SitesReport = () => {
   const { t } = useTranslation('feed');
 
   return (
-    <Box className="border-solid border-neutral-100 rounded-md p-6 mb-4">
+    <Box className="border-solid border-neutral-100 rounded-md p-6 mb-10">
       <Title label={t('sitesReport.title')} type="subsection" className="mb-0" />
       <Box className="flex flex-col mt-6">
         <>
