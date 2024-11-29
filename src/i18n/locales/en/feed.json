@@ -1,5 +1,12 @@
 {
-  "community": "My community's progress",
+  "community": {
+    "title": "Statistical data",
+    "riskChart": {
+      "title": "Change in Dengue Risk in Your Community",
+      "description": "DengueChatPlus focuses its actions on identifying and eliminating water storage containers as well as barrels and drains. A location can be counted twice if it has both positive and potential breeding sites."
+    },
+    "postAndComments": "Posts and Comments"
+  },
   "city": "City of",
   "sitesReport": {
     "title": "Tariki Sites",
