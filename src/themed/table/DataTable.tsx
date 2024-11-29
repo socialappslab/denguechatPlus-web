@@ -187,7 +187,7 @@ export function DataTable<T>({
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<Extract<keyof T, string> | undefined>();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(pageSize);
+  const [rowsPerPage, setRowsPerPage] = React.useState<PageSizes>(pageSize);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderValue = (row: T, headCell: HeadCell<T>): string | React.ReactNode => {
@@ -241,7 +241,7 @@ export function DataTable<T>({
   };
 
   const onChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newRowsPerPage = parseInt(`${event.target.value}`, 10);
+    const newRowsPerPage = parseInt(`${event.target.value}`, 10) as PageSizes;
     setRowsPerPage(newRowsPerPage);
     setPage(0);
     pagination?.handleChangePage(0, newRowsPerPage);
