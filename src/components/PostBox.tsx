@@ -28,9 +28,9 @@ const PostBox = ({ author, date, location, text, likes, image, id, comments, acr
   const [openComments, setOpenComments] = useState(false);
 
   return (
-    <Box key={id} className="flex-col border-solid border-neutral-100 rounded-md p-8 flex justify-between mb-4">
+    <Box key={id} className="flex-col border-solid border-neutral-100 rounded-md p-6 flex justify-between mb-4">
       <Box className="flex items-center gap-4 mb-6">
-        <Box className="w-20 h-20 -tracking-4 bg-green-100 rounded-full flex items-center justify-center">
+        <Box className="w-10 h-10 -tracking-4 bg-green-100 rounded-full flex items-center justify-center">
           <Text className="mb-0 text-green-800 font-bold -tracking-4 uppercase">{acronym}</Text>
         </Box>
         <Box>
