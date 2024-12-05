@@ -6,11 +6,12 @@ import Help from '@/assets/icons/help.svg';
 export interface ProgressBarProps {
   label: string;
   progress: number;
+  value: number;
   color: string;
   tooltip?: string;
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ label, progress, color, tooltip }) => {
+export const ProgressBar: React.FC<ProgressBarProps> = ({ label, value, progress, color, tooltip }) => {
   return (
     <Box className="flex-col items-start mb-4">
       <Box className="flex flex-row justify-between">
@@ -22,7 +23,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ label, progress, color
             </Tooltip>
           )}
         </Box>
-        <Text className="text-gray-800 font-medium ml-4">{progress}</Text>
+        <Text className="text-gray-800 font-medium ml-4">{value}</Text>
       </Box>
       <Box className="flex-row items-center">
         <Box className="relative w-11/12 rounded-full h-2" style={{ width: '100%' }}>
