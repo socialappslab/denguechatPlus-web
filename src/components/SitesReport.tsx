@@ -13,12 +13,14 @@ const SitesReport = () => {
         <>
           <ProgressBar
             label={t('sitesReport.title')}
+            value={60}
             progress={60}
             color="bg-green-600"
             tooltip={t('sitesReport.tarikiSiteInfo')}
           />
           <ProgressBar
             label={t('sitesReport.quantity')}
+            value={80}
             progress={80}
             color="bg-green-800"
             tooltip={t('sitesReport.greenContainersInfo')}
