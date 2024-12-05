@@ -24,18 +24,21 @@ export function getProperty(obj: any, propertyString: string): any {
 }
 
 const dateFormatOptions: Intl.DateTimeFormatOptions = {
-  month: 'short', // Display month in short format
-  day: 'numeric', // Display day of the month
-  year: 'numeric', // Display full year
+  // month: 'short', // Display month in short format
+  // day: 'numeric', // Display day of the month
+  // year: 'numeric', // Display full year
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
 };
 
-export const formatDateFromString = (locale: string, date: string | null | undefined) => {
+export const formatDateFromString = (_locale: string, date: string | null | undefined) => {
   if (!date) {
     return '-';
   }
 
   const dateObj = new Date(date);
-  return dateObj.toLocaleDateString(locale, dateFormatOptions);
+  return dateObj.toLocaleDateString('zh-Hans-CN', dateFormatOptions);
 };
 
 export function a11yProps(index: number) {
