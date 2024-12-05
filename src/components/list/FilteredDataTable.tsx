@@ -61,7 +61,7 @@ export default function FilteredDataTable<T>({
   const [searchText, setSearchText] = useState('');
   const [searchSelect, setSearchSelect] = useState('');
   const [selectedOption, setSelectedOption] = useState(defaultFilter || '');
-  const options = headCells.filter((cell) => cell.filterable).map((cell) => cell.id);
+  const options = headCells.filter((cell) => cell.filterable).map((cell) => ({ value: cell.id, label: cell.label }));
   const filterOptions = useMemo(() => {
     const filterOptionsObject: FilterOptionsObject = {};
 
@@ -227,11 +227,12 @@ export default function FilteredDataTable<T>({
               <MenuItem disabled value="">
                 {t(`table.selectAttribute`)}
               </MenuItem>
+
               {options.map((option, index) => (
-                <MenuItem key={`${option}-${index}`} value={option}>
+                <MenuItem key={`${option.value}-${index}`} value={option.value}>
                   {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                   {/* @ts-expect-error */}
-                  {t(`columns.${option}`)}
+                  {t(`columns.${option.label}`)}
                 </MenuItem>
               ))}
             </Select>

@@ -20,7 +20,7 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
     },
     {
       id: 'name',
-      label: 'name',
+      label: 'team',
       sortable: true,
       filterable: true,
     },

@@ -12,7 +12,7 @@ const headCells: HeadCell<SpecialPlace>[] = [
   },
   {
     id: 'name',
-    label: 'name',
+    label: 'specialPlace',
     filterable: true,
     sortable: true,
   },
