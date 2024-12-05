@@ -93,7 +93,9 @@
     "visitStatus": "Estado de Visita",
     "visitedAt": "Visitado en",
     "team": "Brigada",
-    "house": "Sitio"
+    "house": "Sitio",
+    "rol": "Rol",
+    "specialPlace": "Lugar especial"
   },
   "options": {
     "notDefined": "No definido",
