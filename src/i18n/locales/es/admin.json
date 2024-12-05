@@ -18,7 +18,7 @@
     "neighborhoods": "Sectores",
     "form": {
       "name": "Nombre",
-      "name_placeholder": "Ingrese un nombre",
+      "name_placeholder": "Ingrese un el nombre de la ciudad",
       "neighborhood": "Sector",
       "neighborhood_placeholder": "Ingrese el nombre del sector",
       "add_button": "Añadir"
