@@ -24,6 +24,9 @@ const RiskChart = () => {
 
   const [{ data, loading }] = useAxios<HouseReport, null, ErrorResponse>({
     url: `reports/house_status`,
+    headers: {
+      source: 'visits',
+    },
   });
 
   const label = `${(user?.team as BaseObject)?.name}: ${t('riskChart.title')}`;
