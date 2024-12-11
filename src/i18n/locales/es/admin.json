@@ -18,7 +18,7 @@
     "neighborhoods": "Sectores",
     "form": {
       "name": "Nombre",
-      "name_placeholder": "Ingrese un nombre",
+      "name_placeholder": "Ingrese un el nombre de la ciudad",
       "neighborhood": "Sector",
       "neighborhood_placeholder": "Ingrese el nombre del sector",
       "add_button": "Añadir"
@@ -33,23 +33,25 @@
     }
   },
   "teams": {
-    "create_team": "Crear brigada",
+    "create_team": "Crear Brigada",
     "form": {
-      "name": "Nombre",
+      "name": "Nombre de la brigada",
       "name_placeholder": "Ingresa un nombre",
-      "members": "Miembros",
-      "members_placeholder": "Selecciona miembros",
-      "team_leader": "Líder del equipo",
-      "team_leader_placeholder": "Selecciona líder del equipo",
+      "members": "Brigadistas",
+      "members_placeholder": "Selecciona a los brigadistas",
+      "team_leader": "Facilitador del equipo",
+      "team_leader_placeholder": "Selecciona un facilitador del equipo",
       "organization": "Organización",
-      "organization_placeholder": "Selecciona organización",
+      "organization_placeholder": "Selecciona una organización",
       "sector": "Sector",
-      "sector_placeholder": "Selecciona sector",
+      "sector_placeholder": "Selecciona un sector",
       "wedge": "Cuña",
-      "wedge_placeholder": "Selecciona cuña"
+      "wedge_placeholder": "Selecciona una cuña",
+      "city": "Ciudad",
+      "city_placeholder": "Selecciona una ciudad"
     },
     "edit": {
-      "edit_team": "Asignar miembros del equipo",
+      "edit_team": "Asignar brigadistas del equipo",
       "success": "Brigada actualizada con éxito"
     }
   }

@@ -55,7 +55,7 @@ const CommentBox = ({ postId }: CommentBoxProps) => {
 
           return (
             <Box>
-              <Box className="flex items-center gap-4 mt-6">
+              <Box className="flex grid gap-2 mt-6">
                 <Box className="min-w-20 min-h-20 -tracking-4 bg-green-100 rounded-full flex items-center justify-center">
                   <Text className="mb-0 text-green-800 font-bold -tracking-4 uppercase">{acronym}</Text>
                 </Box>

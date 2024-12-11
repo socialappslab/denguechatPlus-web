@@ -6,11 +6,13 @@ import ThumbsUp from '@/assets/icons/thumbs-up.svg';
 import Trash from '@/assets/icons/trash.svg';
 import Text from '@/themed/text/Text';
 import CommentBox from './CommentBox';
+import { formatDateFromString } from '@/util';
+import useLangContext from '@/hooks/useLangContext';
 
 interface PostProps {
   id: number;
   author: string;
-  date: number;
+  date: string;
   location: string;
   text: string;
   image?: { photo_url: string };
@@ -20,20 +22,21 @@ interface PostProps {
 }
 
 const PostBox = ({ author, date, location, text, likes, image, id, comments, acronym }: PostProps) => {
+  const langContext = useLangContext();
   const { t } = useTranslation('feed');
   const [imageLoaded, setImageLoaded] = useState(false);
   const [openComments, setOpenComments] = useState(false);
 
   return (
-    <Box key={id} className="flex-col border-solid border-neutral-100 rounded-md p-8 flex justify-between mb-4">
+    <Box key={id} className="flex-col border-solid border-neutral-100 rounded-md p-6 flex justify-between mb-4">
       <Box className="flex items-center gap-4 mb-6">
-        <Box className="w-20 h-20 -tracking-4 bg-green-100 rounded-full flex items-center justify-center">
+        <Box className="w-10 h-10 -tracking-4 bg-green-100 rounded-full flex items-center justify-center">
           <Text className="mb-0 text-green-800 font-bold -tracking-4 uppercase">{acronym}</Text>
         </Box>
         <Box>
           <Text className="mb-0 font-semibold">{author}</Text>
           <Text className="mb-0 opacity-60">
-            {date} • {location}
+            {formatDateFromString(langContext.state.selected, date)} • {location}
           </Text>
         </Box>
       </Box>

@@ -23,7 +23,7 @@
     "roles": "Roles",
     "myCity": "Mi Ciudad",
     "specialPlaces": "Lugares Especiales",
-    "myCommunity": "Mi Comunidad",
+    "myCommunity": "Mi Comunidad (Sector)",
     "teams": "Brigadas",
     "myProfile": "Mi Perfil",
     "settings": "Configuraciones",
@@ -36,8 +36,17 @@
       "users": "Lista de Usuarios",
       "roles": "Lista de Roles",
       "teams": "Lista de Brigadas",
-      "specialPlaces": "Lista de Lugares Especiales"
-    }
+      "specialPlaces": "Lista de Lugares Especiales",
+      "visits": "Lista de Visitas"
+    },
+    "reports": {
+      "name": "Reportes",
+      "sites": "Sitios",
+      "heatMap": "Mapa de calor",
+      "visits": "Visitas"
+    },
+    "visits": "Visitas",
+    "homes": "Sites"
   },
   "table": {
     "actions": {
@@ -75,9 +84,18 @@
     "sector": "Sector",
     "wedge": "Cuña",
     "members": "Miembros",
-    "leader": "Líder",
-    "memberCount": "Número de miembros",
-    "city": "Ciudad"
+    "leader": "Facilitador",
+    "memberCount": "Número de brigadistas",
+    "city": "Ciudad",
+    "brigade": "Brigada",
+    "brigadist": "Brigadista",
+    "site": "Sitio",
+    "visitStatus": "Estado de Visita",
+    "visitedAt": "Visitado en",
+    "team": "Brigada",
+    "house": "Sitio",
+    "rol": "Rol",
+    "specialPlace": "Lugar especial"
   },
   "options": {
     "notDefined": "No definido",
@@ -89,7 +107,7 @@
   },
   "footer": {
     "userGuide": "Guía de Usuario",
-    "about": "Sobre DengueChat+",
+    "about": "Sobre DengueChatPlus",
     "mosquito": "El Zancudo",
     "faqs": "Preguntas Frecuentes"
   }

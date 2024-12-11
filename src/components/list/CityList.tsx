@@ -22,7 +22,7 @@ const headCells: HeadCell<City>[] = [
   },
   {
     id: 'name',
-    label: 'name',
+    label: 'city',
     filterable: true,
     sortable: true,
   },

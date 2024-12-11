@@ -24,20 +24,28 @@
     "roles": "Roles",
     "specialPlaces": "Special Places",
     "myCity": "My City",
-    "myCommunity": "My Community",
+    "myCommunity": "My Community (Sector)",
     "teams": "Brigades",
     "myProfile": "My Profile",
     "settings": "Settings",
     "organizations": "Organizations",
     "breedingSites": "Breeding Sites",
     "cities": "Cities",
+    "visits": "Visits",
     "descriptions": {
       "organizations": "List of Organizations",
       "cities": "List of Cities",
       "users": "List of Users",
       "roles": "List of Roles",
       "teams": "List of Brigades",
-      "specialPlaces": "List of Special Places"
+      "specialPlaces": "List of Special Places",
+      "visits": "List of Visits"
+    },
+    "reports": {
+      "name": "Reports",
+      "sites": "Sites",
+      "heatMap": "Heat amp",
+      "visits": "Visits"
     }
   },
   "table": {
@@ -76,9 +84,16 @@
     "sector": "Sector",
     "wedge": "Wedge",
     "members": "Members",
-    "leader": "Leader",
-    "memberCount": "Number of members",
-    "city": "City"
+    "leader": "Facilitator",
+    "memberCount": "Number of brigadists",
+    "city": "City",
+    "brigade": "Brigade",
+    "brigadist": "Brigadist",
+    "site": "Site",
+    "visitStatus": "Visit Status",
+    "visitedAt": "Visited at",
+    "team": "Brigade",
+    "house": "Site"
   },
   "options": {
     "notDefined": "Not Defined",
@@ -90,7 +105,7 @@
   },
   "footer": {
     "userGuide": "User Guide",
-    "about": "About DengueChat+",
+    "about": "About DengueChatPlus",
     "mosquito": "The Mosquito",
     "faqs": "Frequently Asked Questions"
   }

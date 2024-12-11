@@ -18,7 +18,7 @@ const headCells: HeadCell<Role>[] = [
   },
   {
     id: 'name',
-    label: 'name',
+    label: 'rol',
     filterable: true,
     sortable: true,
   },

@@ -18,6 +18,17 @@ export interface BaseWithStatus extends BaseEntity {
 
 export interface Organization extends BaseWithStatus {}
 
+export interface Visit extends BaseEntity {
+  visitedAt: string;
+  city: string;
+  sector: string;
+  wedge: string;
+  house: number;
+  visitStatus: string | null;
+  brigadist: string;
+  team: string;
+}
+
 export interface SpecialPlace extends BaseWithStatus {}
 
 export interface Permission extends BaseEntity {
@@ -49,7 +60,7 @@ export interface HouseBlock extends BaseEntity {
 
 export interface Post {
   id: number;
-  createdAt: number;
+  createdAt: string;
   userAccountId: number;
   canDeleteByUser: boolean;
   createdBy: string;

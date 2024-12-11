@@ -49,7 +49,6 @@ export const createTeamSchema = () => {
   return object({
     name: requiredNameString,
     organizationId: string(),
-    leaderId: string(),
     sectorId: string(),
     wedgeId: string(),
     memberIds: array(object({ label: string(), value: string() })).min(1),
@@ -62,7 +61,6 @@ export type CreateTeamInputType = TypeOf<typeof createTeamSchemaForType>;
 export interface CreateTeam {
   name: string;
   organizationId: string;
-  leaderId: string;
   sectorId: string;
   wedgeId: string;
   memberIds: string[];

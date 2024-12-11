@@ -1,9 +1,18 @@
 {
-  "community": "El progreso de mi comunidad",
+  "community": {
+    "title": "Datos Estadísticos",
+    "riskChart": {
+      "title": "Cambio en Riesgo en Tu Comunidad de Dengue",
+      "description": "DengueChatPlus enfoca sus acciones en la identificación y eliminación de contenedores  de almacenamiento de agua como también de barriles y sumideros. Un lugar puede ser contado doble si tiene criaderos positivos y también potenciales."
+    },
+    "postAndComments": "Posts y Comentarios"
+  },
   "city": "Ciudad de",
   "sitesReport": {
     "title": "Sitios Tariki",
-    "quantity": "Cantidad de contenedores verdes"
+    "quantity": "Cantidad de contenedores verdes",
+    "tarikiSiteInfo": "Un sitio Tariki es aquel que ha sido un sitio verde por lo menos durante cuatro visitas consecutivas",
+    "greenContainersInfo": "Estado de contenedores verdes, hasta la fecha del fin del último mes (dato mensual)"
   },
   "layout": {
     "filters": "Filtros",
@@ -16,7 +25,7 @@
   "post": {
     "comment": "Comentarios",
     "likes": "Me gusta",
-    "delete": "Delete"
+    "delete": "Borrar"
   },
   "rankView": {
     "ranking": "Ranking",
@@ -29,5 +38,10 @@
     "greenSites": "Sitios verdes",
     "yellowSites": "Sitios amarillos",
     "redSites": "Sitios rojos"
+  },
+  "reports": {
+    "houseResume": "Reporte de sitios",
+    "heatMap": "Mapa de calor",
+    "visits": "Reporte de visitas"
   }
 }

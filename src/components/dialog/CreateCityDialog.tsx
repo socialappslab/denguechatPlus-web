@@ -120,7 +120,7 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
               <FormInput
                 className="mt-2"
                 name="name"
-                label={t('admin:cities.form.name')}
+                label={t('admin:cities.form.name_placeholder')}
                 type="text"
                 placeholder={t('admin:cities.form.name_placeholder')}
               />

@@ -33,20 +33,22 @@
     }
   },
   "teams": {
-    "create_team": "Criar brigada",
+    "create_team": "Criar Brigada",
     "form": {
-      "name": "Nome",
+      "name": "Nome da brigada",
       "name_placeholder": "Insira um nome",
-      "members": "Membros",
-      "members_placeholder": "Selecione membros",
-      "team_leader": "Líder da equipe",
-      "team_leader_placeholder": "Selecione o líder da equipe",
+      "members": "Brigadistas",
+      "members_placeholder": "Selecione brigadistas",
+      "team_leader": "Facilitador da equipe",
+      "team_leader_placeholder": "Selecione o facilitador da equipe",
       "organization": "Organização",
       "organization_placeholder": "Selecione a organização",
       "sector": "Setor",
       "sector_placeholder": "Selecione o setor",
       "wedge": "Cunha",
-      "wedge_placeholder": "Selecione a cunha"
+      "wedge_placeholder": "Selecione a cunha",
+      "city": "Cidade",
+      "city_placeholder": "Selecione uma cidade"
     },
     "edit": {
       "edit_team": "Atribuir membros da equipe",

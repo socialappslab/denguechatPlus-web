@@ -10,20 +10,22 @@ import useUser from '@/hooks/useUser';
 import { Post, Team } from '@/schemas/entities';
 import Loader from '@/themed/loader/Loader';
 import Title from '@/themed/title/Title';
+import Text from '@/themed/text/Text';
 
 type Sort = 'asc' | 'desc';
 
 const LookerStudioEmbed = () => {
   return (
-    <iframe
-      title="Looker Studio Report"
-      width="100%"
-      height="1000"
-      src="https://lookerstudio.google.com/embed/reporting/52ffa4b7-c386-4c77-b5c8-ad765c9f15cc/page/2hjKE"
-      scrolling="no"
-      className="border-0 p-0 h-min-max overscroll-none overflow-hidden"
-      sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-    />
+    <div>
+      <iframe
+        title="Looker Studio Report"
+        width="100%"
+        height="700"
+        src="https://lookerstudio.google.com/embed/reporting/51c9e940-d10f-458f-8cbb-8a40804404a1/page/P6GUE"
+        className="border-0 p-0 h-min-max overscroll-none overflow-hidden"
+        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+      />
+    </div>
   );
 };
 
@@ -112,12 +114,16 @@ const MyCommunity = () => {
 
   return (
     <>
-      <Title type="page2" label={t('community')} />
+      <Title type="page2" label={t('community.title')} />
       <Divider />
       <Box className="flex pt-6 gap-6">
         <Box className="bg-gray-300 h-full w-full">
           <SitesReport />
+          <Title label={t('community.riskChart.title')} />
+          <Text>{t('community.riskChart.description')}</Text>
           <LookerStudioEmbed />
+          <Divider className="mt-12 mb-8" />
+          <Title label={t('community.postAndComments')} />
           <InfiniteScroll
             loader={<Loader />}
             hasMore={hasMore}

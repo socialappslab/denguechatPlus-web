@@ -1,4 +1,4 @@
-# DengueChat+
+# DengueChatPlus
 
 Web project for DengueChat
 

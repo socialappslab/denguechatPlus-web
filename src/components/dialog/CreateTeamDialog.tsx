@@ -11,7 +11,7 @@ import { ErrorResponse } from 'react-router-dom';
 import useAxios from 'axios-hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCreateMutation from '@/hooks/useCreateMutation';
-import { FormSelectOption } from '@/schemas';
+import { BaseObject, FormSelectOption } from '@/schemas';
 import { CreateTeam, CreateTeamInputType, createTeamSchema } from '@/schemas/create';
 import { Team } from '@/schemas/entities';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
@@ -21,6 +21,7 @@ import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '../../util';
+import useStateContext from '@/hooks/useStateContext';
 
 export interface EditUserProps {
   user: IUser;
@@ -32,8 +33,8 @@ interface CreateTeamDialogProps {
 }
 
 export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogProps) {
-  // const { state } = useStateContext();
-  // const user = state.user as IUser;
+  const { state } = useStateContext();
+  const user = state.user as IUser;
   const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation']);
   const { createMutation: createTeamMutation, loading: mutationLoading } = useCreateMutation<CreateTeam, Team>(
     `/teams`,
@@ -103,6 +104,21 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
     }
   }, [wedgesData]);
 
+  const [cityOptions, setCityOptions] = useState<FormSelectOption[]>([]);
+
+  const [{ data: cityData, loading: loadingCities }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
+    url: `countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities`,
+  });
+
+  useEffect(() => {
+    if (!cityData) return;
+    const deserializedData = deserialize(cityData);
+    if (Array.isArray(deserializedData)) {
+      const cities = convertToFormSelectOptions(deserializedData);
+      setCityOptions(cities);
+    }
+  }, [cityData]);
+
   const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm<CreateTeamInputType>({
@@ -166,7 +182,7 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
           autoComplete="off"
           className="w-full p-8"
         >
-          <Title type="section" className="self-center mb-8i w-full" label="Create team" />
+          <Title type="section" className="self-center mb-8i w-full" label={t('admin:teams.create_team')} />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <FormInput
@@ -188,22 +204,12 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormSelect
-                name="leaderId"
+                name="cityId"
                 className="mt-2"
-                label={t('admin:teams.form.team_leader')}
-                loading={loadingUsers}
-                options={userOptions}
-                placeholder={t('admin:teams.form.team_leader_placeholder')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <FormSelect
-                name="organizationId"
-                className="mt-2"
-                label={t('admin:teams.form.organization')}
-                loading={loadingOrganizations}
-                options={organizationOptions}
-                placeholder={t('admin:teams.form.organization_placeholder')}
+                label={t('admin:teams.form.city')}
+                loading={loadingCities}
+                options={cityOptions}
+                placeholder={t('admin:teams.form.city_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -224,6 +230,16 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 loading={loadingWedges}
                 options={wedgeOptions}
                 placeholder={t('admin:teams.form.wedge_placeholder')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormSelect
+                name="organizationId"
+                className="mt-2"
+                label={t('admin:teams.form.organization')}
+                loading={loadingOrganizations}
+                options={organizationOptions}
+                placeholder={t('admin:teams.form.organization_placeholder')}
               />
             </Grid>
           </Grid>
