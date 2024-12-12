@@ -10,7 +10,7 @@ const LookerStudioEmbed = () => {
         title="Looker Studio Report"
         width="85%"
         height="1180"
-        src="https://lookerstudio.google.com/embed/reporting/ca92353e-36a4-425e-821d-bdda3f450d4d/page/hhHUE"
+        src={import.meta.env.VITE_VISIT_URL}
         className="border-0 p-0 h-min-max overscroll-none overflow-hidden"
         sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
       />
