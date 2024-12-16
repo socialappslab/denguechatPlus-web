@@ -11,7 +11,8 @@ import { useState } from 'react';
 import { object } from 'zod';
 import Text from '@/themed/text/Text';
 import useCreateMutation from '@/hooks/useCreateMutation';
-// import ArrowLeft from '@/assets/icons/arrow-left-green.svg';
+import ArrowLeft from '@/assets/icons/arrow-left-green.svg';
+import SuccessIcon from '@/assets/icons/success-icon.svg';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { passwordConfirmSchema, passwordSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
@@ -34,16 +35,17 @@ interface NewPasswordPayload {
 const SuccessContent = () => {
   const { t } = useTranslation('auth');
   return (
-    <>
-      <Title className="self-center mb-8" type="section" label="Contraseña actualizada" />
-      <Text className="text-center mb-6">{t('resetPassword.passwordUpdate_success')}</Text>
+    <Box className="mt-8 flex flex-col items-center">
+      <img src={SuccessIcon} alt="arrow left" />
+      <Title className="self-center mb-4 mt-4" type="section" label={t('resetPassword.passwordUpdated')} />
+      <Text className="text-center mb-6 max-w-80">{t('resetPassword.passwordUpdate_success')}</Text>
       <Box className="flex justify-center">
-        {/* <img src={ArrowLeft} alt="arrow left" width="20" className="mr-2" /> */}
+        <img src={ArrowLeft} alt="arrow left" width="20" className="mr-2" />
         <Link className="font-semibold text-grass no-underline self-center" to="/reset-password">
           {t('resetPassword.returnToLogin')}
         </Link>
       </Box>
-    </>
+    </Box>
   );
 };
 
@@ -105,51 +107,53 @@ const NewPasswordPage = () => {
     <BaseResetForm>
       <>
         {success && <SuccessContent />}
-        <FormProvider {...methods}>
-          <Box
-            component="form"
-            onSubmit={handleSubmit(onSubmitHandler)}
-            noValidate
-            autoComplete="off"
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              backgroundColor: '#ffffff',
-              p: { xs: '1rem', sm: '2rem' },
-              width: { sm: '500px', xs: '100%' },
-              borderRadius: 0,
-            }}
-          >
-            <img className="self-center mb-8" src={LogoSquare} alt="logo" />
+        {!success && (
+          <FormProvider {...methods}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit(onSubmitHandler)}
+              noValidate
+              autoComplete="off"
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: '#ffffff',
+                p: { xs: '1rem', sm: '2rem' },
+                width: { sm: '500px', xs: '100%' },
+                borderRadius: 0,
+              }}
+            >
+              <img className="self-center mb-8" src={LogoSquare} alt="logo" />
 
-            <Box>
-              <Title className="self-center mb-8" type="page2" label={t('auth:resetPassword.title')} />
-              <Text>{t('auth:resetPassword.newPassword')}</Text>
-              <FormInput
-                name="password"
-                className="mt-2"
-                label={t('password')}
-                type="password"
-                helperText={t('register:passwordHelperText')}
-                placeholder={t('password_placeholder')}
-              />
+              <Box>
+                <Title className="self-center mb-8" type="page2" label={t('auth:resetPassword.title')} />
+                <Text>{t('auth:resetPassword.newPassword')}</Text>
+                <FormInput
+                  name="password"
+                  className="mt-2"
+                  label={t('password')}
+                  type="password"
+                  helperText={t('register:passwordHelperText')}
+                  placeholder={t('password_placeholder')}
+                />
 
-              <FormInput
-                name="passwordConfirm"
-                className="mt-2"
-                label={t('register:passwordConfirm')}
-                type="password"
-                placeholder={t('register:passwordConfirm_placeholder')}
-              />
-              <Button
-                className="mb-4 mt-4"
-                label={t('auth:resetPassword:savePassword')}
-                type="submit"
-                disabled={loading}
-              />
+                <FormInput
+                  name="passwordConfirm"
+                  className="mt-2"
+                  label={t('register:passwordConfirm')}
+                  type="password"
+                  placeholder={t('register:passwordConfirm_placeholder')}
+                />
+                <Button
+                  className="mb-4 mt-4"
+                  label={t('auth:resetPassword:savePassword')}
+                  type="submit"
+                  disabled={loading}
+                />
+              </Box>
             </Box>
-          </Box>
-        </FormProvider>
+          </FormProvider>
+        )}
       </>
     </BaseResetForm>
   );
