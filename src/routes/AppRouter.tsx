@@ -32,6 +32,8 @@ import SitesPage from '@/pages/reports/SitesPage';
 import HeatMapPage from '@/pages/reports/HeatMapPage';
 import VisitPage from '@/pages/reports/VisitPage';
 import VisitsList from '@/pages/visits/VisitsPage';
+import NewPasswordPage from '@/pages/auth/NewPasswordPage';
+import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -170,8 +172,26 @@ const router = createBrowserRouter([
   {
     path: '/register-success',
     element: (
-      <BaseLayout>
+      <BaseLayout signUp>
         <CreateSuccessPage />
+      </BaseLayout>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: '/reset-password',
+    element: (
+      <BaseLayout auth={false}>
+        <ResetPasswordPage />
+      </BaseLayout>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: '/new-password',
+    element: (
+      <BaseLayout auth={false}>
+        <NewPasswordPage />
       </BaseLayout>
     ),
     errorElement: <RouterErrorPage />,
