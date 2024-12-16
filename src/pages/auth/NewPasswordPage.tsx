@@ -50,7 +50,7 @@ const SuccessContent = () => {
 };
 
 const NewPasswordPage = () => {
-  const { t } = useTranslation(['auth', 'errorCodes', 'register']);
+  const { t } = useTranslation(['auth', 'errorCodes', 'register', 'validation']);
   const [success, setSuccess] = useState(false);
   const { state } = useLocation();
   const token = state?.token;
