@@ -1,105 +1,84 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box, Container } from '@mui/material';
-
-import { useState } from 'react';
+import { TypeOf, z } from 'zod';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
-import Text from '@/themed/text/Text';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import validator from 'validator';
+import useCreateMutation from '@/hooks/useCreateMutation';
 import LogoSquare from '../../assets/images/logo-square.svg';
-import { LoginInputType } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 
-function timeout(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-async function sleep(fn, ...args) {
-  await timeout(1000);
-  return fn(...args);
-}
-
-const trimString = (str: string) => `${'*'.repeat(3)}${str.slice(str.length - 5, str.length)}`;
-
-const CodeVerification = ({ value }: { value: string }) => {
-  const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
-  const { t } = useTranslation(['auth', 'register']);
-  const [loading, setLoading] = useState(false);
-
-  const onResendCode = () => {
-    enqueueSnackbar('El código se reenvio', {
-      variant: 'success',
-    });
-  };
-
-  const onClickNext = async () => {
-    setLoading(true);
-    await sleep(() => setLoading(false));
-    navigate('../new-password');
-  };
-
+export function BaseResetForm({ children }: { children: JSX.Element }) {
   return (
-    <>
-      <Title className="self-center text-center mb-8" type="page2" label="Reestablecer contraseña" />
-      <Text className="text-center mb-6">{`Te enviamos un SMS con el código a tu teléfono ${trimString(value)}. Ingrese el código recibido.`}</Text>
-      <FormInput name="code" label="Codigo de verificación" type="text" placeholder="****" />
-      <Box className="flex justify-between items-center">
-        <Text className="self-center">
-          <Link className="font-semibold text-grass no-underline" onClick={onResendCode} to="#">
-            Reenviar código
-          </Link>
-        </Text>
-        <Button className="mb-4 mt-4 max-w-min" label={t('next')} onClick={onClickNext} disabled={loading} />
-      </Box>
-    </>
+    <Container
+      maxWidth={false}
+      className="bg-background"
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      {children}
+    </Container>
   );
-};
+}
 
-const PhoneNumberOrEmail = () => {
-  const { t } = useTranslation('auth');
-  return (
-    <>
-      <Title className="self-center mb-8" type="section" label={t('forgotPassword')} />
-      <FormInput
-        name="identityValue"
-        label={t('resetPassword.title')}
-        type="text"
-        placeholder={t('resetPassword.placeholder')}
-      />
-      <Button className="mb-4 mt-4" label={t('next')} type="submit" />
-      <Text className="self-center">
-        <Link className="font-semibold text-grass no-underline" to="/reset-password">
-          {t('forgotPassword')}
-        </Link>
-      </Text>
-    </>
-  );
-};
+export interface ValidatePhone {
+  username: string;
+  phone: string;
+}
 
-export function ResetPasswordPage() {
+const ResetPasswordPage = () => {
   const { t } = useTranslation(['auth', 'errorCodes']);
   const navigate = useNavigate();
 
-  const [value, setValue] = useState<null | string>(null);
-  const { enqueueSnackbar } = useSnackbar();
-
-  const methods = useForm<LoginInputType>({
-    // resolver: zodResolver(loginSchema),
+  const validatePhoneSchema = z.object({
+    username: z.string().min(1, t('auth:resetPassword.username_error')),
+    phone: z
+      .string()
+      .refine(
+        (value) => validator.isMobilePhone(value, validator.isMobilePhoneLocales),
+        t('auth:resetPassword.phoneNumber_error'),
+      ),
   });
 
-  const { handleSubmit, setError, formState } = methods;
+  type ValidatePhoneSchema = TypeOf<typeof validatePhoneSchema>;
 
-  const onSubmitHandler: SubmitHandler<{ identityValue: string }> = async (values) => {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { createMutation: validatePhoneMutation, loading: loadingPhoneMutation } = useCreateMutation<
+    ValidatePhone,
+    null
+  >(`/recovery_password/validate_phone`);
+
+  const methods = useForm<ValidatePhoneSchema>({
+    resolver: zodResolver(validatePhoneSchema),
+  });
+
+  const { handleSubmit } = methods;
+
+  const onSubmitHandler: SubmitHandler<ValidatePhoneSchema> = async (values) => {
     try {
-      setValue(values.identityValue);
-      // await signInMutation(payload);
-      // navigate('/');
+      const payload: ValidatePhone = {
+        username: values.username,
+        phone: values.phone,
+      };
+      await validatePhoneMutation(payload);
+      navigate('/validate-code', { state: { phone: values.phone, username: values.username } });
+      enqueueSnackbar(t('auth:resetPassword.codeSent_success'), {
+        variant: 'success',
+      });
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
       // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
@@ -116,25 +95,11 @@ export function ResetPasswordPage() {
           variant: 'error',
         });
       }
-
-      setError('username', {
-        type: 'manual',
-        message: '',
-      });
     }
   };
 
   return (
-    <Container
-      maxWidth={false}
-      className="bg-background"
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
+    <BaseResetForm>
       <FormProvider {...methods}>
         <Box
           component="form"
@@ -152,12 +117,27 @@ export function ResetPasswordPage() {
         >
           <img className="self-center mb-8" src={LogoSquare} alt="logo" />
 
-          {value && <CodeVerification value={value} />}
-          {!value && <PhoneNumberOrEmail />}
+          <Box>
+            <Title className="self-center mb-8" type="section" label={t('forgotPassword')} />
+            <FormInput
+              name="username"
+              label={t('auth:resetPassword.username')}
+              type="text"
+              placeholder={t('auth:resetPassword.username_placeholder')}
+            />
+            <FormInput
+              name="phone"
+              label={t('auth:resetPassword.phoneNumber')}
+              helperText={t('auth:resetPassword.phoneNumber_helper')}
+              type="text"
+              placeholder={t('auth:resetPassword.phoneNumber_placeholder')}
+            />
+            <Button className="mb-4 mt-4" label={t('auth:next')} type="submit" disabled={loadingPhoneMutation} />
+          </Box>
         </Box>
       </FormProvider>
-    </Container>
+    </BaseResetForm>
   );
-}
+};
 
 export default ResetPasswordPage;

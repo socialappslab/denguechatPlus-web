@@ -12,9 +12,16 @@ import StateContextProvider from '../providers/StateContextProvider';
 
 import TeamList from '@/components/list/TeamsList';
 import AppHome from '@/pages/AppHome';
+import NewPasswordPage from '@/pages/auth/NewPasswordPage';
+import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
+import ValidateCodePage from '@/pages/auth/ValidateCodePage';
 import LoadCity from '@/pages/loader/LoadCity';
 import MyCity from '@/pages/my-city/MyCityPage';
 import MyCommunity from '@/pages/my-community/MyCommunityPage';
+import HeatMapPage from '@/pages/reports/HeatMapPage';
+import SitesPage from '@/pages/reports/SitesPage';
+import VisitPage from '@/pages/reports/VisitPage';
+import VisitsList from '@/pages/visits/VisitsPage';
 import CityList from '../components/list/CityList';
 import OrganizationList from '../components/list/OrganizationList';
 import RoleList from '../components/list/RoleList';
@@ -28,12 +35,6 @@ import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import ProtectedRoute from './ProtectedRoute';
-import SitesPage from '@/pages/reports/SitesPage';
-import HeatMapPage from '@/pages/reports/HeatMapPage';
-import VisitPage from '@/pages/reports/VisitPage';
-import VisitsList from '@/pages/visits/VisitsPage';
-import NewPasswordPage from '@/pages/auth/NewPasswordPage';
-import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -183,6 +184,15 @@ const router = createBrowserRouter([
     element: (
       <BaseLayout auth={false}>
         <ResetPasswordPage />
+      </BaseLayout>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: '/validate-code',
+    element: (
+      <BaseLayout auth={false}>
+        <ValidateCodePage />
       </BaseLayout>
     ),
     errorElement: <RouterErrorPage />,

@@ -1,67 +1,32 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Box, Container } from '@mui/material';
-
-import { useState } from 'react';
+import { Box } from '@mui/material';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-import { useSnackbar } from 'notistack';
+import useCreateMutation from '@/hooks/useCreateMutation';
 import Text from '@/themed/text/Text';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useSnackbar } from 'notistack';
+import { useState } from 'react';
+import { object } from 'zod';
 import LogoSquare from '../../assets/images/logo-square.svg';
-import ArrowLeft from '../../assets/icons/arrow-left-green.svg';
-import Success from '@/assets/icons/success-badge.svg';
-import { LoginInputType } from '../../schemas/auth';
+import { passwordConfirmSchema, passwordSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
+import { BaseResetForm } from './ResetPasswordPage';
 
-function timeout(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-async function sleep(fn, ...args) {
-  await timeout(2000);
-  return fn(...args);
+interface NewPassword {
+  password: string;
+  passwordConfirm: string;
 }
 
-const NewPassword = ({ onClick }) => {
-  const { t } = useTranslation(['auth', 'register']);
-  const [loading, setLoading] = useState(false);
-
-  const onClickNewPassword = () => {
-    setLoading(true);
-    sleep(() => {
-      setLoading(false);
-      onClick();
-    });
-  };
-
-  return (
-    <>
-      <Title className="self-center mb-8" type="page2" label="Reestablecer contraseña" />
-      <Text>Ingrese su nueva contraseña</Text>
-      <FormInput
-        name="password"
-        className="mt-2"
-        label={t('password')}
-        type="password"
-        helperText={t('register:passwordHelperText')}
-        placeholder={t('password_placeholder')}
-      />
-
-      <FormInput
-        name="passwordConfirm"
-        className="mt-2"
-        label={t('register:passwordConfirm')}
-        type="password"
-        placeholder={t('register:passwordConfirm_placeholder')}
-      />
-      <Button className="mb-4 mt-4" label="Guardar contraseña" onClick={onClickNewPassword} disabled={loading} />
-    </>
-  );
-};
+interface NewPasswordPayload extends NewPassword {
+  token: string;
+}
 
 const SuccessContent = () => {
   const { t } = useTranslation('auth');
@@ -72,7 +37,7 @@ const SuccessContent = () => {
         Hemos actualizado tu contraseña. Puedes volver a la aplicación y utilizar tu nueva contraseña.
       </Text>
       <Box className="flex justify-center">
-        <img src={ArrowLeft} alt="arrow left" width="20" className="mr-2" />
+        {/* <img src={ArrowLeft} alt="arrow left" width="20" className="mr-2" /> */}
         <Link className="font-semibold text-grass no-underline self-center" to="/reset-password">
           Volver al inicio de sesión
         </Link>
@@ -81,24 +46,42 @@ const SuccessContent = () => {
   );
 };
 
-export function NewPasswordPage() {
+const NewPasswordPage = () => {
   const { t } = useTranslation(['auth', 'errorCodes']);
-  const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
+  const {
+    state: { token },
+  } = useLocation();
 
-  const [value, setValue] = useState<null | string>(null);
-  const { enqueueSnackbar } = useSnackbar();
-
-  const methods = useForm<LoginInputType>({
-    // resolver: zodResolver(loginSchema),
+  const newPasswordSchema = object({
+    password: passwordSchema,
+    passwordConfirm: passwordConfirmSchema,
+  }).refine((data) => data.password === data.passwordConfirm, {
+    path: ['passwordConfirm'],
+    message: t('validation:notMatch'),
   });
 
-  const { handleSubmit, setError, formState } = methods;
+  const { enqueueSnackbar } = useSnackbar();
 
-  const onSubmitHandler: SubmitHandler<{ identityValue: string }> = async (values) => {
+  const { createMutation: newPasswordMutation, loading } = useCreateMutation<NewPasswordPayload, null>(
+    `/recovery_password/validate_phone`,
+  );
+
+  const methods = useForm<NewPassword>({
+    resolver: zodResolver(newPasswordSchema),
+  });
+
+  const { handleSubmit } = methods;
+
+  const onSubmitHandler: SubmitHandler<NewPassword> = async (values) => {
     try {
-      setValue('hi');
-      // await signInMutation(payload);
-      // navigate('/');
+      const payload = {
+        password: values.password,
+        password_confirmation: values.passwordConfirm,
+        token,
+      };
+      // await newPasswordMutation(payload);
+      setSuccess(true);
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
       // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
@@ -115,48 +98,61 @@ export function NewPasswordPage() {
           variant: 'error',
         });
       }
-
-      setError('username', {
-        type: 'manual',
-        message: '',
-      });
     }
   };
 
   return (
-    <Container
-      maxWidth={false}
-      className="bg-background"
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
-      <FormProvider {...methods}>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmitHandler)}
-          noValidate
-          autoComplete="off"
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: '#ffffff',
-            p: { xs: '1rem', sm: '2rem' },
-            width: { sm: '500px', xs: '100%' },
-            borderRadius: 0,
-          }}
-        >
-          <img className="self-center mb-8" src={value ? Success : LogoSquare} alt="logo" />
+    <BaseResetForm>
+      <>
+        {success && <SuccessContent />}
+        <FormProvider {...methods}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmitHandler)}
+            noValidate
+            autoComplete="off"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              backgroundColor: '#ffffff',
+              p: { xs: '1rem', sm: '2rem' },
+              width: { sm: '500px', xs: '100%' },
+              borderRadius: 0,
+            }}
+          >
+            <img className="self-center mb-8" src={LogoSquare} alt="logo" />
 
-          {value && <SuccessContent />}
-          {!value && <NewPassword onClick={() => setValue('hi')} />}
-        </Box>
-      </FormProvider>
-    </Container>
+            <Box>
+              <Title className="self-center mb-8" type="page2" label={t('auth:resetPassword.title')} />
+              <Text>{t('auth:resetPassword.newPassword')}</Text>
+              <FormInput
+                name="password"
+                className="mt-2"
+                label={t('password')}
+                type="password"
+                helperText={t('register:passwordHelperText')}
+                placeholder={t('password_placeholder')}
+              />
+
+              <FormInput
+                name="passwordConfirm"
+                className="mt-2"
+                label={t('register:passwordConfirm')}
+                type="password"
+                placeholder={t('register:passwordConfirm_placeholder')}
+              />
+              <Button
+                className="mb-4 mt-4"
+                label={t('auth:resetPassword:savePassword')}
+                type="submit"
+                disabled={loading}
+              />
+            </Box>
+          </Box>
+        </FormProvider>
+      </>
+    </BaseResetForm>
   );
-}
+};
 
 export default NewPasswordPage;
