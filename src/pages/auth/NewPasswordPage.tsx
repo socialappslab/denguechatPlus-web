@@ -41,7 +41,7 @@ const SuccessContent = () => {
       <Text className="text-center mb-6 max-w-80">{t('resetPassword.passwordUpdate_success')}</Text>
       <Box className="flex justify-center">
         <img src={ArrowLeft} alt="arrow left" width="20" className="mr-2" />
-        <Link className="font-semibold text-grass no-underline self-center" to="/reset-password">
+        <Link className="font-semibold text-grass no-underline self-center" to="/login">
           {t('resetPassword.returnToLogin')}
         </Link>
       </Box>
