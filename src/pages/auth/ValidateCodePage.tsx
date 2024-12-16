@@ -92,7 +92,7 @@ const ValidateCodePage = () => {
         phone: phoneNumber,
       };
       const data = await validateCodeMutation(payload);
-      enqueueSnackbar(t('auth:resetPassword:validatedCode'), {
+      enqueueSnackbar(t('auth:resetPassword.validatedCode'), {
         variant: 'success',
       });
       navigate('/new-password', { state: { token: (data as ValidateCodeResponse).token } });

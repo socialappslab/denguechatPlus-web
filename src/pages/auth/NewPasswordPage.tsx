@@ -146,7 +146,7 @@ const NewPasswordPage = () => {
                 />
                 <Button
                   className="mb-4 mt-4"
-                  label={t('auth:resetPassword:savePassword')}
+                  label={t('auth:resetPassword.savePassword')}
                   type="submit"
                   disabled={loading}
                 />
