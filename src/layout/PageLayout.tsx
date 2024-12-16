@@ -4,6 +4,7 @@ import { PropsWithChildren } from 'react';
 import useSignOut from '../hooks/useLogout';
 import useUser from '../hooks/useUser';
 import BaseLayout from './BaseLayout';
+import Footer from './Footer';
 
 export default function PageLayout({ children }: PropsWithChildren) {
   const user = useUser();
@@ -18,6 +19,7 @@ export default function PageLayout({ children }: PropsWithChildren) {
       <Container maxWidth={false} className="lg:pt-6 lg:px-8 md:pt-6 md:px-8 sm:pt-5 sm:px-6 pt-4 px-4 pb-8 mx-0">
         {children}
       </Container>
+      <Footer />
     </BaseLayout>
   );
 }
