@@ -5,12 +5,13 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 
-import useCreateMutation from '@/hooks/useCreateMutation';
-import Text from '@/themed/text/Text';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { object } from 'zod';
+import Text from '@/themed/text/Text';
+import useCreateMutation from '@/hooks/useCreateMutation';
+// import ArrowLeft from '@/assets/icons/arrow-left-green.svg';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { passwordConfirmSchema, passwordSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
@@ -24,7 +25,9 @@ interface NewPassword {
   passwordConfirm: string;
 }
 
-interface NewPasswordPayload extends NewPassword {
+interface NewPasswordPayload {
+  password: string;
+  password_confirmation: string;
   token: string;
 }
 
@@ -33,13 +36,11 @@ const SuccessContent = () => {
   return (
     <>
       <Title className="self-center mb-8" type="section" label="Contraseña actualizada" />
-      <Text className="text-center mb-6">
-        Hemos actualizado tu contraseña. Puedes volver a la aplicación y utilizar tu nueva contraseña.
-      </Text>
+      <Text className="text-center mb-6">{t('resetPassword.passwordUpdate_success')}</Text>
       <Box className="flex justify-center">
         {/* <img src={ArrowLeft} alt="arrow left" width="20" className="mr-2" /> */}
         <Link className="font-semibold text-grass no-underline self-center" to="/reset-password">
-          Volver al inicio de sesión
+          {t('resetPassword.returnToLogin')}
         </Link>
       </Box>
     </>
@@ -47,11 +48,10 @@ const SuccessContent = () => {
 };
 
 const NewPasswordPage = () => {
-  const { t } = useTranslation(['auth', 'errorCodes']);
+  const { t } = useTranslation(['auth', 'errorCodes', 'register']);
   const [success, setSuccess] = useState(false);
-  const {
-    state: { token },
-  } = useLocation();
+  const { state } = useLocation();
+  const token = state?.token;
 
   const newPasswordSchema = object({
     password: passwordSchema,
@@ -80,7 +80,7 @@ const NewPasswordPage = () => {
         password_confirmation: values.passwordConfirm,
         token,
       };
-      // await newPasswordMutation(payload);
+      await newPasswordMutation(payload);
       setSuccess(true);
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
