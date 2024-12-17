@@ -19,7 +19,7 @@ export default function BaseLayout({ children, auth, signUp, logout }: AppBarPro
         <ScrollToTop />
         <AppBar auth={auth} signUp={signUp} logout={logout} />
         {children}
-        <Footer />
+        {footer && <Footer />}
       </Container>
     );
   }
