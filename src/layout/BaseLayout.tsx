@@ -6,7 +6,7 @@ import { drawerWidth } from '../constants';
 import { AppBar, AppBarProps } from './AppBar';
 import Footer from './Footer';
 
-export default function BaseLayout({ children, auth, signUp, logout }: AppBarProps & PropsWithChildren) {
+export default function BaseLayout({ children, auth, signUp, logout, footer }: AppBarProps & PropsWithChildren) {
   if (!auth) {
     return (
       <Container
@@ -19,7 +19,7 @@ export default function BaseLayout({ children, auth, signUp, logout }: AppBarPro
         <ScrollToTop />
         <AppBar auth={auth} signUp={signUp} logout={logout} />
         {children}
-        <Footer />
+        {footer && <Footer />}
       </Container>
     );
   }

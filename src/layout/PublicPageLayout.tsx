@@ -2,7 +2,6 @@ import { Container } from '@mui/material';
 import { PropsWithChildren } from 'react';
 
 import BaseLayout from './BaseLayout';
-import Footer from './Footer';
 
 export default function PublicPageLayout({ children }: PropsWithChildren) {
   return (
@@ -10,7 +9,6 @@ export default function PublicPageLayout({ children }: PropsWithChildren) {
       <Container maxWidth={false} className="lg:pt-16 lg:px-20 md:pt-10 md:px-12 sm:pt-9 sm:px-10 pt-8 px-6 mx-0">
         {children}
       </Container>
-      <Footer />
     </BaseLayout>
   );
 }
