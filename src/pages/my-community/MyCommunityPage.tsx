@@ -21,7 +21,7 @@ const LookerStudioEmbed = () => {
         title="Looker Studio Report"
         width="100%"
         height="700"
-        src="https://lookerstudio.google.com/embed/reporting/51c9e940-d10f-458f-8cbb-8a40804404a1/page/P6GUE"
+        src={import.meta.env.VITE_RISKCHART_URL}
         className="border-0 p-0 h-min-max overscroll-none overflow-hidden"
         sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
       />

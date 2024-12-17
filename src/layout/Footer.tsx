@@ -10,7 +10,7 @@ const Footer = () => {
   const { t } = useTranslation('translation');
 
   return (
-    <MuiAppBar position="static" className="bg-white mt-8 m4-6" elevation={0}>
+    <MuiAppBar position="static" className="bg-white mt-8 m4-6 absolute bottom-0" elevation={0}>
       <Container maxWidth={false} className="lg:px-20 md:px-12 sm:px-10 px-6 mx-0">
         <Toolbar disableGutters sx={{ height: '80px' }} className="flex justify-between">
           <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>

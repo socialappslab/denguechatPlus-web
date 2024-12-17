@@ -295,7 +295,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           {auth && !!logout && (
             <Button className="mr-4 min-w-full" buttonType="small" label={t('logout')} onClick={() => logout()} />
           )}
-          {!auth && location.pathname !== '/login' && (
+          {/* {!auth && location.pathname !== '/login' && (
             <Button
               primary={false}
               className="mr-4"
@@ -307,7 +307,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
           )}
           {signUp && !auth && (
             <Button className="mr-4" buttonType="small" label={t('register')} component={Link} to="/register" />
-          )}
+          )} */}
         </Box>
       </Box>
     </Box>

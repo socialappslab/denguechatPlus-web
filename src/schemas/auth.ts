@@ -12,7 +12,7 @@ const t = (key: string, args?: { [key: string]: string | number }) => {
 
 export const emailSchema = z.union([z.literal(''), string().email(t('validation:invalidEmail'))]);
 
-const passwordSchema = string()
+export const passwordSchema = string()
   .min(1, t('validation:requiredField.password'))
   .min(8, t('validation:passwordLength', { length: 8 }));
 
@@ -45,7 +45,7 @@ export type LoginRequestType = {
   password: string;
 };
 
-const passwordConfirmSchema = string().min(1, t('validation:requiredField.confirmPassword'));
+export const passwordConfirmSchema = string().min(1, t('validation:requiredField.confirmPassword'));
 const requiredNameString = string().min(1, t('validation:requiredField.name'));
 const requiredLastNameString = string().min(1, t('validation:requiredField.lastName'));
 const requiredCity = string().min(1, t('validation:requiredField.city'));
