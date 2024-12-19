@@ -47,10 +47,7 @@ const ResetPasswordPage = () => {
     username: z.string().min(1, t('auth:resetPassword.username_error')),
     phone: z
       .string()
-      .refine(
-        (value) => validator.isMobilePhone(value, validator.isMobilePhoneLocales),
-        t('auth:resetPassword.phoneNumber_error'),
-      ),
+      .refine((value) => validator.isMobilePhone(value, 'any'), t('auth:resetPassword.phoneNumber_error')),
   });
 
   type ValidatePhoneSchema = TypeOf<typeof validatePhoneSchema>;
