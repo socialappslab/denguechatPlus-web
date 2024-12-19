@@ -40,6 +40,7 @@
       "members": "Brigadists",
       "members_placeholder": "Select brigadists",
       "team_leader": "Team Facilitator",
+      "facilitador": "Team Facilitator",
       "team_leader_placeholder": "Select team facilitator",
       "organization": "Organization",
       "organization_placeholder": "Select organization",
