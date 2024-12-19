@@ -44,10 +44,10 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
 
   const validatePhoneSchema = z.object({
-    username: z.string().min(1, t('auth:resetPassword.username_error')),
     phone: z
       .string()
       .refine((value) => validator.isMobilePhone(value, 'any'), t('auth:resetPassword.phoneNumber_error')),
+    username: z.string().min(1, t('auth:resetPassword.username_error')),
   });
 
   type ValidatePhoneSchema = TypeOf<typeof validatePhoneSchema>;
