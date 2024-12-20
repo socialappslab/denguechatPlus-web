@@ -54,5 +54,6 @@
   "50": "The email '{{field}}' is already in use",
   "51": "Account is not active",
   "52": "Name is already used, please choose other name",
+  "54": "The entered details do not correspond to a registered user",
   "55": "The account was temporarily locked. Multiple failed login attempts occurred. Try again later."
 }
