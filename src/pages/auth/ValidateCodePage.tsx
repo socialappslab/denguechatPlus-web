@@ -3,21 +3,21 @@ import { Box } from '@mui/material';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ErrorResponse, Link, useLocation, useNavigate } from 'react-router-dom';
+import { ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
 
-import { object, z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSnackbar } from 'notistack';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import Text from '@/themed/text/Text';
 import { extractAxiosErrorData } from '@/util';
+import { zodResolver } from '@hookform/resolvers/zod';
+import useAxios from 'axios-hooks';
+import { ExistingDocumentObject } from 'jsonapi-fractal';
+import { useSnackbar } from 'notistack';
+import { object, z } from 'zod';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { BaseResetForm, ValidatePhone } from './ResetPasswordPage';
-import useAxios from 'axios-hooks';
-import { ExistingDocumentObject } from 'jsonapi-fractal';
 
 const trimString = (str: string) => `${'*'.repeat(3)}${str.slice(str.length - 5, str.length)}`;
 
@@ -28,10 +28,6 @@ interface ValidateCode {
 interface ValidateCodePayload extends ValidateCode {
   username: string;
   phone: string;
-}
-
-interface ValidateCodeResponse {
-  url: string;
 }
 
 const ValidateCodePage = () => {
@@ -99,7 +95,8 @@ const ValidateCodePage = () => {
         phone: phoneNumber,
       };
       const data = await validateCodeMutation({ data: payload });
-      const url = data?.data.url;
+      // eslint-disable-next-line prefer-destructuring
+      const url = (data?.data as unknown as { url: string }).url;
       const token = url.split('/').pop();
       enqueueSnackbar(t('auth:resetPassword.validatedCode'), {
         variant: 'success',
