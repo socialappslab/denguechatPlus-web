@@ -55,5 +55,6 @@
   "51": "A conta não está ativa",
   "52": "A nome já está em uso, por favor escolha outro nome",
   "54": "Os detalhes inseridos não correspondem a um usuário registrado",
-  "55": "A conta foi temporariamente bloqueada. Várias tentativas de login falhadas ocorreram. Tente novamente mais tarde."
+  "55": "A conta foi temporariamente bloqueada. Várias tentativas de login falhadas ocorreram. Tente novamente mais tarde.",
+  "60": "Você só pode solicitar um código de recuperação de senha uma vez por minuto. Por favor, tente novamente mais tarde."
 }
