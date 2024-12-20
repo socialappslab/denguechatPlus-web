@@ -125,9 +125,8 @@ const ResetPasswordPage = () => {
             <FormInput
               name="phone"
               label={t('auth:resetPassword.phoneNumber')}
-              helperText={t('auth:resetPassword.phoneNumber_helper')}
-              type="text"
-              placeholder={t('auth:resetPassword.phoneNumber_placeholder')}
+              type="phone"
+              placeholder={t('phone_placeholder')}
             />
             <Button className="mb-4 mt-4" label={t('auth:next')} type="submit" disabled={loadingPhoneMutation} />
           </Box>
