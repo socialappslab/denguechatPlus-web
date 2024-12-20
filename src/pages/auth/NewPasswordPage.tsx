@@ -66,7 +66,7 @@ const NewPasswordPage = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const { createMutation: newPasswordMutation, loading } = useCreateMutation<NewPasswordPayload, null>(
-    `/recovery_password/validate_phone`,
+    `/recovery_password/new_password`,
   );
 
   const methods = useForm<NewPassword>({
