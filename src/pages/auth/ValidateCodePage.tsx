@@ -3,14 +3,16 @@ import { Box } from '@mui/material';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
 
-import { object, z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useAxios from 'axios-hooks';
+import { ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
-import useCreateMutation from '@/hooks/useCreateMutation';
-import Text from '@/themed/text/Text';
+import { object, z } from 'zod';
 import { extractAxiosErrorData } from '@/util';
+import Text from '@/themed/text/Text';
+import useCreateMutation from '@/hooks/useCreateMutation';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
@@ -28,10 +30,6 @@ interface ValidateCodePayload extends ValidateCode {
   phone: string;
 }
 
-interface ValidateCodeResponse {
-  token: string;
-}
-
 const ValidateCodePage = () => {
   const { t } = useTranslation(['auth', 'errorCodes']);
   const { state } = useLocation();
@@ -42,8 +40,12 @@ const ValidateCodePage = () => {
     `/recovery_password/validate_phone`,
   );
 
-  const { createMutation: validateCodeMutation } = useCreateMutation<ValidateCodePayload, ValidateCodeResponse>(
-    `/recovery_password/validate_code`,
+  const [{ loading }, validateCodeMutation] = useAxios<ExistingDocumentObject, ValidateCodePayload, ErrorResponse>(
+    {
+      url: '/recovery_password/validate_code',
+      method: 'POST',
+    },
+    { manual: true },
   );
 
   if (!phoneNumber) {
@@ -60,7 +62,7 @@ const ValidateCodePage = () => {
     try {
       const payload = { phone: phoneNumber, username: state.username };
       await validatePhoneMutation(payload);
-      enqueueSnackbar(t('auth:resetPassword.validateSuccess'), {
+      enqueueSnackbar(t('auth:resetPassword.codeSent_success'), {
         variant: 'success',
       });
     } catch (error) {
@@ -72,6 +74,7 @@ const ValidateCodePage = () => {
         enqueueSnackbar(t(`errorCodes:${error.error_code || 'generic'}`), {
           variant: 'error',
         });
+        console.log(error);
       });
 
       if (!errorData?.errors || errorData?.errors.length === 0) {
@@ -91,11 +94,14 @@ const ValidateCodePage = () => {
         username,
         phone: phoneNumber,
       };
-      const data = await validateCodeMutation(payload);
+      const data = await validateCodeMutation({ data: payload });
+      // eslint-disable-next-line prefer-destructuring
+      const url = (data?.data as unknown as { url: string }).url;
+      const token = url.split('/').pop();
       enqueueSnackbar(t('auth:resetPassword.validatedCode'), {
         variant: 'success',
       });
-      navigate('/new-password', { state: { token: (data as ValidateCodeResponse).token } });
+      navigate('/new-password', { state: { token } });
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
       // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
@@ -142,12 +148,10 @@ const ValidateCodePage = () => {
             <FormInput name="code" label={t('auth:resetPassword.code')} type="text" placeholder="****" />
 
             <Box className="flex justify-between items-center">
-              <Text className="self-center">
-                <Link className="font-semibold text-grass no-underline" onClick={onResendCode} to="#">
-                  {t('auth:resetPassword.resendCode')}
-                </Link>
+              <Text className="font-semibold text-grass no-underline cursor-pointer">
+                <Box onClick={onResendCode}>{t('auth:resetPassword.resendCode')}</Box>
               </Text>
-              <Button className="mb-4 mt-4 max-w-min" label={t('next')} type="submit" />
+              <Button className="mb-4 mt-4 max-w-min" label={t('next')} type="submit" disabled={loading} />
             </Box>
           </Box>
         </Box>

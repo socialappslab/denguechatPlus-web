@@ -44,10 +44,10 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
 
   const validatePhoneSchema = z.object({
-    username: z.string().min(1, t('auth:resetPassword.username_error')),
     phone: z
       .string()
       .refine((value) => validator.isMobilePhone(value, 'any'), t('auth:resetPassword.phoneNumber_error')),
+    username: z.string().min(1, t('auth:resetPassword.username_error')),
   });
 
   type ValidatePhoneSchema = TypeOf<typeof validatePhoneSchema>;
@@ -125,9 +125,8 @@ const ResetPasswordPage = () => {
             <FormInput
               name="phone"
               label={t('auth:resetPassword.phoneNumber')}
-              helperText={t('auth:resetPassword.phoneNumber_helper')}
-              type="text"
-              placeholder={t('auth:resetPassword.phoneNumber_placeholder')}
+              type="phone"
+              placeholder={t('phone_placeholder')}
             />
             <Button className="mb-4 mt-4" label={t('auth:next')} type="submit" disabled={loadingPhoneMutation} />
           </Box>
