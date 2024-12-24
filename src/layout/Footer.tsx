@@ -23,7 +23,7 @@ const Footer = () => {
               buttonType="small"
               label={t('footer.userGuide')}
               component={Link}
-              to="/"
+              to="https://scribehow.com/page/Guia_de_Usuario__Id5Pqg7PTqeXHAqDhYyRWw"
             />
             <Button
               primary={false}
@@ -31,7 +31,7 @@ const Footer = () => {
               buttonType="small"
               label={t('footer.about')}
               component={Link}
-              to="/"
+              to="https://www.denguechat.org/about"
             />
             <Button
               primary={false}
@@ -39,7 +39,7 @@ const Footer = () => {
               buttonType="small"
               label={t('footer.mosquito')}
               component={Link}
-              to="/"
+              to="https://www.denguechat.org/education"
             />
             <Button
               primary={false}
@@ -47,7 +47,7 @@ const Footer = () => {
               buttonType="small"
               label={t('footer.faqs')}
               component={Link}
-              to="/"
+              to="https://www.denguechat.org/faq"
             />
           </Box>
           <Box>
