@@ -15,7 +15,7 @@ interface TarikiHouseReport {
 const SitesReport = () => {
   const { t } = useTranslation('feed');
 
-  const [{ data, loading }] = useAxios<TarikiHouseReport, null, ErrorResponse>({
+  const [{ data }] = useAxios<TarikiHouseReport, null, ErrorResponse>({
     url: `reports/tariki_houses`,
   });
 
@@ -26,8 +26,8 @@ const SitesReport = () => {
         <>
           <ProgressBar
             label={t('sitesReport.title')}
-            value={data?.tarikiHousesQty}
-            progress={data?.tarikiPercentage}
+            value={data?.tarikiHousesQty ?? 0}
+            progress={data?.tarikiPercentage ?? 0}
             color="bg-green-600"
             tooltip={t('sitesReport.tarikiSiteInfo')}
           />
