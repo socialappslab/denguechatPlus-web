@@ -28,6 +28,8 @@ import {
   SPECIAL_PLACES_INDEX,
   TEAMS_INDEX,
   USERS_INDEX,
+  REPORTS_INDEX,
+  VISITS_INDEX,
 } from '@/constants/permissions';
 import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
@@ -158,15 +160,15 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
             </ListItemIcon>
             <ListItemText primary={<Text type="menuItem">{t('menu.breedingSites')}</Text>} />
           </ListItemButton>
-          <ListItemButton component={Link} to={VISITS} selected={pathname.includes(VISITS)}>
-            <ListItemIcon>
-              <Icon type="FactCheck" />
-            </ListItemIcon>
-            <ListItemText primary={<Text type="menuItem">{t('menu.visits')}</Text>} />
-          </ListItemButton>
-          <ProtectedView
-            hasSomePermission={[ROLES_INDEX, ORGANIZATIONS_INDEX, USERS_INDEX, CITIES_INDEX, SPECIAL_PLACES_INDEX]}
-          >
+          <ProtectedView hasPermission={[VISITS_INDEX]}>
+            <ListItemButton component={Link} to={VISITS} selected={pathname.includes(VISITS)}>
+              <ListItemIcon>
+                <Icon type="FactCheck" />
+              </ListItemIcon>
+              <ListItemText primary={<Text type="menuItem">{t('menu.visits')}</Text>} />
+            </ListItemButton>
+          </ProtectedView>
+          <ProtectedView hasPermission={[REPORTS_INDEX]}>
             <ListItemButton onClick={() => genericHandleClick('reportsMenu')}>
               <ListItemIcon>
                 <img src={ReportsIcon} alt="reports-icon" />
