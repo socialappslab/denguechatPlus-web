@@ -12,7 +12,6 @@ const LookerStudioEmbed = () => {
         height="2050"
         src={import.meta.env.VITE_VISIT_URL}
         className="border-0 p-0 h-min-max overscroll-none overflow-hidden"
-        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
       />
     </div>
   );
