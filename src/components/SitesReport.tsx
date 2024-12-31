@@ -28,10 +28,11 @@ const SitesReport = () => {
         <>
           <ProgressBar
             label={t('sitesReport.title')}
-            value={data?.tarikiHousesQty ?? 0}
+            value={data?.totalHousesQty ?? 0}
             progress={data?.tarikiPercentage ?? 0}
             color="bg-green-600"
             tooltip={t('sitesReport.tarikiSiteInfo')}
+            description={`${data?.tarikiHousesQty} ${t('sitesReport.description')} ${data?.totalHousesQty}`}
           />
           <ProgressBar
             label={t('sitesReport.quantity')}
@@ -39,6 +40,7 @@ const SitesReport = () => {
             progress={data?.greenContainerPercentage ?? 0}
             color="bg-green-800"
             tooltip={t('sitesReport.greenContainersInfo')}
+            description={`${data?.greenContainerQty} ${t('sitesReport.description')} ${data?.totalContainerQty}`}
           />
         </>
       </Box>

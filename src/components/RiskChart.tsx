@@ -29,7 +29,7 @@ const RiskChart = () => {
     },
   });
 
-  const label = `${(user?.team as BaseObject)?.name}: ${t('riskChart.title')}`;
+  const label = `${(user?.city as BaseObject)?.name}: ${t('riskChart.title')}`;
   const totalQuantity = (data?.redQuantity || 0) + (data?.orangeQuantity || 0) + (data?.greenQuantity || 0);
   return (
     <Box className="border-solid border-neutral-100 rounded-md p-6 mb-4">

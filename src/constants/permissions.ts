@@ -66,6 +66,10 @@ const USERS_USERS_CONFIRM_ACCOUNT = 'users-users_confirm_account';
 
 const SPECIAL_PLACES_INDEX = 'special_places-index';
 
+const REPORTS_INDEX = 'reports-index';
+
+const VISITS_INDEX = 'visits-index';
+
 export {
   TEAMS_INDEX,
   TEAMS_SHOW,
@@ -124,4 +128,6 @@ export {
   NEIGHBORHOODS_DESTROY,
   USERS_USERS_CONFIRM_ACCOUNT,
   SPECIAL_PLACES_INDEX,
+  REPORTS_INDEX,
+  VISITS_INDEX,
 };

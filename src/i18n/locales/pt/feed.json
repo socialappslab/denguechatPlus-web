@@ -12,7 +12,8 @@
     "title": "Locais Tariki",
     "quantity": "Quantidade de contêineres verdes",
     "tarikiSiteInfo": "Um site Tariki é aquele que foi um site verde por pelo menos quatro visitas consecutivas",
-    "greenContainersInfo": "Estado dos contêineres verdes, até a data de término do último mês (dados mensais)"
+    "greenContainersInfo": "Estado dos contêineres verdes, até a data de término do último mês (dados mensais)",
+    "description": "de"
   },
   "layout": {
     "filters": "Filtros",
