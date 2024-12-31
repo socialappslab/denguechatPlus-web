@@ -35,7 +35,7 @@ const SitesReport = () => {
           />
           <ProgressBar
             label={t('sitesReport.quantity')}
-            value={data?.totalContainerQty ?? 0}
+            value={data?.greenContainerQty ?? 0}
             progress={data?.greenContainerPercentage ?? 0}
             color="bg-green-800"
             tooltip={t('sitesReport.greenContainersInfo')}
