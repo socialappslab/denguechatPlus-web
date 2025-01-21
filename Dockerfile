@@ -1,5 +1,5 @@
 # Step 1: Build the application
-FROM node:18.20.3-slim AS builder
+FROM node:20.11.1-slim AS builder
 WORKDIR /app
 
 # Copy package.json separately to leverage Docker cache
