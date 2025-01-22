@@ -54,5 +54,28 @@
       "edit_team": "Atribuir membros da equipe",
       "success": "Brigada atualizada com sucesso"
     }
+  },
+  "visits": {
+    "title": "Visitas",
+    "visitInformation": "Informação da visita",
+    "questionnaire": "Questionário",
+    "inspectionData": "Dados da Inspeção",
+    "status": {
+      "red": "Vermelho",
+      "green": "Verde",
+      "yellow": "Amarelo"
+    },
+    "inspection": {
+      "inspectionStatus": "Estado da visita: ",
+      "statusDescription": "Estado em que se encontrava o local no momento da visita",
+      "siteNumber": "Número do local",
+      "date": "Data",
+      "brigadist": "Brigadista",
+      "brigade": "Brigada",
+      "household": "Acompanhou a visita",
+      "notes": "Notas da visita",
+      "visitStart": "Local de início da visita",
+      "visitPermission": "Permissão para iniciar a visita"
+    }
   }
 }

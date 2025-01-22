@@ -55,5 +55,28 @@
       "edit_team": "Assign team brigadists",
       "success": "Brigade updated successfully"
     }
+  },
+  "visits": {
+    "title": "Visits",
+    "visitInformation": "Visit Information",
+    "questionnaire": "Questionnaire",
+    "inspectionData": "Inspection Data",
+    "status": {
+      "red": "Red",
+      "green": "Green",
+      "yellow": "Yellow"
+    },
+    "inspection": {
+      "inspectionStatus": "Visit Status: ",
+      "statusDescription": "State of the site at the time of the visit",
+      "siteNumber": "Site Number",
+      "date": "Date",
+      "brigadist": "Brigadist",
+      "brigade": "Brigade",
+      "household": "Accompanied the visit",
+      "notes": "Visit Notes",
+      "visitStart": "Visit Start Location",
+      "visitPermission": "Permission to start the visit"
+    }
   }
 }

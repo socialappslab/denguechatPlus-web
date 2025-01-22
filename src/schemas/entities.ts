@@ -18,15 +18,36 @@ export interface BaseWithStatus extends BaseEntity {
 
 export interface Organization extends BaseWithStatus {}
 
+export type InspectionStatus = 'green' | 'red' | 'yellow';
 export interface Visit extends BaseEntity {
   visitedAt: string;
-  city: string;
-  sector: string;
-  wedge: string;
+  city: string | BaseEntity;
+  sector: string | BaseEntity;
+  wedge: string | BaseEntity;
   house: number;
-  visitStatus: string | null;
-  brigadist: string;
-  team: string;
+  visitStatus: InspectionStatus;
+  brigadist: string | BaseEntity;
+  team: string | BaseEntity;
+  visitPermission: boolean;
+}
+
+export interface Inspection extends BaseEntity {
+  id: number;
+  breadingSiteType: string;
+  eliminationMethodType: string;
+  eliminationMethodTypeOther: null;
+  typeContents: null;
+  status: InspectionStatus;
+  waterSourceType: string;
+  waterSourceOther: string;
+  hasWater: boolean;
+  containerProtection: string;
+  containerProtectionOther: string;
+  wasChemicallyTreated: string;
+  photoUrl: {
+    id: number;
+    url: string;
+  };
 }
 
 export interface SpecialPlace extends BaseWithStatus {}
