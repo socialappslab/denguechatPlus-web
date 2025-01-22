@@ -94,7 +94,11 @@
     "visitStatus": "Status da Visita",
     "visitedAt": "Visitado em",
     "team": "Brigada",
-    "house": "Local"
+    "house": "Local",
+    "breedingSiteType": "Tipo de Contêiner",
+    "hasWater": "Água no Contêiner",
+    "typeContents": "O que contém?",
+    "containerStatus": "Estado do contêiner"
   },
   "options": {
     "notDefined": "Não definido",

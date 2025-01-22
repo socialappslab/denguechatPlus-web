@@ -96,7 +96,11 @@
     "team": "Brigada",
     "house": "Sitio",
     "rol": "Rol",
-    "specialPlace": "Lugar especial"
+    "specialPlace": "Lugar especial",
+    "breedingSiteType": "Tipo de Contenedor",
+    "hasWater": "Agua en el Contenedor",
+    "typeContents": "Qué contiene?",
+    "containerStatus": "Estado del contenedor"
   },
   "options": {
     "notDefined": "No definido",

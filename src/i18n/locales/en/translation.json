@@ -93,7 +93,11 @@
     "visitStatus": "Visit Status",
     "visitedAt": "Visited at",
     "team": "Brigade",
-    "house": "Site"
+    "house": "Site",
+    "breedingSiteType": "Container Type",
+    "hasWater": "Water in the Container",
+    "typeContents": "What does it contain?",
+    "containerStatus": "Container Status"
   },
   "options": {
     "notDefined": "Not Defined",
