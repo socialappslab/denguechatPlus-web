@@ -31,10 +31,10 @@ import {
   REPORTS_INDEX,
   VISITS_INDEX,
 } from '@/constants/permissions';
-import BugIcon from '../assets/icons/bug.svg';
+// import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
 import ReportsIcon from '../assets/icons/reports.svg';
-import TeamsIcon from '../assets/icons/teams.svg';
+// import TeamsIcon from '../assets/icons/teams.svg';
 import Logo from '../assets/images/logo.svg';
 import SelectLanguageComponent from '../components/SelectLanguageComponent';
 import { drawerWidth } from '../constants';
@@ -148,6 +148,7 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
             </ListItemIcon>
             <ListItemText primary={<Text type="menuItem">{t('menu.myCommunity')}</Text>} />
           </ListItemButton>
+          {/*
           <ListItemButton>
             <ListItemIcon>
               <img src={TeamsIcon} alt="teams-icon" />
@@ -160,6 +161,8 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
             </ListItemIcon>
             <ListItemText primary={<Text type="menuItem">{t('menu.breedingSites')}</Text>} />
           </ListItemButton>
+          */}
+
           <ProtectedView hasPermission={[VISITS_INDEX]}>
             <ListItemButton component={Link} to={VISITS} selected={pathname.includes(VISITS)}>
               <ListItemIcon>
