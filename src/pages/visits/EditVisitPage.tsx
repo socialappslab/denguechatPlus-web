@@ -1,25 +1,68 @@
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Container, Dialog, Grid } from '@mui/material';
 
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import useAxios from 'axios-hooks';
+import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
 import { ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
+import { capitalize } from 'lodash';
 import GreenHouse from '@/assets/icons/house-green.svg';
 import RedHouse from '@/assets/icons/house-red.svg';
 import YellowHouse from '@/assets/icons/house-yellow.svg';
 import useLangContext from '@/hooks/useLangContext';
 import { FormSelectOption } from '@/schemas';
-import { BaseEntity, Visit } from '@/schemas/entities';
+import { BaseEntity, Inspection, InspectionStatus, Visit } from '@/schemas/entities';
 import FormSelect from '@/themed/form-select/FormSelect';
 import Text from '@/themed/text/Text';
 import { convertToFormSelectOptions, formatDateFromString } from '@/util';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
-import InspectionsList from './InspectionsTable';
+import { HeadCell } from '@/themed/table/DataTable';
+import FilteredDataTable from '@/components/list/FilteredDataTable';
+import EditInspectionDialog from '@/components/dialog/EditInspectionDialog';
+
+const renderColor = (color: InspectionStatus) => {
+  return (
+    <Box className="flex">
+      <Box className={`w-5 h-5 bg-${color}-600 mr-3 rounded-full`} />
+      {capitalize(color)}
+    </Box>
+  );
+};
+
+const VisitDataTable = FilteredDataTable<Inspection>;
+
+const headCells: HeadCell<Inspection>[] = [
+  {
+    id: 'id',
+    label: 'id',
+  },
+  {
+    id: 'breadingSiteType',
+    label: 'breedingSiteType',
+  },
+  {
+    id: 'hasWater',
+    label: 'hasWater',
+    render: (row) => {
+      // i18n
+      const answer = row.hasWater ? 'Sí' : 'No';
+      return <p>{answer}</p>;
+    },
+  },
+  {
+    id: 'typeContents',
+    label: 'typeContents',
+  },
+  {
+    id: 'status',
+    label: 'containerStatus',
+    render: (row) => renderColor(row.status),
+  },
+];
 
 export interface EditVisitProps {
   visit: Visit;
@@ -64,12 +107,15 @@ const HouseStatusBanner = ({ color: colorPlain }: HouseStatusProps) => {
 };
 
 export function EditVisit({ visit }: EditVisitProps) {
-  const { t } = useTranslation(['register', 'errorCodes', 'admin']);
+  const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation']);
   const location = useLocation();
   const statefulAttr = location.state?.attributes;
   const langContext = useLangContext();
   const navigate = useNavigate();
+  const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
+  const [openEditDialog, setOpenEditDialog] = useState<boolean>(true);
 
+  const rootElement = document.getElementById('root-app');
   // fetched from attributes (passed as state) update after endpoint
   const house = statefulAttr?.house;
   const status = statefulAttr?.visitStatus;
@@ -103,6 +149,26 @@ export function EditVisit({ visit }: EditVisitProps) {
       household: 'Adulto Mayor',
     },
   });
+
+  const actions = (inspection: Inspection, loading?: boolean) => {
+    return (
+      <div className="flex flex-row">
+        <Button
+          primary
+          disabled={loading}
+          onClick={() => {
+            setSelectedInspection(inspection);
+            setOpenEditDialog(true);
+          }}
+          disable
+          label={t('translation:table.actions.edit')}
+          buttonType="cell"
+        />
+      </div>
+    );
+  };
+
+  const handleClose = () => setOpenEditDialog(false);
 
   return (
     <Container
@@ -238,7 +304,22 @@ export function EditVisit({ visit }: EditVisitProps) {
 
       <Title type="section" className="self-start mt-10 mb-1" label={t('admin:visits.inspectionData')} />
 
-      <InspectionsList id={visit.id as number} />
+      <VisitDataTable
+        endpoint={`visits/${visit.id}/inspections`}
+        defaultFilter="brigadist"
+        headCells={headCells}
+        pageSize={5}
+        actions={actions}
+        searchable={false}
+      />
+
+      <Dialog container={rootElement} fullWidth maxWidth="md" open={openEditDialog} onClose={handleClose}>
+        <EditInspectionDialog
+          visitId={visit.id as number}
+          handleClose={() => setOpenEditDialog(false)}
+          inspection={selectedInspection}
+        />
+      </Dialog>
     </Container>
   );
 }
