@@ -60,6 +60,10 @@
     "visitInformation": "Informação da visita",
     "questionnaire": "Questionário",
     "inspectionData": "Dados da Inspeção",
+    "water": {
+      "true": "Sim",
+      "false": "Não"
+    },
     "status": {
       "red": "Vermelho",
       "green": "Verde",
@@ -75,7 +79,20 @@
       "household": "Acompanhou a visita",
       "notes": "Notas da visita",
       "visitStart": "Local de início da visita",
-      "visitPermission": "Permissão para iniciar a visita"
+      "visitPermission": "Permissão para iniciar a visita",
+      "columns": {
+        "breadingSiteType": "Tipo de contêiner",
+        "eliminationMethodType": "Tipo de eliminação de contêiner",
+        "typeContents": "Este contêiner contém",
+        "status": "Estado do contêiner",
+        "waterSourceType": "Fonte de água",
+        "hasWater": "Água no contêiner",
+        "waterSourceTypeOther": "Outra fonte de água",
+        "containerProtection": "Tipo de proteção",
+        "containerProtectionOther": "Outro tipo de proteção",
+        "wasChemicallyTreated": "Tratado pelo Ministério da Saúde com piriproxifeno",
+        "eliminationMethodTypeOther": "Outro tipo de eliminação"
+      }
     }
   }
 }

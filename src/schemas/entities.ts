@@ -29,21 +29,26 @@ export interface Visit extends BaseEntity {
   brigadist: string | BaseEntity;
   team: string | BaseEntity;
   visitPermission: boolean;
+  notes: string;
+  answers: Array<Record<string, string>>;
 }
 
-export interface Inspection extends BaseEntity {
-  id: number;
+export interface InspectionSelectable {
   breadingSiteType: string;
-  eliminationMethodType: string;
-  eliminationMethodTypeOther: null;
-  typeContents: null;
-  status: InspectionStatus;
   waterSourceType: string;
+  wasChemicallyTreated: string;
+  typeContents: null;
+  containerProtection: string;
+  eliminationMethodType: string;
+}
+
+export interface Inspection extends InspectionSelectable {
+  id: number;
+  eliminationMethodTypeOther: null;
+  status: InspectionStatus;
   waterSourceOther: string;
   hasWater: boolean;
-  containerProtection: string;
   containerProtectionOther: string;
-  wasChemicallyTreated: string;
   photoUrl: {
     id: number;
     url: string;

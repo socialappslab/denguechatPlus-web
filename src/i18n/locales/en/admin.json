@@ -61,6 +61,10 @@
     "visitInformation": "Visit Information",
     "questionnaire": "Questionnaire",
     "inspectionData": "Inspection Data",
+    "water": {
+      "true": "Yes",
+      "false": "No"
+    },
     "status": {
       "red": "Red",
       "green": "Green",
@@ -76,7 +80,20 @@
       "household": "Accompanied the visit",
       "notes": "Visit Notes",
       "visitStart": "Visit Start Location",
-      "visitPermission": "Permission to start the visit"
+      "visitPermission": "Permission to start the visit",
+      "columns": {
+        "breadingSiteType": "Container type",
+        "eliminationMethodType": "Container elimination type",
+        "typeContents": "This container contains",
+        "status": "Container status",
+        "waterSourceType": "Water source",
+        "hasWater": "Water in the container",
+        "waterSourceTypeOther": "Other water source",
+        "containerProtection": "Protection type",
+        "containerProtectionOther": "Other protection type",
+        "wasChemicallyTreated": "Treated by the Ministry of Health with pyriproxyfen",
+        "eliminationMethodTypeOther": "Other elimination type"
+      }
     }
   }
 }

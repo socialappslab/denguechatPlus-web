@@ -37,6 +37,7 @@ export interface UpdateTeam {
   };
 }
 
+// update team
 export const updateTeamSchema = () => {
   const requiredNameString = string().min(1, t('validation:requiredField.name'));
 
@@ -48,3 +49,42 @@ export const updateTeamSchema = () => {
 
 const updateTeamSchemaForType = updateTeamSchema();
 export type UpdateTeamInputType = TypeOf<typeof updateTeamSchemaForType>;
+
+// update visit
+export const updateVisitSchema = () => {
+  const requiredString = string().min(1, t('validation:requiredField.name'));
+
+  return object({
+    site: requiredString,
+    brigadist: requiredString,
+    brigade: requiredString,
+    visitStartPlace: requiredString,
+    visitPermission: requiredString,
+    household: requiredString,
+    notes: requiredString,
+    date: requiredString,
+  });
+};
+
+const updateVisitSchemaForType = updateVisitSchema();
+export type UpdateVisitInputType = TypeOf<typeof updateVisitSchemaForType>;
+
+export interface UpdateVisit {
+  // house_id: string;
+  visited_at: string;
+  user_account_id: string;
+  host: string;
+  notes: string;
+  answers?: Record<string, string>[];
+}
+
+// update inspection
+export interface UpdateInspection {
+  breeding_site_type_id: string;
+  container_protection_id: string;
+  water_source_type_id: string;
+  // type_content_ids: string[];
+  elimination_method_type_id: string;
+  water_source_other: string;
+  was_chemically_treated: string;
+}

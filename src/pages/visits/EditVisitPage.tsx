@@ -1,28 +1,31 @@
 import { Box, Container, Dialog, Grid } from '@mui/material';
 
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import useAxios from 'axios-hooks';
 import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { capitalize } from 'lodash';
+import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
-import { capitalize } from 'lodash';
 import GreenHouse from '@/assets/icons/house-green.svg';
 import RedHouse from '@/assets/icons/house-red.svg';
 import YellowHouse from '@/assets/icons/house-yellow.svg';
+import EditInspectionDialog from '@/components/dialog/EditInspectionDialog';
+import FilteredDataTable from '@/components/list/FilteredDataTable';
 import useLangContext from '@/hooks/useLangContext';
 import { FormSelectOption } from '@/schemas';
 import { BaseEntity, Inspection, InspectionStatus, Visit } from '@/schemas/entities';
+import { UpdateVisit, UpdateVisitInputType } from '@/schemas/update';
 import FormSelect from '@/themed/form-select/FormSelect';
+import { HeadCell } from '@/themed/table/DataTable';
 import Text from '@/themed/text/Text';
-import { convertToFormSelectOptions, formatDateFromString } from '@/util';
+import { convertToFormSelectOptions, extractAxiosErrorData, formatDateFromString } from '@/util';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
-import { HeadCell } from '@/themed/table/DataTable';
-import FilteredDataTable from '@/components/list/FilteredDataTable';
-import EditInspectionDialog from '@/components/dialog/EditInspectionDialog';
+import useUpdateMutation from '@/hooks/useUpdateMutation';
 
 const renderColor = (color: InspectionStatus) => {
   return (
@@ -113,7 +116,7 @@ export function EditVisit({ visit }: EditVisitProps) {
   const langContext = useLangContext();
   const navigate = useNavigate();
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
-  const [openEditDialog, setOpenEditDialog] = useState<boolean>(true);
+  const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
 
   const rootElement = document.getElementById('root-app');
   // fetched from attributes (passed as state) update after endpoint
@@ -122,10 +125,24 @@ export function EditVisit({ visit }: EditVisitProps) {
   const date = formatDateFromString(langContext.state.selected, visit.visitedAt);
 
   const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
+  const [houseOptions, setHouseOptions] = useState<FormSelectOption[]>([]);
 
   const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: `/users?filter[roles][name]=brigadista&filter[team_id]=${(visit.team as BaseEntity)?.id}`,
   });
+
+  const [{ data: housesData, loading: loadingHouses }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
+    url: `/houses/list_to_visit`,
+  });
+
+  useEffect(() => {
+    if (!housesData) return;
+    const deserializedData = deserialize(housesData);
+    if (Array.isArray(deserializedData)) {
+      const houses = convertToFormSelectOptions(deserializedData, 'referenceCode');
+      setHouseOptions(houses);
+    }
+  }, [housesData]);
 
   useEffect(() => {
     if (!usersData) return;
@@ -137,7 +154,6 @@ export function EditVisit({ visit }: EditVisitProps) {
   }, [usersData]);
 
   const methods = useForm({
-    // resolver: zodResolver(updateCitySchema()),
     defaultValues: {
       site: house,
       date,
@@ -147,20 +163,80 @@ export function EditVisit({ visit }: EditVisitProps) {
       visitStartPlace: 'Huerta/Casa',
       visitPermission: visit.visitPermission ? 'Sí' : 'No',
       household: 'Adulto Mayor',
+      notes: visit.notes,
     },
   });
+
+  const { handleSubmit, watch, setError } = methods;
+
+  const onGoBackHandler = () => {
+    navigate('/visits');
+  };
+
+  const { udpateMutation: updateVisitMutation } = useUpdateMutation<UpdateVisit, Visit>(`visits/${visit?.id}`);
+
+  const convertSchemaToPayload = (values: UpdateVisitInputType): UpdateVisit => {
+    return {
+      host: values.household,
+      // house_id: values.site,
+      notes: values.notes,
+      user_account_id: values.brigadist,
+      visited_at: values.date,
+    };
+  };
+
+  const onSubmitHandler: SubmitHandler<UpdateVisitInputType> = async (values) => {
+    try {
+      const payload: UpdateVisit = convertSchemaToPayload(values);
+
+      await updateVisitMutation({ ...payload, answers: visit.answers });
+
+      enqueueSnackbar(t('admin:cities.edit.success'), {
+        variant: 'success',
+      });
+
+      onGoBackHandler();
+    } catch (error) {
+      const errorData = extractAxiosErrorData(error);
+
+      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+      errorData?.errors?.forEach((error: any) => {
+        if (error?.field && watch(error.field)) {
+          setError(error.field, {
+            type: 'manual',
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
+              field: watch(error.field),
+            }),
+          });
+        } else {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
+            variant: 'error',
+          });
+        }
+      });
+
+      if (!errorData?.errors || errorData?.errors.length === 0) {
+        enqueueSnackbar(t('errorCodes:generic'), {
+          variant: 'error',
+        });
+      }
+    }
+  };
 
   const actions = (inspection: Inspection, loading?: boolean) => {
     return (
       <div className="flex flex-row">
         <Button
           primary
-          disabled={loading}
+          disabled={!!loading}
           onClick={() => {
             setSelectedInspection(inspection);
             setOpenEditDialog(true);
           }}
-          disable
           label={t('translation:table.actions.edit')}
           buttonType="cell"
         />
@@ -181,15 +257,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       }}
     >
       <FormProvider {...methods}>
-        <Box
-          component="form"
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-          noValidate
-          autoComplete="off"
-          className="w-full"
-        >
+        <Box component="form" onSubmit={handleSubmit(onSubmitHandler)} noValidate autoComplete="off" className="w-full">
           {/* // i8nk */}
           <Box className="flex items-center mb-5">
             <Text type="menuItem" className="opacity-50">
@@ -213,23 +281,22 @@ export function EditVisit({ visit }: EditVisitProps) {
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
+              {/* <FormSelect */}
               <FormInput
                 className="mt-2 h-full"
                 name="site"
-                // i18n
                 label={t('admin:visits.inspection.siteNumber')}
-                type="text"
-                defaultValue={house}
+                disabled
+                // options={houseOptions}
+                // loading={loadingHouses}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInput
                 className="mt-2 h-full"
                 name="date"
-                // i18n
                 label={t('admin:visits.inspection.date')}
-                type="text"
-                // placeholder={t('edit.firstName_placeholder')}
+                type="date-picker"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -260,29 +327,21 @@ export function EditVisit({ visit }: EditVisitProps) {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormInput
-                className="mt-2 h-full"
-                name="visitNotes"
-                label={t('admin:visits.inspection.notes')}
-                type="text"
-              />
+              <FormInput className="mt-2 h-full" name="notes" label={t('admin:visits.inspection.notes')} type="text" />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInput
                 className="mt-2 h-full"
                 disabled
                 name="visitStartPlace"
-                // i18n
                 label={t('admin:visits.inspection.visitStart')}
                 type="text"
-                // placeholder={t('edit.firstName_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInput
                 className="mt-2 h-full"
                 name="visitPermission"
-                // i18n
                 label={t('admin:visits.inspection.visitPermission')}
                 type="text"
                 disabled
