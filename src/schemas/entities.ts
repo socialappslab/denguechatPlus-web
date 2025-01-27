@@ -29,6 +29,8 @@ export interface Visit extends BaseEntity {
   brigadist: string | BaseEntity;
   team: string | BaseEntity;
   visitPermission: boolean;
+  notes: string;
+  answers: Array<Record<string, string>>;
 }
 
 export interface Inspection extends BaseEntity {

@@ -75,7 +75,20 @@
       "household": "Acompaño la visita",
       "notes": "Notas de la visita",
       "visitStart": "Lugar de inicio de la visita",
-      "visitPermission": "Permiso para iniciar la visita"
+      "visitPermission": "Permiso para iniciar la visita",
+      "columns": {
+        "breadingSiteType": "Tipo de contenedor",
+        "eliminationMethodType": "Tipo de eliminación de contenedor",
+        "typeContents": "En este contenedor hay",
+        "status": "Estado del contenedor",
+        "waterSourceType": "Origen del agua",
+        "hasWater": "Agua en el contenedor",
+        "waterSourceTypeOther": "Otra fuente de agua",
+        "containerProtection": "Tipo de protección",
+        "containerProtectionOther": "Otro tipo de protección",
+        "wasChemicallyTreated": "Tratado por el Ministerio de Salud con piriproxifeno",
+        "eliminationMethodTypeOther": "Otro tipo de eliminación"
+      }
     }
   }
 }

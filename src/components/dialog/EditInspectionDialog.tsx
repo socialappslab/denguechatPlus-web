@@ -18,7 +18,7 @@ interface EditInspectionDialogProps {
 }
 
 const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspectionDialogProps) => {
-  const { t } = useTranslation('register');
+  const { t } = useTranslation(['register', 'admin']);
   // const [inspectionData, setInspectionData] = useState<Inspection | undefined>();
 
   const [{ data, loading, error }] = useAxios({
@@ -44,7 +44,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
       eliminationMethodType: inspection?.eliminationMethodType,
       eliminationMethodTypeOther: inspection?.eliminationMethodTypeOther,
       hasWater: inspection?.hasWater,
-      status: inspection?.status,
+      status: t(`admin:visits.status.${inspection?.status}`),
       typeContents: inspection?.typeContents,
       wasChemicallyTreated: inspection?.wasChemicallyTreated,
       waterSourceType: inspection?.waterSourceType,
@@ -72,7 +72,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="breadingSiteType"
-                label="Tipo de contenedor"
+                label={t('admin:visits.inspection.columns.breadingSiteType')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
@@ -81,7 +81,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="eliminationMethodType"
-                label="Tipo de eliminación de contenedor"
+                label={t('admin:visits.inspection.columns.eliminationMethodType')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
@@ -90,7 +90,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="typeContents"
-                label="En este contenedor hay"
+                label={t('admin:visits.inspection.columns.typeContents')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
@@ -99,7 +99,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="status"
-                label="Estado del contenedor"
+                label={t('admin:visits.inspection.columns.status')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
                 disabled
@@ -109,7 +109,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="waterSourceType"
-                label="Origen del agua"
+                label={t('admin:visits.inspection.columns.waterSourceType')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
@@ -118,7 +118,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="hasWater"
-                label="Agua en el contenedor"
+                label={t('admin:visits.inspection.columns.hasWater')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
@@ -127,7 +127,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="waterSourceTypeOther"
-                label="Otra fuente de agua"
+                label={t('admin:visits.inspection.columns.waterSourceTypeOther')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
@@ -146,7 +146,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
           <Title type="section" className="self-center mb-8i w-full mt-8" label="Contenedor Tipo:" />
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -163,12 +163,12 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={6}>
               <FormInput
                 className="mt-2"
                 name="containerProtection"
-                label="Tipo de protección"
+                label={t('admin:visits.inspection.columns.containerProtection')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
@@ -177,7 +177,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="containerProtectionOther"
-                label="Otro tipo de protección"
+                label={t('admin:visits.inspection.columns.containerProtectionOther')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
@@ -186,7 +186,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="wasChemicallyTreated"
-                label="Tratado por el Ministerio de Salud con piriproxifeno"
+                label={t('admin:visits.inspection.columns.wasChemicallyTreated')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
@@ -195,7 +195,7 @@ const EditInspectionDialog = ({ inspection, handleClose, visitId }: EditInspecti
               <FormInput
                 className="mt-2"
                 name="eliminationMethodTypeOther"
-                label="Otro tipo de eliminación"
+                label={t('admin:visits.inspection.columns.eliminationMethodTypeOther')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
