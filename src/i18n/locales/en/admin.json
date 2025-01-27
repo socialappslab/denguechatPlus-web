@@ -61,6 +61,10 @@
     "visitInformation": "Visit Information",
     "questionnaire": "Questionnaire",
     "inspectionData": "Inspection Data",
+    "water": {
+      "true": "Yes",
+      "false": "No"
+    },
     "status": {
       "red": "Red",
       "green": "Green",

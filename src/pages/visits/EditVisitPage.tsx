@@ -154,7 +154,6 @@ export function EditVisit({ visit }: EditVisitProps) {
   }, [usersData]);
 
   const methods = useForm({
-    // resolver: zodResolver(updateCitySchema()),
     defaultValues: {
       site: house,
       date,
