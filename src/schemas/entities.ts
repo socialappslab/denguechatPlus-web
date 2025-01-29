@@ -79,9 +79,14 @@ export interface Team extends BaseEntity {
   memberCount: number;
 }
 
+export interface House {
+  id: number;
+  reference_code: string;
+}
+
 export interface HouseBlock extends BaseEntity {
   team: string;
-  houseIds: number[];
+  houses: House[];
   wedge: BaseEntity;
 }
 

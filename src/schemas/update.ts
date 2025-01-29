@@ -93,7 +93,7 @@ export interface UpdateInspection {
 export const updateHouseBlockSchema = () => {
   return object({
     name: string().min(1, t('validation:requiredField.name')),
-    houseIds: array(number()),
+    houseIds: array(object({ value: string(), label: string() })),
   });
 };
 

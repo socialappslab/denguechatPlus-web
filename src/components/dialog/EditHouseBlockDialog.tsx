@@ -54,7 +54,7 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
 
   const methods = useForm<UpdateHouseBlockInputType>({
     defaultValues: {
-      houseIds: houseBlock?.houseIds,
+      houseIds: houseBlock?.houses.map((house) => ({ value: String(house.id), label: house.reference_code })),
       name: houseBlock?.name,
     },
   });
@@ -67,15 +67,13 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
     // formState: { isValid, errors },
   } = methods;
 
-  const renderOption = (option: FormSelectOption): string => option.label;
-
   const onSubmitHandler: SubmitHandler<UpdateHouseBlockInputType> = async (values) => {
     try {
       const { name, houseIds } = values;
 
       const payload: UpdateHouseBlock = {
         name,
-        houseIds,
+        houseIds: houseIds.map((house) => parseInt(house.value, 10)),
       };
       await updateRoleMutation(payload);
       enqueueSnackbar(t('admin:roles.edit.success'), {
@@ -142,7 +140,6 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
                 label={t('admin:house_block.form.sites')}
                 placeholder={t('admin:house_block.form.sites_placeholder')}
                 options={sitesOptions}
-                renderOption={renderOption}
               />
             </Grid>
           </Grid>
