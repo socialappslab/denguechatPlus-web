@@ -94,5 +94,16 @@
         "eliminationMethodTypeOther": "Otro tipo de eliminación"
       }
     }
+  },
+  "house_block": {
+    "form": {
+      "name": "Nombre",
+      "name_placeholder": "Ingrese un nombre",
+      "sites": "Sitios",
+      "sites_placeholder": "Seleccione sitios"
+    },
+    "edit": {
+      "success": "Rol actualizado con éxito"
+    }
   }
 }
