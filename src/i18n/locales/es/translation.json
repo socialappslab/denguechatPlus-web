@@ -100,7 +100,8 @@
     "breedingSiteType": "Tipo de Contenedor",
     "hasWater": "Agua en el Contenedor",
     "typeContents": "Qué contiene?",
-    "containerStatus": "Estado del contenedor"
+    "containerStatus": "Estado del contenedor",
+    "role": "Rol"
   },
   "options": {
     "notDefined": "No definido",

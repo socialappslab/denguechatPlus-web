@@ -97,7 +97,8 @@
     "breedingSiteType": "Container Type",
     "hasWater": "Water in the Container",
     "typeContents": "What does it contain?",
-    "containerStatus": "Container Status"
+    "containerStatus": "Container Status",
+    "role": "Role"
   },
   "options": {
     "notDefined": "Not Defined",
