@@ -30,6 +30,7 @@
     "organizations": "Organizaciones",
     "cities": "Ciudades",
     "breedingSites": "Criaderos",
+    "house_blocks": "Frente a Frentes",
     "descriptions": {
       "organizations": "Lista de Organizaciones",
       "cities": "Lista de Ciudades",
@@ -37,7 +38,8 @@
       "roles": "Lista de Roles",
       "teams": "Lista de Brigadas",
       "specialPlaces": "Lista de Lugares Especiales",
-      "visits": "Lista de Visitas"
+      "visits": "Lista de Visitas",
+      "house_blocks": "Lista de Frente a Frentes"
     },
     "reports": {
       "name": "Reportes",
@@ -101,7 +103,8 @@
     "hasWater": "Agua en el Contenedor",
     "typeContents": "Qué contiene?",
     "containerStatus": "Estado del contenedor",
-    "role": "Rol"
+    "role": "Rol",
+    "house_block": "Frente a Frente"
   },
   "options": {
     "notDefined": "No definido",

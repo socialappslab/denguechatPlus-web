@@ -70,6 +70,8 @@ const REPORTS_INDEX = 'reports-index';
 
 const VISITS_INDEX = 'visits-index';
 
+const HOUSE_BLOCKS_INDEX = 'house_blocks-index';
+
 export {
   TEAMS_INDEX,
   TEAMS_SHOW,
@@ -130,4 +132,5 @@ export {
   SPECIAL_PLACES_INDEX,
   REPORTS_INDEX,
   VISITS_INDEX,
+  HOUSE_BLOCKS_INDEX,
 };
