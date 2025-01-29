@@ -1,4 +1,4 @@
-import { TypeOf, array, object, record, string } from 'zod';
+import { TypeOf, array, number, object, record, string } from 'zod';
 import i18nInstance from '../i18n/config';
 import { CreateRole } from './create';
 
@@ -87,4 +87,22 @@ export interface UpdateInspection {
   elimination_method_type_id: string;
   water_source_other: string;
   was_chemically_treated: string;
+}
+
+// update visit
+export const updateHouseBlockSchema = () => {
+  return object({
+    name: string().min(1, t('validation:requiredField.name')),
+    houseIds: array(number()),
+  });
+};
+
+const updateHouseBlockSchemaForType = updateHouseBlockSchema();
+export type UpdateHouseBlockInputType = TypeOf<typeof updateHouseBlockSchemaForType>;
+
+// update house block
+export interface UpdateHouseBlock {
+  name: string;
+  houseIds: number[];
+  wedgeId?: string;
 }
