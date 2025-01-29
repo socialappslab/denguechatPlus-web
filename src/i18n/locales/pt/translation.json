@@ -30,6 +30,7 @@
     "organizations": "Organizações",
     "cities": "Cidades",
     "breedingSites": "Criadouros",
+    "house_blocks": "Blocos da Casa",
     "descriptions": {
       "organizations": "Lista de Organizações",
       "cities": "Lista de Cidades",
@@ -37,7 +38,8 @@
       "roles": "Lista de Funções",
       "teams": "Lista de Brigadas",
       "specialPlaces": "Lista de Lugares Especiais",
-      "visits": "Visitas"
+      "visits": "Lista de Visitas",
+      "house_blocks": "Lista de Blocos da Casa"
     },
     "reports": {
       "name": "Relatórios",
@@ -99,7 +101,8 @@
     "hasWater": "Água no Contêiner",
     "typeContents": "O que contém?",
     "containerStatus": "Estado do contêiner",
-    "rol": "Papel"
+    "rol": "Papel",
+    "house_block": "Bloco da Casa"
   },
   "options": {
     "notDefined": "Não definido",
