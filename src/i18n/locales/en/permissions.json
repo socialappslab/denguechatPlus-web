@@ -17,7 +17,9 @@
     "update": " Update Role Information",
     "destroy": "Delete User",
     "users_confirm_account": "Confirm User Account",
-    "change_status": "Change User Status"
+    "change_status": "Change User Status",
+    "delete_account": "Delete User Account",
+    "change_team": "Change user's team"
   },
   "roles": {
     "title": "Roles",
@@ -37,13 +39,43 @@
     "update": "Switch User Team",
     "destroy": "Delete Brigades"
   },
+  "wedges": {
+    "title": "Wedges",
+    "index": "List wedges",
+    "show": "Show wedge",
+    "create": "Create wedges",
+    "edit": "Edit wedges",
+    "update": "Update wedges",
+    "destroy": "Delete wedges",
+    "house_blocks": "List house block for wedge"
+  },
   "post_comments": {
     "title": "Post / Comments",
-    "index": "list post / comments",
+    "index": "List post / comments",
     "show": "View to post / comments resources",
     "create": "Create post / comments",
     "edit": "Edit post / comments",
     "update": "Update post / comments information"
+  },
+  "comments": {
+    "title": "Comments",
+    "index": "List comments",
+    "show": "View comments",
+    "create": "Create comments",
+    "edit": "Edit comments",
+    "update": "Update comments",
+    "like": "Like comments",
+    "destroy": "Delete comments"
+  },
+  "posts": {
+    "title": "Posts",
+    "index": "List posts",
+    "show": "View posts",
+    "create": "Create posts",
+    "edit": "Edit posts",
+    "update": "Update posts",
+    "like": "Like posts",
+    "destroy": "Delete posts"
   },
   "houses": {
     "title": "Houses",
@@ -52,7 +84,9 @@
     "create": "Create Houses",
     "edit": "Edit Houses",
     "update": "Update House Information",
-    "destroy": "Delete Houses"
+    "destroy": "Delete Houses",
+    "list_to_visit": "List in vists section",
+    "orphan_houses": "List \"Orphan\" houses"
   },
   "breading_sites": {
     "title": "Breading Sites",
@@ -87,7 +121,8 @@
     "show": "View visit",
     "create": "Create visit",
     "edit": "Edit visit",
-    "update": "Update visit information"
+    "update": "Update visit information",
+    "delete": "Delete visit"
   },
   "special_places": {
     "title": "Special Places",
@@ -142,5 +177,57 @@
     "create": "Creat house blocks",
     "index": "List house blocks",
     "show": "Show house blocks"
+  },
+  "inspections": {
+    "title": "Inspections",
+    "index": "List inspections",
+    "show": "Show inspection",
+    "create": "Creat inspection",
+    "edit": "Edit inspections",
+    "update": "Update inspection information",
+    "delete": "Delete inspection"
+  },
+  "questionnaires": {
+    "title": "Questionnaires",
+    "index": "List questionnaires",
+    "show": "Show questionnaires",
+    "create": "Create questionnaires",
+    "edit": "Edit questionnaires",
+    "update": "Update questionnaire information",
+    "destroy": "Delete questionnaire",
+    "current": "Get current questionnaire"
+  },
+  "permissions": {
+    "title": "Permissions",
+    "index": "List permissions",
+    "show": "Show permissions",
+    "create": "Create permissions",
+    "edit": "Edit permissions",
+    "update": "Update permission information",
+    "destroy": "Delete permission"
+  },
+  "reports": {
+    "index": "List reports",
+    "tariki_houses": "View Tariki houses report",
+    "brigadists_performance": "View Brigadist's performance report",
+    "house_status": "View House status report"
+  },
+  "update": {
+    "house_blocks": "Update house block"
+  },
+  "create": {
+    "house_blocks": "Create house block"
+  },
+  "get_last_params": {
+    "title": "Get last pamras",
+    "index": "List last params",
+    "show": "Show last params",
+    "create": "Create last params",
+    "edit": "Edit last params",
+    "update": "Update last params",
+    "destroy": "Delete last params"
+  },
+  "get_address": {
+    "find_address": "Find address"
   }
 }
