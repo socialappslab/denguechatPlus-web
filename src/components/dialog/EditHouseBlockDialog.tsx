@@ -40,7 +40,7 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
   const { enqueueSnackbar } = useSnackbar();
 
   const [{ data, loading }] = useAxios({
-    url: `/houses`,
+    url: `/houses/orphan_houses`,
   });
 
   useEffect(() => {
