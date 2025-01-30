@@ -24,7 +24,7 @@ export interface Visit extends BaseEntity {
   city: string | BaseEntity;
   sector: string | BaseEntity;
   wedge: string | BaseEntity;
-  house: number;
+  house: number | House;
   visitStatus: InspectionStatus;
   brigadist: string | BaseEntity;
   team: string | BaseEntity;
