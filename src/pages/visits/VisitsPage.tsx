@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/themed/button/Button';
 import FilteredDataTable from '../../components/list/FilteredDataTable';
-import { Visit } from '../../schemas/entities';
+import { BaseEntity, House, Visit } from '../../schemas/entities';
 import { HeadCell } from '../../themed/table/DataTable';
 
 const headCells: HeadCell<Visit>[] = [
@@ -44,6 +44,7 @@ const headCells: HeadCell<Visit>[] = [
   {
     id: 'house',
     label: 'site',
+    render: (row) => <p>{(row.house as House).reference_code}</p>,
     filterable: true,
     sortable: true,
   },
