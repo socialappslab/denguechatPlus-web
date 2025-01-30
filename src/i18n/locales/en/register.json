@@ -6,7 +6,7 @@
   "username": "Username",
   "username_placeholder": "Enter your username",
   "email_placeholder": "Enter your email (optional)",
-  "passwordHelperText": "Password must be at least 8 characters long with at least one symbol",
+  "passwordHelperText": "Write a lowercase password that is at least 6 characters long and easy to remember.",
   "password": "Password",
   "password_placeholder": "Enter your password",
   "passwordConfirm": "Password Confirmation",

@@ -15,7 +15,7 @@
   },
   "notMatch": "As senhas não coincidem",
   "invalidEmail": "E-mail inválido",
-  "passwordLength": "A senha deve ter pelo menos {{length}} caracteres",
+  "passwordLength": "Escreva uma senha em letras minúsculas com pelo menos {{length}} caracteres e que seja fácil de lembrar.",
   "usernameLength": "O nome de usuário deve ter pelo menos {{length}} caracteres",
   "phoneLength": "O telefone é muito curto"
 }

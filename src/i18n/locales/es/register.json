@@ -6,7 +6,7 @@
   "username": "Nombre de Usuario",
   "username_placeholder": "Ingresa tu nombre de usuario",
   "email_placeholder": "Ingresa tu correo electrónico (opcional)",
-  "passwordHelperText": "La contraseña debe tener al menos 8 caracteres",
+  "passwordHelperText": "Escribe una contraseña en minúsculas de al menos 6 caracteres y que sea fácil de recordar.",
   "password": "Contraseña",
   "password_placeholder": "Ingresa tu contraseña",
   "passwordConfirm": "Confirmación de Contraseña",
