@@ -14,7 +14,7 @@ export const emailSchema = z.union([z.literal(''), string().email(t('validation:
 
 export const passwordSchema = string()
   .min(1, t('validation:requiredField.password'))
-  .min(8, t('validation:passwordLength', { length: 8 }));
+  .min(6, t('validation:passwordLength', { length: 6 }));
 
 export const userNameSchema = string()
   .min(1, t('validation:requiredField.username'))
