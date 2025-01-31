@@ -37,7 +37,7 @@ export default function HouseBlockList() {
       label: 'wedge',
       render: (row) => (
         <p>
-          {t('columns.wedge')} {row.wedge.name}
+          {row.wedge.name}
         </p>
       ),
       filterable: true,
