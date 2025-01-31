@@ -76,7 +76,7 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
         houseIds: houseIds.map((house) => parseInt(house.value, 10)),
       };
       await updateRoleMutation(payload);
-      enqueueSnackbar(t('admin:roles.edit.success'), {
+      enqueueSnackbar(t('admin:house_block.edit.success'), {
         variant: 'success',
       });
       updateTable();
@@ -122,7 +122,11 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
           autoComplete="off"
           className="w-full p-8"
         >
-          <Title type="section" className="self-center mb-8i w-full" label={t('admin:roles.create_role')} />
+          <Title
+            type="section"
+            className="self-center mb-8i w-full"
+            label={t('admin:house_block.edit_house_block')}
+          />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <FormInput

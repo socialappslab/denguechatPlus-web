@@ -82,6 +82,7 @@ export interface Team extends BaseEntity {
 export interface House {
   id: number;
   reference_code: string;
+  status: string;
 }
 
 export interface HouseBlock extends BaseEntity {
