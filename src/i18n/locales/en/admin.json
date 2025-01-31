@@ -97,6 +97,8 @@
     }
   },
   "house_block": {
+    "create_house_block": "Create frente a frente",
+    "edit_house_block": "Edit frente a frente",
     "form": {
       "name": "Name",
       "name_placeholder": "Enter a name",
@@ -104,7 +106,7 @@
       "sites_placeholder": "Select Sites"
     },
     "edit": {
-      "success": "Role updated successfully"
+      "success": "Frente a frente updated successfully"
     }
   }
 }

@@ -30,7 +30,7 @@
     "organizations": "Organizaciones",
     "cities": "Ciudades",
     "breedingSites": "Criaderos",
-    "house_blocks": "Frente a Frentes",
+    "house_blocks": "Frente a Frente",
     "descriptions": {
       "organizations": "Lista de Organizaciones",
       "cities": "Lista de Ciudades",
@@ -39,7 +39,7 @@
       "teams": "Lista de Brigadas",
       "specialPlaces": "Lista de Lugares Especiales",
       "visits": "Lista de Visitas",
-      "house_blocks": "Lista de Frente a Frentes"
+      "house_blocks": "Lista de Frente a Frente"
     },
     "reports": {
       "name": "Reportes",
@@ -63,6 +63,7 @@
     "search": "Buscar",
     "searchValue": "Valor de búsqueda",
     "selectAttribute": "Seleccionar Atributo",
+    "selectOption": "Seleccionar Opción",
     "rowsInPage": "Items en página",
     "rowsInPageOf": "de",
     "rowsMoreThan": "más de",
