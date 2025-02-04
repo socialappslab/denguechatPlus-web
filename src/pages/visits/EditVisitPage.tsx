@@ -16,7 +16,7 @@ import EditInspectionDialog from '@/components/dialog/EditInspectionDialog';
 import FilteredDataTable from '@/components/list/FilteredDataTable';
 import useLangContext from '@/hooks/useLangContext';
 import { FormSelectOption } from '@/schemas';
-import { BaseEntity, Inspection, InspectionStatus, Visit } from '@/schemas/entities';
+import { BaseEntity, House, Inspection, InspectionStatus, Visit } from '@/schemas/entities';
 import { UpdateVisit, UpdateVisitInputType } from '@/schemas/update';
 import FormSelect from '@/themed/form-select/FormSelect';
 import { HeadCell } from '@/themed/table/DataTable';
@@ -26,6 +26,7 @@ import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
+import FormSelectAutocomplete from '@/themed/form-select-autocomplete/FormSelectAutocomplete';
 
 const renderColor = (color: InspectionStatus) => {
   return (
@@ -120,29 +121,27 @@ export function EditVisit({ visit }: EditVisitProps) {
 
   const rootElement = document.getElementById('root-app');
   // fetched from attributes (passed as state) update after endpoint
-  const house = statefulAttr?.house;
   const status = statefulAttr?.visitStatus;
   const date = formatDateFromString(langContext.state.selected, visit.visitedAt);
 
   const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
-  const [houseOptions, setHouseOptions] = useState<FormSelectOption[]>([]);
 
   const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: `/users?filter[roles][name]=brigadista&filter[team_id]=${(visit.team as BaseEntity)?.id}`,
   });
 
-  const [{ data: housesData, loading: loadingHouses }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: `/houses/list_to_visit`,
-  });
+  // const [{ data: housesData, loading: loadingHouses }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
+  //   url: `/houses/list_to_visit`,
+  // });
 
-  useEffect(() => {
-    if (!housesData) return;
-    const deserializedData = deserialize(housesData);
-    if (Array.isArray(deserializedData)) {
-      const houses = convertToFormSelectOptions(deserializedData, 'referenceCode');
-      setHouseOptions(houses);
-    }
-  }, [housesData]);
+  // useEffect(() => {
+  //   if (!housesData) return;
+  //   const deserializedData = deserialize(housesData);
+  //   if (Array.isArray(deserializedData)) {
+  //     const houses = convertToFormSelectOptions(deserializedData, 'referenceCode');
+  //     setHouseOptions(houses);
+  //   }
+  // }, [housesData]);
 
   useEffect(() => {
     if (!usersData) return;
@@ -153,9 +152,14 @@ export function EditVisit({ visit }: EditVisitProps) {
     }
   }, [usersData]);
 
+  const defaultHouse = {
+    value: String((visit.house as House).id),
+    label: String((visit.house as House).reference_code),
+  };
+
   const methods = useForm({
     defaultValues: {
-      site: house,
+      site: defaultHouse,
       date,
       brigadist: visit.brigadist ? String((visit?.brigadist as BaseEntity)?.id) : '',
       brigade: visit.team ? String((visit?.team as BaseEntity)?.name) : '',
@@ -178,7 +182,7 @@ export function EditVisit({ visit }: EditVisitProps) {
   const convertSchemaToPayload = (values: UpdateVisitInputType): UpdateVisit => {
     return {
       host: values.household,
-      // house_id: values.site,
+      house_id: values.site.value,
       notes: values.notes,
       user_account_id: values.brigadist,
       visited_at: values.date,
@@ -281,14 +285,12 @@ export function EditVisit({ visit }: EditVisitProps) {
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              {/* <FormSelect */}
-              <FormInput
-                className="mt-2 h-full"
+              <FormSelectAutocomplete
+                defaultValue={defaultHouse}
                 name="site"
                 label={t('admin:visits.inspection.siteNumber')}
-                disabled
-                // options={houseOptions}
-                // loading={loadingHouses}
+                entityKey={'referenceCode' as keyof BaseEntity}
+                endpoint="/houses/list_to_visit"
               />
             </Grid>
             <Grid item xs={12} sm={6}>

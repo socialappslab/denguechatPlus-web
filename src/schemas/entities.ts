@@ -79,9 +79,10 @@ export interface Team extends BaseEntity {
   memberCount: number;
 }
 
-export interface House {
+export interface House extends BaseEntity {
   id: number;
   reference_code: string;
+  referenceCode: string;
 }
 
 export interface HouseBlock extends BaseEntity {

@@ -55,7 +55,7 @@ export const updateVisitSchema = () => {
   const requiredString = string().min(1, t('validation:requiredField.name'));
 
   return object({
-    site: requiredString,
+    site: object({ value: string() }),
     brigadist: requiredString,
     brigade: requiredString,
     visitStartPlace: requiredString,
@@ -70,7 +70,7 @@ const updateVisitSchemaForType = updateVisitSchema();
 export type UpdateVisitInputType = TypeOf<typeof updateVisitSchemaForType>;
 
 export interface UpdateVisit {
-  // house_id: string;
+  house_id: string;
   visited_at: string;
   user_account_id: string;
   host: string;
