@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Text from '@/themed/text/Text';
 import Button from '@/themed/button/Button';
 import Logo from '../assets/images/logo.svg';
+import packageJson from '../../package.json';
 
 const Footer = () => {
   const { t } = useTranslation('translation');
@@ -51,8 +52,8 @@ const Footer = () => {
             />
           </Box>
           <Box>
-            <Text type="menuItem" className="text-neutral-300">
-              © 2024
+            <Text className="text-neutral-300">
+              © 2024 | v{packageJson.version}
             </Text>
           </Box>
         </Toolbar>

@@ -21,6 +21,8 @@ import React, { useState } from 'react';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Icon from '@/components/icon';
+import packageJson from '../../package.json';
+
 import {
   CITIES_INDEX,
   ORGANIZATIONS_INDEX,
@@ -116,10 +118,13 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
     <Box sx={{ paddingLeft: { xs: 2, sm: 0 } }} className="flex flex-col justify-between min-h-full">
       <Box>
         <Toolbar className="ml-4" disableGutters sx={{ height: '80px' }}>
-          <div className="flex flex-1 flex-col align-middle justify-center">
+          <div className="flex flex-row items-center space-x-4">
             <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
               <img className={!matches ? 'right-4' : ''} src={Logo} alt="logo" />
             </Link>
+            <Text type="menuItem" className="text-neutral-300">
+              v{packageJson.version}
+            </Text>
           </div>
         </Toolbar>
 
