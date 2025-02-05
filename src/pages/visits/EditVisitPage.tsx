@@ -181,8 +181,8 @@ export function EditVisit({ visit }: EditVisitProps) {
 
   const convertSchemaToPayload = (values: UpdateVisitInputType): UpdateVisit => {
     return {
-      host: values.household,
-      house_id: values.site.value,
+      host: [values.household],
+      house_id: (values.site as FormSelectOption).value,
       notes: values.notes,
       user_account_id: values.brigadist,
       visited_at: values.date,
