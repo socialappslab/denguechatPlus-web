@@ -4,78 +4,89 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
+import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import useUpdateMutation from '@/hooks/useUpdateMutation';
 import { FormSelectOption } from '@/schemas';
 import { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';
+import { UpdateInspection } from '@/schemas/update';
+import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import FormSelect from '@/themed/form-select/FormSelect';
 import Loader from '@/themed/loader/Loader';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '@/util';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
-import useUpdateMutation from '@/hooks/useUpdateMutation';
-import { enqueueSnackbar } from 'notistack';
-import { UpdateInspection } from '@/schemas/update';
+
+// Other Ids
+const OtherIds = {
+  waterSourceType: '6',
+  containerProtection: '4',
+  eliminationMethodType: '9',
+};
+
+const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
+  return {
+    breeding_site_type_id: values.breadingSiteType,
+    other_elimination_method:
+      values.eliminationMethodType === OtherIds.eliminationMethodType ? values.eliminationMethodTypeOther : '',
+    other_protection:
+      values.containerProtection === OtherIds.containerProtection ? values.containerProtectionOther : '',
+    was_chemically_treated: values.wasChemicallyTreated,
+    water_source_other: values.waterSourceType === OtherIds.waterSourceType ? values.waterSourceOther : '',
+    container_protection_id: values.containerProtection,
+    elimination_method_type_id: values.eliminationMethodType,
+    water_source_type_id: values.waterSourceType,
+    type_content_ids: values.typeContents.map((i) => i.value),
+  };
+};
 
 interface EditInspectionDialogProps {
   inspection: Inspection | null;
   visitId: number;
   handleClose: () => void;
-  inspectionData?: Record<keyof InspectionSelectable, ({ selected: boolean } & BaseEntity)[]>;
+  inspectionData?: Record<keyof InspectionSelectable, ({ selected: boolean; value: string } & BaseEntity)[]>;
+  optionsData: Record<any, any>;
 }
 
 type InspectionFormOptions = Record<keyof InspectionSelectable, FormSelectOption[]>;
 
-const EditInspectionDialog = ({ inspection, handleClose, inspectionData, visitId }: EditInspectionDialogProps) => {
+const EditInspectionDialog = ({
+  inspection,
+  handleClose,
+  inspectionData,
+  visitId,
+  optionsData,
+}: EditInspectionDialogProps) => {
   const { t } = useTranslation(['register', 'admin']);
-  // const [inspectionData, setInspectionData] = useState<Inspection | undefined>();
-  const [optionsData, setOptionsData] = useState<InspectionFormOptions>({
-    breadingSiteType: [{ value: '', label: '' }],
-    containerProtection: [{ value: '', label: '' }],
-    eliminationMethodType: [{ value: '', label: '' }],
-    typeContents: [{ value: '', label: '' }],
-    wasChemicallyTreated: [{ value: '', label: '' }],
-    waterSourceType: [{ value: '', label: '' }],
-  });
 
-  useEffect(() => {
-    if (!inspectionData) return;
-    const optionsDataTemp: InspectionFormOptions = {
-      breadingSiteType: convertToFormSelectOptions(inspectionData.breadingSiteType),
-      containerProtection: convertToFormSelectOptions(inspectionData.containerProtection),
-      eliminationMethodType: convertToFormSelectOptions(inspectionData.eliminationMethodType),
-      typeContents: convertToFormSelectOptions(inspectionData.typeContents),
-      wasChemicallyTreated: convertToFormSelectOptions(inspectionData.wasChemicallyTreated),
-      waterSourceType: convertToFormSelectOptions(inspectionData.waterSourceType),
-    };
-
-    setOptionsData(optionsDataTemp);
-  }, [inspectionData]);
-
-  const extractIdFromInspections = (values?: ({ selected: boolean } & BaseEntity)[]) => {
+  const extractIdsFromInspections = (values?: ({ selected: boolean; value: string } & BaseEntity)[]) => {
     if (!values) return null;
-    return values
-      .filter((i) => i.selected)
-      .map((i) => i.id)
-      .pop()
-      ?.toString();
+    return values.filter((i) => i.selected).map((i) => ({ label: i.name, value: i.value?.toString() }));
+  };
+
+  const extractIdFromInspections = (values?: ({ selected: boolean; value: string } & BaseEntity)[]) => {
+    if (!values) return '';
+    return extractIdsFromInspections(values)?.pop()?.value?.toString();
+  };
+
+  const defaultValues = {
+    breadingSiteType: extractIdFromInspections(inspectionData?.breadingSiteType) || '',
+    containerProtection: extractIdFromInspections(inspectionData?.containerProtection) || '',
+    eliminationMethodType: extractIdFromInspections(inspectionData?.eliminationMethodType) || '',
+    typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
+    wasChemicallyTreated: extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
+    waterSourceType: extractIdFromInspections(inspectionData?.waterSourceType) || '',
+    containerProtectionOther: inspectionData?.containerProtectionOther,
+    eliminationMethodTypeOther: inspectionData?.eliminationMethodTypeOther,
+    hasWater: t(`admin:visits.water.${inspection?.hasWater}`),
+    status: t(`admin:visits.status.${inspection?.status}`),
+    waterSourceOther: inspectionData?.waterSourceOther,
   };
 
   const methods = useForm({
-    defaultValues: {
-      breadingSiteType: extractIdFromInspections(inspectionData?.breadingSiteType) || '',
-      containerProtection: extractIdFromInspections(inspectionData?.containerProtection) || '',
-      eliminationMethodType: extractIdFromInspections(inspectionData?.eliminationMethodType) || '',
-      typeContents: extractIdFromInspections(inspectionData?.typeContents) || '',
-      wasChemicallyTreated: extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
-      waterSourceType: extractIdFromInspections(inspectionData?.waterSourceType) || '',
-      containerProtectionOther: inspection?.containerProtectionOther,
-      eliminationMethodTypeOther: inspection?.eliminationMethodTypeOther,
-      hasWater: t(`admin:visits.water.${inspection?.hasWater}`),
-      status: t(`admin:visits.status.${inspection?.status}`),
-      waterSourceOther: inspection?.waterSourceOther,
-    },
+    defaultValues,
   });
 
   const { handleSubmit, watch, setError } = methods;
@@ -84,21 +95,8 @@ const EditInspectionDialog = ({ inspection, handleClose, inspectionData, visitId
     `visits/${visitId}/inspections/${inspection?.id}`,
   );
 
-  const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
-    return {
-      breeding_site_type_id: values.breadingSiteType,
-      container_protection_id: values.containerProtection,
-      water_source_type_id: values.waterSourceType,
-      elimination_method_type_id: values.eliminationMethodType,
-      water_source_other: values.waterSourceOther,
-      was_chemically_treated: values.wasChemicallyTreated,
-    };
-  };
-
   const onSubmitHandler: SubmitHandler<Inspection> = async (values) => {
     try {
-      // const payload: UpdateVisit = convertSchemaToPayload(values);
-
       await updateInspectionMutation(convertSchemaToPayload(values));
 
       enqueueSnackbar(t('admin:cities.edit.success'), {
@@ -147,7 +145,11 @@ const EditInspectionDialog = ({ inspection, handleClose, inspectionData, visitId
           autoComplete="off"
           className="w-full p-8"
         >
-          <Title type="section" className="self-center mb-8i w-full" label="Contenedor Tipo:" />
+          <Title
+            type="section"
+            className="self-center mb-8i w-full"
+            label={t('admin:visits.inspection.containerType')}
+          />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <FormSelect
@@ -155,40 +157,6 @@ const EditInspectionDialog = ({ inspection, handleClose, inspectionData, visitId
                 name="breadingSiteType"
                 label={t('admin:visits.inspection.columns.breadingSiteType')}
                 options={optionsData.breadingSiteType}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormSelect
-                className="mt-2"
-                name="eliminationMethodType"
-                label={t('admin:visits.inspection.columns.eliminationMethodType')}
-                options={optionsData.eliminationMethodType}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormSelect
-                className="mt-2"
-                name="typeContents"
-                label={t('admin:visits.inspection.columns.typeContents')}
-                options={optionsData.typeContents}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormInput
-                className="mt-2"
-                name="status"
-                label={t('admin:visits.inspection.columns.status')}
-                type="text"
-                placeholder={t('admin:roles.form.name_placeholder')}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormSelect
-                className="mt-2"
-                name="waterSourceType"
-                label={t('admin:visits.inspection.columns.waterSourceType')}
-                options={optionsData.waterSourceType}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -202,46 +170,23 @@ const EditInspectionDialog = ({ inspection, handleClose, inspectionData, visitId
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormInput
+              <FormSelect
                 className="mt-2"
-                name="waterSourceTypeOther"
-                label={t('admin:visits.inspection.columns.waterSourceTypeOther')}
-                type="text"
-                placeholder={t('admin:roles.form.name_placeholder')}
-              />
-            </Grid>
-            {/* <Grid item xs={12} sm={6}>
-              <FormInput
-                className="mt-2"
-                name="containerLocation"
-                label="Ubicación del contenedor"
-                type="text"
-                placeholder={t('admin:roles.form.name_placeholder')}
-              />
-            </Grid> */}
-          </Grid>
-
-          <Title type="section" className="self-center mb-8i w-full mt-8" label="Contenedor Tipo:" />
-
-          <Grid container spacing={2}>
-            {/* <Grid item xs={12} sm={6}>
-              <FormInput
-                className="mt-2"
-                name="name"
-                label="Tipo de tapa"
-                type="text"
-                placeholder={t('admin:roles.form.name_placeholder')}
+                name="waterSourceType"
+                label={t('admin:visits.inspection.columns.waterSourceType')}
+                options={optionsData.waterSourceType}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInput
                 className="mt-2"
-                name="name"
-                label="Otro tipo de tapa"
+                name="waterSourceOther"
+                disabled={methods.watch('waterSourceType') !== OtherIds.waterSourceType}
+                label={t('admin:visits.inspection.columns.waterSourceTypeOther')}
                 type="text"
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
-            </Grid> */}
+            </Grid>
             <Grid item xs={12} sm={6}>
               <FormSelect
                 className="mt-2"
@@ -254,27 +199,51 @@ const EditInspectionDialog = ({ inspection, handleClose, inspectionData, visitId
               <FormInput
                 className="mt-2"
                 name="containerProtectionOther"
+                disabled={methods.watch('containerProtection') !== OtherIds.containerProtection}
                 label={t('admin:visits.inspection.columns.containerProtectionOther')}
                 type="text"
-                placeholder={t('admin:roles.form.name_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormInput
+              <FormSelect
                 className="mt-2"
                 name="wasChemicallyTreated"
                 label={t('admin:visits.inspection.columns.wasChemicallyTreated')}
-                type="text"
-                placeholder={t('admin:roles.form.name_placeholder')}
+                options={optionsData.wasChemicallyTreated}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormMultipleSelect
+                className="mt-2"
+                name="typeContents"
+                label={t('admin:visits.inspection.columns.typeContents')}
+                options={optionsData.typeContents}
+              />
+            </Grid>
+          </Grid>
+
+          <Title
+            type="section"
+            className="self-center mb-8i w-full mt-8"
+            label={t('admin:visits.inspection.actionsPerfomed')}
+          />
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <FormSelect
+                className="mt-2"
+                name="eliminationMethodType"
+                label={t('admin:visits.inspection.columns.eliminationMethodType')}
+                options={optionsData.eliminationMethodType}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInput
                 className="mt-2"
                 name="eliminationMethodTypeOther"
+                disabled={methods.watch('eliminationMethodType') !== OtherIds.eliminationMethodType}
                 label={t('admin:visits.inspection.columns.eliminationMethodTypeOther')}
                 type="text"
-                placeholder={t('admin:roles.form.name_placeholder')}
               />
             </Grid>
           </Grid>
@@ -297,9 +266,21 @@ const EditInspectionDialog = ({ inspection, handleClose, inspectionData, visitId
 const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionDialogProps) => {
   const [inspectionData, setInspectionData] =
     useState<Record<keyof InspectionSelectable, ({ selected: boolean } & BaseEntity)[]>>();
-  const [{ data, loading, error }] = useAxios({
-    url: `/visits/${visitId}/inspections/${inspection?.id}`,
+  const [optionsData, setOptionsData] = useState<InspectionFormOptions>({
+    breadingSiteType: [{ value: '', label: '' }],
+    containerProtection: [{ value: '', label: '' }],
+    eliminationMethodType: [{ value: '', label: '' }],
+    typeContents: [{ value: '', label: '' }],
+    wasChemicallyTreated: [{ value: '', label: '' }],
+    waterSourceType: [{ value: '', label: '' }],
   });
+
+  const [{ data, loading }] = useAxios(
+    {
+      url: `/visits/${visitId}/inspections/${inspection?.id}`,
+    },
+    { useCache: false },
+  );
 
   useEffect(() => {
     if (data) {
@@ -313,6 +294,21 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
         console.log('deserializedData load user', deserializedData);
       }
 
+      const optionsDataTemp: InspectionFormOptions = {
+        breadingSiteType: convertToFormSelectOptions(deserializedData.breadingSiteType),
+        containerProtection: convertToFormSelectOptions(deserializedData.containerProtection),
+        eliminationMethodType: convertToFormSelectOptions(deserializedData.eliminationMethodType),
+        typeContents: convertToFormSelectOptions(deserializedData.typeContents),
+        wasChemicallyTreated: convertToFormSelectOptions(
+          deserializedData.wasChemicallyTreated,
+          undefined,
+          undefined,
+          'value',
+        ),
+        waterSourceType: convertToFormSelectOptions(deserializedData.waterSourceType),
+      };
+
+      setOptionsData(optionsDataTemp);
       setInspectionData(deserializedData);
     }
   }, [data]);
@@ -327,6 +323,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
       handleClose={handleClose}
       visitId={visitId}
       inspectionData={inspectionData}
+      optionsData={optionsData}
     />
   );
 };
