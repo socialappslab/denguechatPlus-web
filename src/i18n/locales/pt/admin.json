@@ -94,6 +94,9 @@
         "containerProtectionOther": "Outro tipo de proteção",
         "wasChemicallyTreated": "Tratado pelo Ministério da Saúde com piriproxifeno",
         "eliminationMethodTypeOther": "Outro tipo de eliminação"
+      },
+      "edit": {
+        "success": "Inspeção atualizada com sucesso"
       }
     }
   },

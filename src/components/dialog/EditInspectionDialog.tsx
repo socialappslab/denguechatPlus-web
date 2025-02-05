@@ -99,7 +99,7 @@ const EditInspectionDialog = ({
     try {
       await updateInspectionMutation(convertSchemaToPayload(values));
 
-      enqueueSnackbar(t('admin:cities.edit.success'), {
+      enqueueSnackbar(t('admin:visits.inspection.edit.success'), {
         variant: 'success',
       });
 

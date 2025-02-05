@@ -95,6 +95,9 @@
         "containerProtectionOther": "Other protection type",
         "wasChemicallyTreated": "Treated by the Ministry of Health with pyriproxyfen",
         "eliminationMethodTypeOther": "Other elimination type"
+      },
+      "edit": {
+        "success": "Inspection updated successfully"
       }
     }
   },

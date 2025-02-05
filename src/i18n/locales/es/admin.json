@@ -59,7 +59,7 @@
     "title": "Visitas",
     "visitInformation": "Información de la visita",
     "questionnaire": "Cuestionario",
-    "inspectionData": "Datos de la Inspección",
+    "inspectionData": "Datos del recipiente/envase",
     "water": {
       "true": "Sí",
       "false": "No"
@@ -94,6 +94,9 @@
         "containerProtectionOther": "Otro tipo de protección",
         "wasChemicallyTreated": "Tratado por el Ministerio de Salud con piriproxifeno",
         "eliminationMethodTypeOther": "Otro tipo de eliminación"
+      },
+      "edit": {
+        "success": "Recipiente/envase actualizado con éxito"
       }
     }
   },

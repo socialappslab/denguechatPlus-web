@@ -181,11 +181,11 @@
   "inspections": {
     "title": "Inspecciones",
     "index": "Listar inspecciones",
-    "show": "Mostrar inspección",
-    "create": "Crear inspección",
+    "show": "Mostrar recipiente/envase",
+    "create": "Crear recipiente/envase",
     "edit": "Editar inspecciones",
-    "update": "Actualizar información de la inspección",
-    "delete": "Eliminar inspección"
+    "update": "Actualizar información de la recipiente/envase",
+    "delete": "Eliminar recipiente/envase"
   },
   "questionnaires": {
     "title": "Cuestionarios",
