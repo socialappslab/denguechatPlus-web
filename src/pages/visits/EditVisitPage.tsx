@@ -112,8 +112,6 @@ const HouseStatusBanner = ({ color: colorPlain }: HouseStatusProps) => {
 
 export function EditVisit({ visit }: EditVisitProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation']);
-  const location = useLocation();
-  const statefulAttr = location.state?.attributes;
   const langContext = useLangContext();
   const navigate = useNavigate();
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
@@ -121,7 +119,7 @@ export function EditVisit({ visit }: EditVisitProps) {
 
   const rootElement = document.getElementById('root-app');
   // fetched from attributes (passed as state) update after endpoint
-  const status = statefulAttr?.visitStatus;
+  const status = visit.visitStatus;
   const date = formatDateFromString(langContext.state.selected, visit.visitedAt);
 
   const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);

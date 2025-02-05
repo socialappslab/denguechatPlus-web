@@ -100,10 +100,10 @@
     "house": "Sitio",
     "rol": "Rol",
     "specialPlace": "Lugar especial",
-    "breedingSiteType": "Tipo de Contenedor",
-    "hasWater": "Agua en el Contenedor",
+    "breedingSiteType": "Tipo de recipiente/envase",
+    "hasWater": "Agua en el recipiente/envase",
     "typeContents": "Qué contiene?",
-    "containerStatus": "Estado del contenedor",
+    "containerStatus": "Estado del recipiente/envase",
     "role": "Rol",
     "house_block": "Frente a Frente"
   },

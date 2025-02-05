@@ -81,6 +81,8 @@
       "notes": "Visit Notes",
       "visitStart": "Visit Start Location",
       "visitPermission": "Permission to start the visit",
+      "containerType": "Container type:",
+      "actionsPerfomed": "Actions performed on the container",
       "columns": {
         "breadingSiteType": "Container type",
         "eliminationMethodType": "Container elimination type",

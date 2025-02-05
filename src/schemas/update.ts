@@ -79,14 +79,37 @@ export interface UpdateVisit {
 }
 
 // update inspection
+export const updateInspectionSchema = () => {
+  return object({
+    breadingSiteType: string().min(1, '*'),
+    lidType: string().min(1, '*'),
+    lidTypeOther: string(),
+    eliminationMethodTypeOther: string(),
+    containerProtectionOther: string(),
+    containerProtection: string().min(1, '*'),
+    typeContents: array(object({ value: string(), label: string() })),
+    eliminationMethodType: string().min(1, '*'),
+    waterSourceType: string().min(1, '*'),
+    waterSourceOther: string(),
+    wasChemicallyTreated: string().min(1, '*'),
+  });
+};
+
+const updateInspectionSchemaForType = updateInspectionSchema();
+export type UpdateInspectionInputType = TypeOf<typeof updateInspectionSchemaForType>;
+
 export interface UpdateInspection {
   breeding_site_type_id: string;
-  container_protection_id: string;
-  water_source_type_id: string;
-  // type_content_ids: string[];
-  elimination_method_type_id: string;
-  water_source_other: string;
+  // lid_type: string;
+  // lid_type_other: string;
+  other_elimination_method: string;
+  other_protection: string;
   was_chemically_treated: string;
+  water_source_other: string;
+  container_protection_id: string;
+  elimination_method_type_id: string;
+  water_source_type_id: string;
+  type_content_ids: string[];
 }
 
 // update visit

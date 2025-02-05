@@ -37,14 +37,14 @@ export interface InspectionSelectable {
   breadingSiteType: string;
   waterSourceType: string;
   wasChemicallyTreated: string;
-  typeContents: null;
+  typeContents: Record<string, string>[];
   containerProtection: string;
   eliminationMethodType: string;
 }
 
 export interface Inspection extends InspectionSelectable {
   id: number;
-  eliminationMethodTypeOther: null;
+  eliminationMethodTypeOther: string;
   status: InspectionStatus;
   waterSourceOther: string;
   hasWater: boolean;

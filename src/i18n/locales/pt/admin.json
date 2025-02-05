@@ -80,6 +80,8 @@
       "notes": "Notas da visita",
       "visitStart": "Local de início da visita",
       "visitPermission": "Permissão para iniciar a visita",
+      "containerType": "Tipo de contêiner:",
+      "actionsPerfomed": "Ações executadas no contêiner",
       "columns": {
         "breadingSiteType": "Tipo de contêiner",
         "eliminationMethodType": "Tipo de eliminação de contêiner",
