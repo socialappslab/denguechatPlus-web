@@ -31,6 +31,7 @@ export interface Visit extends BaseEntity {
   visitPermission: boolean;
   notes: string;
   answers: Array<Record<string, string>>;
+  host: string[];
 }
 
 export interface InspectionSelectable {

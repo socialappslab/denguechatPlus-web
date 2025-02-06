@@ -60,7 +60,7 @@ export const updateVisitSchema = () => {
     brigade: requiredString,
     visitStartPlace: requiredString,
     visitPermission: requiredString,
-    household: requiredString,
+    household: array(object({ value: string(), label: string() })),
     notes: requiredString,
     date: requiredString,
   });

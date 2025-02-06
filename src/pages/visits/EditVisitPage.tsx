@@ -8,16 +8,19 @@ import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { capitalize } from 'lodash';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
+import { ErrorResponse, useNavigate } from 'react-router-dom';
 import GreenHouse from '@/assets/icons/house-green.svg';
 import RedHouse from '@/assets/icons/house-red.svg';
 import YellowHouse from '@/assets/icons/house-yellow.svg';
 import EditInspectionDialog from '@/components/dialog/EditInspectionDialog';
 import FilteredDataTable from '@/components/list/FilteredDataTable';
 import useLangContext from '@/hooks/useLangContext';
+import useUpdateMutation from '@/hooks/useUpdateMutation';
 import { FormSelectOption } from '@/schemas';
 import { BaseEntity, House, Inspection, InspectionStatus, Visit } from '@/schemas/entities';
 import { UpdateVisit, UpdateVisitInputType } from '@/schemas/update';
+import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
+import FormSelectAutocomplete from '@/themed/form-select-autocomplete/FormSelectAutocomplete';
 import FormSelect from '@/themed/form-select/FormSelect';
 import { HeadCell } from '@/themed/table/DataTable';
 import Text from '@/themed/text/Text';
@@ -25,8 +28,15 @@ import { convertToFormSelectOptions, extractAxiosErrorData, formatDateFromString
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
-import useUpdateMutation from '@/hooks/useUpdateMutation';
-import FormSelectAutocomplete from '@/themed/form-select-autocomplete/FormSelectAutocomplete';
+
+enum Host {
+  seniorAdult = 'Senior adult',
+  adultMan = 'Adult man',
+  adultWoman = 'Adult woman',
+  youngMan = 'Young man',
+  youngWoman = 'Young woman',
+  children = 'Children',
+}
 
 const renderColor = (color: InspectionStatus) => {
   return (
@@ -111,7 +121,7 @@ const HouseStatusBanner = ({ color: colorPlain }: HouseStatusProps) => {
 };
 
 export function EditVisit({ visit }: EditVisitProps) {
-  const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation']);
+  const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation', 'questionnaire']);
   const langContext = useLangContext();
   const navigate = useNavigate();
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
@@ -127,19 +137,6 @@ export function EditVisit({ visit }: EditVisitProps) {
   const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: `/users?filter[roles][name]=brigadista&filter[team_id]=${(visit.team as BaseEntity)?.id}`,
   });
-
-  // const [{ data: housesData, loading: loadingHouses }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-  //   url: `/houses/list_to_visit`,
-  // });
-
-  // useEffect(() => {
-  //   if (!housesData) return;
-  //   const deserializedData = deserialize(housesData);
-  //   if (Array.isArray(deserializedData)) {
-  //     const houses = convertToFormSelectOptions(deserializedData, 'referenceCode');
-  //     setHouseOptions(houses);
-  //   }
-  // }, [housesData]);
 
   useEffect(() => {
     if (!usersData) return;
@@ -164,7 +161,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       // i18n
       visitStartPlace: 'Huerta/Casa',
       visitPermission: visit.visitPermission ? 'Sí' : 'No',
-      household: 'Adulto Mayor',
+      household: visit.host.map((i) => ({ label: i, value: i })),
       notes: visit.notes,
     },
   });
@@ -179,7 +176,7 @@ export function EditVisit({ visit }: EditVisitProps) {
 
   const convertSchemaToPayload = (values: UpdateVisitInputType): UpdateVisit => {
     return {
-      host: [values.household],
+      host: values.household.map((i) => i.label),
       house_id: (values.site as FormSelectOption).value,
       notes: values.notes,
       user_account_id: values.brigadist,
@@ -318,12 +315,14 @@ export function EditVisit({ visit }: EditVisitProps) {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormInput
+              <FormMultipleSelect
                 className="mt-2 h-full"
                 name="household"
-                disabled
                 label={t('admin:visits.inspection.household')}
-                type="text"
+                options={Object.keys(Host).map((i) => ({
+                  label: t(`questionnaire:host.${i}`),
+                  value: t(`questionnaire:host.${i}`),
+                }))}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
