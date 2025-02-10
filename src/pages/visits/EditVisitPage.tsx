@@ -161,7 +161,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       // i18n
       visitStartPlace: 'Huerta/Casa',
       visitPermission: visit.visitPermission ? 'Sí' : 'No',
-      household: visit.host.map((i) => ({ label: i, value: i })),
+      household: visit?.host?.map((i) => ({ label: i, value: i })) || [],
       notes: visit.notes,
     },
   });
