@@ -40,7 +40,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
         const response = await authApi.get(endpoint, {
           params: {
             'page[number]': page,
-            'filter[name]': query,
+            'filter[referenceCode]': query,
             'page[size]': 20,
           },
         });
