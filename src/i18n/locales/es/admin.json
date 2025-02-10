@@ -81,7 +81,7 @@
       "visitStart": "Lugar de inicio de la visita",
       "visitPermission": "Permiso para iniciar la visita",
       "containerType": "Recipiente/envase tipo:",
-      "actionsPerfomed": "Acciones realizadas sobre el contenedor",
+      "actionsPerfomed": "Acciones realizadas sobre el recipiente/envase",
       "columns": {
         "breadingSiteType": "Tipo de recipiente/envase",
         "eliminationMethodType": "Tipo de eliminación de recipiente/envase",
