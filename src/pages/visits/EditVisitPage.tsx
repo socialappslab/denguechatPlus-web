@@ -285,7 +285,7 @@ export function EditVisit({ visit }: EditVisitProps) {
                 name="site"
                 label={t('admin:visits.inspection.siteNumber')}
                 entityKey={'referenceCode' as keyof BaseEntity}
-                endpoint="/houses/list_to_visit"
+                endpoint="/houses"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
