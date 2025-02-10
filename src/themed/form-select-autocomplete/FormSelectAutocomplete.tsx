@@ -32,7 +32,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
   const [searchTerm, setSearchTerm] = useState('');
   const { control } = useFormContext();
 
-  const { t } = useTranslation('admin');
+  const { t } = useTranslation(['admin', 'translation']);
   const fetchData = useCallback(
     async (page: number, query?: string) => {
       setError('');
@@ -130,7 +130,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
             getOptionLabel={(option) => option?.label || ''}
             onInputChange={(_, newInputValue) => debouncedSearch(newInputValue)}
             loading={loadingMore}
-            noOptionsText={error ? 'Error loading data' : 'No items found'}
+            noOptionsText={error ? t('translation:generalError') : t('translation:options.noItems')}
             {...field}
             onChange={(e, data) => field.onChange(data)}
             renderInput={(params) => (

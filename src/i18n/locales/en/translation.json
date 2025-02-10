@@ -109,7 +109,8 @@
     "inactive": "Inactive",
     "all": "All",
     "pending": "Pending",
-    "locked": "Locked"
+    "locked": "Locked",
+    "noItems": "No items found"
   },
   "footer": {
     "userGuide": "User Guide",

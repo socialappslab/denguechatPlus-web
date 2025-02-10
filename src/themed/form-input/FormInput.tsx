@@ -221,6 +221,7 @@ export function FormInput({
               localeText={{
                 fieldYearPlaceholder: () => t('YYYY'),
               }}
+              format="YYYY/MM/DD"
               className={className}
               onChange={(value: unknown) => {
                 const date = value as Dayjs;

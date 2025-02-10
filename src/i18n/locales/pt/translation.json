@@ -110,7 +110,8 @@
     "inactive": "Inativo",
     "all": "Todos",
     "pending": "Pendente",
-    "locked": "Bloqueado"
+    "locked": "Bloqueado",
+    "noItems": "Nenhum item encontrado"
   },
   "footer": {
     "userGuide": "Guia do Usuário",

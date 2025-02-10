@@ -166,7 +166,6 @@ const EditInspectionDialog = ({
                 label={t('admin:visits.inspection.columns.hasWater')}
                 type="text"
                 disabled
-                placeholder={t('admin:roles.form.name_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -184,7 +183,6 @@ const EditInspectionDialog = ({
                 disabled={methods.watch('waterSourceType') !== OtherIds.waterSourceType}
                 label={t('admin:visits.inspection.columns.waterSourceTypeOther')}
                 type="text"
-                placeholder={t('admin:roles.form.name_placeholder')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
