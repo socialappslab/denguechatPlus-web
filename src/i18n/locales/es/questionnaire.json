@@ -1,0 +1,10 @@
+{
+  "host": {
+    "seniorAdult": "Adulto mayor",
+    "adultMan": "Adulto hombre",
+    "adultWoman": "Adulto mujer",
+    "youngMan": "Joven hombre",
+    "youngWoman": "Joven mujer",
+    "children": "Niños/as"
+  }
+}

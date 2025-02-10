@@ -80,6 +80,7 @@ export function FormMultipleSelect({
               setValue([...newValue]);
               field.onChange(newValue);
             }}
+            isOptionEqualToValue={(o, v) => o.value === v.value}
             getOptionLabel={renderOption}
             filterSelectedOptions={filterSelectedOptions}
             disableCloseOnSelect={checkBoxOptions}

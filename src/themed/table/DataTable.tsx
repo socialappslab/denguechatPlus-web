@@ -254,7 +254,7 @@ export function DataTable<T>({
   );
 
   return (
-    <Box>
+    <Box className="min-w-full">
       <Paper elevation={0} square className="bg-background">
         <TableContainer>
           <Table aria-labelledby="data-table" size="medium">

@@ -218,10 +218,10 @@ export function FormInput({
           )}
           {type === 'date-picker' && (
             <DatePicker
-              autoFocus
               localeText={{
                 fieldYearPlaceholder: () => t('YYYY'),
               }}
+              format="YYYY/MM/DD"
               className={className}
               onChange={(value: unknown) => {
                 const date = value as Dayjs;
@@ -250,7 +250,6 @@ export function FormInput({
           )}
           {type === 'date-field' && (
             <DateField
-              autoFocus
               onChange={(value: unknown) => {
                 const date = value as Dayjs;
                 if (date.isValid()) {

@@ -35,6 +35,8 @@ import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import ProtectedRoute from './ProtectedRoute';
+import { LoadVisit } from '@/pages/loader/LoadVisit';
+import HouseBlockList from '@/components/list/HouseBlockList';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -82,6 +84,17 @@ const router = createBrowserRouter([
       <ProtectedRoute>
         <PageLayout>
           <VisitsList />
+        </PageLayout>
+      </ProtectedRoute>
+    ),
+    errorElement: <RouterErrorPage />,
+  },
+  {
+    path: 'visits/:id/edit',
+    element: (
+      <ProtectedRoute>
+        <PageLayout>
+          <LoadVisit />
         </PageLayout>
       </ProtectedRoute>
     ),
@@ -148,6 +161,10 @@ const router = createBrowserRouter([
       {
         path: 'teams',
         element: <TeamList />,
+      },
+      {
+        path: 'house-blocks',
+        element: <HouseBlockList />,
       },
     ],
     errorElement: <RouterErrorPage />,

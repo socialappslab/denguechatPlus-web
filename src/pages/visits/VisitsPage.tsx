@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import Button from '@/themed/button/Button';
 import FilteredDataTable from '../../components/list/FilteredDataTable';
-import { Visit } from '../../schemas/entities';
+import { BaseEntity, House, Visit } from '../../schemas/entities';
 import { HeadCell } from '../../themed/table/DataTable';
 
 const headCells: HeadCell<Visit>[] = [
@@ -42,6 +44,7 @@ const headCells: HeadCell<Visit>[] = [
   {
     id: 'house',
     label: 'site',
+    render: (row) => <p>{(row.house as House).reference_code}</p>,
     filterable: true,
     sortable: true,
   },
@@ -57,6 +60,24 @@ const VisitDataTable = FilteredDataTable<Visit>;
 
 export default function VisitsList() {
   const { t } = useTranslation('translation');
+  const navigate = useNavigate();
+
+  const actions = (row: Visit, loading?: boolean) => {
+    const navigateWithPayload = () => {
+      navigate(`${row.id}/edit`, { state: { attributes: row } });
+    };
+    return (
+      <div className="flex flex-row">
+        <Button
+          primary
+          disabled={loading}
+          onClick={navigateWithPayload}
+          label={t('table.actions.edit')}
+          buttonType="cell"
+        />
+      </div>
+    );
+  };
 
   return (
     <VisitDataTable
@@ -66,6 +87,7 @@ export default function VisitsList() {
       title={t('menu.visits')}
       subtitle={t('menu.descriptions.visits')}
       pageSize={15}
+      actions={actions}
     />
   );
 }

@@ -15,7 +15,7 @@
   },
   "notMatch": "Password does not match",
   "invalidEmail": "Invalid email",
-  "passwordLength": "Password must be at least {{length}} characters",
+  "passwordLength": "Write a lowercase password that is at least {{length}} characters long and easy to remember.",
   "usernameLength": "Username must be at least {{length}} characters",
   "phoneLength": "Phone is too short"
 }

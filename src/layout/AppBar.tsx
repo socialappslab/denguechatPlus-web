@@ -21,6 +21,8 @@ import React, { useState } from 'react';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Icon from '@/components/icon';
+import packageJson from '../../package.json';
+
 import {
   CITIES_INDEX,
   ORGANIZATIONS_INDEX,
@@ -30,6 +32,7 @@ import {
   USERS_INDEX,
   REPORTS_INDEX,
   VISITS_INDEX,
+  HOUSE_BLOCKS_INDEX,
 } from '@/constants/permissions';
 // import BugIcon from '../assets/icons/bug.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
@@ -60,6 +63,7 @@ const ADMIN_ORGANIZATIONS = '/admin/organizations';
 const ADMIN_CITIES = '/admin/cities';
 const ADMIN_SPECIAL_PLACES = '/admin/special-places';
 const ADMIN_TEAMS = '/admin/teams';
+const ADMIN_HOUSE_BLOCKS = '/admin/house-blocks';
 
 const MY_CITY = '/my-city';
 const MY_COMMUNITY = '/my-community';
@@ -114,10 +118,13 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
     <Box sx={{ paddingLeft: { xs: 2, sm: 0 } }} className="flex flex-col justify-between min-h-full">
       <Box>
         <Toolbar className="ml-4" disableGutters sx={{ height: '80px' }}>
-          <div className="flex flex-1 flex-col align-middle justify-center">
+          <div className="flex flex-row items-center space-x-4">
             <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
               <img className={!matches ? 'right-4' : ''} src={Logo} alt="logo" />
             </Link>
+            <Text type="menuItem" className="text-neutral-300">
+              v{packageJson.version}
+            </Text>
           </div>
         </Toolbar>
 
@@ -284,6 +291,16 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
                     selected={pathname.includes(ADMIN_TEAMS)}
                   >
                     <ListItemText primary={<Text type="menuItem">{t('menu.teams')}</Text>} />
+                  </ListItemButton>
+                </ProtectedView>
+                <ProtectedView hasPermission={[HOUSE_BLOCKS_INDEX]}>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    component={Link}
+                    to={ADMIN_HOUSE_BLOCKS}
+                    selected={pathname.includes(ADMIN_HOUSE_BLOCKS)}
+                  >
+                    <ListItemText primary={<Text type="menuItem">{t('menu.house_blocks')}</Text>} />
                   </ListItemButton>
                 </ProtectedView>
               </List>

@@ -54,5 +54,63 @@
       "edit_team": "Atribuir membros da equipe",
       "success": "Brigada atualizada com sucesso"
     }
+  },
+  "visits": {
+    "title": "Visitas",
+    "visitInformation": "Informação da visita",
+    "questionnaire": "Questionário",
+    "inspectionData": "Dados da Inspeção",
+    "water": {
+      "true": "Sim",
+      "false": "Não"
+    },
+    "status": {
+      "red": "Vermelho",
+      "green": "Verde",
+      "yellow": "Amarelo"
+    },
+    "inspection": {
+      "inspectionStatus": "Estado da visita: ",
+      "statusDescription": "Estado em que se encontrava o local no momento da visita",
+      "siteNumber": "Número do local",
+      "date": "Data",
+      "brigadist": "Brigadista",
+      "brigade": "Brigada",
+      "household": "Acompanhou a visita",
+      "notes": "Notas da visita",
+      "visitStart": "Local de início da visita",
+      "visitPermission": "Permissão para iniciar a visita",
+      "containerType": "Tipo de contêiner:",
+      "actionsPerfomed": "Ações executadas no contêiner",
+      "columns": {
+        "breadingSiteType": "Tipo de contêiner",
+        "eliminationMethodType": "Tipo de eliminação de contêiner",
+        "typeContents": "Este contêiner contém",
+        "status": "Estado do contêiner",
+        "waterSourceType": "Fonte de água",
+        "hasWater": "Água no contêiner",
+        "waterSourceTypeOther": "Outra fonte de água",
+        "containerProtection": "Tipo de proteção",
+        "containerProtectionOther": "Outro tipo de proteção",
+        "wasChemicallyTreated": "Tratado pelo Ministério da Saúde com piriproxifeno",
+        "eliminationMethodTypeOther": "Outro tipo de eliminação"
+      },
+      "edit": {
+        "success": "Inspeção atualizada com sucesso"
+      }
+    }
+  },
+  "house_block": {
+    "create_house_block": "Criar frente a frente",
+    "edit_house_block": "Editar frente a frente",
+    "form": {
+      "name": "Nome",
+      "name_placeholder": "Insira um nome",
+      "sites": "Sites",
+      "sites_placeholder": "Selecione os sites"
+    },
+    "edit": {
+      "success": "Frente a frente atualizada com sucesso"
+    }
   }
 }

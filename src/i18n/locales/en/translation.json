@@ -32,6 +32,7 @@
     "breedingSites": "Breeding Sites",
     "cities": "Cities",
     "visits": "Visits",
+    "house_blocks": "House Blocks",
     "descriptions": {
       "organizations": "List of Organizations",
       "cities": "List of Cities",
@@ -39,7 +40,8 @@
       "roles": "List of Roles",
       "teams": "List of Brigades",
       "specialPlaces": "List of Special Places",
-      "visits": "List of Visits"
+      "visits": "List of Visits",
+      "house_blocks": "List of House Blocks"
     },
     "reports": {
       "name": "Reports",
@@ -93,7 +95,13 @@
     "visitStatus": "Visit Status",
     "visitedAt": "Visited at",
     "team": "Brigade",
-    "house": "Site"
+    "house": "Site",
+    "breedingSiteType": "Container Type",
+    "hasWater": "Water in the Container",
+    "typeContents": "What does it contain?",
+    "containerStatus": "Container Status",
+    "role": "Role",
+    "house_block": "House Block"
   },
   "options": {
     "notDefined": "Not Defined",
@@ -101,7 +109,8 @@
     "inactive": "Inactive",
     "all": "All",
     "pending": "Pending",
-    "locked": "Locked"
+    "locked": "Locked",
+    "noItems": "No items found"
   },
   "footer": {
     "userGuide": "User Guide",

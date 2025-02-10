@@ -30,6 +30,7 @@
     "organizations": "Organizaciones",
     "cities": "Ciudades",
     "breedingSites": "Criaderos",
+    "house_blocks": "Frente a Frente",
     "descriptions": {
       "organizations": "Lista de Organizaciones",
       "cities": "Lista de Ciudades",
@@ -37,7 +38,8 @@
       "roles": "Lista de Roles",
       "teams": "Lista de Brigadas",
       "specialPlaces": "Lista de Lugares Especiales",
-      "visits": "Lista de Visitas"
+      "visits": "Lista de Visitas",
+      "house_blocks": "Lista de Frente a Frente"
     },
     "reports": {
       "name": "Reportes",
@@ -61,6 +63,7 @@
     "search": "Buscar",
     "searchValue": "Valor de búsqueda",
     "selectAttribute": "Seleccionar Atributo",
+    "selectOption": "Seleccionar Opción",
     "rowsInPage": "Items en página",
     "rowsInPageOf": "de",
     "rowsMoreThan": "más de",
@@ -96,7 +99,13 @@
     "team": "Brigada",
     "house": "Sitio",
     "rol": "Rol",
-    "specialPlace": "Lugar especial"
+    "specialPlace": "Lugar especial",
+    "breedingSiteType": "Tipo de recipiente/envase",
+    "hasWater": "Agua en el recipiente/envase",
+    "typeContents": "Qué contiene?",
+    "containerStatus": "Estado del recipiente/envase",
+    "role": "Rol",
+    "house_block": "Frente a Frente"
   },
   "options": {
     "notDefined": "No definido",
@@ -104,7 +113,8 @@
     "inactive": "Inactivo",
     "all": "Todos",
     "pending": "Pendiente",
-    "locked": "Bloqueado"
+    "locked": "Bloqueado",
+    "noItems": "No se encontraron opciones"
   },
   "footer": {
     "userGuide": "Guía de Usuario",

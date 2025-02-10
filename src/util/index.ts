@@ -95,10 +95,11 @@ export function convertToFormSelectOptions<G extends BaseEntity = BaseEntity>(
   data: Array<G>,
   key?: keyof G,
   key2?: keyof G,
+  valueKey?: keyof G,
 ): FormSelectOption[] {
   return data.map((item) => ({
-    label: `${key ? (item[key] as string) : item.name} ${key2 ? item[key2] : ''}`,
-    value: `${item.id}`,
+    label: `${key ? (item[key] as string) : item.name} ${key2 ? item[key2] : ''}`.trim(),
+    value: `${valueKey ? (item[valueKey] as string) : item.id}`,
   }));
 }
 

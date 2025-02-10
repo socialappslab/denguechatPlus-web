@@ -55,5 +55,63 @@
       "edit_team": "Assign team brigadists",
       "success": "Brigade updated successfully"
     }
+  },
+  "visits": {
+    "title": "Visits",
+    "visitInformation": "Visit Information",
+    "questionnaire": "Questionnaire",
+    "inspectionData": "Inspection Data",
+    "water": {
+      "true": "Yes",
+      "false": "No"
+    },
+    "status": {
+      "red": "Red",
+      "green": "Green",
+      "yellow": "Yellow"
+    },
+    "inspection": {
+      "inspectionStatus": "Visit Status: ",
+      "statusDescription": "State of the site at the time of the visit",
+      "siteNumber": "Site Number",
+      "date": "Date",
+      "brigadist": "Brigadist",
+      "brigade": "Brigade",
+      "household": "Accompanied the visit",
+      "notes": "Visit Notes",
+      "visitStart": "Visit Start Location",
+      "visitPermission": "Permission to start the visit",
+      "containerType": "Container type:",
+      "actionsPerfomed": "Actions performed on the container",
+      "columns": {
+        "breadingSiteType": "Container type",
+        "eliminationMethodType": "Container elimination type",
+        "typeContents": "This container contains",
+        "status": "Container status",
+        "waterSourceType": "Water source",
+        "hasWater": "Water in the container",
+        "waterSourceTypeOther": "Other water source",
+        "containerProtection": "Protection type",
+        "containerProtectionOther": "Other protection type",
+        "wasChemicallyTreated": "Treated by the Ministry of Health with pyriproxyfen",
+        "eliminationMethodTypeOther": "Other elimination type"
+      },
+      "edit": {
+        "success": "Inspection updated successfully"
+      }
+    }
+  },
+  "house_block": {
+    "create_house_block": "Create frente a frente",
+    "edit_house_block": "Edit frente a frente",
+    "form": {
+      "name": "Name",
+      "name_placeholder": "Enter a name",
+      "sites": "Sites",
+      "sites_placeholder": "Select Sites"
+    },
+    "edit": {
+      "success": "Frente a frente updated successfully"
+    }
   }
 }
