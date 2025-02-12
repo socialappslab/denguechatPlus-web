@@ -31,11 +31,12 @@ const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
     breeding_site_type_id: values.breadingSiteType,
     other_elimination_method:
       values.eliminationMethodType === OtherIds.eliminationMethodType ? values.eliminationMethodTypeOther : '',
-    other_protection:
-      values.containerProtection === OtherIds.containerProtection ? values.containerProtectionOther : '',
+    other_protection: values.containerProtections.some((protection) => protection.id === OtherIds.containerProtection)
+      ? values.containerProtectionOther
+      : '',
     was_chemically_treated: values.wasChemicallyTreated,
     water_source_other: values.waterSourceType === OtherIds.waterSourceType ? values.waterSourceOther : '',
-    container_protection_id: values.containerProtection,
+    container_protection_ids: values.containerProtections.map((i) => i.value),
     elimination_method_type_id: values.eliminationMethodType,
     water_source_type_id: values.waterSourceType,
     type_content_ids: values.typeContents.map((i) => i.value),
@@ -73,7 +74,7 @@ const EditInspectionDialog = ({
 
   const defaultValues = {
     breadingSiteType: extractIdFromInspections(inspectionData?.breadingSiteType) || '',
-    containerProtection: extractIdFromInspections(inspectionData?.containerProtection) || '',
+    containerProtections: extractIdFromInspections(inspectionData?.containerProtections) || '',
     eliminationMethodType: extractIdFromInspections(inspectionData?.eliminationMethodType) || '',
     typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
     wasChemicallyTreated: extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
@@ -186,11 +187,11 @@ const EditInspectionDialog = ({
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormSelect
+              <FormMultipleSelect
                 className="mt-2"
-                name="containerProtection"
+                name="containerProtections"
                 label={t('admin:visits.inspection.columns.containerProtection')}
-                options={optionsData.containerProtection}
+                options={optionsData.containerProtections}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -266,7 +267,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
     useState<Record<keyof InspectionSelectable, ({ selected: boolean } & BaseEntity)[]>>();
   const [optionsData, setOptionsData] = useState<InspectionFormOptions>({
     breadingSiteType: [{ value: '', label: '' }],
-    containerProtection: [{ value: '', label: '' }],
+    containerProtections: [{ value: '', label: '' }],
     eliminationMethodType: [{ value: '', label: '' }],
     typeContents: [{ value: '', label: '' }],
     wasChemicallyTreated: [{ value: '', label: '' }],
@@ -294,7 +295,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
 
       const optionsDataTemp: InspectionFormOptions = {
         breadingSiteType: convertToFormSelectOptions(deserializedData.breadingSiteType),
-        containerProtection: convertToFormSelectOptions(deserializedData.containerProtection),
+        containerProtections: convertToFormSelectOptions(deserializedData.containerProtections),
         eliminationMethodType: convertToFormSelectOptions(deserializedData.eliminationMethodType),
         typeContents: convertToFormSelectOptions(deserializedData.typeContents),
         wasChemicallyTreated: convertToFormSelectOptions(
