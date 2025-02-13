@@ -39,7 +39,7 @@ export interface InspectionSelectable {
   waterSourceType: string;
   wasChemicallyTreated: string;
   typeContents: Record<string, string>[];
-  containerProtection: string;
+  containerProtections: Record<string, string>[];
   eliminationMethodType: string;
 }
 
