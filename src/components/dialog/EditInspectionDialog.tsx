@@ -74,7 +74,7 @@ const EditInspectionDialog = ({
 
   const defaultValues = {
     breadingSiteType: extractIdFromInspections(inspectionData?.breadingSiteType) || '',
-    containerProtections: extractIdFromInspections(inspectionData?.containerProtections) || '',
+    containerProtections: extractIdsFromInspections(inspectionData?.containerProtections) || '',
     eliminationMethodType: extractIdFromInspections(inspectionData?.eliminationMethodType) || '',
     typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
     wasChemicallyTreated: extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
