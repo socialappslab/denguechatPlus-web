@@ -106,7 +106,7 @@ export interface UpdateInspection {
   other_protection: string;
   was_chemically_treated: string;
   water_source_other: string;
-  container_protection_id: string;
+  container_protection_ids: string[];
   elimination_method_type_id: string;
   water_source_type_id: string;
   type_content_ids: string[];
