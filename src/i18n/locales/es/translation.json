@@ -117,6 +117,7 @@
     "noItems": "No se encontraron opciones"
   },
   "footer": {
+    "offlineModeGuide": "Cómo usar la App sin conexión",
     "userGuide": "Guía de Usuario",
     "about": "Sobre DengueChatPlus",
     "mosquito": "El Zancudo",
