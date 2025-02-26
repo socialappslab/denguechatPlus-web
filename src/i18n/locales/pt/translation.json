@@ -114,6 +114,7 @@
     "noItems": "Nenhum item encontrado"
   },
   "footer": {
+    "offlineModeGuide": "Como usar o Modo Offline",
     "userGuide": "Guia do Usuário",
     "about": "Sobre o DengueChatPlus",
     "mosquito": "O Mosquito",

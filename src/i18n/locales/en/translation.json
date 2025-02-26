@@ -113,6 +113,7 @@
     "noItems": "No items found"
   },
   "footer": {
+    "offlineModeGuide": "How to use Offline Mode",
     "userGuide": "User Guide",
     "about": "About DengueChatPlus",
     "mosquito": "The Mosquito",

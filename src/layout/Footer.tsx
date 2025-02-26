@@ -22,6 +22,14 @@ const Footer = () => {
               primary={false}
               className="mr-4"
               buttonType="small"
+              label={t('footer.offlineModeGuide')}
+              component={Link}
+              to="https://scribehow.com/page/Modo_de_uso_Offline__PA53xjmMR56MYjbOTYk65A"
+            />
+            <Button
+              primary={false}
+              className="mr-4"
+              buttonType="small"
               label={t('footer.userGuide')}
               component={Link}
               to="https://scribehow.com/page/Guia_de_Usuario__Id5Pqg7PTqeXHAqDhYyRWw"
@@ -52,9 +60,7 @@ const Footer = () => {
             />
           </Box>
           <Box>
-            <Text className="text-neutral-300">
-              © 2024 | v{packageJson.version}
-            </Text>
+            <Text className="text-neutral-300">© 2024 | v{packageJson.version}</Text>
           </Box>
         </Toolbar>
       </Container>
