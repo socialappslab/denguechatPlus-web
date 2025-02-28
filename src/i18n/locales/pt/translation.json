@@ -93,7 +93,7 @@
     "brigadist": "Brigadista",
     "facilitador": "Facilitador",
     "site": "Local",
-    "visitStatus": "Status da Visita",
+    "visitStatus": "Estado do Site",
     "visitedAt": "Visitado em",
     "team": "Brigada",
     "house": "Local",
@@ -114,6 +114,7 @@
     "noItems": "Nenhum item encontrado"
   },
   "footer": {
+    "offlineModeGuide": "Como usar o Aplicativo sem conexão",
     "userGuide": "Guia do Usuário",
     "about": "Sobre o DengueChatPlus",
     "mosquito": "O Mosquito",

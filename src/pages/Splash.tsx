@@ -1,6 +1,8 @@
 import { Box, Chip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import asuncion from '@/assets/images/asuncion.png';
 import comunidad from '@/assets/images/comunidad.png';
 import datos from '@/assets/images/datos.png';
@@ -12,9 +14,41 @@ import { COLORS } from '@/constants';
 import { Button } from '@/themed/button/Button';
 import Text from '@/themed/text/Text';
 import { Title } from '@/themed/title/Title';
+import googlePlayBadgeEN from '@/assets/images/GetItOnGooglePlay_Badge_Web_color_English.png';
+import googlePlayBadgeES from '@/assets/images/GetItOnGooglePlay_Badge_Web_color_Spanish-LATAM.png';
+import googlePlayBadgePT from '@/assets/images/GetItOnGooglePlay_Badge_Web_color_Portuguese-BR.png';
+import appStoreBadgeEN from '@/assets/images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg';
+import appStoreBadgeES from '@/assets/images/Download_on_the_App_Store_Badge_ES_RGB_blk_100217.svg';
+import appStoreBadgePT from '@/assets/images/Download_on_the_App_Store_Badge_PTBR_RGB_blk_092917.svg';
 
 function Splash() {
-  const { t } = useTranslation('splash');
+  const { t, i18n } = useTranslation('splash');
+
+  const googlePlayBadge = useMemo(() => {
+    switch (i18n.language) {
+      case 'en':
+        return googlePlayBadgeEN;
+      case 'es':
+        return googlePlayBadgeES;
+      case 'pt':
+        return googlePlayBadgePT;
+      default:
+        return googlePlayBadgeEN;
+    }
+  }, [i18n.language]);
+
+  const appStoreBadge = useMemo(() => {
+    switch (i18n.language) {
+      case 'en':
+        return appStoreBadgeEN;
+      case 'es':
+        return appStoreBadgeES;
+      case 'pt':
+        return appStoreBadgePT;
+      default:
+        return appStoreBadgeEN;
+    }
+  }, [i18n.language]);
 
   return (
     // Add a flex container and an inner container with max 1280px
@@ -41,9 +75,40 @@ function Splash() {
               />
               <Button className="mr-4" buttonType="small" label={t('cta.register')} component={Link} to="/register" />
             </Box>
+
+            <Box className="flex gap-4 mt-4">
+              <Link to="https://play.google.com/store/apps/details?id=org.denguechatplus" target="_blank">
+                <img src={googlePlayBadge} alt="Get it on Google Play" className="h-11" />
+              </Link>
+              <Link to="https://apps.apple.com/py/app/denguechatplus/id6741427309" target="_blank">
+                <img src={appStoreBadge} alt="Download on the App Store" className="h-11" />
+              </Link>
+            </Box>
           </Box>
           <Box className="flex col-span-3">
             <img src={splash1} alt="" className="rounded-xl" />
+          </Box>
+        </Box>
+
+        {/* User Guide */}
+        <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl mt-12">
+          <InfoOutlinedIcon className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+
+          <Title type="page" className="flex-row mt-4 mb-5 align-center" label={t('userGuide.title')} />
+
+          <Text className="flex-row">{t('userGuide.description')}</Text>
+
+          <Box className="mt-8 ">
+            <Button
+              component={Link}
+              primary={false}
+              variant="outlined"
+              className="mr-4"
+              buttonType="small"
+              label={t('userGuide.button')}
+              to="https://scribehow.com/page/Guia_de_Usuario__Id5Pqg7PTqeXHAqDhYyRWw"
+              target="_blank"
+            />
           </Box>
         </Box>
 

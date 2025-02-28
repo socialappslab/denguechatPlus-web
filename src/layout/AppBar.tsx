@@ -340,10 +340,18 @@ export function AppBar({ auth = false, signUp = false, logout }: AppBarProps) {
       <MuiAppBar position="static" className="bg-white border-solid border-neutral-100 mb-4" elevation={0}>
         <Container maxWidth={false} className="lg:px-20 md:px-12 sm:px-10 px-6 mx-0">
           <Toolbar disableGutters sx={{ height: '80px' }}>
-            <div className="flex flex-1 flex-col align-middle justify-center">
+            <div className="flex items-center gap-4">
               <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
                 <img className={!matches ? 'right-4' : ''} src={Logo} alt="logo" />
               </Link>
+              <Button
+                primary={false}
+                buttonType="small"
+                label="Tariki - Iquitos"
+                component={Link}
+                to="https://www.tariki.org/"
+                target="_blank"
+              />
             </div>
 
             <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>

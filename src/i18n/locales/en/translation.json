@@ -92,7 +92,7 @@
     "brigade": "Brigade",
     "brigadist": "Brigadist",
     "site": "Site",
-    "visitStatus": "Visit Status",
+    "visitStatus": "State of Site",
     "visitedAt": "Visited at",
     "team": "Brigade",
     "house": "Site",
@@ -113,6 +113,7 @@
     "noItems": "No items found"
   },
   "footer": {
+    "offlineModeGuide": "How to use Offline Mode",
     "userGuide": "User Guide",
     "about": "About DengueChatPlus",
     "mosquito": "The Mosquito",
