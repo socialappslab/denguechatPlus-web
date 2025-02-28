@@ -2,6 +2,7 @@ import { Box, Chip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import asuncion from '@/assets/images/asuncion.png';
 import comunidad from '@/assets/images/comunidad.png';
 import datos from '@/assets/images/datos.png';
@@ -86,6 +87,27 @@ function Splash() {
           </Box>
           <Box className="flex col-span-3">
             <img src={splash1} alt="" className="rounded-xl" />
+          </Box>
+        </Box>
+
+        {/* User Guide */}
+        <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl mt-12">
+          <InfoOutlinedIcon className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+
+          <Title type="page" className="flex-row mt-4 mb-5 align-center" label={t('userGuide.title')} />
+
+          <Text className="flex-row">{t('userGuide.description')}</Text>
+
+          <Box className="mt-8 ">
+            <Button
+              primary={false}
+              variant="outlined"
+              className="mr-4"
+              buttonType="small"
+              label={t('userGuide.button')}
+              to="https://scribehow.com/page/Guia_de_Usuario__Id5Pqg7PTqeXHAqDhYyRWw"
+              target="_blank"
+            />
           </Box>
         </Box>
 
