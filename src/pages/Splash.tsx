@@ -100,6 +100,7 @@ function Splash() {
 
           <Box className="mt-8 ">
             <Button
+              component={Link}
               primary={false}
               variant="outlined"
               className="mr-4"
