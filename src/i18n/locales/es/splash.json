@@ -10,6 +10,11 @@
     "dengueChatPlus": "DengueChatPlus",
     "citizensCopy": "Ciudadanos en el combate contra el dengue y los zancudos."
   },
+  "userGuide": {
+    "title": "Guía de Usuario",
+    "description": "Aprende cómo utilizar la aplicación de DengueChatPlus",
+    "button": "Ver Guía de Usuario"
+  },
   "participants": {
     "knowParticipants": "Conoce a los participantes",
     "actorsInvolved": "Ve a los actores involucrados en la comunidad de Managua, Nicaragua"

@@ -10,6 +10,11 @@
     "dengueChatPlus": "DengueChatPlus",
     "citizensCopy": "Citizens in the fight against dengue and mosquitoes."
   },
+  "userGuide": {
+    "title": "User Guide",
+    "description": "Learn how to use the DengueChatPlus app",
+    "button": "See the User Guide"
+  },
   "participants": {
     "knowParticipants": "Meet the participants",
     "actorsInvolved": "See the actors involved in the community of Managua, Nicaragua"
