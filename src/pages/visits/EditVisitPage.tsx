@@ -39,9 +39,22 @@ enum Host {
 }
 
 const renderColor = (color: InspectionStatus) => {
+  const colorMapping = {
+    Verde: 'green',
+    Green: 'green',
+
+    Amarillo: 'yellow',
+    Amarelo: 'yellow',
+    Yellow: 'yellow',
+
+    Rojo: 'red',
+    Vermelho: 'red',
+    Red: 'red',
+  };
+
   return (
     <Box className="flex">
-      <Box className={`w-5 h-5 bg-${color}-600 mr-3 rounded-full`} />
+      <Box className={`w-5 h-5 bg-${colorMapping[color]}-600 mr-3 rounded-full`} />
       {capitalize(color)}
     </Box>
   );
