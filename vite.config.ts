@@ -4,6 +4,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 
+// @ts-ignore
 /**
  * @see https://vitejs.dev/config/
  */
@@ -14,11 +15,24 @@ export default defineConfig({
     svgr({
       include: '**/*.svg?react',
     }),
+    sentryVitePlugin({
+      org: "denguechatplus",
+      project: "denguechatplus",
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+
+      sourcemaps: {
+        assets: "./dist/**/*.js.map",
+        deleteFiles: true,
+      },
+    }),
   ],
   resolve: {
     alias: {
       '@': path.resolve('./src'),
       src: path.resolve(__dirname, './src'),
     },
+  },
+  build: {
+    sourcemap: process.env.NODE_ENV !== 'production',
   },
 });
