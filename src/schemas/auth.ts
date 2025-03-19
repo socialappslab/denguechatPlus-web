@@ -10,13 +10,14 @@ const t = (key: string, args?: { [key: string]: string | number }) => {
   return JSON.stringify({ key, args });
 };
 
-export const emailSchema = z.union([z.literal(''), string().email(t('validation:invalidEmail'))]);
+export const emailSchema = z.union([z.literal(''), string().trim().email(t('validation:invalidEmail'))]);
 
 export const passwordSchema = string()
   .min(1, t('validation:requiredField.password'))
   .min(6, t('validation:passwordLength', { length: 6 }));
 
 export const userNameSchema = string()
+  .trim()
   .min(1, t('validation:requiredField.username'))
   .min(4, t('validation:usernameLength', { length: 4 }));
 
@@ -46,8 +47,8 @@ export type LoginRequestType = {
 };
 
 export const passwordConfirmSchema = string().min(1, t('validation:requiredField.confirmPassword'));
-const requiredNameString = string().min(1, t('validation:requiredField.name'));
-const requiredLastNameString = string().min(1, t('validation:requiredField.lastName'));
+const requiredNameString = string().trim().min(1, t('validation:requiredField.name'));
+const requiredLastNameString = string().trim().min(1, t('validation:requiredField.lastName'));
 const requiredCity = string().min(1, t('validation:requiredField.city'));
 const requiredHouseBlock = string().min(1, t('validation:requiredField.city'));
 const requiredNeighborhood = string().min(1, t('validation:requiredField.neighborhood'));
