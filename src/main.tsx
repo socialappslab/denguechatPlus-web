@@ -3,6 +3,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Provider } from '@rollbar/react';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
+import * as Sentry from "@sentry/react";
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
