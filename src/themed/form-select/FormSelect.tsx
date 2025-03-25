@@ -17,6 +17,7 @@ export type FormSelectProps = {
   multiple?: boolean;
   options: FormSelectOption[] | string[];
   renderOption?: (option: FormSelectOption) => string;
+  required?: boolean;
 };
 
 const defaultRenderOption = (option: FormSelectOption) => option.label;
@@ -34,6 +35,7 @@ export function FormSelect({
   renderOption = defaultRenderOption,
   options,
   multiple,
+  required = false,
 }: FormSelectProps) {
   const {
     control,
@@ -65,7 +67,7 @@ export function FormSelect({
       name={name}
       render={({ field }) => {
         return (
-          <FormControl fullWidth sx={{ mb: 2 }} className={className} error={!!fieldError}>
+          <FormControl fullWidth sx={{ mb: 2 }} className={className} error={!!fieldError} required={required}>
             <InputLabel id={`label-${name}`}>{label}</InputLabel>
             <Select
               labelId={`label-${name}`}
