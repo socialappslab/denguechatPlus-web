@@ -193,6 +193,7 @@ export function CreateAccountPage() {
             label={t('firstName')}
             type="text"
             placeholder={t('firstName_placeholder')}
+            required
           />
 
           <FormInput
@@ -201,6 +202,7 @@ export function CreateAccountPage() {
             label={t('lastName')}
             type="text"
             placeholder={t('lastName_placeholder')}
+            required
           />
 
           <FormInput
@@ -209,6 +211,7 @@ export function CreateAccountPage() {
             label={t('username')}
             type="text"
             placeholder={t('username_placeholder')}
+            required
           />
 
           <FormInput
@@ -217,6 +220,7 @@ export function CreateAccountPage() {
             label={t('phone')}
             type="phone"
             placeholder={t('phone_placeholder')}
+            required
           />
 
           <FormInput
@@ -234,6 +238,7 @@ export function CreateAccountPage() {
             type="password"
             helperText={t('passwordHelperText')}
             placeholder={t('password_placeholder')}
+            required
           />
 
           <FormInput
@@ -242,6 +247,7 @@ export function CreateAccountPage() {
             label={t('passwordConfirm')}
             type="password"
             placeholder={t('passwordConfirm_placeholder')}
+            required
           />
 
           <FormSelect
@@ -251,6 +257,7 @@ export function CreateAccountPage() {
             options={cityOptions}
             loading={loadingCities}
             placeholder={t('city_placeholder')}
+            required
           />
 
           <FormSelect
@@ -260,6 +267,7 @@ export function CreateAccountPage() {
             options={neighborhoodOptions}
             loading={loadingNeighborhoods}
             placeholder={t('neighborhood_placeholder')}
+            required
           />
 
           <FormSelect
@@ -269,6 +277,7 @@ export function CreateAccountPage() {
             loading={loadingOrganizations}
             options={organizationOptions}
             placeholder={t('organization_placeholder')}
+            required
           />
 
           <Button className="mb-8 mt-3" label={t('action')} type="submit" disabled={loading} />
