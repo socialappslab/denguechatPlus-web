@@ -34,11 +34,22 @@ function pull_and_run_image() {
     docker run -d -p $PORT:80 --name $CONTAINER_NAME $IMAGE_NAME
 }
 
+function clean_unused_images() {
+    docker images --format "{{.Repository}}:{{.Tag}} {{.CreatedAt}}" | \
+        grep -v "$IMAGE_NAME:$TAG" | \
+        awk 'NR>3 {print $1}' | \
+        xargs -I {} docker rmi {} || echo "No unused images found to remove"
+    docker system prune -f --volumes
+}
+
+
+
 log_message "Script start"
 
 check_prerequisites
 stop_and_remove_container
 login_to_ecr
 pull_and_run_image
+clean_unused_images
 
 log_message "Script end"
