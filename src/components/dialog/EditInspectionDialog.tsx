@@ -15,25 +15,26 @@ import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect
 import FormSelect from '@/themed/form-select/FormSelect';
 import Loader from '@/themed/loader/Loader';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '@/util';
-import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
-import { Title } from '../../themed/title/Title';
+import { Button } from '@/themed/button/Button';
+import { FormInput } from '@/themed/form-input/FormInput';
+import { Title } from '@/themed/title/Title';
 
 // Other Ids
 const OtherIds = {
   waterSourceType: '6',
   containerProtection: '4',
   eliminationMethodType: '9',
-};
+} as const;
+
+const containsOtherOption = (options: Record<string, string>[]) =>
+  options.some((option) => option.value === OtherIds.containerProtection);
 
 const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
   return {
     breeding_site_type_id: values.breadingSiteType,
     other_elimination_method:
       values.eliminationMethodType === OtherIds.eliminationMethodType ? values.eliminationMethodTypeOther : '',
-    other_protection: values.containerProtections.some((protection) => protection.id === OtherIds.containerProtection)
-      ? values.containerProtectionOther
-      : '',
+    other_protection: containsOtherOption(values.containerProtections) ? values.containerProtectionOther : '',
     was_chemically_treated: values.wasChemicallyTreated,
     water_source_other: values.waterSourceType === OtherIds.waterSourceType ? values.waterSourceOther : '',
     container_protection_ids: values.containerProtections.map((i) => i.value),
@@ -86,7 +87,8 @@ const EditInspectionDialog = ({
     waterSourceOther: inspectionData?.waterSourceOther,
   };
 
-  const methods = useForm({
+  const methods = useForm<Inspection>({
+    // @ts-expect-error status is not compatible
     defaultValues,
   });
 
@@ -135,6 +137,8 @@ const EditInspectionDialog = ({
       }
     }
   };
+
+  const containerProtectionsContainsOtherOption = containsOtherOption(watch('containerProtections'));
 
   return (
     <div className="flex flex-col py-6 px-2">
@@ -198,7 +202,7 @@ const EditInspectionDialog = ({
               <FormInput
                 className="mt-2"
                 name="containerProtectionOther"
-                disabled={methods.watch('containerProtection') !== OtherIds.containerProtection}
+                disabled={!containerProtectionsContainsOtherOption}
                 label={t('admin:visits.inspection.columns.containerProtectionOther')}
                 type="text"
               />

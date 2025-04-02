@@ -37,3 +37,11 @@ jobs:
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      - name: Clean up unused Docker images and prune system
+        run: |
+          docker images --format "{{.Repository}}:{{.Tag}} {{.CreatedAt}}" | \
+              grep -v "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" | \
+              awk 'NR>3 {print $1}' | \
+              xargs -I {} docker rmi {} || echo "No unused images found to remove"
+          docker system prune -f --volumes
