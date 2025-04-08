@@ -8,25 +8,6 @@ export type ErrorResponse = {
   }[];
 };
 
-export type ApiResponseCollection<T> = {
-  data: T[];
-  meta: {
-    total: number;
-  };
-  links: {
-    self: number;
-    last: number;
-  };
-};
-
-export interface JsonApiResponse<T> {
-  data: T;
-}
-
-export interface JsonApiCollectionResponse<T> {
-  data: T[];
-}
-
 export interface JsonApiResource<T> {
   id: string;
   type: string;
