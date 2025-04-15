@@ -3,11 +3,18 @@ import { PropsWithChildren } from 'react';
 
 import { ScrollToTop } from '../components/ScrollToTop';
 import { drawerWidth } from '../constants';
-import { AppBar, AppBarProps } from './AppBar';
 import Footer from './Footer';
+import Header from './Header';
+import Sidebar from './Sidebar';
 
-export default function BaseLayout({ children, auth, signUp, logout, footer }: AppBarProps & PropsWithChildren) {
-  if (!auth) {
+interface Props {
+  auth?: boolean;
+  logout?: () => void;
+  footer?: boolean;
+}
+
+export default function BaseLayout({ children, auth, logout, footer }: PropsWithChildren<Props>) {
+  if (!auth || !logout) {
     return (
       <Container
         maxWidth={false}
@@ -17,7 +24,7 @@ export default function BaseLayout({ children, auth, signUp, logout, footer }: A
         }}
       >
         <ScrollToTop />
-        <AppBar auth={auth} signUp={signUp} logout={logout} />
+        <Header />
         {children}
         {footer && <Footer />}
       </Container>
@@ -27,7 +34,7 @@ export default function BaseLayout({ children, auth, signUp, logout, footer }: A
   return (
     <Box sx={{ display: 'flex' }}>
       <ScrollToTop />
-      <AppBar auth={auth} signUp={signUp} logout={logout} />
+      <Sidebar logout={logout} />
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
         {children}
       </Box>
