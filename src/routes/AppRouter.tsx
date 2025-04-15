@@ -10,12 +10,14 @@ import SignInPage from '../pages/auth/SignInPage';
 import LangContextProvider from '../providers/LangContextProvider';
 import StateContextProvider from '../providers/StateContextProvider';
 
+import HouseBlockList from '@/components/list/HouseBlockList';
 import TeamList from '@/components/list/TeamsList';
 import AppHome from '@/pages/AppHome';
 import NewPasswordPage from '@/pages/auth/NewPasswordPage';
 import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
 import ValidateCodePage from '@/pages/auth/ValidateCodePage';
 import LoadCity from '@/pages/loader/LoadCity';
+import { LoadVisit } from '@/pages/loader/LoadVisit';
 import MyCity from '@/pages/my-city/MyCityPage';
 import MyCommunity from '@/pages/my-community/MyCommunityPage';
 import HeatMapPage from '@/pages/reports/HeatMapPage';
@@ -35,8 +37,6 @@ import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import ProtectedRoute from './ProtectedRoute';
-import { LoadVisit } from '@/pages/loader/LoadVisit';
-import HouseBlockList from '@/components/list/HouseBlockList';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -172,7 +172,7 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: (
-      <BaseLayout signUp auth={false}>
+      <BaseLayout auth={false}>
         <SignInPage />
       </BaseLayout>
     ),
@@ -190,7 +190,7 @@ const router = createBrowserRouter([
   {
     path: '/register-success',
     element: (
-      <BaseLayout signUp>
+      <BaseLayout>
         <CreateSuccessPage />
       </BaseLayout>
     ),
