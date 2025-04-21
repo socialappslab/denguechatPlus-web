@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
-import { sentryVitePlugin } from "@sentry/vite-plugin";
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 
 // @ts-ignore
 /**
@@ -17,12 +17,12 @@ export default defineConfig({
       include: '**/*.svg?react',
     }),
     sentryVitePlugin({
-      org: "denguechatplus",
-      project: "denguechatplus",
+      org: 'denguechatplus',
+      project: 'denguechatplus',
       authToken: process.env.SENTRY_AUTH_TOKEN,
 
       sourcemaps: {
-        assets: "./dist/**/*.js.map",
+        assets: './dist/**/*.js.map',
         deleteFiles: true,
       },
     }),

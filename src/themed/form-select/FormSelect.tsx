@@ -1,4 +1,14 @@
-import { Box, Chip, CircularProgress, FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Chip,
+  CircularProgress,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
 
 import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -17,7 +27,9 @@ export type FormSelectProps = {
   multiple?: boolean;
   options: FormSelectOption[] | string[];
   renderOption?: (option: FormSelectOption) => string;
+  onChange?: (event: SelectChangeEvent<any>) => void;
   required?: boolean;
+  disabled?: boolean;
 };
 
 const defaultRenderOption = (option: FormSelectOption) => option.label;
@@ -33,9 +45,11 @@ export function FormSelect({
   helperText,
   loading = false,
   renderOption = defaultRenderOption,
+  onChange,
   options,
   multiple,
   required = false,
+  disabled = false,
 }: FormSelectProps) {
   const {
     control,
@@ -77,15 +91,20 @@ export function FormSelect({
               inputProps={{ name, error: !!fieldError }}
               {...field}
               value={loading ? multipleLoadingValue : field.value}
+              onChange={(event) => {
+                field.onChange(event.target.value);
+                onChange?.(event);
+              }}
+              onBlur={() => field.onBlur()}
               multiple={multiple}
+              disabled={disabled}
               renderValue={(selected) => {
                 if (multiple) {
                   return (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((val: string, key: string) => {
-                        console.log('val', val, mapLabel(optionsChecked, val));
-                        return <Chip key={key} label={mapLabel(optionsChecked, val)} />;
-                      })}
+                      {selected.map((val: string, key: string) => (
+                        <Chip key={key} label={mapLabel(optionsChecked, val)} />
+                      ))}
                     </Box>
                   );
                 }

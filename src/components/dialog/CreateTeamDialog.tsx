@@ -6,10 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
 
 import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ErrorResponse } from 'react-router-dom';
 import useAxios from 'axios-hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import { BaseObject, FormSelectOption } from '@/schemas';
 import { CreateTeam, CreateTeamInputType, createTeamSchema } from '@/schemas/create';
@@ -22,6 +23,7 @@ import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '../../util';
 import useStateContext from '@/hooks/useStateContext';
+import { authApi } from '@/api/axios';
 
 export interface EditUserProps {
   user: IUser;
@@ -32,15 +34,41 @@ interface CreateTeamDialogProps {
   updateTable: () => void;
 }
 
+function useWedges(sectorId: string) {
+  return useQuery({
+    enabled: !!sectorId,
+    queryKey: ['wedges', sectorId],
+    queryFn: async () => (await authApi.get('/wedges', { params: { 'filter[sector_id]': sectorId } })).data,
+  });
+}
+
 export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogProps) {
   const { state } = useStateContext();
   const user = state.user as IUser;
   const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation']);
-  const { createMutation: createTeamMutation, loading: mutationLoading } = useCreateMutation<CreateTeam, Team>(
-    `/teams`,
+
+  const methods = useForm<CreateTeamInputType>({
+    resolver: zodResolver(createTeamSchema()),
+    defaultValues: {},
+  });
+  const { handleSubmit, resetField, setError, watch } = methods;
+
+  const sectorId = watch('sectorId');
+  const wedges = useWedges(sectorId);
+  const wedgeOptions = useMemo(
+    () =>
+      wedges.data?.data?.map((wedge) => ({
+        label: wedge.attributes.name,
+        value: wedge.id,
+      })) ?? [],
+    [wedges],
   );
 
   const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
+
+  const { createMutation: createTeamMutation, loading: mutationLoading } = useCreateMutation<CreateTeam, Team>(
+    `/teams`,
+  );
 
   const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: '/users?filter[roles][name]=brigadista&filter[without_team]=true',
@@ -89,21 +117,6 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
     }
   }, [sectorsData]);
 
-  const [wedgeOptions, setWedgeOptions] = useState<FormSelectOption[]>([]);
-
-  const [{ data: wedgesData, loading: loadingWedges }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: '/wedges',
-  });
-
-  useEffect(() => {
-    if (!wedgesData) return;
-    const deserializedData = deserialize(wedgesData);
-    if (Array.isArray(deserializedData)) {
-      const wedges = convertToFormSelectOptions(deserializedData);
-      setWedgeOptions(wedges);
-    }
-  }, [wedgesData]);
-
   const [cityOptions, setCityOptions] = useState<FormSelectOption[]>([]);
 
   const [{ data: cityData, loading: loadingCities }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
@@ -120,13 +133,6 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
   }, [cityData]);
 
   const { enqueueSnackbar } = useSnackbar();
-
-  const methods = useForm<CreateTeamInputType>({
-    resolver: zodResolver(createTeamSchema()),
-    defaultValues: {},
-  });
-
-  const { handleSubmit, setError, watch } = methods;
 
   const onSubmitHandler: SubmitHandler<CreateTeamInputType> = async (values) => {
     try {
@@ -220,6 +226,9 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 loading={loadingSectors}
                 options={sectorOptions}
                 placeholder={t('admin:teams.form.sector_placeholder')}
+                onChange={() => {
+                  resetField('wedgeId');
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -227,7 +236,8 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 name="wedgeId"
                 className="mt-2"
                 label={t('admin:teams.form.wedge')}
-                loading={loadingWedges}
+                loading={wedges.isLoading}
+                disabled={!sectorId}
                 options={wedgeOptions}
                 placeholder={t('admin:teams.form.wedge_placeholder')}
               />

@@ -35,11 +35,7 @@ export default function HouseBlockList() {
     {
       id: 'wedge',
       label: 'wedge',
-      render: (row) => (
-        <p>
-          {row.wedge.name}
-        </p>
-      ),
+      render: (row) => <p>{row.wedge.name}</p>,
       filterable: true,
       sortable: true,
     },
