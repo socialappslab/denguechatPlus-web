@@ -1,9 +1,16 @@
 {
   "generic": "Algo deu errado",
   "genericField": "Verifique o campo",
-  "suggestFirstLastName": "Credenciais inválidas. Tente com seu primeiro nome e sobrenome como nome de usuário.",
-  "suggestFirstLastNameYear": "Credenciais inválidas. Tente com seu primeiro nome, primeiro sobrenome e ano de nascimento como nome de usuário.",
-  "suggestFirstLastNameYearMonth": "Credenciais inválidas. Tente com seu primeiro nome, primeiro sobrenome, ano e mês de nascimento como nome de usuário. Exemplo: joaosilva199004",
+  "login": {
+    "suggestFirstLastName": "Credenciais inválidas. Tente com seu primeiro nome e sobrenome como nome de usuário.",
+    "suggestFirstLastNameYear": "Credenciais inválidas. Tente com seu primeiro nome, primeiro sobrenome e ano de nascimento como nome de usuário.",
+    "suggestFirstLastNameYearMonth": "Credenciais inválidas. Tente com seu primeiro nome, primeiro sobrenome, ano e mês de nascimento como nome de usuário. Exemplo: joaosilva199004"
+  },
+  "register": {
+    "suggestFirstLastName": "O usuário '{{field}}' já está em uso. Tente usar seu primeiro nome e sobrenome. Exemplo: juanperez",
+    "suggestFirstLastNameYear": "O usuário '{{field}}' já está em uso. Tente usar seu primeiro nome, primeiro sobrenome e ano de nascimento. Exemplo: juanperez1990",
+    "suggestFirstLastNameYearMonth": "O usuário '{{field}}' já está em uso. Tente usar seu primeiro nome, primeiro sobrenome, ano e mês de nascimento. Exemplo: juanperez199004"
+  },
   "1000": "Requisição mal formada",
   "1": "Não atende ao requisito mínimo de caracteres",
   "2": "O campo não pode estar vazio",

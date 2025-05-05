@@ -68,17 +68,17 @@ export function SignInPage() {
           authErrorCount.current += 1;
 
           if (authErrorCount.current === 1) {
-            enqueueSnackbar(t('errorCodes:suggestFirstLastName'), { variant: 'error' });
+            enqueueSnackbar(t('errorCodes:login.suggestFirstLastName'), { variant: 'error' });
             return;
           }
 
           if (authErrorCount.current === 2) {
-            enqueueSnackbar(t('errorCodes:suggestFirstLastNameYear'), { variant: 'error' });
+            enqueueSnackbar(t('errorCodes:login.suggestFirstLastNameYear'), { variant: 'error' });
             return;
           }
 
           if (authErrorCount.current === 3) {
-            enqueueSnackbar(t('errorCodes:suggestFirstLastNameYearMonth'), { variant: 'error' });
+            enqueueSnackbar(t('errorCodes:login.suggestFirstLastNameYearMonth'), { variant: 'error' });
             return;
           }
         }
