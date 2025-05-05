@@ -4,7 +4,7 @@ import { Box, Container } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import * as React from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +39,8 @@ export function SignInPage() {
     formState: { isValid },
   } = methods;
 
+  const authErrorCount = useRef(0);
+
   const onSubmitHandler: SubmitHandler<LoginInputType> = async (values) => {
     try {
       const payload: LoginRequestType = {
@@ -48,33 +50,43 @@ export function SignInPage() {
       await signInMutation(payload);
       navigate('/');
     } catch (error) {
-      const errorData = extractAxiosErrorData(error);
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
-      errorData?.errors?.forEach((error: any) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        enqueueSnackbar(t(`errorCodes:${error.error_code || 'generic'}`), {
-          variant: 'error',
-        });
-      });
+      setError('username', { type: 'manual' });
+      setError('phone', { type: 'manual' });
+      setError('password', { type: 'manual' });
 
-      if (!errorData?.errors || errorData?.errors.length === 0) {
+      const errorData = extractAxiosErrorData(error);
+
+      if (!errorData || !errorData.errors || !errorData.errors.length) {
         enqueueSnackbar(t('errorCodes:generic'), {
           variant: 'error',
         });
+        return;
       }
 
-      setError('username', {
-        type: 'manual',
-        message: '',
-      });
-      setError('phone', {
-        type: 'manual',
-        message: '',
-      });
-      setError('password', {
-        type: 'manual',
-        message: '',
+      errorData.errors.forEach((e) => {
+        if (e.error_code === 46 && authErrorCount.current <= 3) {
+          authErrorCount.current += 1;
+
+          if (authErrorCount.current === 1) {
+            enqueueSnackbar(t('errorCodes:suggestFirstLastName'), { variant: 'error' });
+            return;
+          }
+
+          if (authErrorCount.current === 2) {
+            enqueueSnackbar(t('errorCodes:suggestFirstLastNameYear'), { variant: 'error' });
+            return;
+          }
+
+          if (authErrorCount.current === 3) {
+            enqueueSnackbar(t('errorCodes:suggestFirstLastNameYearMonth'), { variant: 'error' });
+            return;
+          }
+        }
+
+        // @ts-expect-error cannot determine dynamically
+        enqueueSnackbar(t(`errorCodes:${e.error_code ?? 'generic'}`), {
+          variant: 'error',
+        });
       });
     }
   };

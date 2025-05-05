@@ -1,6 +1,9 @@
 {
   "generic": "Something went wrong",
   "genericField": "Verify the field",
+  "suggestFirstLastName": "Invalid credentials. Try with your first and last name as username.",
+  "suggestFirstLastNameYear": "Invalid credentials. Try with your first name, last name and birthdate as username.",
+  "suggestFirstLastNameYearMonth": "Invalid credentials. Try with your first name, last name, year and month of birth as username. Example: juanperez199004",
   "1000": "Malformed request",
   "1": "Does not meet the minimum character requirement",
   "2": "The field cannot be empty",

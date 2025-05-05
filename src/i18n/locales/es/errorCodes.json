@@ -1,6 +1,9 @@
 {
   "generic": "Algo salió mal",
   "genericField": "Verifique el campo",
+  "suggestFirstLastName": "Credenciales inválidas. Intente con su primer nombre y apellido como nombre de usuario.",
+  "suggestFirstLastNameYear": "Credenciales inválidas. Intente con su primer nombre, primer apellido y fecha de nacimiento como nombre de usuario.",
+  "suggestFirstLastNameYearMonth": "Credenciales inválidas. Intente con su primer nombre, primer apellido, año y mes de nacimiento como nombre de usuario. Ejemplo: juanperez199004",
   "1000": "Request mal formado",
   "1": "No cumple con el requisito de número de caracteres mínimos",
   "2": "El campo no puede estar vacío",

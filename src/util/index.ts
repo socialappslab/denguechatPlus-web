@@ -51,11 +51,10 @@ export function a11yProps(index: number) {
 // Function to extract error information from an Axios error
 export function extractAxiosErrorData(error: unknown): ErrorResponse | null {
   if (error !== null && typeof error === 'object') {
-    if ('isAxiosError' in error && (error as AxiosError).isAxiosError) {
+    if (error instanceof AxiosError) {
       const axiosError = error as AxiosError;
       if (
-        axiosError.response &&
-        axiosError.response.data &&
+        axiosError.response?.data &&
         typeof axiosError.response.data === 'object' &&
         'errors' in axiosError.response.data
       ) {
