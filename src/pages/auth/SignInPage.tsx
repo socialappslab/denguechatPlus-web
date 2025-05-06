@@ -3,7 +3,6 @@ import { Box, Container } from '@mui/material';
 
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import * as React from 'react';
 import { useRef, useState } from 'react';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -42,10 +41,12 @@ export function SignInPage() {
   const authErrorCount = useRef(0);
 
   const onSubmitHandler: SubmitHandler<LoginInputType> = async (values) => {
+    const authType = value === 0 ? 'username' : 'phone';
+
     try {
       const payload: LoginRequestType = {
         ...values,
-        type: value === 0 ? 'username' : 'phone',
+        type: authType,
       };
       await signInMutation(payload);
       navigate('/');
@@ -64,7 +65,7 @@ export function SignInPage() {
       }
 
       errorData.errors.forEach((e) => {
-        if (e.error_code === 46 && authErrorCount.current <= 3) {
+        if (authType === 'username' && e.error_code === 46 && authErrorCount.current <= 3) {
           authErrorCount.current += 1;
 
           if (authErrorCount.current === 1) {
@@ -89,10 +90,6 @@ export function SignInPage() {
         });
       });
     }
-  };
-
-  const handleChangeLoginSelector = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
   };
 
   return (
@@ -124,7 +121,14 @@ export function SignInPage() {
           <img className="self-center mb-8" src={LogoSquare} alt="logo" />
           <Title type="section" className="self-center mb-8" label={t('title')} />
 
-          <Tabs variant="fullWidth" value={value} onChange={handleChangeLoginSelector} aria-label="Login type selector">
+          <Tabs
+            variant="fullWidth"
+            value={value}
+            onChange={(_event, newValue: number) => {
+              setValue(newValue);
+            }}
+            aria-label="Authentication method selector"
+          >
             <Tab label={t('username')} {...a11yProps(0)} />
             <Tab label={t('phone')} {...a11yProps(1)} />
           </Tabs>
