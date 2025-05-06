@@ -2,12 +2,12 @@
   "generic": "Algo deu errado",
   "genericField": "Verifique o campo",
   "login": {
-    "suggestFirstLastName": "Credenciais inválidas. Tente com seu primeiro nome e sobrenome como nome de usuário.",
-    "suggestFirstLastNameYear": "Credenciais inválidas. Tente com seu primeiro nome, primeiro sobrenome e ano de nascimento como nome de usuário.",
-    "suggestFirstLastNameYearMonth": "Credenciais inválidas. Tente com seu primeiro nome, primeiro sobrenome, ano e mês de nascimento como nome de usuário. Exemplo: joaosilva199004"
+    "suggestFirstLastName": "Credenciais inválidas. Tente com seu primeiro nome e primeiro sobrenome como nome de usuário. Exemplo: juanperez",
+    "suggestFirstLastNameYear": "Credenciais inválidas. Tente com seu primeiro nome, primeiro sobrenome e ano de nascimento como nome de usuário. Exemplo: juanperez1990",
+    "suggestFirstLastNameYearMonth": "Credenciais inválidas. Tente com seu primeiro nome, primeiro sobrenome, ano e mês de nascimento como nome de usuário. Exemplo: juanperez199004"
   },
   "register": {
-    "suggestFirstLastName": "O usuário '{{field}}' já está em uso. Tente usar seu primeiro nome e sobrenome. Exemplo: juanperez",
+    "suggestFirstLastName": "O usuário '{{field}}' já está em uso. Tente usar seu primeiro nome e primeiro sobrenome. Exemplo: juanperez",
     "suggestFirstLastNameYear": "O usuário '{{field}}' já está em uso. Tente usar seu primeiro nome, primeiro sobrenome e ano de nascimento. Exemplo: juanperez1990",
     "suggestFirstLastNameYearMonth": "O usuário '{{field}}' já está em uso. Tente usar seu primeiro nome, primeiro sobrenome, ano e mês de nascimento. Exemplo: juanperez199004"
   },

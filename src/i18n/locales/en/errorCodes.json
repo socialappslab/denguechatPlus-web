@@ -2,8 +2,8 @@
   "generic": "Something went wrong",
   "genericField": "Verify the field",
   "login": {
-    "suggestFirstLastName": "Invalid credentials. Try with your first and last name as username.",
-    "suggestFirstLastNameYear": "Invalid credentials. Try with your first name, last name and birthdate as username.",
+    "suggestFirstLastName": "Invalid credentials. Try with your first and last name as username. Example: juanperez",
+    "suggestFirstLastNameYear": "Invalid credentials. Try with your first name, last name and year of birth as username. Example: juanperez1990",
     "suggestFirstLastNameYearMonth": "Invalid credentials. Try with your first name, last name, year and month of birth as username. Example: juanperez199004"
   },
   "register": {
