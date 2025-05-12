@@ -60,6 +60,7 @@
     "visitInformation": "Información de la visita",
     "questionnaire": "Cuestionario",
     "inspectionData": "Datos del recipiente/envase",
+    "exportData": "Exportar Datos",
     "water": {
       "true": "Sí",
       "false": "No"

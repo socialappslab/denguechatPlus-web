@@ -316,7 +316,7 @@ export function EditVisit({ visit }: EditVisitProps) {
 
             <Box>
               <LoadingButton onClick={handleDownload} loading={downloadCsv.isLoading}>
-                Export data
+                {t('admin:visits.exportData')}
               </LoadingButton>
             </Box>
           </Box>
