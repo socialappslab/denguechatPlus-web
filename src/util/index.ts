@@ -148,3 +148,15 @@ export const setPhone = (phone?: string): string => {
   }
   return `+${phone}`;
 };
+
+export function downloadFile(fileName: string, mimeType: string, content: string) {
+  const anchor = document.createElement('a');
+  const blob = new Blob([content], { type: mimeType });
+  const blobUrl = URL.createObjectURL(blob);
+
+  anchor.href = blobUrl;
+  anchor.download = fileName;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+}
