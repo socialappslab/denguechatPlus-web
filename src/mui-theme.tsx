@@ -2,6 +2,7 @@ import { CssBaseline } from '@mui/material';
 import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material/styles';
 import { SnackbarProvider } from 'notistack';
 import { ReactNode } from 'react';
+import type {} from '@mui/lab/themeAugmentation';
 
 import { COLORS } from './constants';
 
