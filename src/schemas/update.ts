@@ -108,7 +108,7 @@ export interface UpdateInspection {
   water_source_other: string;
   container_protection_ids: string[];
   elimination_method_type_id: string;
-  water_source_type_id: string;
+  water_source_type_ids: string[];
   type_content_ids: string[];
 }
 

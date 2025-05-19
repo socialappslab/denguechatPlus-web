@@ -36,7 +36,7 @@ export interface Visit extends BaseEntity {
 
 export interface InspectionSelectable {
   breadingSiteType: string;
-  waterSourceType: string;
+  waterSourceTypes: Record<string, string>[];
   wasChemicallyTreated: string;
   typeContents: Record<string, string>[];
   containerProtections: Record<string, string>[];
