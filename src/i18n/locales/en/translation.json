@@ -47,7 +47,8 @@
       "name": "Reports",
       "sites": "Sites",
       "heatMap": "Heat amp",
-      "visits": "Visits"
+      "visits": "Visits",
+      "visits_full": "Detailed Visits"
     }
   },
   "table": {

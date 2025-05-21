@@ -40,6 +40,7 @@ import ProtectedView from './ProtectedView';
 const ADMIN_USERS = '/admin/users';
 const ADMIN_SITES = '/reports/sites';
 const ADMIN_HEATMAP = '/reports/heat-map';
+const ADMIN_VISITS_FULL_REPORT = '/reports/visits-detailed';
 const ADMIN_VISITS = '/reports/visits';
 const ADMIN_ROLES = '/admin/roles';
 const ADMIN_ORGANIZATIONS = '/admin/organizations';
@@ -173,6 +174,16 @@ export default function Sidebar({ logout }: { logout: () => void }) {
                         selected={pathname.includes(ADMIN_VISITS)}
                       >
                         <ListItemText primary={<Text type="menuItem">{t('menu.reports.visits')}</Text>} />
+                      </ListItemButton>
+                    </ProtectedView>
+                    <ProtectedView hasPermission={[USERS_INDEX]}>
+                      <ListItemButton
+                        sx={{ pl: 4 }}
+                        component={Link}
+                        to={ADMIN_VISITS_FULL_REPORT}
+                        selected={pathname.includes(ADMIN_VISITS_FULL_REPORT)}
+                      >
+                        <ListItemText primary={<Text type="menuItem">{t('menu.reports.visits_full')}</Text>} />
                       </ListItemButton>
                     </ProtectedView>
                   </List>
