@@ -23,6 +23,7 @@ import MyCommunity from '@/pages/my-community/MyCommunityPage';
 import HeatMapPage from '@/pages/reports/HeatMapPage';
 import SitesPage from '@/pages/reports/SitesPage';
 import VisitPage from '@/pages/reports/VisitPage';
+import VisitDetailedPage from '@/pages/reports/VisitDetailedPage';
 import VisitsList from '@/pages/visits/VisitsPage';
 import CityList from '../components/list/CityList';
 import OrganizationList from '../components/list/OrganizationList';
@@ -122,6 +123,11 @@ const router = createBrowserRouter([
       {
         path: 'visits',
         element: <VisitPage />,
+        errorElement: <RouterErrorPage />,
+      },
+      {
+        path: 'visits-detailed',
+        element: <VisitDetailedPage />,
         errorElement: <RouterErrorPage />,
       },
     ],
