@@ -45,7 +45,8 @@
       "name": "Reportes",
       "sites": "Sitios",
       "heatMap": "Mapa de calor",
-      "visits": "Visitas"
+      "visits": "Visitas",
+      "visits_full": "Visitas detalladas"
     },
     "visits": "Visitas",
     "homes": "Sites"

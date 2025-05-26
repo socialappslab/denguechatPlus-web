@@ -26,20 +26,24 @@ const OtherIds = {
   eliminationMethodType: '9',
 } as const;
 
-const containsOtherOption = (options: Record<string, string>[]) =>
-  options.some((option) => option.value === OtherIds.containerProtection);
+const containsOtherOption = (options: Record<string, string>[], otherId: (typeof OtherIds)[keyof typeof OtherIds]) =>
+  options.some((option) => option.value === otherId);
 
 const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
   return {
     breeding_site_type_id: values.breadingSiteType,
     other_elimination_method:
       values.eliminationMethodType === OtherIds.eliminationMethodType ? values.eliminationMethodTypeOther : '',
-    other_protection: containsOtherOption(values.containerProtections) ? values.containerProtectionOther : '',
+    other_protection: containsOtherOption(values.containerProtections, OtherIds.containerProtection)
+      ? values.containerProtectionOther
+      : '',
     was_chemically_treated: values.wasChemicallyTreated,
-    water_source_other: values.waterSourceType === OtherIds.waterSourceType ? values.waterSourceOther : '',
+    water_source_other: containsOtherOption(values.waterSourceTypes, OtherIds.waterSourceType)
+      ? values.waterSourceOther
+      : '',
     container_protection_ids: values.containerProtections.map((i) => i.value),
     elimination_method_type_id: values.eliminationMethodType,
-    water_source_type_id: values.waterSourceType,
+    water_source_type_ids: values.waterSourceTypes.map((i) => i.value),
     type_content_ids: values.typeContents.map((i) => i.value),
   };
 };
@@ -79,7 +83,7 @@ const EditInspectionDialog = ({
     eliminationMethodType: extractIdFromInspections(inspectionData?.eliminationMethodType) || '',
     typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
     wasChemicallyTreated: extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
-    waterSourceType: extractIdFromInspections(inspectionData?.waterSourceType) || '',
+    waterSourceTypes: extractIdsFromInspections(inspectionData?.waterSourceTypes) || '',
     containerProtectionOther: inspectionData?.containerProtectionOther,
     eliminationMethodTypeOther: inspectionData?.eliminationMethodTypeOther,
     hasWater: t(`admin:visits.water.${inspection?.hasWater}`),
@@ -138,7 +142,11 @@ const EditInspectionDialog = ({
     }
   };
 
-  const containerProtectionsContainsOtherOption = containsOtherOption(watch('containerProtections'));
+  const containerProtectionsContainsOtherOption = containsOtherOption(
+    watch('containerProtections'),
+    OtherIds.containerProtection,
+  );
+  const waterSourceTypesContainsOtherOption = containsOtherOption(watch('waterSourceTypes'), OtherIds.waterSourceType);
 
   return (
     <div className="flex flex-col py-6 px-2">
@@ -174,18 +182,18 @@ const EditInspectionDialog = ({
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormSelect
+              <FormMultipleSelect
                 className="mt-2"
-                name="waterSourceType"
+                name="waterSourceTypes"
                 label={t('admin:visits.inspection.columns.waterSourceType')}
-                options={optionsData.waterSourceType}
+                options={optionsData.waterSourceTypes}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInput
                 className="mt-2"
                 name="waterSourceOther"
-                disabled={methods.watch('waterSourceType') !== OtherIds.waterSourceType}
+                disabled={!waterSourceTypesContainsOtherOption}
                 label={t('admin:visits.inspection.columns.waterSourceTypeOther')}
                 type="text"
               />
@@ -275,7 +283,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
     eliminationMethodType: [{ value: '', label: '' }],
     typeContents: [{ value: '', label: '' }],
     wasChemicallyTreated: [{ value: '', label: '' }],
-    waterSourceType: [{ value: '', label: '' }],
+    waterSourceTypes: [{ value: '', label: '' }],
   });
 
   const [{ data, loading }] = useAxios(
@@ -297,6 +305,9 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
         console.log('deserializedData load user', deserializedData);
       }
 
+      // TODO: little fix for the discrepancy between the API keys
+      deserializedData.waterSourceTypes = deserializedData.waterSourceType;
+
       const optionsDataTemp: InspectionFormOptions = {
         breadingSiteType: convertToFormSelectOptions(deserializedData.breadingSiteType),
         containerProtections: convertToFormSelectOptions(deserializedData.containerProtections),
@@ -308,7 +319,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
           undefined,
           'value',
         ),
-        waterSourceType: convertToFormSelectOptions(deserializedData.waterSourceType),
+        waterSourceTypes: convertToFormSelectOptions(deserializedData.waterSourceTypes),
       };
 
       setOptionsData(optionsDataTemp);

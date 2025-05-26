@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { ExistingDocumentObject, deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAxiosNoAuth } from '../../api/axios';
 import LogoSquare from '../../assets/images/logo-square.svg';
@@ -36,8 +36,9 @@ export function CreateAccountPage() {
     resolver: zodResolver(RegisterSchema),
   });
 
-  const { handleSubmit, setError, setValue, watch } = methods;
+  const { handleSubmit, setError, setValue, watch, getValues } = methods;
   const [cityValue] = watch(['city']);
+  const usernameErrorCounter = useRef(0);
 
   const [{ data: citiesData, loading: loadingCities }] = useAxiosNoAuth<ExistingDocumentObject, unknown, ErrorResponse>(
     {
@@ -127,34 +128,63 @@ export function CreateAccountPage() {
       await createAccountMutation(payload);
 
       navigate('/register-success');
-    } catch (error) {
-      const errorData = extractAxiosErrorData(error);
+    } catch (e) {
+      const errorData = extractAxiosErrorData(e);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
-      errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+      if (!errorData || !errorData.errors || errorData.errors.length === 0) {
+        enqueueSnackbar(t('errorCodes:generic'), {
+          variant: 'error',
+        });
+        return;
+      }
+
+      errorData.errors.forEach((error) => {
+        // @ts-expect-error `error.field` is string but it expects an union
+        const fieldValue = getValues(error.field);
+        if (error.field && fieldValue) {
+          if (error.error_code === 48 && usernameErrorCounter.current <= 3) {
+            usernameErrorCounter.current += 1;
+
+            if (usernameErrorCounter.current === 1) {
+              setError('username', {
+                type: 'manual',
+                message: t('errorCodes:register.suggestFirstLastName', { field: fieldValue }),
+              });
+              return;
+            }
+
+            if (usernameErrorCounter.current === 2) {
+              setError('username', {
+                type: 'manual',
+                message: t('errorCodes:register.suggestFirstLastNameYear', { field: fieldValue }),
+              });
+              return;
+            }
+
+            if (usernameErrorCounter.current === 3) {
+              setError('username', {
+                type: 'manual',
+                message: t('errorCodes:register.suggestFirstLastNameYearMonth', { field: fieldValue }),
+              });
+              return;
+            }
+          }
+
+          // @ts-expect-error `error.field` is string but it expects an union
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+            // @ts-expect-error expects translation key to be exact
+            message: t(`errorCodes:${error.error_code ?? 'genericField'}`, {
+              field: fieldValue,
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
+          // @ts-expect-error expects translation key to be exact
+          enqueueSnackbar(t(`errorCodes:${error.error_code ?? 'generic'}`), {
             variant: 'error',
           });
         }
       });
-
-      if (!errorData?.errors || errorData?.errors.length === 0) {
-        enqueueSnackbar(t('errorCodes:generic'), {
-          variant: 'error',
-        });
-      }
     }
   };
 

@@ -61,6 +61,7 @@
     "visitInformation": "Visit Information",
     "questionnaire": "Questionnaire",
     "inspectionData": "Inspection Data",
+    "exportData": "Export Data",
     "water": {
       "true": "Yes",
       "false": "No"

@@ -3,12 +3,15 @@ import { Box, Container, Dialog, Grid } from '@mui/material';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { useQuery } from '@tanstack/react-query';
 import useAxios from 'axios-hooks';
 import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { capitalize } from 'lodash';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { ErrorResponse, useNavigate } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
+import { authApi } from '@/api/axios';
 import GreenHouse from '@/assets/icons/house-green.svg';
 import RedHouse from '@/assets/icons/house-red.svg';
 import YellowHouse from '@/assets/icons/house-yellow.svg';
@@ -24,7 +27,7 @@ import FormSelectAutocomplete from '@/themed/form-select-autocomplete/FormSelect
 import FormSelect from '@/themed/form-select/FormSelect';
 import { HeadCell } from '@/themed/table/DataTable';
 import Text from '@/themed/text/Text';
-import { convertToFormSelectOptions, extractAxiosErrorData, formatDateFromString } from '@/util';
+import { convertToFormSelectOptions, downloadFile, extractAxiosErrorData, formatDateFromString } from '@/util';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
@@ -113,6 +116,14 @@ const IconMap = {
   yellow: YellowHouse,
 };
 
+function useDownloadCsvQuery(visitId: number) {
+  return useQuery({
+    queryKey: ['downloadCsv', visitId],
+    queryFn: async () => (await authApi.get(`/visits/${visitId}/download_information`)).data,
+    enabled: false,
+  });
+}
+
 const HouseStatusBanner = ({ color: colorPlain }: HouseStatusProps) => {
   const { t } = useTranslation('admin');
   const color = ColorMap[colorPlain as StatusPlain];
@@ -187,6 +198,8 @@ export function EditVisit({ visit }: EditVisitProps) {
 
   const { udpateMutation: updateVisitMutation } = useUpdateMutation<UpdateVisit, Visit>(`visits/${visit?.id}`);
 
+  const downloadCsv = useDownloadCsvQuery(visit.id);
+
   const convertSchemaToPayload = (values: UpdateVisitInputType): UpdateVisit => {
     return {
       host: values.household.map((i) => i.label),
@@ -258,6 +271,17 @@ export function EditVisit({ visit }: EditVisitProps) {
 
   const handleClose = () => setOpenEditDialog(false);
 
+  const handleDownload = async () => {
+    try {
+      const response = await downloadCsv.refetch();
+      downloadFile('fileName', 'text/csv', response.data);
+    } catch (error) {
+      enqueueSnackbar(t('errorCodes:generic'), {
+        variant: 'error',
+      });
+    }
+  };
+
   return (
     <Container
       className="bg-background w-full"
@@ -269,8 +293,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       }}
     >
       <FormProvider {...methods}>
-        <Box component="form" onSubmit={handleSubmit(onSubmitHandler)} noValidate autoComplete="off" className="w-full">
-          {/* // i8nk */}
+        <Box component="form" onSubmit={handleSubmit(onSubmitHandler)} noValidate autoComplete="off">
           <Box className="flex items-center mb-5">
             <Text type="menuItem" className="opacity-50">
               {t('admin:visits.title')}
@@ -282,12 +305,21 @@ export function EditVisit({ visit }: EditVisitProps) {
               {date}
             </Text>
           </Box>
-          {/* // i18n */}
-          <Title type="section" className="self-center mb-1" label={t('admin:visits.visitInformation')} />
-          {/* i18n */}
-          <Text type="menuItem" className="mb-2">
-            {t('admin:visits.questionnaire')} 1.0.0
-          </Text>
+
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box className="grow">
+              <Title type="section" className="mb-1" label={t('admin:visits.visitInformation')} />
+              <Text type="menuItem" className="mb-2">
+                {t('admin:visits.questionnaire')} 1.0.0
+              </Text>
+            </Box>
+
+            <Box>
+              <LoadingButton onClick={handleDownload} loading={downloadCsv.isLoading}>
+                {t('admin:visits.exportData')}
+              </LoadingButton>
+            </Box>
+          </Box>
 
           <HouseStatusBanner color={status} />
 

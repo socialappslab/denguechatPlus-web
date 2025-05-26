@@ -1,6 +1,16 @@
 {
   "generic": "Something went wrong",
   "genericField": "Verify the field",
+  "login": {
+    "suggestFirstLastName": "Invalid credentials. Try with your first and last name as username. Example: juanperez",
+    "suggestFirstLastNameYear": "Invalid credentials. Try with your first name, last name and year of birth as username. Example: juanperez1990",
+    "suggestFirstLastNameYearMonth": "Invalid credentials. Try with your first name, last name, year and month of birth as username. Example: juanperez199004"
+  },
+  "register": {
+    "suggestFirstLastName": "The user '{{field}}' is already in use. Try with using your first and last name. Example: juanperez",
+    "suggestFirstLastNameYear": "The user '{{field}}' is already in use. Try with using your first name, last name and year of birth. Example: juanperez1990",
+    "suggestFirstLastNameYearMonth": "The user '{{field}}' is already in use. Try with using your first name, last name, year and month of birth. Example: juanperez199004"
+  },
   "1000": "Malformed request",
   "1": "Does not meet the minimum character requirement",
   "2": "The field cannot be empty",
