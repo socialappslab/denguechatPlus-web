@@ -159,7 +159,7 @@ export function EditVisit({ visit }: EditVisitProps) {
   const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
 
   const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: `/users?filter[roles][name]=brigadista&filter[team_id]=${(visit.team as BaseEntity)?.id}`,
+    url: `/users?page[number]=1&page[size]=100&filter[roles][name]=brigadista&filter[team_id]=${(visit.team as BaseEntity)?.id}`,
   });
 
   useEffect(() => {
