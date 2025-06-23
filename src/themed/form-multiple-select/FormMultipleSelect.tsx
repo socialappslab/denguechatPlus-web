@@ -20,6 +20,7 @@ export type FormMultipleSelectProps = {
   className?: string;
   options: FormSelectOption[] | string[];
   renderOption?: (option: FormSelectOption) => string;
+  disabled?: boolean;
 };
 
 const defaultRenderOption = (option: FormSelectOption) => option.label;
@@ -41,6 +42,7 @@ export function FormMultipleSelect({
   filterSelectedOptions = true,
   renderOption = defaultRenderOption,
   options,
+  disabled = false,
 }: FormMultipleSelectProps) {
   const {
     control,
@@ -100,6 +102,7 @@ export function FormMultipleSelect({
                   }
                 : undefined
             }
+            disabled={disabled}
             renderInput={(params) => (
               <TextField
                 placeholder={placeholder}

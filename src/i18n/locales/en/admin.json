@@ -82,6 +82,7 @@
       "notes": "Visit Notes",
       "visitStart": "Visit Start Location",
       "visitPermission": "Permission to start the visit",
+      "familyEducationTopics": "What information did you provide to the family?",
       "containerType": "Container type:",
       "actionsPerfomed": "Actions performed on the container",
       "columns": {

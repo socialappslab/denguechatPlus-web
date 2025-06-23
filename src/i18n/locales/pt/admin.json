@@ -81,6 +81,7 @@
       "notes": "Notas da visita",
       "visitStart": "Local de início da visita",
       "visitPermission": "Permissão para iniciar a visita",
+      "familyEducationTopics": "Que informação você forneceu à família?",
       "containerType": "Tipo de contêiner:",
       "actionsPerfomed": "Ações executadas no contêiner",
       "columns": {
