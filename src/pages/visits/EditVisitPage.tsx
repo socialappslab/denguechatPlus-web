@@ -186,6 +186,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       visitStartPlace: 'Huerta/Casa',
       visitPermission: visit.visitPermission ? 'Sí' : 'No',
       household: visit?.host?.map((i) => ({ label: i, value: i })) || [],
+      familyEducationTopics: visit.familyEducationTopics.map((i) => ({ label: i, value: i })) || [],
       notes: visit.notes,
     },
   });
@@ -368,6 +369,18 @@ export function EditVisit({ visit }: EditVisitProps) {
                   label: t(`questionnaire:host.${i}`),
                   value: t(`questionnaire:host.${i}`),
                 }))}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormMultipleSelect
+                className="mt-2 h-full"
+                name="familyEducationTopics"
+                label={t('admin:visits.inspection.familyEducationTopics')}
+                options={visit.familyEducationTopics.map((i) => ({
+                  label: i,
+                  value: i,
+                }))}
+                disabled
               />
             </Grid>
             <Grid item xs={12} sm={6}>

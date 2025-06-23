@@ -81,6 +81,7 @@
       "notes": "Notas de la visita",
       "visitStart": "Lugar de inicio de la visita",
       "visitPermission": "Permiso para iniciar la visita",
+      "familyEducationTopics": "¿Qué información proporcionó a la familia?",
       "containerType": "Recipiente/envase tipo:",
       "actionsPerfomed": "Acciones realizadas sobre el recipiente/envase",
       "columns": {
