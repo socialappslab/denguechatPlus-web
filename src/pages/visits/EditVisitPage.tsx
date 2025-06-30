@@ -192,7 +192,7 @@ export function EditVisit({ visit }: EditVisitProps) {
           label: i.name,
           value: i.name,
         })),
-      notes: visit.notes,
+      notes: visit.notes ?? "",
     },
   });
 
