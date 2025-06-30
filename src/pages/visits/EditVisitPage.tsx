@@ -77,11 +77,6 @@ const headCells: HeadCell<Inspection>[] = [
   {
     id: 'hasWater',
     label: 'hasWater',
-    render: (row) => {
-      // i18n
-      const answer = row.hasWater ? 'Sí' : 'No';
-      return <p>{answer}</p>;
-    },
   },
   {
     id: 'typeContents',
@@ -375,6 +370,12 @@ export function EditVisit({ visit }: EditVisitProps) {
                   label: t(`questionnaire:host.${i}`),
                   value: t(`questionnaire:host.${i}`),
                 }))}
+                defaultValue={(visit.familyEducationTopics || [])
+                  .filter((i) => i.checked)
+                  .map((i) => ({
+                    label: i.name,
+                    value: i.name,
+                  }))}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
