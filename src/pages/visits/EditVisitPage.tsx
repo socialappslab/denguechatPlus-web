@@ -186,7 +186,12 @@ export function EditVisit({ visit }: EditVisitProps) {
       visitStartPlace: 'Huerta/Casa',
       visitPermission: visit.visitPermission ? 'Sí' : 'No',
       household: visit?.host?.map((i) => ({ label: i, value: i })) || [],
-      familyEducationTopics: visit.familyEducationTopics.map((i) => ({ label: i, value: i })) || [],
+      familyEducationTopics: (visit.familyEducationTopics || [])
+        .filter((i) => i.checked)
+        .map((i) => ({
+          label: i.name,
+          value: i.name,
+        })),
       notes: visit.notes,
     },
   });
@@ -208,6 +213,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       notes: values.notes,
       user_account_id: values.brigadist,
       visited_at: values.date,
+      family_education_topics: values.familyEducationTopics.map((i) => i.value)
     };
   };
 
@@ -376,11 +382,10 @@ export function EditVisit({ visit }: EditVisitProps) {
                 className="mt-2 h-full"
                 name="familyEducationTopics"
                 label={t('admin:visits.inspection.familyEducationTopics')}
-                options={visit.familyEducationTopics.map((i) => ({
-                  label: i,
-                  value: i,
+                options={(visit.familyEducationTopics || []).map((i) => ({
+                  label: i.name,
+                  value: i.name,
                 }))}
-                disabled
               />
             </Grid>
             <Grid item xs={12} sm={6}>

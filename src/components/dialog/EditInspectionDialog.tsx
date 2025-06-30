@@ -41,6 +41,7 @@ const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
     water_source_other: containsOtherOption(values.waterSourceTypes, OtherIds.waterSourceType)
       ? values.waterSourceOther
       : '',
+    family_education_topics: values.familyEducationTopics.map((i) => i.value),
     container_protection_ids: values.containerProtections.map((i) => i.value),
     elimination_method_type_id: values.eliminationMethodType,
     water_source_type_ids: values.waterSourceTypes.map((i) => i.value),
