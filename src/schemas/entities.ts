@@ -32,13 +32,13 @@ export interface Visit extends BaseEntity {
   notes: string;
   answers: Array<Record<string, string>>;
   host: string[];
-  familyEducationTopics: string[];
+  familyEducationTopics: Record<string, string>[];
 }
 
 export interface InspectionSelectable {
   breadingSiteType: string;
   waterSourceTypes: Record<string, string>[];
-  wasChemicallyTreated: string;
+  wasChemicallyTreated: Record<string, string>[];
   typeContents: Record<string, string>[];
   containerProtections: Record<string, string>[];
   eliminationMethodType: string;

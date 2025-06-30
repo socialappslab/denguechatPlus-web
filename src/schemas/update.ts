@@ -61,6 +61,7 @@ export const updateVisitSchema = () => {
     visitStartPlace: requiredString,
     visitPermission: requiredString,
     household: array(object({ value: string(), label: string() })),
+    familyEducationTopics: array(object({ value: string(), label: string() })),
     notes: requiredString,
     date: requiredString,
   });
@@ -76,6 +77,7 @@ export interface UpdateVisit {
   host: string[];
   notes: string;
   answers?: Record<string, string>[];
+  family_education_topics?: string[];
 }
 
 // update inspection
