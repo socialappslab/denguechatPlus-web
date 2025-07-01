@@ -41,7 +41,7 @@ export interface InspectionSelectable {
   wasChemicallyTreated: Record<string, string>[];
   typeContents: Record<string, string>[];
   containerProtections: Record<string, string>[];
-  eliminationMethodType: string;
+  eliminationMethodTypes: Record<string, string>[];
 }
 
 export interface Inspection extends InspectionSelectable {

@@ -32,8 +32,9 @@ const containsOtherOption = (options: Record<string, string>[], otherId: (typeof
 const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
   return {
     breeding_site_type_id: values.breadingSiteType,
-    other_elimination_method:
-      values.eliminationMethodType === OtherIds.eliminationMethodType ? values.eliminationMethodTypeOther : '',
+    other_elimination_method: containsOtherOption(values.eliminationMethodTypes, OtherIds.eliminationMethodType)
+      ? values.eliminationMethodTypeOther
+      : '',
     other_protection: containsOtherOption(values.containerProtections, OtherIds.containerProtection)
       ? values.containerProtectionOther
       : '',
@@ -42,7 +43,7 @@ const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
       ? values.waterSourceOther
       : '',
     container_protection_ids: values.containerProtections.map((i) => i.value),
-    elimination_method_type_id: values.eliminationMethodType,
+    elimination_method_type_ids: values.eliminationMethodTypes.map((i) => Number(i.value)),
     water_source_type_ids: values.waterSourceTypes.map((i) => i.value),
     type_content_ids: values.typeContents.map((i) => i.value),
   };
@@ -80,7 +81,7 @@ const EditInspectionDialog = ({
   const defaultValues = {
     breadingSiteType: extractIdFromInspections(inspectionData?.breadingSiteType) || '',
     containerProtections: extractIdsFromInspections(inspectionData?.containerProtections) || '',
-    eliminationMethodType: extractIdFromInspections(inspectionData?.eliminationMethodType) || '',
+    eliminationMethodTypes: extractIdsFromInspections(inspectionData?.eliminationMethodTypes) || '',
     typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
     wasChemicallyTreated: extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
     waterSourceTypes: extractIdsFromInspections(inspectionData?.waterSourceTypes) || '',
@@ -147,6 +148,10 @@ const EditInspectionDialog = ({
     OtherIds.containerProtection,
   );
   const waterSourceTypesContainsOtherOption = containsOtherOption(watch('waterSourceTypes'), OtherIds.waterSourceType);
+  const eliminationMethodTypesContainsOtherOption = containsOtherOption(
+    watch('eliminationMethodTypes'),
+    OtherIds.eliminationMethodType,
+  );
 
   return (
     <div className="flex flex-col py-6 px-2">
@@ -241,18 +246,18 @@ const EditInspectionDialog = ({
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <FormSelect
+              <FormMultipleSelect
                 className="mt-2"
-                name="eliminationMethodType"
+                name="eliminationMethodTypes"
                 label={t('admin:visits.inspection.columns.eliminationMethodType')}
-                options={optionsData.eliminationMethodType}
+                options={optionsData.eliminationMethodTypes}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInput
                 className="mt-2"
                 name="eliminationMethodTypeOther"
-                disabled={methods.watch('eliminationMethodType') !== OtherIds.eliminationMethodType}
+                disabled={!eliminationMethodTypesContainsOtherOption}
                 label={t('admin:visits.inspection.columns.eliminationMethodTypeOther')}
                 type="text"
               />
@@ -280,7 +285,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
   const [optionsData, setOptionsData] = useState<InspectionFormOptions>({
     breadingSiteType: [{ value: '', label: '' }],
     containerProtections: [{ value: '', label: '' }],
-    eliminationMethodType: [{ value: '', label: '' }],
+    eliminationMethodTypes: [{ value: '', label: '' }],
     typeContents: [{ value: '', label: '' }],
     wasChemicallyTreated: [{ value: '', label: '' }],
     waterSourceTypes: [{ value: '', label: '' }],
@@ -305,13 +310,10 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
         console.log('deserializedData load user', deserializedData);
       }
 
-      // TODO: little fix for the discrepancy between the API keys
-      deserializedData.waterSourceTypes = deserializedData.waterSourceType;
-
       const optionsDataTemp: InspectionFormOptions = {
         breadingSiteType: convertToFormSelectOptions(deserializedData.breadingSiteType),
         containerProtections: convertToFormSelectOptions(deserializedData.containerProtections),
-        eliminationMethodType: convertToFormSelectOptions(deserializedData.eliminationMethodType),
+        eliminationMethodTypes: convertToFormSelectOptions(deserializedData.eliminationMethodTypes),
         typeContents: convertToFormSelectOptions(deserializedData.typeContents),
         wasChemicallyTreated: convertToFormSelectOptions(
           deserializedData.wasChemicallyTreated,

@@ -90,7 +90,7 @@ export const updateInspectionSchema = () => {
     containerProtectionOther: string(),
     containerProtection: string().min(1, '*'),
     typeContents: array(object({ value: string(), label: string() })),
-    eliminationMethodType: string().min(1, '*'),
+    eliminationMethodTypes: string().min(1, '*'),
     waterSourceType: string().min(1, '*'),
     waterSourceOther: string(),
     wasChemicallyTreated: string().min(1, '*'),
@@ -109,7 +109,7 @@ export interface UpdateInspection {
   was_chemically_treated: string;
   water_source_other: string;
   container_protection_ids: string[];
-  elimination_method_type_id: string;
+  elimination_method_type_ids: number[];
   water_source_type_ids: string[];
   type_content_ids: string[];
 }
