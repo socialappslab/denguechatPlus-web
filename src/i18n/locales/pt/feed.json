@@ -11,10 +11,10 @@
   "sitesReport": {
     "title": "Locais",
     "shortTitle": "Locais Tariki",
-    "quantity": "Quantidade de contêineres verdes",
-    "containers": "contêineres/embalagens",
+    "quantity": "Quantidade de recipientes verdes",
+    "containers": "recipientes",
     "tarikiSiteInfo": "Um site Tariki é aquele que foi um site verde por pelo menos quatro visitas consecutivas",
-    "greenContainersInfo": "Estado dos contêineres verdes, até a data de término do último mês (dados mensais)",
+    "greenContainersInfo": "Estado dos recipientes verdes, até a data de término do último mês (dados mensais)",
     "description": "de",
     "sites": "locais"
   },
