@@ -59,7 +59,7 @@
     "title": "Visitas",
     "visitInformation": "Información de la visita",
     "questionnaire": "Cuestionario",
-    "inspectionData": "Datos del recipiente/envase",
+    "inspectionData": "Datos del envase",
     "exportData": "Exportar Datos",
     "water": {
       "true": "Sí",
@@ -82,15 +82,15 @@
       "visitStart": "Lugar de inicio de la visita",
       "visitPermission": "Permiso para iniciar la visita",
       "familyEducationTopics": "¿Qué información proporcionó a la familia?",
-      "containerType": "Recipiente/envase tipo:",
-      "actionsPerfomed": "Acciones realizadas sobre el recipiente/envase",
+      "containerType": "Envase tipo:",
+      "actionsPerfomed": "Acciones realizadas sobre el envase",
       "columns": {
-        "breadingSiteType": "Tipo de recipiente/envase",
-        "eliminationMethodType": "Tipo de eliminación de recipiente/envase",
-        "typeContents": "En este recipiente/envase hay",
-        "status": "Estado del recipiente/envase",
+        "breadingSiteType": "Tipo de envase",
+        "eliminationMethodType": "Tipo de eliminación de envase",
+        "typeContents": "En este envase hay",
+        "status": "Estado del envase",
         "waterSourceType": "Origen del agua",
-        "hasWater": "Agua en el recipiente/envase",
+        "hasWater": "Agua en el envase",
         "waterSourceTypeOther": "Otro origen del agua",
         "containerProtection": "Tipo de protección",
         "containerProtectionOther": "Otro tipo de protección",
@@ -98,7 +98,7 @@
         "eliminationMethodTypeOther": "Otro tipo de eliminación"
       },
       "edit": {
-        "success": "Recipiente/envase actualizado con éxito"
+        "success": "Envase actualizado con éxito"
       }
     }
   },

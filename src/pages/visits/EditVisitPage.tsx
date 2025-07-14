@@ -77,11 +77,6 @@ const headCells: HeadCell<Inspection>[] = [
   {
     id: 'hasWater',
     label: 'hasWater',
-    render: (row) => {
-      // i18n
-      const answer = row.hasWater ? 'Sí' : 'No';
-      return <p>{answer}</p>;
-    },
   },
   {
     id: 'typeContents',
@@ -186,8 +181,13 @@ export function EditVisit({ visit }: EditVisitProps) {
       visitStartPlace: 'Huerta/Casa',
       visitPermission: visit.visitPermission ? 'Sí' : 'No',
       household: visit?.host?.map((i) => ({ label: i, value: i })) || [],
-      familyEducationTopics: visit.familyEducationTopics.map((i) => ({ label: i, value: i })) || [],
-      notes: visit.notes,
+      familyEducationTopics: (visit.familyEducationTopics || [])
+        .filter((i) => i.checked)
+        .map((i) => ({
+          label: i.name,
+          value: i.name,
+        })),
+      notes: visit.notes ?? "",
     },
   });
 
@@ -208,6 +208,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       notes: values.notes,
       user_account_id: values.brigadist,
       visited_at: values.date,
+      family_education_topics: values.familyEducationTopics.map((i) => i.value)
     };
   };
 
@@ -369,6 +370,12 @@ export function EditVisit({ visit }: EditVisitProps) {
                   label: t(`questionnaire:host.${i}`),
                   value: t(`questionnaire:host.${i}`),
                 }))}
+                defaultValue={(visit.familyEducationTopics || [])
+                  .filter((i) => i.checked)
+                  .map((i) => ({
+                    label: i.name,
+                    value: i.name,
+                  }))}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -376,11 +383,10 @@ export function EditVisit({ visit }: EditVisitProps) {
                 className="mt-2 h-full"
                 name="familyEducationTopics"
                 label={t('admin:visits.inspection.familyEducationTopics')}
-                options={visit.familyEducationTopics.map((i) => ({
-                  label: i,
-                  value: i,
+                options={(visit.familyEducationTopics || []).map((i) => ({
+                  label: i.name,
+                  value: i.name,
                 }))}
-                disabled
               />
             </Grid>
             <Grid item xs={12} sm={6}>

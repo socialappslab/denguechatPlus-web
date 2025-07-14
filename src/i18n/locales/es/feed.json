@@ -3,7 +3,7 @@
     "title": "Datos Estadísticos",
     "riskChart": {
       "title": "Cambio en Riesgo en Tu Comunidad de Dengue",
-      "description": "DengueChatPlus enfoca sus acciones en la identificación y eliminación de recipientes/envases  de almacenamiento de agua como también de barriles y sumideros. Un lugar puede ser contado doble si tiene criaderos positivos y también potenciales."
+      "description": "DengueChatPlus enfoca sus acciones en la identificación y eliminación de envases de almacenamiento de agua como también de barriles y sumideros. Un lugar puede ser contado doble si tiene criaderos positivos y también potenciales."
     },
     "postAndComments": "Posts y Comentarios"
   },
@@ -11,10 +11,10 @@
   "sitesReport": {
     "title": "Total de sitios Tariki en el sector",
     "shortTitle": "Sitios Tariki",
-    "quantity": "Cantidad de recipientes/envases verdes en el mes",
-    "containers": "recipientes/envases",
+    "quantity": "Cantidad de envases verdes en el mes",
+    "containers": "envases",
     "tarikiSiteInfo": "Un sitio Tariki es aquel que ha sido un sitio verde por lo menos durante cuatro visitas consecutivas",
-    "greenContainersInfo": "Estado de recipientes/envases verdes, hasta la fecha del fin del último mes (dato mensual)",
+    "greenContainersInfo": "Estado de envases verdes, hasta la fecha del fin del último mes (dato mensual)",
     "description": "de",
     "sites": "sitios"
   },
