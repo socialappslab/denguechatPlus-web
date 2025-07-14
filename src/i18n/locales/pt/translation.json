@@ -98,10 +98,10 @@
     "visitedAt": "Visitado em",
     "team": "Brigada",
     "house": "Local",
-    "breedingSiteType": "Tipo de Contêiner",
-    "hasWater": "Água no Contêiner",
+    "breedingSiteType": "Tipo de recipiente",
+    "hasWater": "Água no recipiente",
     "typeContents": "O que contém?",
-    "containerStatus": "Estado do contêiner",
+    "containerStatus": "Estado do recipiente",
     "rol": "Papel",
     "house_block": "Bloco da Casa"
   },
