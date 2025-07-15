@@ -87,7 +87,6 @@ const EditInspectionDialog = ({
     waterSourceTypes: extractIdsFromInspections(inspectionData?.waterSourceTypes) || '',
     containerProtectionOther: inspectionData?.containerProtectionOther,
     eliminationMethodTypeOther: inspectionData?.eliminationMethodTypeOther,
-    hasWater: t(`admin:visits.water.${inspection?.hasWater}`),
     status: t(`admin:visits.status.${inspection?.status}`),
     waterSourceOther: inspectionData?.waterSourceOther,
   };
@@ -169,21 +168,12 @@ const EditInspectionDialog = ({
             label={t('admin:visits.inspection.containerType')}
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <FormSelect
                 className="mt-2"
                 name="breadingSiteType"
                 label={t('admin:visits.inspection.columns.breadingSiteType')}
                 options={optionsData.breadingSiteType}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormInput
-                className="mt-2"
-                name="hasWater"
-                label={t('admin:visits.inspection.columns.hasWater')}
-                type="text"
-                disabled
               />
             </Grid>
             <Grid item xs={12} sm={6}>
