@@ -102,8 +102,6 @@ export type UpdateInspectionInputType = TypeOf<typeof updateInspectionSchemaForT
 
 export interface UpdateInspection {
   breeding_site_type_id: string;
-  // lid_type: string;
-  // lid_type_other: string;
   other_elimination_method: string;
   other_protection: string;
   was_chemically_treated: string;

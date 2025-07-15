@@ -187,7 +187,7 @@ export function EditVisit({ visit }: EditVisitProps) {
           label: i.name,
           value: i.name,
         })),
-      notes: visit.notes ?? "",
+      notes: visit.notes ?? '',
     },
   });
 
@@ -208,7 +208,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       notes: values.notes,
       user_account_id: values.brigadist,
       visited_at: values.date,
-      family_education_topics: values.familyEducationTopics.map((i) => i.value)
+      family_education_topics: values.familyEducationTopics.map((i) => i.value),
     };
   };
 
