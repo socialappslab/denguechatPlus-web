@@ -33,6 +33,7 @@ export interface Visit extends BaseEntity {
   answers: Array<Record<string, string>>;
   host: string[];
   familyEducationTopics: Record<string, string>[];
+  otherFamilyEducationTopic: string | null;
 }
 
 export interface InspectionSelectable {

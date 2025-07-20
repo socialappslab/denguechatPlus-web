@@ -187,15 +187,12 @@ export function EditVisit({ visit }: EditVisitProps) {
           label: i.name,
           value: i.name,
         })),
+      otherFamilyEducationTopic: visit.otherFamilyEducationTopic ?? '',
       notes: visit.notes ?? '',
     },
   });
 
   const { handleSubmit, watch, setError } = methods;
-
-  const onGoBackHandler = () => {
-    navigate('/visits');
-  };
 
   const { udpateMutation: updateVisitMutation } = useUpdateMutation<UpdateVisit, Visit>(`visits/${visit?.id}`);
 
@@ -209,6 +206,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       user_account_id: values.brigadist,
       visited_at: values.date,
       family_education_topics: values.familyEducationTopics.map((i) => i.value),
+      other_family_education_topic: values.otherFamilyEducationTopic,
     };
   };
 
@@ -222,7 +220,7 @@ export function EditVisit({ visit }: EditVisitProps) {
         variant: 'success',
       });
 
-      onGoBackHandler();
+      navigate('/visits');
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
@@ -283,6 +281,13 @@ export function EditVisit({ visit }: EditVisitProps) {
       });
     }
   };
+
+  const familyEducationTopicsContainsOtherOption = watch('familyEducationTopics').some(
+    (option) =>
+      option.value === 'Otro tema importante' ||
+      option.value === 'Another important topic' ||
+      option.value === 'Outro tópico importante',
+  );
 
   return (
     <Container
@@ -379,6 +384,15 @@ export function EditVisit({ visit }: EditVisitProps) {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <FormInput
+                className="mt-2 h-full"
+                disabled
+                name="visitStartPlace"
+                label={t('admin:visits.inspection.visitStart')}
+                type="text"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <FormMultipleSelect
                 className="mt-2 h-full"
                 name="familyEducationTopics"
@@ -390,16 +404,16 @@ export function EditVisit({ visit }: EditVisitProps) {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormInput className="mt-2 h-full" name="notes" label={t('admin:visits.inspection.notes')} type="text" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
               <FormInput
-                className="mt-2 h-full"
-                disabled
-                name="visitStartPlace"
-                label={t('admin:visits.inspection.visitStart')}
+                className="mt-2"
+                name="otherFamilyEducationTopic"
+                disabled={!familyEducationTopicsContainsOtherOption}
+                label={t('admin:visits.inspection.otherFamilyEducationTopic')}
                 type="text"
               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormInput className="mt-2 h-full" name="notes" label={t('admin:visits.inspection.notes')} type="text" />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInput
