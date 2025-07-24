@@ -1,5 +1,6 @@
 import admin from '../i18n/locales/en/admin.json';
 import auth from '../i18n/locales/en/auth.json';
+import common from '../i18n/locales/en/common.json';
 import errorCodes from '../i18n/locales/en/errorCodes.json';
 import feed from '../i18n/locales/en/feed.json';
 import permissions from '../i18n/locales/en/permissions.json';
@@ -12,6 +13,7 @@ import validation from '../i18n/locales/en/validation.json';
 const resources = {
   admin,
   auth,
+  common,
   errorCodes,
   feed,
   permissions,

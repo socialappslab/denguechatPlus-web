@@ -1,23 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Chip, Container, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 
 import useAxios from 'axios-hooks';
-import { ExistingDocumentObject, deserialize } from 'jsonapi-fractal';
+import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import useUpdateUser from '@/hooks/useUpdateUser';
 import { BaseObject, City, ErrorResponse, FormSelectOption, Neighborhood } from '@/schemas';
 import { IUser, UpdateUserInputType, UpdateUserSchema, UserUpdate } from '@/schemas/auth';
-import { HouseBlock, Team } from '@/schemas/entities';
+import { HouseBlock, HouseBlockType, Team } from '@/schemas/entities';
 import { Button } from '@/themed/button/Button';
 import { FormInput } from '@/themed/form-input/FormInput';
 import FormSelect from '@/themed/form-select/FormSelect';
 import { Title } from '@/themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData, setPhone } from '@/util';
+import useHouseBlockTypeToLabel from '@/hooks/useHouseBlockTypeToLabel';
 
 export interface EditUserProps {
   user: IUser;
@@ -28,11 +29,13 @@ export function EditUser({ user }: EditUserProps) {
 
   const { udpateUserMutation, loading } = useUpdateUser(user.id);
   const { enqueueSnackbar } = useSnackbar();
+  const { getHouseBlockTypeLabel } = useHouseBlockTypeToLabel();
+
   const [neighborhoodOptions, setNeighborhoodOptions] = useState<FormSelectOption[]>([]);
   const [cityOptions, setCityOptions] = useState<FormSelectOption[]>([]);
   const [organizationOptions, setOrganizationOptions] = useState<FormSelectOption[]>([]);
   const [teamOptions, setTeamOptions] = useState<FormSelectOption[]>([]);
-  const [houseBlockOptions, setHouseBlockOptions] = useState<FormSelectOption[]>([]);
+  const [houseBlockOptions, setHouseBlockOptions] = useState<(FormSelectOption & { type: HouseBlockType })[]>([]);
 
   const methods = useForm<UpdateUserInputType>({
     resolver: zodResolver(UpdateUserSchema),
@@ -159,7 +162,11 @@ export function EditUser({ user }: EditUserProps) {
     if (!houseBlocksData) return;
     const deserializedData = deserialize<HouseBlock>(houseBlocksData);
     if (Array.isArray(deserializedData)) {
-      const houseBlocks = convertToFormSelectOptions(deserializedData);
+      const houseBlocks = deserializedData.map((houseBlock) => ({
+        label: houseBlock.name.trim(),
+        value: houseBlock.id.toString(),
+        type: houseBlock.type,
+      }));
       setHouseBlockOptions(houseBlocks);
     }
   }, [houseBlocksData]);
@@ -351,13 +358,27 @@ export function EditUser({ user }: EditUserProps) {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormSelect
+              <Controller
                 name="houseBlock"
-                className="mt-2"
-                label={t('houseBlock')}
-                options={houseBlockOptions}
-                loading={loadingHouseBlocks}
-                placeholder={t('edit.house_block_placeholder')}
+                render={({ field }) => (
+                  <FormControl fullWidth sx={{ marginTop: 1 }}>
+                    <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
+                    <Select {...field} placeholder={t('edit.house_block_placeholder')}>
+                      {houseBlockOptions.map((houseBlock) => (
+                        <MenuItem key={houseBlock.value} value={houseBlock.value}>
+                          {houseBlock.label}
+                          <Chip
+                            label={getHouseBlockTypeLabel(houseBlock.type)}
+                            sx={{ marginLeft: 1 }}
+                            color="primary"
+                            variant="outlined"
+                            size="small"
+                          />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
               />
             </Grid>
           </Grid>
