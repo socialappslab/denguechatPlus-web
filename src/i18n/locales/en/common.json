@@ -1,3 +1,5 @@
 {
-  "block": "Block"
+  "block": "Block",
+  "houseGroup_one": "House group",
+  "houseGroup_other": "House groups"
 }

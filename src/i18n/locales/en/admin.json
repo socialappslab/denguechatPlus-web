@@ -105,8 +105,8 @@
     }
   },
   "house_block": {
-    "create_house_block": "Create frente a frente",
-    "edit_house_block": "Edit frente a frente",
+    "create_house_block": "Create $t(common:houseGroup_one)",
+    "edit_house_block": "Edit $t(common:houseGroup_one)",
     "form": {
       "name": "Name",
       "name_placeholder": "Enter a name",
@@ -114,7 +114,7 @@
       "sites_placeholder": "Select Sites"
     },
     "edit": {
-      "success": "Frente a frente updated successfully"
+      "success": "$t(common:houseGroup_one) updated successfully"
     }
   }
 }

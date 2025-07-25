@@ -1,3 +1,5 @@
 {
-  "block": "Manzana"
+  "block": "Manzana",
+  "houseGroup_one": "Grupo de casa",
+  "houseGroup_other": "Grupo de casas"
 }
