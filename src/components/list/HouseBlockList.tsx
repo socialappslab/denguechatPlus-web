@@ -6,11 +6,13 @@ import { HouseBlock } from '../../schemas/entities';
 import { HeadCell } from '../../themed/table/DataTable';
 import { EditHouseBlockDialog } from '../dialog/EditHouseBlockDialog';
 import FilteredDataTable from './FilteredDataTable';
+import useHouseBlockTypeToLabel from '@/hooks/useHouseBlockTypeToLabel';
 
 const HouseBlockDataTable = FilteredDataTable<HouseBlock>;
 
 export default function HouseBlockList() {
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation(['translation', 'common']);
+  const { getHouseBlockTypeLabel } = useHouseBlockTypeToLabel();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedHouseBlock, setSelectedHouseBlock] = useState<HouseBlock | null>(null);
   const [updateControl, setUpdateControl] = useState(0);
@@ -26,7 +28,7 @@ export default function HouseBlockList() {
       label: 'house_block',
       render: (row) => (
         <p>
-          {t('columns.house_block')} {row.name}
+          {getHouseBlockTypeLabel(row.type)} {row.name}
         </p>
       ),
       filterable: true,
