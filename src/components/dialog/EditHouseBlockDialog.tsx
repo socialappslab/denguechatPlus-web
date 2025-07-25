@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, TextField } from '@mui/material';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,7 @@ import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '../../util';
+import useHouseBlockTypeToLabel from '@/hooks/useHouseBlockTypeToLabel';
 
 export interface EditUserProps {
   user: IUser;
@@ -30,7 +31,7 @@ interface EditHouseBlockDialogProps {
 }
 
 export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: EditHouseBlockDialogProps) {
-  const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin']);
+  const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin', 'common']);
   const { udpateMutation: updateRoleMutation } = useUpdateMutation<UpdateHouseBlock, HouseBlock>(
     `house_blocks/${houseBlock?.id}`,
   );
@@ -38,6 +39,7 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
   const [sitesOptions, setSitesOptions] = useState<FormSelectOption[]>([]);
 
   const { enqueueSnackbar } = useSnackbar();
+  const { getHouseBlockTypeLabel } = useHouseBlockTypeToLabel();
 
   const [{ data, loading }] = useAxios({
     url: `/houses/orphan_houses`,
@@ -54,8 +56,8 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
 
   const methods = useForm<UpdateHouseBlockInputType>({
     defaultValues: {
-      houseIds: houseBlock?.houses.map((house) => ({ value: String(house.id), label: house.reference_code })),
       name: houseBlock?.name,
+      houseIds: houseBlock?.houses.map((house) => ({ value: String(house.id), label: house.reference_code })),
     },
   });
 
@@ -122,24 +124,35 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
           autoComplete="off"
           className="w-full p-8"
         >
-          <Title type="section" className="self-center mb-8i w-full" label={t('admin:house_block.edit_house_block')} />
+          <Title type="section" className="self-center w-full" label={t('admin:house_block.edit_house_block')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12}>
               <FormInput
                 className="mt-2"
                 name="name"
                 label={t('admin:house_block.form.name')}
                 type="text"
                 placeholder={t('admin:house_block.form.name_placeholder')}
+                disabled
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12}>
+              <TextField
+                label="Type"
+                // @ts-expect-error I think here houseBlock will always be defined but didn't check to fix the types
+                value={getHouseBlockTypeLabel(houseBlock?.type)}
+                disabled
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
               <FormMultipleSelect
                 name="houseIds"
                 loading={loading}
                 label={t('admin:house_block.form.sites')}
                 placeholder={t('admin:house_block.form.sites_placeholder')}
                 options={sitesOptions}
+                className="mt-4"
               />
             </Grid>
           </Grid>
