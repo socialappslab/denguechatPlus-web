@@ -110,6 +110,7 @@
     "form": {
       "name": "Nombre",
       "name_placeholder": "Ingrese un nombre",
+      "type": "Tipo",
       "sites": "Sitios",
       "sites_placeholder": "Seleccione sitios"
     },

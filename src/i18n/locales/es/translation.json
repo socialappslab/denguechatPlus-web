@@ -106,6 +106,7 @@
     "typeContents": "Qué contiene?",
     "containerStatus": "Estado del envase",
     "role": "Rol",
+    "type": "Tipo",
     "house_block": "$t(common:houseGroup_one)"
   },
   "options": {

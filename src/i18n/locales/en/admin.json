@@ -110,6 +110,7 @@
     "form": {
       "name": "Name",
       "name_placeholder": "Enter a name",
+      "type": "Type",
       "sites": "Sites",
       "sites_placeholder": "Select Sites"
     },

@@ -1,4 +1,4 @@
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ import { deserialize } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
 import { FormSelectOption } from '@/schemas';
-import { HouseBlock } from '@/schemas/entities';
+import { HouseBlock, HouseBlockType } from '@/schemas/entities';
 import { UpdateHouseBlock, UpdateHouseBlockInputType } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import { IUser } from '../../schemas/auth';
@@ -19,6 +19,7 @@ import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '../../util';
 import useHouseBlockTypeToLabel from '@/hooks/useHouseBlockTypeToLabel';
+import FormSelect from '@/themed/form-select/FormSelect';
 
 export interface EditUserProps {
   user: IUser;
@@ -57,24 +58,20 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
   const methods = useForm<UpdateHouseBlockInputType>({
     defaultValues: {
       name: houseBlock?.name,
+      blockType: houseBlock?.type,
       houseIds: houseBlock?.houses.map((house) => ({ value: String(house.id), label: house.reference_code })),
     },
   });
 
-  const {
-    handleSubmit,
-    setError,
-    // setValue,
-    watch,
-    // formState: { isValid, errors },
-  } = methods;
+  const { handleSubmit, setError, watch } = methods;
 
   const onSubmitHandler: SubmitHandler<UpdateHouseBlockInputType> = async (values) => {
     try {
-      const { name, houseIds } = values;
+      const { name, houseIds, blockType } = values;
 
       const payload: UpdateHouseBlock = {
         name,
+        blockType,
         houseIds: houseIds.map((house) => parseInt(house.value, 10)),
       };
       await updateRoleMutation(payload);
@@ -137,12 +134,13 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Type"
-                // @ts-expect-error I think here houseBlock will always be defined but didn't check to fix the types
-                value={getHouseBlockTypeLabel(houseBlock?.type)}
-                disabled
-                fullWidth
+              <FormSelect
+                label={t('admin:house_block.form.type')}
+                name="blockType"
+                options={Object.values(HouseBlockType).map((type) => ({
+                  label: getHouseBlockTypeLabel(type),
+                  value: type,
+                }))}
               />
             </Grid>
             <Grid item xs={12}>
@@ -152,7 +150,6 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
                 label={t('admin:house_block.form.sites')}
                 placeholder={t('admin:house_block.form.sites_placeholder')}
                 options={sitesOptions}
-                className="mt-4"
               />
             </Grid>
           </Grid>

@@ -102,6 +102,7 @@
     "typeContents": "What does it contain?",
     "containerStatus": "Container Status",
     "role": "Role",
+    "type": "Type",
     "house_block": "$t(common:houseGroup_one)"
   },
   "options": {
