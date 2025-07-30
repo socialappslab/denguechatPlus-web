@@ -88,10 +88,21 @@ export interface House extends BaseEntity {
   referenceCode: string;
 }
 
+export enum HouseBlockType {
+  FrenteAFrente = 'frente_a_frente',
+  Block = 'block',
+}
+
 export interface HouseBlock extends BaseEntity {
-  team: string;
-  houses: House[];
+  id: number;
+  name: string;
+  team: string | null;
+  neighborhood: BaseEntity;
   wedge: BaseEntity;
+  inUse: boolean;
+  houses: House[];
+  brigadist: string;
+  type: HouseBlockType;
 }
 
 export interface Post {

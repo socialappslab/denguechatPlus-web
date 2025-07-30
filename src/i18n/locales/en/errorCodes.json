@@ -67,5 +67,6 @@
   "54": "The entered details do not correspond to a registered user",
   "53": "The house not exists, you need to send a house obj with the new house data",
   "55": "The account was temporarily locked. Multiple failed login attempts occurred. Try again later.",
-  "60": "You can only request a password recovery code once per minute. Please try again later."
+  "60": "You can only request a password recovery code once per minute. Please try again later.",
+  "62": "Some of the houses in this list are already assigned to another house group with the same type"
 }

@@ -47,7 +47,7 @@
     "edit": "Edit wedges",
     "update": "Update wedges",
     "destroy": "Delete wedges",
-    "house_blocks": "List house block for wedge"
+    "house_blocks": "List $t(common:houseGroup_one) for wedge"
   },
   "post_comments": {
     "title": "Post / Comments",
@@ -170,13 +170,13 @@
     "update": "Change countries"
   },
   "house_blocks": {
-    "title": "House blocks",
-    "destroy": "Remove house blocks",
-    "update": "Update house block information",
-    "edit": "Edit house blocks",
-    "create": "Creat house blocks",
-    "index": "List house blocks",
-    "show": "Show house blocks"
+    "title": "$t(common:houseGroup_other)",
+    "destroy": "Remove $t(common:houseGroup_other)",
+    "update": "Update $t(common:houseGroup_one) information",
+    "edit": "Edit $t(common:houseGroup_other)",
+    "create": "Create $t(common:houseGroup_other)",
+    "index": "List $t(common:houseGroup_other)",
+    "show": "Show $t(common:houseGroup_other)"
   },
   "inspections": {
     "title": "Inspections",
@@ -213,10 +213,10 @@
     "house_status": "View House status report"
   },
   "update": {
-    "house_blocks": "Update house block"
+    "house_blocks": "Update $t(common:houseGroup_one)"
   },
   "create": {
-    "house_blocks": "Create house block"
+    "house_blocks": "Create $t(common:houseGroup_one)"
   },
   "get_last_params": {
     "title": "Get last pamras",

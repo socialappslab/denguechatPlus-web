@@ -13,8 +13,8 @@ import {
 import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { FormSelectOption } from '../../schemas';
-import { getProperty } from '../../util';
+import { FormSelectOption } from '@/schemas';
+import { getProperty } from '@/util';
 import { FieldErrorType, FormInputError } from '../form-input/FormInputError';
 
 export type FormSelectProps = {
