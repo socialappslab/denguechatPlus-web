@@ -50,7 +50,7 @@ export const passwordConfirmSchema = string().min(1, t('validation:requiredField
 const requiredNameString = string().trim().min(1, t('validation:requiredField.name'));
 const requiredLastNameString = string().trim().min(1, t('validation:requiredField.lastName'));
 const requiredCity = string().min(1, t('validation:requiredField.city'));
-const requiredHouseBlock = string().min(1, t('validation:requiredField.city'));
+const requiredHouseBlock = string().min(1, t('validation:requiredField.houseBlock'));
 const requiredNeighborhood = string().min(1, t('validation:requiredField.neighborhood'));
 const requiredOrganization = string().min(1, t('validation:requiredField.organization'));
 

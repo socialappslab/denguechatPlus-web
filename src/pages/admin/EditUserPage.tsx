@@ -19,6 +19,7 @@ import FormSelect from '@/themed/form-select/FormSelect';
 import { Title } from '@/themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData, setPhone } from '@/util';
 import useHouseBlockTypeToLabel from '@/hooks/useHouseBlockTypeToLabel';
+import { FormInputError } from '@/themed/form-input/FormInputError';
 
 export interface EditUserProps {
   user: IUser;
@@ -53,7 +54,13 @@ export function EditUser({ user }: EditUserProps) {
     },
   });
 
-  const { handleSubmit, setError, setValue, watch } = methods;
+  const {
+    handleSubmit,
+    setError,
+    setValue,
+    watch,
+    formState: { errors },
+  } = methods;
   const [cityValue, neighborhoodValue, teamValue, houseBlockValue] = watch([
     'city',
     'neighborhood',
@@ -363,7 +370,7 @@ export function EditUser({ user }: EditUserProps) {
                 render={({ field }) => (
                   <FormControl fullWidth sx={{ marginTop: 1 }}>
                     <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
-                    <Select {...field} placeholder={t('edit.house_block_placeholder')}>
+                    <Select {...field} placeholder={t('edit.house_block_placeholder')} error={!!errors.houseBlock}>
                       {houseBlockOptions.map((houseBlock) => (
                         <MenuItem key={houseBlock.value} value={houseBlock.value}>
                           {houseBlock.label}
@@ -377,6 +384,8 @@ export function EditUser({ user }: EditUserProps) {
                         </MenuItem>
                       ))}
                     </Select>
+
+                    <FormInputError className="font-light text-sm mx-0" fieldError={errors.houseBlock} />
                   </FormControl>
                 )}
               />
