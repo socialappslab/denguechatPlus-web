@@ -67,5 +67,6 @@
   "53": "A casa não existe, você precisa enviar um objeto de casa com os dados da nova casa.",
   "54": "Os detalhes inseridos não correspondem a um usuário registrado",
   "55": "A conta foi temporariamente bloqueada. Várias tentativas de login falhadas ocorreram. Tente novamente mais tarde.",
-  "60": "Você só pode solicitar um código de recuperação de senha uma vez por minuto. Por favor, tente novamente mais tarde."
+  "60": "Você só pode solicitar um código de recuperação de senha uma vez por minuto. Por favor, tente novamente mais tarde.",
+  "62": "Algumas das casas nesta lista já estão atribuídas a outro grupo de casas com o mesmo tipo"
 }
