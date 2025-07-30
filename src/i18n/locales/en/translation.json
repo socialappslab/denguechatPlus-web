@@ -32,7 +32,7 @@
     "breedingSites": "Breeding Sites",
     "cities": "Cities",
     "visits": "Visits",
-    "house_blocks": "House Blocks",
+    "house_blocks": "$t(common:houseGroup_other)",
     "descriptions": {
       "organizations": "List of Organizations",
       "cities": "List of Cities",
@@ -41,7 +41,7 @@
       "teams": "List of Brigades",
       "specialPlaces": "List of Special Places",
       "visits": "List of Visits",
-      "house_blocks": "List of House Blocks"
+      "house_blocks": "List of $t(common:houseGroup_other)"
     },
     "reports": {
       "name": "Reports",
@@ -102,7 +102,8 @@
     "typeContents": "What does it contain?",
     "containerStatus": "Container Status",
     "role": "Role",
-    "house_block": "House Block"
+    "type": "Type",
+    "house_block": "$t(common:houseGroup_one)"
   },
   "options": {
     "notDefined": "Not Defined",

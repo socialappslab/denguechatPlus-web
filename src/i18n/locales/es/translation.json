@@ -30,7 +30,7 @@
     "organizations": "Organizaciones",
     "cities": "Ciudades",
     "breedingSites": "Criaderos",
-    "house_blocks": "Frente a Frente",
+    "house_blocks": "$t(common:houseGroup_one)",
     "descriptions": {
       "organizations": "Lista de Organizaciones",
       "cities": "Lista de Ciudades",
@@ -39,7 +39,7 @@
       "teams": "Lista de Brigadas",
       "specialPlaces": "Lista de Lugares Especiales",
       "visits": "Lista de Visitas",
-      "house_blocks": "Lista de Frente a Frente"
+      "house_blocks": "Lista de $t(common:houseGroup_one)"
     },
     "reports": {
       "name": "Reportes",
@@ -106,7 +106,8 @@
     "typeContents": "Qué contiene?",
     "containerStatus": "Estado del envase",
     "role": "Rol",
-    "house_block": "Frente a Frente"
+    "type": "Tipo",
+    "house_block": "$t(common:houseGroup_one)"
   },
   "options": {
     "notDefined": "No definido",

@@ -1,16 +1,3 @@
-import Icon from '@/components/icon';
-import { drawerWidth } from '@/constants';
-import {
-  CITIES_INDEX,
-  HOUSE_BLOCKS_INDEX,
-  ORGANIZATIONS_INDEX,
-  REPORTS_INDEX,
-  ROLES_INDEX,
-  SPECIAL_PLACES_INDEX,
-  TEAMS_INDEX,
-  USERS_INDEX,
-  VISITS_INDEX,
-} from '@/constants/permissions';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import {
   Box,
@@ -27,6 +14,19 @@ import { matches } from 'lodash';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
+import {
+  CITIES_INDEX,
+  HOUSE_BLOCKS_INDEX,
+  ORGANIZATIONS_INDEX,
+  REPORTS_INDEX,
+  ROLES_INDEX,
+  SPECIAL_PLACES_INDEX,
+  TEAMS_INDEX,
+  USERS_INDEX,
+  VISITS_INDEX,
+} from '@/constants/permissions';
+import { drawerWidth } from '@/constants';
+import Icon from '@/components/icon';
 import { version } from '../../package.json';
 import ReportsIcon from '../assets/icons/reports.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
@@ -54,7 +54,7 @@ const MY_COMMUNITY = '/my-community';
 const VISITS = '/visits';
 
 export default function Sidebar({ logout }: { logout: () => void }) {
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation(['translation', 'common']);
   const { pathname } = useLocation();
 
   const [searchText, setSearchText] = useState('');

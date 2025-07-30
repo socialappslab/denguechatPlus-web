@@ -103,6 +103,7 @@
     "typeContents": "O que contém?",
     "containerStatus": "Estado do recipiente",
     "rol": "Papel",
+    "type": "Tipo",
     "house_block": "Bloco da Casa"
   },
   "options": {

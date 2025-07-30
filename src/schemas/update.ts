@@ -1,21 +1,22 @@
-import { TypeOf, array, number, object, record, string } from 'zod';
+import { z } from 'zod';
 import i18nInstance from '../i18n/config';
 import { CreateRole } from './create';
+import { HouseBlockType } from './entities';
 
 const t = (key: string, args?: { [key: string]: string | number }) => i18nInstance.t(key, args);
 
 export const updateCitySchema = () => {
-  const requiredNameString = string().min(1, t('validation:requiredField.name'));
+  const requiredNameString = z.string().min(1, t('validation:requiredField.name'));
 
-  return object({
+  return z.object({
     name: requiredNameString,
-    neighborhoods: record(string(), string()),
-    newNeighborhoods: array(string()),
+    neighborhoods: z.record(z.string(), z.string()),
+    newNeighborhoods: z.array(z.string()),
   });
 };
 
 const updateCitySchemaForType = updateCitySchema();
-export type UpdateCityInputType = TypeOf<typeof updateCitySchemaForType>;
+export type UpdateCityInputType = z.infer<typeof updateCitySchemaForType>;
 
 export interface CityUpdate {
   name?: string;
@@ -39,36 +40,37 @@ export interface UpdateTeam {
 
 // update team
 export const updateTeamSchema = () => {
-  const requiredNameString = string().min(1, t('validation:requiredField.name'));
+  const requiredNameString = z.string().min(1, t('validation:requiredField.name'));
 
-  return object({
+  return z.object({
     name: requiredNameString,
-    members: array(object({ label: string(), value: string() })).min(1, t('validation:required')),
+    members: z.array(z.object({ label: z.string(), value: z.string() })).min(1, t('validation:required')),
   });
 };
 
 const updateTeamSchemaForType = updateTeamSchema();
-export type UpdateTeamInputType = TypeOf<typeof updateTeamSchemaForType>;
+export type UpdateTeamInputType = z.infer<typeof updateTeamSchemaForType>;
 
 // update visit
 export const updateVisitSchema = () => {
-  const requiredString = string().min(1, t('validation:requiredField.name'));
+  const requiredString = z.string().min(1, t('validation:requiredField.name'));
 
-  return object({
-    site: object({ value: string(), label: string() }),
+  return z.object({
+    site: z.object({ value: z.string(), label: z.string() }),
     brigadist: requiredString,
     brigade: requiredString,
     visitStartPlace: requiredString,
     visitPermission: requiredString,
-    household: array(object({ value: string(), label: string() })),
-    familyEducationTopics: array(object({ value: string(), label: string() })),
+    household: z.array(z.object({ value: z.string(), label: z.string() })),
+    familyEducationTopics: z.array(z.object({ value: z.string(), label: z.string() })),
+    otherFamilyEducationTopic: requiredString.nullable(),
     notes: requiredString,
     date: requiredString,
   });
 };
 
 const updateVisitSchemaForType = updateVisitSchema();
-export type UpdateVisitInputType = TypeOf<typeof updateVisitSchemaForType>;
+export type UpdateVisitInputType = z.infer<typeof updateVisitSchemaForType>;
 
 export interface UpdateVisit {
   house_id: string;
@@ -78,32 +80,31 @@ export interface UpdateVisit {
   notes: string;
   answers?: Record<string, string>[];
   family_education_topics?: string[];
+  other_family_education_topic: string | null;
 }
 
 // update inspection
 export const updateInspectionSchema = () => {
-  return object({
-    breadingSiteType: string().min(1, '*'),
-    lidType: string().min(1, '*'),
-    lidTypeOther: string(),
-    eliminationMethodTypeOther: string(),
-    containerProtectionOther: string(),
-    containerProtection: string().min(1, '*'),
-    typeContents: array(object({ value: string(), label: string() })),
-    eliminationMethodTypes: string().min(1, '*'),
-    waterSourceType: string().min(1, '*'),
-    waterSourceOther: string(),
-    wasChemicallyTreated: string().min(1, '*'),
+  return z.object({
+    breadingSiteType: z.string().min(1, '*'),
+    lidType: z.string().min(1, '*'),
+    lidTypeOther: z.string(),
+    eliminationMethodTypeOther: z.string(),
+    containerProtectionOther: z.string(),
+    containerProtection: z.string().min(1, '*'),
+    typeContents: z.array(z.object({ value: z.string(), label: z.string() })),
+    eliminationMethodTypes: z.string().min(1, '*'),
+    waterSourceType: z.string().min(1, '*'),
+    waterSourceOther: z.string(),
+    wasChemicallyTreated: z.string().min(1, '*'),
   });
 };
 
 const updateInspectionSchemaForType = updateInspectionSchema();
-export type UpdateInspectionInputType = TypeOf<typeof updateInspectionSchemaForType>;
+export type UpdateInspectionInputType = z.infer<typeof updateInspectionSchemaForType>;
 
 export interface UpdateInspection {
   breeding_site_type_id: string;
-  // lid_type: string;
-  // lid_type_other: string;
   other_elimination_method: string;
   other_protection: string;
   was_chemically_treated: string;
@@ -116,18 +117,20 @@ export interface UpdateInspection {
 
 // update visit
 export const updateHouseBlockSchema = () => {
-  return object({
-    name: string().min(1, t('validation:requiredField.name')),
-    houseIds: array(object({ value: string(), label: string() })),
+  return z.object({
+    name: z.string().min(1, t('validation:requiredField.name')),
+    blockType: z.nativeEnum(HouseBlockType),
+    houseIds: z.array(z.object({ value: z.string(), label: z.string() })),
   });
 };
 
 const updateHouseBlockSchemaForType = updateHouseBlockSchema();
-export type UpdateHouseBlockInputType = TypeOf<typeof updateHouseBlockSchemaForType>;
+export type UpdateHouseBlockInputType = z.infer<typeof updateHouseBlockSchemaForType>;
 
 // update house block
 export interface UpdateHouseBlock {
   name: string;
+  blockType: HouseBlockType;
   houseIds: number[];
   wedgeId?: string;
 }
