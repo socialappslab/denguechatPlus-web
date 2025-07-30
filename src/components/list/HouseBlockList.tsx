@@ -26,11 +26,14 @@ export default function HouseBlockList() {
     {
       id: 'name',
       label: 'house_block',
-      render: (row) => (
-        <p>
-          {getHouseBlockTypeLabel(row.type)} {row.name}
-        </p>
-      ),
+      render: (row) => <p>{row.name}</p>,
+      filterable: true,
+      sortable: true,
+    },
+    {
+      id: 'type',
+      label: 'type',
+      render: (row) => <p>{getHouseBlockTypeLabel(row.type)}</p>,
       filterable: true,
       sortable: true,
     },
