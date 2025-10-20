@@ -58,6 +58,10 @@
     "dropZone": "Solte o arquivo aqui",
     "errorsFound": "Erros encontrados:",
     "errorToast": "Foram encontrados erros no arquivo enviado, corrija-os e tente novamente.",
+    "downloadTemplate": {
+      "button": "Baixar modelo",
+      "tooltip": "Para baixar o modelo, abra o link e depois vá em Arquivo -> Fazer uma cópia -> Baixar uma cópia."
+    },
     "success": {
       "title": "Suas visitas foram enviadas",
       "description": "{{count}} visitas foram carregadas com sucesso. Você pode revê-las clicando nos itens da lista abaixo.",

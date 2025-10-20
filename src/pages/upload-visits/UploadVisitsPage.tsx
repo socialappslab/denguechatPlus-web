@@ -1,9 +1,9 @@
-import { Alert, Box, Stack, Typography } from '@mui/material';
+import { Alert, Box, Stack, Tooltip, Typography } from '@mui/material';
 import Uploady, { BatchItem, useItemErrorListener, useItemFinishListener } from '@rpldy/uploady';
 import { asUploadButton } from '@rpldy/upload-button';
 import UploadDropZone from '@rpldy/upload-drop-zone';
 import { forwardRef, useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import Button from '@/themed/button/Button';
@@ -63,8 +63,25 @@ export default function UploadVisitsPage() {
   );
 
   return (
-    <Box>
-      <Title type="page2" label={t('uploadVisits.title')} />
+    <Stack spacing={2}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Title type="page2" label={t('uploadVisits.title')} />
+        </Box>
+        <Box>
+          <Tooltip title={t('uploadVisits.downloadTemplate.tooltip')}>
+            <Box>
+              <Button
+                component={Link}
+                to="https://1drv.ms/x/c/3b0a1f5f47c9a2ff/EQAj-sSd6LZFjT2KJMwzoaQBfDmjDTaKbfZebiQ_Sm8QZQ"
+                target="_blank"
+                label={t('uploadVisits.downloadTemplate.button')}
+                buttonType="medium"
+              />
+            </Box>
+          </Tooltip>
+        </Box>
+      </Box>
 
       <Uploady
         destination={{
@@ -117,6 +134,6 @@ export default function UploadVisitsPage() {
           </>
         )}
       </Box>
-    </Box>
+    </Stack>
   );
 }

@@ -58,6 +58,10 @@
     "dropZone": "Suelta tu archivo aquí",
     "errorsFound": "Errores encontrados:",
     "errorToast": "Se encontraron errores en el archivo subido, corrígelos e inténtalo nuevamente.",
+    "downloadTemplate": {
+      "button": "Descargar plantilla",
+      "tooltip": "Para descargar la plantilla, abre el enlace y luego ve a Archivo -> Crear una copia -> Descargar una copia."
+    },
     "success": {
       "title": "Tus visitas fueron subidas",
       "description": "Se subieron correctamente {{count}} visitas. Puedes revisarlas haciendo clic en los elementos de la lista a continuación.",

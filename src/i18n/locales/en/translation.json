@@ -58,6 +58,10 @@
     "dropZone": "Drop your file here",
     "errorsFound": "Errors found:",
     "errorToast": "Errors were found in the uploaded file, please fix them and try again.",
+    "downloadTemplate": {
+      "button": "Download template",
+      "tooltip": "To download the template, open the link and then go to File -> Make a copy -> Download a copy."
+    },
     "success": {
       "title": "Your visits were uploaded",
       "description": "A total of {{count}} visits have been successfully uploaded. You can review them by clicking on the items in the list below.",
