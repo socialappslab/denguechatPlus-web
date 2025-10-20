@@ -69,6 +69,7 @@ const SPECIAL_PLACES_INDEX = 'special_places-index';
 const REPORTS_INDEX = 'reports-index';
 
 const VISITS_INDEX = 'visits-index';
+const VISITS_BULK_UPLOAD = 'visits-bulk_upload';
 
 const HOUSE_BLOCKS_INDEX = 'house_blocks-index';
 
@@ -132,5 +133,6 @@ export {
   SPECIAL_PLACES_INDEX,
   REPORTS_INDEX,
   VISITS_INDEX,
+  VISITS_BULK_UPLOAD,
   HOUSE_BLOCKS_INDEX,
 };

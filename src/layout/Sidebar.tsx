@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, UploadFile } from '@mui/icons-material';
 import {
   Box,
   Collapse,
@@ -24,6 +24,7 @@ import {
   TEAMS_INDEX,
   USERS_INDEX,
   VISITS_INDEX,
+  VISITS_BULK_UPLOAD,
 } from '@/constants/permissions';
 import { drawerWidth } from '@/constants';
 import Icon from '@/components/icon';
@@ -52,6 +53,7 @@ const ADMIN_HOUSE_BLOCKS = '/admin/house-blocks';
 const MY_CITY = '/my-city';
 const MY_COMMUNITY = '/my-community';
 const VISITS = '/visits';
+const UPLOAD_VISITS = '/upload-visits';
 
 export default function Sidebar({ logout }: { logout: () => void }) {
   const { t } = useTranslation(['translation', 'common']);
@@ -134,6 +136,14 @@ export default function Sidebar({ logout }: { logout: () => void }) {
                     <Icon type="FactCheck" />
                   </ListItemIcon>
                   <ListItemText primary={<Text type="menuItem">{t('menu.visits')}</Text>} />
+                </ListItemButton>
+              </ProtectedView>
+              <ProtectedView hasPermission={[VISITS_BULK_UPLOAD]}>
+                <ListItemButton component={Link} to={UPLOAD_VISITS} selected={pathname.includes(UPLOAD_VISITS)}>
+                  <ListItemIcon>
+                    <UploadFile />
+                  </ListItemIcon>
+                  <ListItemText primary={<Text type="menuItem">{t('menu.upload_visits')}</Text>} />
                 </ListItemButton>
               </ProtectedView>
               <ProtectedView hasPermission={[REPORTS_INDEX]}>

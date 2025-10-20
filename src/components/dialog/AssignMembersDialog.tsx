@@ -67,25 +67,18 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
     },
   });
 
-  const {
-    handleSubmit,
-    setError,
-    // setValue,
-    watch,
-    // formState: { isValid, errors },
-  } = methods;
+  const { handleSubmit, setError, watch } = methods;
 
   const onSubmitHandler: SubmitHandler<UpdateTeamInputType> = async (values) => {
     try {
       const { name, members } = values;
 
-      const payload: UpdateTeam = {
+      await updateRoleMutation({
         team: {
           name,
           memberIds: members.map((member) => member.value),
         },
-      };
-      await updateRoleMutation(payload);
+      });
       enqueueSnackbar(t('admin:teams.edit.success'), {
         variant: 'success',
       });
@@ -106,8 +99,7 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error expression is any but we expect union
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',
           });

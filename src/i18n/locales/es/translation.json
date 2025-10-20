@@ -30,6 +30,7 @@
     "organizations": "Organizaciones",
     "cities": "Ciudades",
     "breedingSites": "Criaderos",
+    "upload_visits": "Cargar visitas",
     "house_blocks": "$t(common:houseGroup_one)",
     "descriptions": {
       "organizations": "Lista de Organizaciones",
@@ -50,6 +51,20 @@
     },
     "visits": "Visitas",
     "homes": "Sites"
+  },
+  "uploadVisits": {
+    "title": "Cargar visitas",
+    "button": "Seleccionar archivo",
+    "dropZone": "Suelta tu archivo aquí",
+    "errorsFound": "Errores encontrados:",
+    "errorToast": "Se encontraron errores en el archivo subido, corrígelos e inténtalo nuevamente.",
+    "success": {
+      "title": "Tus visitas fueron cargadas",
+      "description": "Se cargaron correctamente {{count}} visitas. Puedes revisarlas haciendo clic en los elementos de la lista a continuación.",
+      "itemPrimary": "Visita #{{id}} - {{houseName}}",
+      "itemSecondary_one": "{{count}} contenedor",
+      "itemSecondary_other": "{{count}} contenedores"
+    }
   },
   "table": {
     "actions": {

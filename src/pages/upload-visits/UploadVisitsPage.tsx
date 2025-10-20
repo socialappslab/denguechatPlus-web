@@ -1,0 +1,122 @@
+import { Alert, Box, Stack, Typography } from '@mui/material';
+import Uploady, { BatchItem, useItemErrorListener, useItemFinishListener } from '@rpldy/uploady';
+import { asUploadButton } from '@rpldy/upload-button';
+import UploadDropZone from '@rpldy/upload-drop-zone';
+import { forwardRef, useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
+import { useTranslation } from 'react-i18next';
+import Button from '@/themed/button/Button';
+import { authApi } from '@/api/axios';
+import Title from '@/themed/title/Title';
+
+const { baseURL, headers } = authApi.defaults;
+
+/**
+ * Helper component to bridge Uploady events to the parent component.
+ */
+function UploadyEventBridge({
+  onItemError,
+  onItemFinish,
+}: {
+  onItemError: Parameters<typeof useItemErrorListener>[0];
+  onItemFinish: Parameters<typeof useItemFinishListener>[0];
+}) {
+  useItemErrorListener(onItemError);
+  useItemFinishListener(onItemFinish);
+  return null;
+}
+
+export default function UploadVisitsPage() {
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation('translation');
+  const CustomUploadButton = useMemo(
+    () => asUploadButton(forwardRef((props) => <Button {...props} primary label={t('uploadVisits.button')} />)),
+    [t],
+  );
+
+  const [errors, setErrors] = useState<string[]>([]);
+
+  const handleUploadError = useCallback(
+    (obj: BatchItem) => {
+      setErrors(obj.uploadResponse.data.errors.map((error: { detail: string }) => error?.detail));
+      enqueueSnackbar(t('uploadVisits.errorToast'), {
+        variant: 'error',
+        autoHideDuration: 7000,
+      });
+    },
+    [enqueueSnackbar, t],
+  );
+
+  const handleUploadSuccess = useCallback(
+    (obj: BatchItem) => {
+      setErrors([]);
+
+      navigate('/upload-visits/success', {
+        state: {
+          visitSummaries: obj.uploadResponse.data.data.attributes.visitSummaries,
+        },
+      });
+    },
+    [navigate],
+  );
+
+  return (
+    <Box>
+      <Title type="page2" label={t('uploadVisits.title')} />
+
+      <Uploady
+        destination={{
+          url: `${baseURL}/visits/bulk_upload`,
+          headers: {
+            'X-Authorization': headers['X-Authorization'],
+            'X-Client-Device': headers['X-Client-Device'],
+          },
+        }}
+        multiple={false}
+        accept=".xlsx"
+      >
+        <UploadyEventBridge onItemError={handleUploadError} onItemFinish={handleUploadSuccess} />
+        <Box
+          component={UploadDropZone}
+          onDragOverClassName="drag-over"
+          grouped
+          maxGroupSize={3}
+          sx={{
+            height: 200,
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: 3,
+            borderStyle: 'dashed',
+            borderColor: 'text.disabled',
+          }}
+        >
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography sx={{ mb: 1 }}>{t('uploadVisits.dropZone')}</Typography>
+            <CustomUploadButton />
+          </Box>
+        </Box>
+      </Uploady>
+
+      <Box sx={{ marginTop: 3 }}>
+        {errors.length > 0 && (
+          <>
+            <Typography variant="h6" sx={{ marginBottom: 1 }}>
+              {t('uploadVisits.errorsFound')}
+            </Typography>
+            <Stack spacing={1}>
+              {errors.map((error, index) => (
+                <Alert severity="error" key={index}>
+                  {error}
+                </Alert>
+              ))}
+            </Stack>
+          </>
+        )}
+      </Box>
+    </Box>
+  );
+}
