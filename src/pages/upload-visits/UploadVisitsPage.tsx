@@ -43,6 +43,7 @@ export default function UploadVisitsPage() {
 
   const handleUploadError = useCallback(
     (obj: BatchItem) => {
+      setErrors([]);
       if (!obj.uploadResponse.data.errors) {
         enqueueSnackbar(t('errorCodes:generic'), { variant: 'error' });
         return;
