@@ -1,8 +1,8 @@
 import { Alert, Box, Stack, Tooltip, Typography } from '@mui/material';
 import Uploady, { BatchItem, useItemErrorListener, useItemFinishListener } from '@rpldy/uploady';
-import { asUploadButton } from '@rpldy/upload-button';
+import { asUploadButton, UploadButtonProps } from '@rpldy/upload-button';
 import UploadDropZone from '@rpldy/upload-drop-zone';
-import { forwardRef, useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
@@ -27,14 +27,17 @@ function UploadyEventBridge({
   return null;
 }
 
+function UploadButton(props: UploadButtonProps) {
+  const { t } = useTranslation('translation');
+  // @ts-expect-error i think there's a problem with the Button typings
+  return <Button {...props} primary label={t('uploadVisits.button')} />;
+}
+const CustomUploadButton = asUploadButton(UploadButton);
+
 export default function UploadVisitsPage() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation('translation');
-  const CustomUploadButton = useMemo(
-    () => asUploadButton(forwardRef((props) => <Button {...props} primary label={t('uploadVisits.button')} />)),
-    [t],
-  );
 
   const [errors, setErrors] = useState<string[]>([]);
 
