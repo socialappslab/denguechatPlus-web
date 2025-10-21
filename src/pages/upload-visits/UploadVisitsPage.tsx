@@ -37,12 +37,17 @@ const CustomUploadButton = asUploadButton(UploadButton);
 export default function UploadVisitsPage() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation(['translation', 'errorCodes']);
 
   const [errors, setErrors] = useState<string[]>([]);
 
   const handleUploadError = useCallback(
     (obj: BatchItem) => {
+      if (!obj.uploadResponse.data.errors) {
+        enqueueSnackbar(t('errorCodes:generic'), { variant: 'error' });
+        return;
+      }
+
       setErrors(obj.uploadResponse.data.errors.map((error: { detail: string }) => error?.detail));
       enqueueSnackbar(t('uploadVisits.errorToast'), {
         variant: 'error',
