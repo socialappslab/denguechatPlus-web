@@ -82,7 +82,7 @@ export default function UploadVisitsPage() {
             <Box>
               <Button
                 component={Link}
-                to="https://1drv.ms/x/c/3b0a1f5f47c9a2ff/EQAj-sSd6LZFjT2KJMwzoaQBfDmjDTaKbfZebiQ_Sm8QZQ"
+                to="https://1drv.ms/x/c/7d848b89d501b373/EXm6i6sRdiZHkdc1wvFj4-gBluiQauOMPY0BO9PZB-qmkg"
                 target="_blank"
                 label={t('uploadVisits.downloadTemplate.button')}
                 buttonType="medium"
