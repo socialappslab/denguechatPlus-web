@@ -30,6 +30,7 @@
     "organizations": "Organizações",
     "cities": "Cidades",
     "breedingSites": "Criadouros",
+    "upload_visits": "Enviar visitas",
     "house_blocks": "Blocos da Casa",
     "descriptions": {
       "organizations": "Lista de Organizações",
@@ -50,6 +51,24 @@
     },
     "visits": "Visitas",
     "homes": "Locals"
+  },
+  "uploadVisits": {
+    "title": "Enviar visitas",
+    "button": "Selecionar arquivo",
+    "dropZone": "Solte o arquivo aqui",
+    "errorsFound": "Erros encontrados:",
+    "errorToast": "Foram encontrados erros no arquivo enviado, corrija-os e tente novamente.",
+    "downloadTemplate": {
+      "button": "Baixar modelo",
+      "tooltip": "Para baixar o modelo, abra o link e depois vá em Arquivo -> Fazer uma cópia -> Baixar uma cópia."
+    },
+    "success": {
+      "title": "Suas visitas foram enviadas",
+      "description": "{{count}} visitas foram carregadas com sucesso. Você pode revê-las clicando nos itens da lista abaixo.",
+      "itemPrimary": "Visita nº {{id}} - {{houseName}}",
+      "itemSecondary_one": "{{count}} recipiente",
+      "itemSecondary_other": "{{count}} recipientes"
+    }
   },
   "table": {
     "actions": {
