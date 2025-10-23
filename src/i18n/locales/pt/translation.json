@@ -123,7 +123,8 @@
     "containerStatus": "Estado do recipiente",
     "rol": "Papel",
     "type": "Tipo",
-    "house_block": "Bloco da Casa"
+    "house_block": "Bloco da Casa",
+    "possibleDuplicate": "Possível duplicata"
   },
   "options": {
     "notDefined": "Não definido",

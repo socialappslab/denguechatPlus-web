@@ -34,6 +34,7 @@ export interface Visit extends BaseEntity {
   host: string[];
   familyEducationTopics: Record<string, string>[];
   otherFamilyEducationTopic: string | null;
+  possibleDuplicateVisitIds: number[];
 }
 
 export interface InspectionSelectable {

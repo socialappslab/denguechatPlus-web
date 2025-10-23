@@ -126,7 +126,8 @@
     "containerStatus": "Estado del envase",
     "role": "Rol",
     "type": "Tipo",
-    "house_block": "$t(common:houseGroup_one)"
+    "house_block": "$t(common:houseGroup_one)",
+    "possibleDuplicate": "Posible duplicado"
   },
   "options": {
     "notDefined": "No definido",
