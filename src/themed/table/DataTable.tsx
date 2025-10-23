@@ -125,22 +125,21 @@ function DataTableHead<T>({
             padding={headCell.withPadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            {headCell.sortable && (
+            {headCell.sortable ? (
               <TableSortLabel
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : 'asc'}
                 className="flex flex-row justify-between text-grass text-sm font-bold"
-                // IconComponent={orderBy === headCell.id ? SorterDirection : Sorter}
                 onClick={createSortHandler(headCell.id)}
               >
                 {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                 {/* @ts-expect-error */}
                 {t(`columns.${headCell.label}`)}
               </TableSortLabel>
+            ) : (
+              // @ts-expect-error label is string but we're expecting an union
+              <DataTableHeadLabel label={t(`columns.${headCell.label}`)} />
             )}
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-expect-error */}
-            {!headCell.sortable && <DataTableHeadLabel label={t(`columns.${headCell.label}`)} />}
           </DataTableHeadCell>
         ))}
         {hasActions && (

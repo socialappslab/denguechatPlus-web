@@ -122,7 +122,8 @@
     "containerStatus": "Container Status",
     "role": "Role",
     "type": "Type",
-    "house_block": "$t(common:houseGroup_one)"
+    "house_block": "$t(common:houseGroup_one)",
+    "possibleDuplicate": "Possible duplicate"
   },
   "options": {
     "notDefined": "Not Defined",

@@ -120,7 +120,6 @@ export default function FilteredDataTable<T>({
       const deserializedData = deserialize<T>(data);
       if (!deserializedData || !Array.isArray(deserializedData)) return;
 
-      // console.log('rows', deserializedData);
       setRows(deserializedData);
       setTotalCount(data.meta.total);
     }
