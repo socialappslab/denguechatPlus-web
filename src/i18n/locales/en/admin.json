@@ -66,6 +66,17 @@
       "true": "Yes",
       "false": "No"
     },
+    "metadata": {
+      "offlineLabel": "Offline visit:",
+      "yes": "Yes",
+      "no": "No",
+      "duplicatesHeading": "Possible duplicates:",
+      "noDuplicatesSummary": "Possible duplicates: None",
+      "duplicateLabel": "Visit #{{id}}",
+      "uploadFileLabel": "Uploaded file:",
+      "uploadFileNone": "None",
+      "uploadFileDownload": "Download file"
+    },
     "status": {
       "red": "Red",
       "green": "Green",
