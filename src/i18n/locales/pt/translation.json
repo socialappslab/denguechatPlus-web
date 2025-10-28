@@ -55,6 +55,7 @@
   "uploadVisits": {
     "title": "Enviar visitas",
     "button": "Selecionar arquivo",
+    "multiSelectNotice": "Para preencher as perguntas de múltipla seleção no arquivo do Excel você deve usar os números 1 e 0 para indicar uma opção marcada ou desmarcada. Entretanto, usar o número 0 é totalmente opcional.",
     "dropZone": "Solte o arquivo aqui",
     "errorsFound": "Erros encontrados:",
     "errorToast": "Foram encontrados erros no arquivo enviado, corrija-os e tente novamente.",

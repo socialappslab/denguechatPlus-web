@@ -55,6 +55,7 @@
   "uploadVisits": {
     "title": "Upload Visits",
     "button": "Select file",
+    "multiSelectNotice": "To fill multi-select questions in the Excel file you must use the numbers 1 and 0 to denote a checked or unchecked option. But using the number 0 is entirely optional.",
     "dropZone": "Drop your file here",
     "errorsFound": "Errors found:",
     "errorToast": "Errors were found in the uploaded file, please fix them and try again.",

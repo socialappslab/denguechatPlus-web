@@ -92,6 +92,8 @@ export default function UploadVisitsPage() {
         </Box>
       </Box>
 
+      <Alert severity="info">{t('uploadVisits.multiSelectNotice')}</Alert>
+
       <Uploady
         destination={{
           url: `${baseURL}/visits/bulk_upload`,

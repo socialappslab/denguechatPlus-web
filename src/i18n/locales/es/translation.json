@@ -55,6 +55,7 @@
   "uploadVisits": {
     "title": "Subir visitas",
     "button": "Seleccionar archivo",
+    "multiSelectNotice": "Para completar las preguntas de selección múltiple en el archivo de Excel debes usar los números 1 y 0 para indicar una opción marcada o desmarcada. Pero usar el número 0 es completamente opcional.",
     "dropZone": "Suelta tu archivo aquí",
     "errorsFound": "Errores encontrados:",
     "errorToast": "Se encontraron errores en el archivo subido, corrígelos e inténtalo nuevamente.",
