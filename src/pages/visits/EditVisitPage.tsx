@@ -206,9 +206,8 @@ export function EditVisit({ visit }: EditVisitProps) {
   const uploadFileChipLabel = uploadFile?.filename ?? t('admin:visits.metadata.uploadFileDownload');
   const duplicateLabels = possibleDuplicateVisitIds.map((id) => t('admin:visits.metadata.duplicateLabel', { id }));
   const hasDuplicateVisits = duplicateLabels.length > 0;
-  const duplicatesHeading = hasDuplicateVisits
-    ? t('admin:visits.metadata.duplicatesHeading')
-    : t('admin:visits.metadata.noDuplicatesSummary');
+  const duplicatesHeadingLabel = t('admin:visits.metadata.duplicatesHeading');
+  const noDuplicatesValue = t('admin:visits.metadata.noDuplicatesValue');
 
   const convertSchemaToPayload = (values: UpdateVisitInputType): UpdateVisit => {
     return {
@@ -385,8 +384,15 @@ export function EditVisit({ visit }: EditVisitProps) {
               )}
             </Box>
             <Box>
-              <Typography variant="body2" className="mb-2 text-sm font-semibold text-darkest">
-                {duplicatesHeading}
+              <Typography variant="body2" className="mb-2 text-sm text-darkest">
+                <Box component="span" className="font-semibold">
+                  {duplicatesHeadingLabel}
+                </Box>
+                {!hasDuplicateVisits && (
+                  <Box component="span" className="font-normal ml-1">
+                    {noDuplicatesValue}
+                  </Box>
+                )}
               </Typography>
               {hasDuplicateVisits && (
                 <Box className="flex flex-wrap gap-2">

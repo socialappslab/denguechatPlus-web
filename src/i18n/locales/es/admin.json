@@ -71,6 +71,7 @@
       "no": "No",
       "duplicatesHeading": "Posibles duplicados:",
       "noDuplicatesSummary": "Posibles duplicados: Ninguno",
+      "noDuplicatesValue": "Ninguno",
       "duplicateLabel": "Visita #{{id}}",
       "uploadFileLabel": "Archivo cargado:",
       "uploadFileNone": "Ninguno",
