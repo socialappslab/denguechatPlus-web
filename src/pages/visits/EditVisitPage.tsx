@@ -1,4 +1,4 @@
-import { Box, Container, Dialog, Grid } from '@mui/material';
+import { Box, Chip, Container, Dialog, Grid, Stack, Typography } from '@mui/material';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,7 @@ import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { capitalize } from 'lodash';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { ErrorResponse, useNavigate } from 'react-router-dom';
+import { ErrorResponse, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 import { authApi } from '@/api/axios';
 import GreenHouse from '@/assets/icons/house-green.svg';
@@ -123,7 +123,7 @@ const HouseStatusBanner = ({ color: colorPlain }: HouseStatusProps) => {
   const { t } = useTranslation('admin');
   const color = ColorMap[colorPlain as StatusPlain];
   return (
-    <Box className="my-8 flex items-center">
+    <Box className="my-4 flex items-center">
       <Box className={`bg-${color}-600 w-20 h-20 rounded-full mr-4 flex items-center justify-center`}>
         <img src={IconMap[color]} alt="icon" className="w-7/12" />
       </Box>
@@ -197,6 +197,17 @@ export function EditVisit({ visit }: EditVisitProps) {
   const { udpateMutation: updateVisitMutation } = useUpdateMutation<UpdateVisit, Visit>(`visits/${visit?.id}`);
 
   const downloadCsv = useDownloadCsvQuery(visit.id);
+  const possibleDuplicateVisitIds = visit.possibleDuplicateVisitIds ?? [];
+  const offlineVisitStatus = visit.wasOffline ? t('admin:visits.metadata.yes') : t('admin:visits.metadata.no');
+  const offlineVisitLabel = t('admin:visits.metadata.offlineLabel');
+  const { uploadFile } = visit;
+  const uploadFileLabel = t('admin:visits.metadata.uploadFileLabel');
+  const uploadFileNoneLabel = t('admin:visits.metadata.uploadFileNone');
+  const uploadFileChipLabel = uploadFile?.filename ?? t('admin:visits.metadata.uploadFileDownload');
+  const duplicateLabels = possibleDuplicateVisitIds.map((id) => t('admin:visits.metadata.duplicateLabel', { id }));
+  const hasDuplicateVisits = duplicateLabels.length > 0;
+  const duplicatesHeadingLabel = t('admin:visits.metadata.duplicatesHeading');
+  const noDuplicatesValue = t('admin:visits.metadata.noDuplicatesValue');
 
   const convertSchemaToPayload = (values: UpdateVisitInputType): UpdateVisit => {
     return {
@@ -329,6 +340,77 @@ export function EditVisit({ visit }: EditVisitProps) {
           </Box>
 
           <HouseStatusBanner color={status} />
+
+          <Stack spacing={2} sx={{ marginBottom: 4 }}>
+            <Box>
+              <Typography variant="body2" className="text-sm text-darkest">
+                <Box component="span" className="font-semibold">
+                  {offlineVisitLabel}
+                </Box>
+                <Box component="span" className="font-normal ml-1">
+                  {offlineVisitStatus}
+                </Box>
+              </Typography>
+            </Box>
+            <Box>
+              {uploadFile ? (
+                <>
+                  <Typography variant="body2" className="mb-2 text-sm font-semibold text-darkest">
+                    {uploadFileLabel}
+                  </Typography>
+                  <Box className="flex flex-wrap gap-2">
+                    <Chip
+                      component="a"
+                      href={uploadFile.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      label={uploadFileChipLabel}
+                      clickable
+                      color="primary"
+                      variant="outlined"
+                      download={uploadFile.filename ?? undefined}
+                    />
+                  </Box>
+                </>
+              ) : (
+                <Typography variant="body2" className="text-sm text-darkest">
+                  <Box component="span" className="font-semibold">
+                    {uploadFileLabel}
+                  </Box>
+                  <Box component="span" className="font-normal ml-1">
+                    {uploadFileNoneLabel}
+                  </Box>
+                </Typography>
+              )}
+            </Box>
+            <Box>
+              <Typography variant="body2" className="mb-2 text-sm text-darkest">
+                <Box component="span" className="font-semibold">
+                  {duplicatesHeadingLabel}
+                </Box>
+                {!hasDuplicateVisits && (
+                  <Box component="span" className="font-normal ml-1">
+                    {noDuplicatesValue}
+                  </Box>
+                )}
+              </Typography>
+              {hasDuplicateVisits && (
+                <Box className="flex flex-wrap gap-2">
+                  {possibleDuplicateVisitIds.map((duplicateId, index) => (
+                    <Chip
+                      key={duplicateId}
+                      label={duplicateLabels[index]}
+                      component={RouterLink}
+                      to={`/visits/${duplicateId}/edit`}
+                      clickable
+                      color="success"
+                      variant="outlined"
+                    />
+                  ))}
+                </Box>
+              )}
+            </Box>
+          </Stack>
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

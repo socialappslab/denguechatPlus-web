@@ -65,6 +65,18 @@
       "true": "Sim",
       "false": "Não"
     },
+    "metadata": {
+      "offlineLabel": "Visita offline:",
+      "yes": "Sim",
+      "no": "Não",
+      "duplicatesHeading": "Possíveis duplicados:",
+      "noDuplicatesSummary": "Possíveis duplicados: Nenhum",
+      "noDuplicatesValue": "Nenhum",
+      "duplicateLabel": "Visita #{{id}}",
+      "uploadFileLabel": "Arquivo enviado:",
+      "uploadFileNone": "Nenhum",
+      "uploadFileDownload": "Baixar arquivo"
+    },
     "status": {
       "red": "Vermelho",
       "green": "Verde",

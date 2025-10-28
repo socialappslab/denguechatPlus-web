@@ -32,6 +32,7 @@
     "breedingSites": "Breeding Sites",
     "cities": "Cities",
     "visits": "Visits",
+    "upload_visits": "Upload Visits",
     "house_blocks": "$t(common:houseGroup_other)",
     "descriptions": {
       "organizations": "List of Organizations",
@@ -49,6 +50,25 @@
       "heatMap": "Heat amp",
       "visits": "Visits",
       "visits_full": "Detailed Visits"
+    }
+  },
+  "uploadVisits": {
+    "title": "Upload Visits",
+    "button": "Select file",
+    "multiSelectNotice": "To fill multi-select questions in the Excel file you must use the numbers 1 and 0 to denote a checked or unchecked option. But using the number 0 is entirely optional.",
+    "dropZone": "Drop your file here",
+    "errorsFound": "Errors found:",
+    "errorToast": "Errors were found in the uploaded file, please fix them and try again.",
+    "downloadTemplate": {
+      "button": "Download template",
+      "tooltip": "To download the template, open the link and then go to File -> Make a copy -> Download a copy."
+    },
+    "success": {
+      "title": "Your visits were uploaded",
+      "description": "A total of {{count}} visits have been successfully uploaded. You can review them by clicking on the items in the list below.",
+      "itemPrimary": "Visit #{{id}} - {{houseName}}",
+      "itemSecondary_one": "{{count}} container",
+      "itemSecondary_other": "{{count}} containers"
     }
   },
   "table": {
@@ -103,7 +123,8 @@
     "containerStatus": "Container Status",
     "role": "Role",
     "type": "Type",
-    "house_block": "$t(common:houseGroup_one)"
+    "house_block": "$t(common:houseGroup_one)",
+    "possibleDuplicate": "Possible duplicate"
   },
   "options": {
     "notDefined": "Not Defined",

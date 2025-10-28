@@ -34,6 +34,9 @@ export interface Visit extends BaseEntity {
   host: string[];
   familyEducationTopics: Record<string, string>[];
   otherFamilyEducationTopic: string | null;
+  possibleDuplicateVisitIds: number[];
+  wasOffline: boolean;
+  uploadFile: { byte_size: number; content_type: string; filename: string; url: string } | null;
 }
 
 export interface InspectionSelectable {

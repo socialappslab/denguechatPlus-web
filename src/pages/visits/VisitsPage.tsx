@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/themed/button/Button';
 import FilteredDataTable from '../../components/list/FilteredDataTable';
-import { BaseEntity, House, Visit } from '../../schemas/entities';
+import { House, Visit } from '../../schemas/entities';
 import { HeadCell } from '../../themed/table/DataTable';
 
 const headCells: HeadCell<Visit>[] = [
@@ -53,6 +53,14 @@ const headCells: HeadCell<Visit>[] = [
     label: 'visitStatus',
     filterable: true,
     sortable: true,
+  },
+  {
+    id: 'possibleDuplicateVisitIds',
+    label: 'possibleDuplicate',
+    render: (row) => {
+      if (row.possibleDuplicateVisitIds.length > 0) return <Trans i18nKey="yes" />;
+      return <Trans i18nKey="no" />;
+    },
   },
 ];
 

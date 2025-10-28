@@ -38,6 +38,8 @@ import CreateSuccessPage from '../pages/auth/CreateSuccess';
 import LoadUser from '../pages/loader/LoadUser';
 import Loader from '../themed/loader/Loader';
 import ProtectedRoute from './ProtectedRoute';
+import UploadVisitsPage from '@/pages/upload-visits/UploadVisitsPage';
+import UploadVisitsSuccessPage from '@/pages/upload-visits/UploadVisitsSuccessPage';
 
 // Create a React Query client
 const queryClient = new QueryClient({
@@ -84,22 +86,30 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <PageLayout>
-          <VisitsList />
+          <Outlet />
         </PageLayout>
       </ProtectedRoute>
     ),
     errorElement: <RouterErrorPage />,
+    children: [
+      { index: true, element: <VisitsList /> },
+      { path: ':id/edit', element: <LoadVisit /> },
+    ],
   },
   {
-    path: 'visits/:id/edit',
+    path: 'upload-visits',
     element: (
       <ProtectedRoute>
         <PageLayout>
-          <LoadVisit />
+          <Outlet />
         </PageLayout>
       </ProtectedRoute>
     ),
     errorElement: <RouterErrorPage />,
+    children: [
+      { index: true, element: <UploadVisitsPage /> },
+      { path: 'success', element: <UploadVisitsSuccessPage /> },
+    ],
   },
   {
     path: 'reports',

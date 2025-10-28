@@ -1,7 +1,7 @@
 {
   "name": "dengue-chat-plus",
   "private": false,
-  "version": "1.4.0",
+  "version": "1.5.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,6 +23,9 @@
     "@mui/lab": "5.0.0-alpha.176",
     "@mui/material": "^5.15.20",
     "@mui/x-date-pickers": "^7.7.1",
+    "@rpldy/upload-button": "^1.11.0",
+    "@rpldy/upload-drop-zone": "^1.11.0",
+    "@rpldy/uploady": "^1.11.0",
     "@sentry/react": "^9.5.0",
     "@tanstack/react-query": "^5.59.16",
     "@types/validator": "^13.12.2",

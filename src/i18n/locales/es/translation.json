@@ -30,6 +30,7 @@
     "organizations": "Organizaciones",
     "cities": "Ciudades",
     "breedingSites": "Criaderos",
+    "upload_visits": "Subir visitas",
     "house_blocks": "$t(common:houseGroup_one)",
     "descriptions": {
       "organizations": "Lista de Organizaciones",
@@ -50,6 +51,25 @@
     },
     "visits": "Visitas",
     "homes": "Sites"
+  },
+  "uploadVisits": {
+    "title": "Subir visitas",
+    "button": "Seleccionar archivo",
+    "multiSelectNotice": "Para completar las preguntas de selección múltiple en el archivo de Excel debes usar los números 1 y 0 para indicar una opción marcada o desmarcada. Pero usar el número 0 es completamente opcional.",
+    "dropZone": "Suelta tu archivo aquí",
+    "errorsFound": "Errores encontrados:",
+    "errorToast": "Se encontraron errores en el archivo subido, corrígelos e inténtalo nuevamente.",
+    "downloadTemplate": {
+      "button": "Descargar plantilla",
+      "tooltip": "Para descargar la plantilla, abre el enlace y luego ve a Archivo -> Crear una copia -> Descargar una copia."
+    },
+    "success": {
+      "title": "Tus visitas fueron subidas",
+      "description": "Se subieron correctamente {{count}} visitas. Puedes revisarlas haciendo clic en los elementos de la lista a continuación.",
+      "itemPrimary": "Visita #{{id}} - {{houseName}}",
+      "itemSecondary_one": "{{count}} contenedor",
+      "itemSecondary_other": "{{count}} contenedores"
+    }
   },
   "table": {
     "actions": {
@@ -107,7 +127,8 @@
     "containerStatus": "Estado del envase",
     "role": "Rol",
     "type": "Tipo",
-    "house_block": "$t(common:houseGroup_one)"
+    "house_block": "$t(common:houseGroup_one)",
+    "possibleDuplicate": "Posible duplicado"
   },
   "options": {
     "notDefined": "No definido",

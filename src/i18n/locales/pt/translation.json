@@ -30,6 +30,7 @@
     "organizations": "Organizações",
     "cities": "Cidades",
     "breedingSites": "Criadouros",
+    "upload_visits": "Enviar visitas",
     "house_blocks": "Blocos da Casa",
     "descriptions": {
       "organizations": "Lista de Organizações",
@@ -50,6 +51,25 @@
     },
     "visits": "Visitas",
     "homes": "Locals"
+  },
+  "uploadVisits": {
+    "title": "Enviar visitas",
+    "button": "Selecionar arquivo",
+    "multiSelectNotice": "Para preencher as perguntas de múltipla seleção no arquivo do Excel você deve usar os números 1 e 0 para indicar uma opção marcada ou desmarcada. Entretanto, usar o número 0 é totalmente opcional.",
+    "dropZone": "Solte o arquivo aqui",
+    "errorsFound": "Erros encontrados:",
+    "errorToast": "Foram encontrados erros no arquivo enviado, corrija-os e tente novamente.",
+    "downloadTemplate": {
+      "button": "Baixar modelo",
+      "tooltip": "Para baixar o modelo, abra o link e depois vá em Arquivo -> Fazer uma cópia -> Baixar uma cópia."
+    },
+    "success": {
+      "title": "Suas visitas foram enviadas",
+      "description": "{{count}} visitas foram carregadas com sucesso. Você pode revê-las clicando nos itens da lista abaixo.",
+      "itemPrimary": "Visita nº {{id}} - {{houseName}}",
+      "itemSecondary_one": "{{count}} recipiente",
+      "itemSecondary_other": "{{count}} recipientes"
+    }
   },
   "table": {
     "actions": {
@@ -104,7 +124,8 @@
     "containerStatus": "Estado do recipiente",
     "rol": "Papel",
     "type": "Tipo",
-    "house_block": "Bloco da Casa"
+    "house_block": "Bloco da Casa",
+    "possibleDuplicate": "Possível duplicata"
   },
   "options": {
     "notDefined": "Não definido",
