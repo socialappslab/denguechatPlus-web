@@ -10,7 +10,7 @@ import {
   TextField,
   Toolbar,
 } from '@mui/material';
-import { matches } from 'lodash';
+import { matches } from 'lodash-es';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';

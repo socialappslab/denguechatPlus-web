@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import _ from 'lodash';
+import { memoize } from 'lodash-es';
 import { PropsWithChildren } from 'react';
 
 import useUser from '../hooks/useUser';
@@ -11,21 +11,21 @@ export interface ProtectedViewProps extends PropsWithChildren {
   hasSomeResource?: string | string[];
 }
 
-const chekcHasPermission = _.memoize((user: IUser, requiredPermission: string | string[]): boolean => {
+const chekcHasPermission = memoize((user: IUser, requiredPermission: string | string[]): boolean => {
   if (Array.isArray(requiredPermission)) {
     return requiredPermission.every((permission) => user.permissions?.includes(permission));
   }
   return !!user.permissions?.includes(requiredPermission);
 });
 
-const checkHasSomePermission = _.memoize((user: IUser, requiredPermission: string | string[]): boolean => {
+const checkHasSomePermission = memoize((user: IUser, requiredPermission: string | string[]): boolean => {
   if (Array.isArray(requiredPermission)) {
     return requiredPermission.some((permission) => user.permissions?.includes(permission));
   }
   return !!user.permissions?.includes(requiredPermission);
 });
 
-const checkHasSomeResource = _.memoize((user: IUser, requiredResource: string | string[]): boolean => {
+const checkHasSomeResource = memoize((user: IUser, requiredResource: string | string[]): boolean => {
   if (Array.isArray(requiredResource)) {
     return requiredResource.some((resource) =>
       user.permissions?.some((element) => {

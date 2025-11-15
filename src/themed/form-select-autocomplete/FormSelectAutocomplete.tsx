@@ -1,6 +1,6 @@
 import { Autocomplete, Box, CircularProgress, Grid, TextField, Typography } from '@mui/material';
 import { deserialize } from 'jsonapi-fractal';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';

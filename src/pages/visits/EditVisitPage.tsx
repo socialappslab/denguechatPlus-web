@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import useAxios from 'axios-hooks';
 import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
-import { capitalize } from 'lodash';
+import { capitalize } from 'lodash-es';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { ErrorResponse, Link as RouterLink, useNavigate } from 'react-router-dom';
