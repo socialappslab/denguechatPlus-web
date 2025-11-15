@@ -41,3 +41,6 @@ dist-ssr
 .env
 .env.development
 .eslintcache
+
+# Visualizer
+stats.html

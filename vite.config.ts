@@ -4,6 +4,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // @ts-ignore
 /**
@@ -26,6 +27,7 @@ export default defineConfig({
         deleteFiles: true,
       },
     }),
+    visualizer(),
   ],
   resolve: {
     alias: {
