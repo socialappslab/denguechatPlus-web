@@ -1,7 +1,7 @@
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
-import { z } from 'zod';
+import * as z from 'zod/mini';
 import { BaseObject, City } from '@/schemas';
 import { useParamsTypeSafe } from '../../hooks/useParamsTypeSafe';
 import Loader from '../../themed/loader/Loader';

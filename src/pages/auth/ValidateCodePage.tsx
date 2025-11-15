@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useAxios from 'axios-hooks';
 import { ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
-import { object, z } from 'zod';
+import * as z from 'zod/mini';
 import { extractAxiosErrorData } from '@/util';
 import Text from '@/themed/text/Text';
 import useCreateMutation from '@/hooks/useCreateMutation';
@@ -55,7 +55,11 @@ const ValidateCodePage = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm<ValidateCode>({
-    resolver: zodResolver(object({ code: z.string().min(6, t('auth:resetPassword.invalidCode')) })),
+    resolver: zodResolver(
+      z.object({
+        code: z.string().check(z.minLength(6, t('auth:resetPassword.invalidCode'))),
+      }),
+    ),
   });
 
   const onResendCode = async () => {

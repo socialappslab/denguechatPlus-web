@@ -1,4 +1,4 @@
-import { TypeOf, object, string, z } from 'zod';
+import * as z from 'zod/mini';
 import { BaseObject, FormSelectOption } from '.';
 
 export type FieldErrorForTranslation = {
@@ -10,34 +10,37 @@ const t = (key: string, args?: { [key: string]: string | number }) => {
   return JSON.stringify({ key, args });
 };
 
-export const emailSchema = z.union([z.literal(''), string().trim().email(t('validation:invalidEmail'))]);
+export const emailSchema = z.union([z.literal(''), z.string().check(z.trim(), z.email(t('validation:invalidEmail')))]);
 
-export const passwordSchema = string()
-  .min(1, t('validation:requiredField.password'))
-  .min(6, t('validation:passwordLength', { length: 6 }));
+export const passwordSchema = z.string().check(z.minLength(1, t('validation:requiredField.password')));
 
-export const userNameSchema = string()
-  .trim()
-  .min(1, t('validation:requiredField.username'))
-  .min(4, t('validation:usernameLength', { length: 4 }));
+export const userNameSchema = z
+  .string()
+  .check(
+    z.trim(),
+    z.minLength(1, t('validation:requiredField.username')),
+    z.minLength(4, t('validation:usernameLength', { length: 4 })),
+  );
 
-export const phoneSchema = string().min(1, t('validation:requiredField.phone')).min(8, t('validation:phoneLength'));
+export const phoneSchema = z
+  .string()
+  .check(z.minLength(1, t('validation:requiredField.phone')), z.minLength(8, t('validation:phoneLength')));
 
 const TYPE_LOGIN = ['username', 'phone'] as const;
 
-export const loginSchema = object({
-  username: z
-    .union([userNameSchema, z.string().length(0, '')])
-    .optional()
-    .transform((e) => (e === '' ? undefined : e)),
-  phone: z
-    .union([phoneSchema, z.string().length(0, '')])
-    .optional()
-    .transform((e) => (e === '' ? undefined : e)),
+export const loginSchema = z.object({
+  username: z.pipe(
+    z.union([userNameSchema, z.literal(''), z.literal(undefined)]),
+    z.transform((e) => (e === '' ? undefined : e)),
+  ),
+  phone: z.pipe(
+    z.union([phoneSchema, z.literal(''), z.literal(undefined)]),
+    z.transform((e) => (e === '' ? undefined : e)),
+  ),
   password: passwordSchema,
 });
 
-export type LoginInputType = TypeOf<typeof loginSchema>;
+export type LoginInputType = z.infer<typeof loginSchema>;
 
 export type LoginRequestType = {
   type: (typeof TYPE_LOGIN)[number];
@@ -46,57 +49,65 @@ export type LoginRequestType = {
   password: string;
 };
 
-export const passwordConfirmSchema = string().min(1, t('validation:requiredField.confirmPassword'));
-const requiredNameString = string().trim().min(1, t('validation:requiredField.name'));
-const requiredLastNameString = string().trim().min(1, t('validation:requiredField.lastName'));
-const requiredCity = string().min(1, t('validation:requiredField.city'));
-const requiredHouseBlock = string().min(1, t('validation:requiredField.houseBlock'));
-const requiredNeighborhood = string().min(1, t('validation:requiredField.neighborhood'));
-const requiredOrganization = string().min(1, t('validation:requiredField.organization'));
+export const passwordConfirmSchema = z.string().check(z.minLength(1, t('validation:requiredField.confirmPassword')));
+const requiredNameString = z.string().check(z.trim(), z.minLength(1, t('validation:requiredField.name')));
+const requiredLastNameString = z.string().check(z.trim(), z.minLength(1, t('validation:requiredField.lastName')));
+const requiredCity = z.string().check(z.minLength(1, t('validation:requiredField.city')));
+const requiredHouseBlock = z.string().check(z.minLength(1, t('validation:requiredField.houseBlock')));
+const requiredNeighborhood = z.string().check(z.minLength(1, t('validation:requiredField.neighborhood')));
+const requiredOrganization = z.string().check(z.minLength(1, t('validation:requiredField.organization')));
 
-export const RegisterSchema = object({
-  firstName: requiredNameString,
-  lastName: requiredLastNameString,
-  email: emailSchema,
-  username: userNameSchema,
-  phone: phoneSchema,
-  city: requiredCity,
-  neighborhood: requiredNeighborhood,
-  organization: requiredOrganization,
-  password: passwordSchema,
-  passwordConfirm: passwordConfirmSchema,
-}).refine((data) => data.password === data.passwordConfirm, {
-  path: ['passwordConfirm'],
-  message: t('validation:notMatch'),
-});
+export const RegisterSchema = z
+  .object({
+    firstName: requiredNameString,
+    lastName: requiredLastNameString,
+    email: emailSchema,
+    username: userNameSchema,
+    phone: phoneSchema,
+    city: requiredCity,
+    neighborhood: requiredNeighborhood,
+    organization: requiredOrganization,
+    password: passwordSchema,
+    passwordConfirm: passwordConfirmSchema,
+  })
+  .check(
+    z.refine((data) => data.password === data.passwordConfirm, {
+      path: ['passwordConfirm'],
+      message: t('validation:notMatch'),
+    }),
+  );
 
-export type RegisterInputType = TypeOf<typeof RegisterSchema>;
+export type RegisterInputType = z.infer<typeof RegisterSchema>;
 
-export const UpdateUserSchema = object({
-  firstName: requiredNameString,
-  lastName: requiredLastNameString,
-  email: emailSchema,
-  username: userNameSchema,
-  phone: phoneSchema,
-  city: requiredCity,
-  houseBlock: requiredHouseBlock,
-  neighborhood: requiredNeighborhood,
-  organization: requiredOrganization,
-  team: string().optional(),
-  password: z
-    .union([passwordSchema, z.string().length(0, '')])
-    .optional()
-    .transform((e) => (e === '' ? undefined : e)),
-  passwordConfirm: z
-    .union([passwordConfirmSchema, z.string().length(0, '')])
-    .optional()
-    .transform((e) => (e === '' ? undefined : e)),
-}).refine((data) => data.password === data.passwordConfirm, {
-  path: ['passwordConfirm'],
-  message: t('validation:notMatch'),
-});
+export const UpdateUserSchema = z
+  .object({
+    firstName: requiredNameString,
+    lastName: requiredLastNameString,
+    email: emailSchema,
+    username: userNameSchema,
+    phone: phoneSchema,
+    city: requiredCity,
+    houseBlock: requiredHouseBlock,
+    neighborhood: requiredNeighborhood,
+    organization: requiredOrganization,
+    team: z.optional(z.string()),
+    password: z.pipe(
+      z.union([passwordSchema, z.literal(''), z.literal(undefined)]),
+      z.transform((e) => (e === '' ? undefined : e)),
+    ),
+    passwordConfirm: z.pipe(
+      z.union([passwordConfirmSchema, z.literal(''), z.literal(undefined)]),
+      z.transform((e) => (e === '' ? undefined : e)),
+    ),
+  })
+  .check(
+    z.refine((data) => data.password === data.passwordConfirm, {
+      path: ['passwordConfirm'],
+      message: t('validation:notMatch'),
+    }),
+  );
 
-export type UpdateUserInputType = TypeOf<typeof UpdateUserSchema>;
+export type UpdateUserInputType = z.infer<typeof UpdateUserSchema>;
 
 export interface UserProfile {
   firstName?: string;

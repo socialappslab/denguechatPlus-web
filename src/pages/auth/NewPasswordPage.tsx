@@ -8,7 +8,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-import { object } from 'zod';
+import * as z from 'zod/mini';
 import Text from '@/themed/text/Text';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import ArrowLeft from '@/assets/icons/arrow-left-green.svg';
@@ -55,13 +55,17 @@ const NewPasswordPage = () => {
   const { state } = useLocation();
   const token = state?.token;
 
-  const newPasswordSchema = object({
-    password: passwordSchema,
-    passwordConfirm: passwordConfirmSchema,
-  }).refine((data) => data.password === data.passwordConfirm, {
-    path: ['passwordConfirm'],
-    message: t('validation:notMatch'),
-  });
+  const newPasswordSchema = z
+    .object({
+      password: passwordSchema,
+      passwordConfirm: passwordConfirmSchema,
+    })
+    .check(
+      z.refine((data) => data.password === data.passwordConfirm, {
+        path: ['passwordConfirm'],
+        message: t('validation:notMatch'),
+      }),
+    );
 
   const { enqueueSnackbar } = useSnackbar();
 

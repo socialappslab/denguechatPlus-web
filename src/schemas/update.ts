@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod/mini';
 import i18nInstance from '../i18n/config';
 import { CreateRole } from './create';
 import { HouseBlockType } from './entities';
@@ -6,7 +6,7 @@ import { HouseBlockType } from './entities';
 const t = (key: string, args?: { [key: string]: string | number }) => i18nInstance.t(key, args);
 
 export const updateCitySchema = () => {
-  const requiredNameString = z.string().min(1, t('validation:requiredField.name'));
+  const requiredNameString = z.string().check(z.minLength(1, t('validation:requiredField.name')));
 
   return z.object({
     name: requiredNameString,
@@ -40,11 +40,13 @@ export interface UpdateTeam {
 
 // update team
 export const updateTeamSchema = () => {
-  const requiredNameString = z.string().min(1, t('validation:requiredField.name'));
+  const requiredNameString = z.string().check(z.minLength(1, t('validation:requiredField.name')));
 
   return z.object({
     name: requiredNameString,
-    members: z.array(z.object({ label: z.string(), value: z.string() })).min(1, t('validation:required')),
+    members: z
+      .array(z.object({ label: z.string(), value: z.string() }))
+      .check(z.maxLength(1, t('validation:required'))),
   });
 };
 
@@ -53,7 +55,7 @@ export type UpdateTeamInputType = z.infer<typeof updateTeamSchemaForType>;
 
 // update visit
 export const updateVisitSchema = () => {
-  const requiredString = z.string().min(1, t('validation:requiredField.name'));
+  const requiredString = z.string().check(z.minLength(1, t('validation:requiredField.name')));
 
   return z.object({
     site: z.object({ value: z.string(), label: z.string() }),
@@ -63,7 +65,7 @@ export const updateVisitSchema = () => {
     visitPermission: requiredString,
     household: z.array(z.object({ value: z.string(), label: z.string() })),
     familyEducationTopics: z.array(z.object({ value: z.string(), label: z.string() })),
-    otherFamilyEducationTopic: requiredString.nullable(),
+    otherFamilyEducationTopic: z.nullable(requiredString),
     notes: requiredString,
     date: requiredString,
   });
@@ -86,17 +88,17 @@ export interface UpdateVisit {
 // update inspection
 export const updateInspectionSchema = () => {
   return z.object({
-    breadingSiteType: z.string().min(1, '*'),
-    lidType: z.string().min(1, '*'),
+    breadingSiteType: z.string().check(z.minLength(1, '*')),
+    lidType: z.string().check(z.minLength(1, '*')),
     lidTypeOther: z.string(),
     eliminationMethodTypeOther: z.string(),
     containerProtectionOther: z.string(),
-    containerProtection: z.string().min(1, '*'),
+    containerProtection: z.string().check(z.minLength(1, '*')),
     typeContents: z.array(z.object({ value: z.string(), label: z.string() })),
-    eliminationMethodTypes: z.string().min(1, '*'),
-    waterSourceType: z.string().min(1, '*'),
+    eliminationMethodTypes: z.string().check(z.minLength(1, '*')),
+    waterSourceType: z.string().check(z.minLength(1, '*')),
     waterSourceOther: z.string(),
-    wasChemicallyTreated: z.string().min(1, '*'),
+    wasChemicallyTreated: z.string().check(z.minLength(1, '*')),
   });
 };
 
@@ -118,8 +120,8 @@ export interface UpdateInspection {
 // update visit
 export const updateHouseBlockSchema = () => {
   return z.object({
-    name: z.string().min(1, t('validation:requiredField.name')),
-    blockType: z.nativeEnum(HouseBlockType),
+    name: z.string().check(z.minLength(1, t('validation:requiredField.name'))),
+    blockType: z.enum(HouseBlockType),
     houseIds: z.array(z.object({ value: z.string(), label: z.string() })),
   });
 };

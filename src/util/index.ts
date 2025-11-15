@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { ZodError, ZodType, z } from 'zod';
+import * as z from 'zod/mini';
 import { ErrorResponse, FormSelectOption, State } from '../schemas';
 import { BaseEntity } from '@/schemas/entities';
 
@@ -128,13 +128,13 @@ export const constructFilterObject = (
 export class ValidationError extends Error {
   constructor(
     message: string,
-    public readonly cause: ZodError,
+    public readonly cause: z.core.$ZodError,
   ) {
     super(message);
   }
 }
 
-export const validation = <T extends ZodType>(schema: T, data: unknown, errorMessage?: string): z.infer<T> => {
+export const validation = <T extends z.ZodMiniType>(schema: T, data: unknown, errorMessage?: string) => {
   const result = schema.safeParse(data);
   if (result.success) return result.data;
 

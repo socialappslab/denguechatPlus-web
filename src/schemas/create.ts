@@ -1,23 +1,22 @@
-import { TypeOf, array, boolean, object, string } from 'zod';
+import * as z from 'zod/mini';
 import i18nInstance from '../i18n/config';
 
 const t = (key: string, args?: { [key: string]: string | number }) => i18nInstance.t(key, args);
 
 // Role
 export const createRoleSchema = () => {
-  const requiredNameString = string().min(1, t('validation:requiredField.name'));
+  const requiredNameString = z.string().check(z.minLength(1, t('validation:requiredField.name')));
 
-  return object({
+  return z.object({
     name: requiredNameString,
-    permissionIds: array(object({ label: string(), value: string(), disabled: boolean().optional() })).min(
-      1,
-      t('validation:required'),
-    ),
+    permissionIds: z
+      .array(z.object({ label: z.string(), value: z.string(), disabled: z.optional(z.boolean()) }))
+      .check(z.minLength(1, t('validation:required'))),
   });
 };
 
 const createRoleSchemaForType = createRoleSchema();
-export type CreateRoleInputType = TypeOf<typeof createRoleSchemaForType>;
+export type CreateRoleInputType = z.infer<typeof createRoleSchemaForType>;
 
 export interface CreateRole {
   name: string;
@@ -26,16 +25,16 @@ export interface CreateRole {
 
 // City
 export const createCitySchema = () => {
-  const requiredNameString = string().min(1, t('validation:requiredField.name'));
+  const requiredNameString = z.string().check(z.minLength(1, t('validation:requiredField.name')));
 
-  return object({
+  return z.object({
     name: requiredNameString,
-    neighborhoods: array(string()),
+    neighborhoods: z.array(z.string()),
   });
 };
 
 const createCitySchemaForType = createCitySchema();
-export type CreateCityInputType = TypeOf<typeof createCitySchemaForType>;
+export type CreateCityInputType = z.infer<typeof createCitySchemaForType>;
 
 export interface CreateCity {
   name: string;
@@ -44,19 +43,19 @@ export interface CreateCity {
 
 // Team
 export const createTeamSchema = () => {
-  const requiredNameString = string().min(1, t('validation:requiredField.name'));
+  const requiredNameString = z.string().check(z.minLength(1, t('validation:requiredField.name')));
 
-  return object({
+  return z.object({
     name: requiredNameString,
-    organizationId: string(),
-    sectorId: string(),
-    wedgeId: string(),
-    memberIds: array(object({ label: string(), value: string() })).min(1),
+    organizationId: z.string(),
+    sectorId: z.string(),
+    wedgeId: z.string(),
+    memberIds: z.array(z.object({ label: z.string(), value: z.string() })).check(z.minLength(1)),
   });
 };
 
 const createTeamSchemaForType = createTeamSchema();
-export type CreateTeamInputType = TypeOf<typeof createTeamSchemaForType>;
+export type CreateTeamInputType = z.infer<typeof createTeamSchemaForType>;
 
 export interface CreateTeam {
   name: string;

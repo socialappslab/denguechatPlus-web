@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box, Container } from '@mui/material';
-import { TypeOf, z } from 'zod';
+import * as z from 'zod/mini';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -46,11 +46,11 @@ const ResetPasswordPage = () => {
   const validatePhoneSchema = z.object({
     phone: z
       .string()
-      .refine((value) => validator.isMobilePhone(value, 'any'), t('auth:resetPassword.phoneNumber_error')),
-    username: z.string().min(1, t('auth:resetPassword.username_error')),
+      .check(z.refine((value) => validator.isMobilePhone(value, 'any'), t('auth:resetPassword.phoneNumber_error'))),
+    username: z.string().check(z.minLength(1, t('auth:resetPassword.username_error'))),
   });
 
-  type ValidatePhoneSchema = TypeOf<typeof validatePhoneSchema>;
+  type ValidatePhoneSchema = z.infer<typeof validatePhoneSchema>;
 
   const { enqueueSnackbar } = useSnackbar();
 
