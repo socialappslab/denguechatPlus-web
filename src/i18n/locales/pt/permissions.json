@@ -19,7 +19,10 @@
     "users_confirm_account": "Confirmar conta do usuário",
     "change_status": "Alterar status do usuário",
     "delete_account": "Excluir conta do usuário",
-    "change_team": "Alterar equipe do usuário"
+    "change_team": "Alterar equipe do usuário",
+    "update_password": "Atualizar senha",
+    "change_house_blocks": "Alterar grupo de casa",
+    "change_assignment": "Alterar brigada"
   },
   "roles": {
     "title": "Papéis",
@@ -122,7 +125,10 @@
     "create": "Criar visita",
     "edit": "Editar visita",
     "update": "Atualizar informações da visita",
-    "delete": "Excluir visita"
+    "destroy": "Excluir visita",
+    "download_information": "Baixar CSV de uma visita",
+    "visits_download_information": "Baixar CSV de uma visita",
+    "bulk_upload": "Carregar visitas"
   },
   "special_places": {
     "title": "Lugares especiais",
@@ -167,7 +173,10 @@
   "countries": {
     "title": "Países",
     "destroy": "Excluir países",
-    "update": "Alterar países"
+    "update": "Alterar países",
+    "create": "Criar países",
+    "index": "Listar países",
+    "show": "Mostrar países"
   },
   "house_blocks": {
     "title": "Blocos de casas",
@@ -185,7 +194,7 @@
     "create": "Criar inspeção",
     "edit": "Editar inspeções",
     "update": "Atualizar informações da inspeção",
-    "delete": "Excluir inspeção"
+    "destroy": "Excluir inspeção"
   },
   "questionnaires": {
     "title": "Questionários",
@@ -229,5 +238,8 @@
   },
   "get_address": {
     "find_address": "Buscar endereço"
+  },
+  "points": {
+    "accumulated_points": "Obter pontos"
   }
 }

@@ -19,7 +19,10 @@
     "users_confirm_account": "Confirm User Account",
     "change_status": "Change User Status",
     "delete_account": "Delete User Account",
-    "change_team": "Change user's team"
+    "change_team": "Change user's team",
+    "update_password": "Update password",
+    "change_house_blocks": "Change house group",
+    "change_assignment": "Change brigade"
   },
   "roles": {
     "title": "Roles",
@@ -122,7 +125,10 @@
     "create": "Create visit",
     "edit": "Edit visit",
     "update": "Update visit information",
-    "delete": "Delete visit"
+    "destroy": "Delete visit",
+    "download_information": "Download CSV of a visit",
+    "visits_download_information": "Download CSV of a visit",
+    "bulk_upload": "Upload visits"
   },
   "special_places": {
     "title": "Special Places",
@@ -167,7 +173,10 @@
   "countries": {
     "title": "Countries",
     "destroy": "Delete countries",
-    "update": "Change countries"
+    "update": "Change countries",
+    "create": "Create countries",
+    "index": "List countries",
+    "show": "Show countries"
   },
   "house_blocks": {
     "title": "$t(common:houseGroup_other)",
@@ -185,7 +194,7 @@
     "create": "Creat inspection",
     "edit": "Edit inspections",
     "update": "Update inspection information",
-    "delete": "Delete inspection"
+    "destroy": "Delete inspection"
   },
   "questionnaires": {
     "title": "Questionnaires",
@@ -229,5 +238,8 @@
   },
   "get_address": {
     "find_address": "Find address"
+  },
+  "points": {
+    "accumulated_points": "Get points"
   }
 }
