@@ -31,7 +31,7 @@ interface EditHouseBlockDialogProps {
   updateTable: () => void;
 }
 
-export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: EditHouseBlockDialogProps) {
+export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: EditHouseBlockDialogProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin', 'common']);
   const { udpateMutation: updateRoleMutation } = useUpdateMutation<UpdateHouseBlock, HouseBlock>(
     `house_blocks/${houseBlock?.id}`,
@@ -83,20 +83,17 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
       errorData?.errors?.forEach((error: any) => {
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
+            // @ts-expect-error we expect an item from the union
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
               field: watch(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error we expect an item from the union
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',
           });
@@ -168,5 +165,3 @@ export function EditHouseBlockDialog({ houseBlock, handleClose, updateTable }: E
     </div>
   );
 }
-
-export default EditHouseBlockDialog;

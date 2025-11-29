@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '@/themed/button/Button';
 import { HouseBlock } from '../../schemas/entities';
 import { HeadCell } from '../../themed/table/DataTable';
-import { EditHouseBlockDialog } from '../dialog/EditHouseBlockDialog';
+import EditHouseBlockDialog from '../dialog/EditHouseBlockDialog';
 import FilteredDataTable from './FilteredDataTable';
 import useHouseBlockTypeToLabel from '@/hooks/useHouseBlockTypeToLabel';
 
