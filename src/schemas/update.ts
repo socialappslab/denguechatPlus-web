@@ -38,21 +38,6 @@ export interface UpdateTeam {
   };
 }
 
-// update team
-export const updateTeamSchema = () => {
-  const requiredNameString = z.string().check(z.minLength(1, t('validation:requiredField.name')));
-
-  return z.object({
-    name: requiredNameString,
-    members: z
-      .array(z.object({ label: z.string(), value: z.string() }))
-      .check(z.maxLength(1, t('validation:required'))),
-  });
-};
-
-const updateTeamSchemaForType = updateTeamSchema();
-export type UpdateTeamInputType = z.infer<typeof updateTeamSchemaForType>;
-
 // update visit
 export const updateVisitSchema = () => {
   const requiredString = z.string().check(z.minLength(1, t('validation:requiredField.name')));

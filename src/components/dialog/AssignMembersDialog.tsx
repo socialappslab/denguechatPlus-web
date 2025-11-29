@@ -1,6 +1,7 @@
 import { Box, Grid } from '@mui/material';
+import * as z from 'zod/mini';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSnackbar } from 'notistack';
@@ -8,13 +9,13 @@ import { useSnackbar } from 'notistack';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useAxios from 'axios-hooks';
 import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ErrorResponse } from 'react-router-dom';
 import { TEAM_MEMBER_ROLE } from '@/constants';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
 import { FormSelectOption, Member } from '@/schemas';
 import { Team } from '@/schemas/entities';
-import { UpdateTeam, UpdateTeamInputType, updateTeamSchema } from '@/schemas/update';
+import { UpdateTeam } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
@@ -39,7 +40,7 @@ const convertToFormSelectOptions = (rows: Member[]): FormSelectOption[] => {
 };
 
 export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRoleDialogProps) {
-  const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin']);
+  const { t } = useTranslation(['register', 'errorCodes', 'permissions', 'admin', 'validation']);
   const { udpateMutation: updateRoleMutation } = useUpdateMutation<UpdateTeam, Team>(`teams/${team?.id}`);
 
   const [membersOptions, setMembersOptions] = useState<FormSelectOption[]>([]);
@@ -59,8 +60,19 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
     }
   }, [data, loading]);
 
-  const methods = useForm<UpdateTeamInputType>({
-    resolver: zodResolver(updateTeamSchema()),
+  const schema = useMemo(
+    () =>
+      z.object({
+        name: z.string().check(z.minLength(1, t('validation:requiredField.name'))),
+        members: z
+          .array(z.object({ label: z.string(), value: z.string() }))
+          .check(z.minLength(1, t('validation:required'))),
+      }),
+    [t],
+  );
+
+  const methods = useForm({
+    resolver: zodResolver(schema),
     defaultValues: {
       name: team?.name,
       members: convertToFormSelectOptions(team?.members || []),
@@ -69,7 +81,7 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
 
   const { handleSubmit, setError, watch } = methods;
 
-  const onSubmitHandler: SubmitHandler<UpdateTeamInputType> = async (values) => {
+  const onSubmit = handleSubmit(async (values) => {
     try {
       const { name, members } = values;
 
@@ -112,18 +124,12 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
         });
       }
     }
-  };
+  });
 
   return (
     <div className="flex flex-col py-6 px-4">
       <FormProvider {...methods}>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmitHandler)}
-          noValidate
-          autoComplete="off"
-          className="w-full p-8"
-        >
+        <Box component="form" onSubmit={onSubmit} noValidate autoComplete="off" className="w-full p-8">
           <Title type="section" className="self-center mb-8i w-full" label={t('admin:teams.edit.edit_team')} />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
