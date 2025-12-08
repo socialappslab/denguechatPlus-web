@@ -177,9 +177,11 @@ export function EditVisit({ visit }: EditVisitProps) {
       date,
       brigadist: visit.brigadist ? String((visit?.brigadist as BaseEntity)?.id) : '',
       brigade: visit.team ? String((visit?.team as BaseEntity)?.name) : '',
+      visitPermission: (visit.visitPermission || []).find((i) => i.selected)?.label ?? '',
+      visitPermissionOther:
+        (visit.visitPermission || []).find((i) => i.selected && i.typeOption === 'textArea')?.other ?? '',
       // i18n
       visitStartPlace: 'Huerta/Casa',
-      visitPermission: visit.visitPermission ? 'Sí' : 'No',
       household: visit?.host?.map((i) => ({ label: i, value: i })) || [],
       familyEducationTopics: (visit.familyEducationTopics || [])
         .filter((i) => i.checked)
@@ -192,7 +194,7 @@ export function EditVisit({ visit }: EditVisitProps) {
     },
   });
 
-  const { handleSubmit, watch, setError } = methods;
+  const { handleSubmit, watch, setError, setValue } = methods;
 
   const { udpateMutation: updateVisitMutation } = useUpdateMutation<UpdateVisit, Visit>(`visits/${visit?.id}`);
 
@@ -210,6 +212,8 @@ export function EditVisit({ visit }: EditVisitProps) {
   const noDuplicatesValue = t('admin:visits.metadata.noDuplicatesValue');
 
   const convertSchemaToPayload = (values: UpdateVisitInputType): UpdateVisit => {
+    const selectedPermissionOption = (visit.visitPermission || []).find((i) => i.label === values.visitPermission);
+
     return {
       host: values.household.map((i) => i.label),
       house_id: (values.site as FormSelectOption).value,
@@ -218,6 +222,8 @@ export function EditVisit({ visit }: EditVisitProps) {
       visited_at: values.date,
       family_education_topics: values.familyEducationTopics.map((i) => i.value),
       other_family_education_topic: values.otherFamilyEducationTopic,
+      visit_permission_option_id: selectedPermissionOption?.optionId,
+      visit_permission_other: selectedPermissionOption?.typeOption === 'textArea' ? values.visitPermissionOther : null,
     };
   };
 
@@ -299,6 +305,17 @@ export function EditVisit({ visit }: EditVisitProps) {
       option.value === 'Another important topic' ||
       option.value === 'Outro tópico importante',
   );
+
+  const selectedVisitPermission = watch('visitPermission');
+  const visitPermissionIsOther = (visit.visitPermission || []).some(
+    (i) => i.typeOption === 'textArea' && i.label === selectedVisitPermission,
+  );
+
+  useEffect(() => {
+    if (!visitPermissionIsOther) {
+      setValue('visitPermissionOther', '');
+    }
+  }, [visitPermissionIsOther, setValue]);
 
   return (
     <Container
@@ -449,6 +466,26 @@ export function EditVisit({ visit }: EditVisitProps) {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <FormSelect
+                className="mt-2"
+                name="visitPermission"
+                label={t('admin:visits.inspection.visitPermission')}
+                options={(visit.visitPermission || []).map((i) => ({
+                  label: i.label,
+                  value: i.label,
+                }))}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormInput
+                className="mt-2 h-full"
+                name="visitPermissionOther"
+                disabled={!visitPermissionIsOther}
+                label={t('admin:visits.inspection.visitPermissionOther')}
+                type="text"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <FormMultipleSelect
                 className="mt-2 h-full"
                 name="household"
@@ -496,15 +533,6 @@ export function EditVisit({ visit }: EditVisitProps) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInput className="mt-2 h-full" name="notes" label={t('admin:visits.inspection.notes')} type="text" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormInput
-                className="mt-2 h-full"
-                name="visitPermission"
-                label={t('admin:visits.inspection.visitPermission')}
-                type="text"
-                disabled
-              />
             </Grid>
           </Grid>
 

@@ -94,6 +94,7 @@
       "notes": "Visit Notes",
       "visitStart": "Visit Start Location",
       "visitPermission": "Permission to start the visit",
+      "visitPermissionOther": "Other permission explanation",
       "familyEducationTopics": "What information did you provide to the family?",
       "otherFamilyEducationTopic": "Other information",
       "containerType": "Container type:",

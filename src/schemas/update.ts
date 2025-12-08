@@ -48,6 +48,7 @@ export const updateVisitSchema = () => {
     brigade: requiredString,
     visitStartPlace: requiredString,
     visitPermission: requiredString,
+    visitPermissionOther: z.nullable(z.string()),
     household: z.array(z.object({ value: z.string(), label: z.string() })),
     familyEducationTopics: z.array(z.object({ value: z.string(), label: z.string() })),
     otherFamilyEducationTopic: z.nullable(requiredString),
@@ -68,6 +69,8 @@ export interface UpdateVisit {
   answers?: Record<string, string>[];
   family_education_topics?: string[];
   other_family_education_topic: string | null;
+  visit_permission_option_id?: number;
+  visit_permission_other?: string | null;
 }
 
 // update inspection
