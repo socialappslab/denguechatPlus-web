@@ -93,6 +93,7 @@
       "notes": "Notas de la visita",
       "visitStart": "Lugar de inicio de la visita",
       "visitPermission": "Permiso para iniciar la visita",
+      "visitPermissionOther": "Otra explicación de permiso",
       "familyEducationTopics": "¿Qué información proporcionó a la familia?",
       "otherFamilyEducationTopic": "Otra información",
       "containerType": "Envase tipo:",

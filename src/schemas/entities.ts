@@ -19,6 +19,15 @@ export interface BaseWithStatus extends BaseEntity {
 export interface Organization extends BaseWithStatus {}
 
 export type InspectionStatus = 'green' | 'red' | 'yellow';
+
+export interface VisitPermissionOption {
+  optionId: number;
+  label: string;
+  selected: boolean;
+  typeOption: string;
+  other: string | null;
+}
+
 export interface Visit extends BaseEntity {
   visitedAt: string;
   city: string | BaseEntity;
@@ -28,7 +37,7 @@ export interface Visit extends BaseEntity {
   visitStatus: InspectionStatus;
   brigadist: string | BaseEntity;
   team: string | BaseEntity;
-  visitPermission: boolean;
+  visitPermission: VisitPermissionOption[];
   notes: string;
   answers: Array<Record<string, string>>;
   host: string[];
