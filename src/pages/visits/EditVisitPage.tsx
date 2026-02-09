@@ -145,6 +145,7 @@ export function EditVisit({ visit }: EditVisitProps) {
   const navigate = useNavigate();
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
+  const [inspectionUpdateControl, setInspectionUpdateControl] = useState(0);
 
   const rootElement = document.getElementById('root-app');
   // fetched from attributes (passed as state) update after endpoint
@@ -557,14 +558,20 @@ export function EditVisit({ visit }: EditVisitProps) {
         pageSize={5}
         actions={actions}
         searchable={false}
+        updateControl={inspectionUpdateControl}
       />
 
       <Dialog container={rootElement} fullWidth maxWidth="md" open={openEditDialog} onClose={handleClose}>
-        <EditInspectionDialog
-          visitId={visit.id as number}
-          handleClose={() => setOpenEditDialog(false)}
-          inspection={selectedInspection}
-        />
+        {openEditDialog && (
+          <EditInspectionDialog
+            visitId={visit.id as number}
+            handleClose={() => {
+              setOpenEditDialog(false);
+              setInspectionUpdateControl((c) => c + 1);
+            }}
+            inspection={selectedInspection}
+          />
+        )}
       </Dialog>
     </Container>
   );

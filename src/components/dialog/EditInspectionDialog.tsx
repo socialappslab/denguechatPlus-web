@@ -5,9 +5,9 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { enqueueSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useUpdateMutation from '@/hooks/useUpdateMutation';
+import { authApi } from '@/api/axios';
 import { FormSelectOption } from '@/schemas';
 import { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';
 import { UpdateInspection } from '@/schemas/update';
@@ -97,14 +97,81 @@ const EditInspectionDialog = ({
   });
 
   const { handleSubmit, watch, setError } = methods;
+  const inspectionDataPhotoUrl = (inspectionData as { photoUrl?: { url?: string; photo_url?: string } } | undefined)
+    ?.photoUrl;
 
-  const { udpateMutation: updateInspectionMutation } = useUpdateMutation<UpdateInspection, Inspection>(
-    `visits/${visitId}/inspections/${inspection?.id}`,
+  type PhotoAction = 'keep' | 'delete' | 'replace';
+  const [photoAction, setPhotoAction] = useState<PhotoAction>('keep');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(
+    inspectionDataPhotoUrl?.url ?? inspectionDataPhotoUrl?.photo_url ?? inspection?.photoUrl?.url ?? null,
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    return () => {
+      if (photoPreviewUrl && photoPreviewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(photoPreviewUrl);
+      }
+    };
+  }, [photoPreviewUrl]);
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (photoPreviewUrl && photoPreviewUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(photoPreviewUrl);
+    }
+
+    setSelectedFile(file);
+    setPhotoAction('replace');
+    setPhotoPreviewUrl(URL.createObjectURL(file));
+  };
+
+  const handlePhotoDelete = () => {
+    if (photoPreviewUrl && photoPreviewUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(photoPreviewUrl);
+    }
+
+    setPhotoAction('delete');
+    setPhotoPreviewUrl(null);
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const onSubmitHandler: SubmitHandler<Inspection> = async (values) => {
+    setIsSubmitting(true);
     try {
-      await updateInspectionMutation(convertSchemaToPayload(values));
+      const url = `/visits/${visitId}/inspections/${inspection?.id}`;
+      const payload = convertSchemaToPayload(values);
+
+      if (photoAction === 'replace' && selectedFile) {
+        const formData = new FormData();
+
+        Object.entries(payload).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            value.forEach((item) => {
+              formData.append(`${key}[]`, String(item));
+            });
+          } else if (value !== undefined && value !== null) {
+            formData.append(key, String(value));
+          }
+        });
+
+        formData.append('photo', selectedFile);
+
+        await authApi.put(url, formData, {
+          headers: { 'Content-Type': undefined },
+        });
+      } else if (photoAction === 'delete') {
+        await authApi.put(url, { ...payload, delete_photo: true, photo: null });
+      } else {
+        await authApi.put(url, payload);
+      }
 
       enqueueSnackbar(t('admin:visits.inspection.edit.success'), {
         variant: 'success',
@@ -139,6 +206,8 @@ const EditInspectionDialog = ({
           variant: 'error',
         });
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -254,9 +323,39 @@ const EditInspectionDialog = ({
             </Grid>
           </Grid>
 
+          <div className="mt-8 flex items-start gap-4">
+            <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded border border-gray-300">
+              {photoPreviewUrl ? (
+                <img src={photoPreviewUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-500">
+                  {t('admin:visits.inspection.photo.noPhoto')}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col gap-2">
+              <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
+              <Button
+                buttonType="medium"
+                label={t('admin:visits.inspection.photo.upload')}
+                onClick={() => fileInputRef.current?.click()}
+                type="button"
+              />
+              {photoPreviewUrl && (
+                <Button
+                  buttonType="medium"
+                  primary={false}
+                  label={t('admin:visits.inspection.photo.delete')}
+                  onClick={handlePhotoDelete}
+                  type="button"
+                />
+              )}
+            </div>
+          </div>
+
           <div className="mt-8 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
             <div className="md:mr-2">
-              <Button buttonType="large" label={t('edit.action')} disabled={false} type="submit" />
+              <Button buttonType="large" label={t('edit.action')} disabled={isSubmitting} type="submit" />
             </div>
 
             <div>

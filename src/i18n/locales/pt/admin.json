@@ -113,6 +113,11 @@
       },
       "edit": {
         "success": "Inspeção atualizada com sucesso"
+      },
+      "photo": {
+        "upload": "Enviar imagem",
+        "delete": "Excluir",
+        "noPhoto": "Sem foto"
       }
     }
   },

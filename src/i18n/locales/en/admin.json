@@ -114,6 +114,11 @@
       },
       "edit": {
         "success": "Inspection updated successfully"
+      },
+      "photo": {
+        "upload": "Upload image",
+        "delete": "Delete",
+        "noPhoto": "No photo"
       }
     }
   },
