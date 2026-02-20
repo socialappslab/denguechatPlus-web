@@ -19,6 +19,9 @@ import { Button } from '@/themed/button/Button';
 import { FormInput } from '@/themed/form-input/FormInput';
 import { Title } from '@/themed/title/Title';
 
+type InspectionData = Record<keyof InspectionSelectable, ({ selected: boolean; value: string } & BaseEntity)[]>;
+type InspectionFormOptions = Record<keyof InspectionSelectable, FormSelectOption[]>;
+
 // Other Ids
 const OtherIds = {
   waterSourceType: '6',
@@ -38,6 +41,7 @@ const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
     other_protection: containsOtherOption(values.containerProtections, OtherIds.containerProtection)
       ? values.containerProtectionOther
       : '',
+    ...(values.location ? { location: values.location } : {}),
     was_chemically_treated: values.wasChemicallyTreated,
     water_source_other: containsOtherOption(values.waterSourceTypes, OtherIds.waterSourceType)
       ? values.waterSourceOther
@@ -53,11 +57,15 @@ interface EditInspectionDialogProps {
   inspection: Inspection | null;
   visitId: number;
   handleClose: () => void;
-  inspectionData?: Record<keyof InspectionSelectable, ({ selected: boolean; value: string } & BaseEntity)[]>;
-  optionsData: Record<any, any>;
+  inspectionData?: InspectionData;
+  optionsData: InspectionFormOptions;
 }
 
-type InspectionFormOptions = Record<keyof InspectionSelectable, FormSelectOption[]>;
+interface PreloadInspectionProps {
+  inspection: Inspection | null;
+  visitId: number;
+  handleClose: () => void;
+}
 
 const EditInspectionDialog = ({
   inspection,
@@ -80,6 +88,9 @@ const EditInspectionDialog = ({
 
   const defaultValues = {
     breadingSiteType: extractIdFromInspections(inspectionData?.breadingSiteType) || '',
+    location:
+      extractIdFromInspections(inspectionData?.locations) ||
+      ((inspectionData as { location?: string } | undefined)?.location ?? ''),
     containerProtections: extractIdsFromInspections(inspectionData?.containerProtections) || '',
     eliminationMethodTypes: extractIdsFromInspections(inspectionData?.eliminationMethodTypes) || '',
     typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
@@ -245,6 +256,14 @@ const EditInspectionDialog = ({
                 options={optionsData.breadingSiteType}
               />
             </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormSelect
+                className="mt-2"
+                name="location"
+                label={t('admin:visits.inspection.columns.location')}
+                options={optionsData.locations}
+              />
+            </Grid>
             <Grid item xs={12} sm={6}>
               <FormMultipleSelect
                 className="mt-2"
@@ -368,13 +387,13 @@ const EditInspectionDialog = ({
   );
 };
 
-const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionDialogProps) => {
-  const [inspectionData, setInspectionData] =
-    useState<Record<keyof InspectionSelectable, ({ selected: boolean } & BaseEntity)[]>>();
+const PreloadInspection = ({ inspection, handleClose, visitId }: PreloadInspectionProps) => {
+  const [inspectionData, setInspectionData] = useState<InspectionData>();
   const [optionsData, setOptionsData] = useState<InspectionFormOptions>({
     breadingSiteType: [{ value: '', label: '' }],
     containerProtections: [{ value: '', label: '' }],
     eliminationMethodTypes: [{ value: '', label: '' }],
+    locations: [{ value: '', label: '' }],
     typeContents: [{ value: '', label: '' }],
     wasChemicallyTreated: [{ value: '', label: '' }],
     waterSourceTypes: [{ value: '', label: '' }],
@@ -389,10 +408,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
 
   useEffect(() => {
     if (data) {
-      const deserializedData = deserialize(data) as Record<
-        keyof InspectionSelectable,
-        ({ selected: boolean } & BaseEntity)[]
-      >;
+      const deserializedData = deserialize(data) as InspectionData;
 
       if (!Array.isArray(deserializedData)) {
         // eslint-disable-next-line no-console
@@ -403,6 +419,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
         breadingSiteType: convertToFormSelectOptions(deserializedData.breadingSiteType),
         containerProtections: convertToFormSelectOptions(deserializedData.containerProtections),
         eliminationMethodTypes: convertToFormSelectOptions(deserializedData.eliminationMethodTypes),
+        locations: convertToFormSelectOptions(deserializedData.locations || []),
         typeContents: convertToFormSelectOptions(deserializedData.typeContents),
         wasChemicallyTreated: convertToFormSelectOptions(
           deserializedData.wasChemicallyTreated,
