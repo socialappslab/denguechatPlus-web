@@ -104,6 +104,7 @@
         "eliminationMethodType": "Container elimination type",
         "typeContents": "This container contains",
         "status": "Container status",
+        "location": "Container location",
         "waterSourceType": "Water source",
         "hasWater": "Water in the container",
         "waterSourceTypeOther": "Other water source",

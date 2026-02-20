@@ -103,6 +103,7 @@
         "eliminationMethodType": "Tipo de eliminación de envase",
         "typeContents": "En este envase hay",
         "status": "Estado del envase",
+        "location": "Ubicación del envase",
         "waterSourceType": "Origen del agua",
         "hasWater": "Agua en el envase",
         "waterSourceTypeOther": "Otro origen del agua",

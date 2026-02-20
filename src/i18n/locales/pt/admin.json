@@ -103,6 +103,7 @@
         "eliminationMethodType": "Tipo de eliminação de reciente",
         "typeContents": "Este reciente contém",
         "status": "Estado do recipiente",
+        "location": "Localização do recipiente",
         "waterSourceType": "Fonte de água",
         "hasWater": "Água no recipiente",
         "waterSourceTypeOther": "Outra fonte de água",

@@ -97,6 +97,7 @@ export interface UpdateInspection {
   breeding_site_type_id: string;
   other_elimination_method: string;
   other_protection: string;
+  location?: string;
   was_chemically_treated: string;
   water_source_other: string;
   container_protection_ids: string[];

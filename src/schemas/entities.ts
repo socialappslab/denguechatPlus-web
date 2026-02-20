@@ -55,10 +55,12 @@ export interface InspectionSelectable {
   typeContents: Record<string, string>[];
   containerProtections: Record<string, string>[];
   eliminationMethodTypes: Record<string, string>[];
+  locations: Record<string, string>[];
 }
 
 export interface Inspection extends InspectionSelectable {
   id: number;
+  location: string;
   eliminationMethodTypeOther: string;
   status: InspectionStatus;
   waterSourceOther: string;
