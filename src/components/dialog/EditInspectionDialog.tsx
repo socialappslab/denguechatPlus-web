@@ -7,6 +7,7 @@ import { deserialize } from 'jsonapi-fractal';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { authApi } from '@/api/axios';
 import { FormSelectOption } from '@/schemas';
 import { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';
@@ -345,7 +346,9 @@ const EditInspectionDialog = ({
           <div className="mt-8 flex items-start gap-4">
             <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded border border-gray-300">
               {photoPreviewUrl ? (
-                <img src={photoPreviewUrl} alt="" className="h-full w-full object-cover" />
+                <Link to={photoPreviewUrl} target="_blank" rel="noreferrer">
+                  <img src={photoPreviewUrl} alt="" className="h-full w-full object-cover" />
+                </Link>
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-500">
                   {t('admin:visits.inspection.photo.noPhoto')}
