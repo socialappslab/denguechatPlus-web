@@ -66,7 +66,7 @@ export interface UpdateVisit {
   user_account_id: string;
   host: string[];
   notes: string;
-  answers?: Record<string, string>[];
+  answers?: Record<string, string | number>[];
   family_education_topics?: string[];
   other_family_education_topic: string | null;
   visit_permission_option_id?: number;

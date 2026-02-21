@@ -41,6 +41,51 @@ enum Host {
   children = 'Children',
 }
 
+const QUESTION_KEY_FORMAT = /^question_\d+_\d+$/;
+const START_SIDE_QUESTION_KEY_FALLBACK = 'question_5_0';
+
+const findStartSideQuestionKey = (
+  answers: Array<Record<string, string | number>>,
+  startSideOptions: FormSelectOption[],
+): string | null => {
+  const startSideOptionIdSet = new Set(startSideOptions.map((option) => option.value));
+  const matchedQuestion = answers
+    .flatMap((answer) => Object.entries(answer))
+    .find(([key, value]) => QUESTION_KEY_FORMAT.test(key) && startSideOptionIdSet.has(String(value)));
+
+  return matchedQuestion?.[0] ?? null;
+};
+
+const updateStartSideAnswer = (
+  answers: Array<Record<string, string | number>>,
+  startSideOptions: FormSelectOption[],
+  selectedStartSideOptionId: string,
+): Array<Record<string, string | number>> => {
+  const questionKey = findStartSideQuestionKey(answers, startSideOptions) ?? START_SIDE_QUESTION_KEY_FALLBACK;
+  let wasUpdated = false;
+
+  const updatedAnswers = answers.map((answer) => {
+    if (Object.prototype.hasOwnProperty.call(answer, questionKey)) {
+      wasUpdated = true;
+      return {
+        ...answer,
+        [questionKey]: Number(selectedStartSideOptionId),
+      };
+    }
+
+    return answer;
+  });
+
+  if (wasUpdated) return updatedAnswers;
+
+  return [
+    ...updatedAnswers,
+    {
+      [questionKey]: Number(selectedStartSideOptionId),
+    },
+  ];
+};
+
 const renderColor = (color: InspectionStatus) => {
   const colorMapping = {
     Verde: 'green',
@@ -153,6 +198,10 @@ export function EditVisit({ visit }: EditVisitProps) {
   const date = formatDateFromString(langContext.state.selected, visit.visitedAt);
 
   const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
+  const startSideOptions: FormSelectOption[] = (visit.startSide || []).map((option) => ({
+    label: option.label,
+    value: String(option.optionId),
+  }));
 
   const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: `/users?page[number]=1&page[size]=100&filter[roles][name]=brigadista&filter[team_id]=${(visit.team as BaseEntity)?.id}`,
@@ -181,8 +230,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       visitPermission: (visit.visitPermission || []).find((i) => i.selected)?.label ?? '',
       visitPermissionOther:
         (visit.visitPermission || []).find((i) => i.selected && i.typeOption === 'textArea')?.other ?? '',
-      // i18n
-      visitStartPlace: 'Huerta/Casa',
+      visitStartPlace: String((visit.startSide || []).find((i) => i.selected)?.optionId ?? ''),
       household: visit?.host?.map((i) => ({ label: i, value: i })) || [],
       familyEducationTopics: (visit.familyEducationTopics || [])
         .filter((i) => i.checked)
@@ -199,7 +247,7 @@ export function EditVisit({ visit }: EditVisitProps) {
 
   const { udpateMutation: updateVisitMutation } = useUpdateMutation<UpdateVisit, Visit>(`visits/${visit?.id}`);
 
-  const downloadCsv = useDownloadCsvQuery(visit.id);
+  const downloadCsv = useDownloadCsvQuery(Number(visit.id));
   const possibleDuplicateVisitIds = visit.possibleDuplicateVisitIds ?? [];
   const offlineVisitStatus = visit.wasOffline ? t('admin:visits.metadata.yes') : t('admin:visits.metadata.no');
   const offlineVisitLabel = t('admin:visits.metadata.offlineLabel');
@@ -231,8 +279,11 @@ export function EditVisit({ visit }: EditVisitProps) {
   const onSubmitHandler: SubmitHandler<UpdateVisitInputType> = async (values) => {
     try {
       const payload: UpdateVisit = convertSchemaToPayload(values);
+      const answers = values.visitStartPlace
+        ? updateStartSideAnswer(visit.answers, startSideOptions, values.visitStartPlace)
+        : visit.answers;
 
-      await updateVisitMutation({ ...payload, answers: visit.answers });
+      await updateVisitMutation({ ...payload, answers });
 
       enqueueSnackbar(t('admin:cities.edit.success'), {
         variant: 'success',
@@ -504,12 +555,12 @@ export function EditVisit({ visit }: EditVisitProps) {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormInput
-                className="mt-2 h-full"
-                disabled
+              <FormSelect
+                className="mt-2"
                 name="visitStartPlace"
                 label={t('admin:visits.inspection.visitStart')}
-                type="text"
+                options={startSideOptions}
+                disabled={startSideOptions.length === 0}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
