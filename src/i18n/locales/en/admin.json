@@ -58,6 +58,10 @@
   },
   "visits": {
     "title": "Visits",
+    "delete": {
+      "confirm": "Are you sure you want to delete this visit?",
+      "success": "Visit deleted successfully"
+    },
     "visitInformation": "Visit Information",
     "questionnaire": "Questionnaire",
     "inspectionData": "Inspection Data",
@@ -115,6 +119,10 @@
       },
       "edit": {
         "success": "Inspection updated successfully"
+      },
+      "delete": {
+        "confirm": "Are you sure you want to delete this container?",
+        "success": "Container deleted successfully"
       },
       "photo": {
         "upload": "Upload image",

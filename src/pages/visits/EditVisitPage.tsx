@@ -1,4 +1,6 @@
-import { Box, Chip, Container, Dialog, Grid, Stack, Typography } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { Box, Chip, Container, Dialog, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -189,6 +191,7 @@ export function EditVisit({ visit }: EditVisitProps) {
   const langContext = useLangContext();
   const navigate = useNavigate();
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
+  const [inspectionToDelete, setInspectionToDelete] = useState<Inspection | null>(null);
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
   const [inspectionUpdateControl, setInspectionUpdateControl] = useState(0);
 
@@ -245,7 +248,9 @@ export function EditVisit({ visit }: EditVisitProps) {
 
   const { handleSubmit, watch, setError, setValue } = methods;
 
-  const { udpateMutation: updateVisitMutation } = useUpdateMutation<UpdateVisit, Visit>(`visits/${visit?.id}`);
+  const { udpateMutation: updateVisitMutation, loading: updateVisitLoading } = useUpdateMutation<UpdateVisit, Visit>(
+    `visits/${visit?.id}`,
+  );
 
   const downloadCsv = useDownloadCsvQuery(Number(visit.id));
   const possibleDuplicateVisitIds = visit.possibleDuplicateVisitIds ?? [];
@@ -321,19 +326,48 @@ export function EditVisit({ visit }: EditVisitProps) {
     }
   };
 
+  const handleDeleteInspection = async (inspection: Inspection) => {
+    try {
+      await updateVisitMutation({ delete_inspection_ids: [inspection.id] });
+      setInspectionUpdateControl((value) => value + 1);
+      setInspectionToDelete(null);
+      enqueueSnackbar(t('admin:visits.inspection.delete.success'), {
+        variant: 'success',
+      });
+    } catch {
+      enqueueSnackbar(t('errorCodes:generic'), {
+        variant: 'error',
+      });
+    }
+  };
+
   const actions = (inspection: Inspection, loading?: boolean) => {
     return (
-      <div className="flex flex-row">
-        <Button
-          primary
-          disabled={!!loading}
-          onClick={() => {
-            setSelectedInspection(inspection);
-            setOpenEditDialog(true);
-          }}
-          label={t('translation:table.actions.edit')}
-          buttonType="cell"
-        />
+      <div className="flex flex-row items-center gap-1">
+        <Tooltip title={t('translation:table.actions.edit')}>
+          <IconButton
+            size="small"
+            color="primary"
+            disabled={!!loading || updateVisitLoading}
+            onClick={() => {
+              setSelectedInspection(inspection);
+              setOpenEditDialog(true);
+            }}
+          >
+            <EditOutlinedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={t('translation:table.actions.delete')}>
+          <IconButton
+            size="small"
+            color="error"
+            disabled={!!loading || updateVisitLoading}
+            onClick={() => setInspectionToDelete(inspection)}
+          >
+            <DeleteOutlineIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </div>
     );
   };
@@ -611,6 +645,39 @@ export function EditVisit({ visit }: EditVisitProps) {
         searchable={false}
         updateControl={inspectionUpdateControl}
       />
+
+      <Dialog
+        container={rootElement}
+        fullWidth
+        maxWidth="xs"
+        open={!!inspectionToDelete}
+        onClose={() => setInspectionToDelete(null)}
+      >
+        <div className="flex flex-col py-7 px-8">
+          <Title type="section" label={t('translation:table.actions.delete')} className="mb-4" />
+          <p className="text-sm text-darkest">{t('admin:visits.inspection.delete.confirm')}</p>
+
+          <div className="mt-6 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
+            <div className="md:mr-2">
+              <Button
+                buttonType="medium"
+                primary={false}
+                disabled={updateVisitLoading}
+                label={t('register:cancel')}
+                onClick={() => setInspectionToDelete(null)}
+              />
+            </div>
+            <div>
+              <Button
+                buttonType="medium"
+                disabled={updateVisitLoading}
+                label={t('translation:table.actions.delete')}
+                onClick={() => inspectionToDelete && handleDeleteInspection(inspectionToDelete)}
+              />
+            </div>
+          </div>
+        </div>
+      </Dialog>
 
       <Dialog container={rootElement} fullWidth maxWidth="md" open={openEditDialog} onClose={handleClose}>
         {openEditDialog && (
