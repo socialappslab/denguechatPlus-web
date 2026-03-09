@@ -57,6 +57,10 @@
   },
   "visits": {
     "title": "Visitas",
+    "delete": {
+      "confirm": "¿Está seguro de que desea eliminar esta visita?",
+      "success": "Visita eliminada con éxito"
+    },
     "visitInformation": "Información de la visita",
     "questionnaire": "Cuestionario",
     "inspectionData": "Datos del envase",
@@ -114,6 +118,10 @@
       },
       "edit": {
         "success": "Envase actualizado con éxito"
+      },
+      "delete": {
+        "confirm": "¿Está seguro de que desea eliminar este envase?",
+        "success": "Envase eliminado con éxito"
       },
       "photo": {
         "upload": "Subir imagen",
