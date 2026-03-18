@@ -57,6 +57,10 @@
   },
   "visits": {
     "title": "Visitas",
+    "delete": {
+      "confirm": "Tem certeza de que deseja excluir esta visita?",
+      "success": "Visita excluída com sucesso"
+    },
     "visitInformation": "Informação da visita",
     "questionnaire": "Questionário",
     "inspectionData": "Dados da Inspeção",
@@ -103,6 +107,7 @@
         "eliminationMethodType": "Tipo de eliminação de reciente",
         "typeContents": "Este reciente contém",
         "status": "Estado do recipiente",
+        "location": "Localização do recipiente",
         "waterSourceType": "Fonte de água",
         "hasWater": "Água no recipiente",
         "waterSourceTypeOther": "Outra fonte de água",
@@ -113,6 +118,15 @@
       },
       "edit": {
         "success": "Inspeção atualizada com sucesso"
+      },
+      "delete": {
+        "confirm": "Tem certeza de que deseja excluir este recipiente?",
+        "success": "Recipiente excluído com sucesso"
+      },
+      "photo": {
+        "upload": "Enviar imagem",
+        "delete": "Excluir",
+        "noPhoto": "Sem foto"
       }
     }
   },

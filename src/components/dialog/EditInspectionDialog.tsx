@@ -5,9 +5,10 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { enqueueSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useUpdateMutation from '@/hooks/useUpdateMutation';
+import { Link } from 'react-router-dom';
+import { authApi } from '@/api/axios';
 import { FormSelectOption } from '@/schemas';
 import { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';
 import { UpdateInspection } from '@/schemas/update';
@@ -18,6 +19,9 @@ import { convertToFormSelectOptions, extractAxiosErrorData } from '@/util';
 import { Button } from '@/themed/button/Button';
 import { FormInput } from '@/themed/form-input/FormInput';
 import { Title } from '@/themed/title/Title';
+
+type InspectionData = Record<keyof InspectionSelectable, ({ selected: boolean; value: string } & BaseEntity)[]>;
+type InspectionFormOptions = Record<keyof InspectionSelectable, FormSelectOption[]>;
 
 // Other Ids
 const OtherIds = {
@@ -38,6 +42,7 @@ const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
     other_protection: containsOtherOption(values.containerProtections, OtherIds.containerProtection)
       ? values.containerProtectionOther
       : '',
+    ...(values.location ? { location: values.location } : {}),
     was_chemically_treated: values.wasChemicallyTreated,
     water_source_other: containsOtherOption(values.waterSourceTypes, OtherIds.waterSourceType)
       ? values.waterSourceOther
@@ -53,11 +58,15 @@ interface EditInspectionDialogProps {
   inspection: Inspection | null;
   visitId: number;
   handleClose: () => void;
-  inspectionData?: Record<keyof InspectionSelectable, ({ selected: boolean; value: string } & BaseEntity)[]>;
-  optionsData: Record<any, any>;
+  inspectionData?: InspectionData;
+  optionsData: InspectionFormOptions;
 }
 
-type InspectionFormOptions = Record<keyof InspectionSelectable, FormSelectOption[]>;
+interface PreloadInspectionProps {
+  inspection: Inspection | null;
+  visitId: number;
+  handleClose: () => void;
+}
 
 const EditInspectionDialog = ({
   inspection,
@@ -80,6 +89,9 @@ const EditInspectionDialog = ({
 
   const defaultValues = {
     breadingSiteType: extractIdFromInspections(inspectionData?.breadingSiteType) || '',
+    location:
+      extractIdFromInspections(inspectionData?.locations) ||
+      ((inspectionData as { location?: string } | undefined)?.location ?? ''),
     containerProtections: extractIdsFromInspections(inspectionData?.containerProtections) || '',
     eliminationMethodTypes: extractIdsFromInspections(inspectionData?.eliminationMethodTypes) || '',
     typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
@@ -97,14 +109,81 @@ const EditInspectionDialog = ({
   });
 
   const { handleSubmit, watch, setError } = methods;
+  const inspectionDataPhotoUrl = (inspectionData as { photoUrl?: { url?: string; photo_url?: string } } | undefined)
+    ?.photoUrl;
 
-  const { udpateMutation: updateInspectionMutation } = useUpdateMutation<UpdateInspection, Inspection>(
-    `visits/${visitId}/inspections/${inspection?.id}`,
+  type PhotoAction = 'keep' | 'delete' | 'replace';
+  const [photoAction, setPhotoAction] = useState<PhotoAction>('keep');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(
+    inspectionDataPhotoUrl?.url ?? inspectionDataPhotoUrl?.photo_url ?? inspection?.photoUrl?.url ?? null,
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    return () => {
+      if (photoPreviewUrl && photoPreviewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(photoPreviewUrl);
+      }
+    };
+  }, [photoPreviewUrl]);
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (photoPreviewUrl && photoPreviewUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(photoPreviewUrl);
+    }
+
+    setSelectedFile(file);
+    setPhotoAction('replace');
+    setPhotoPreviewUrl(URL.createObjectURL(file));
+  };
+
+  const handlePhotoDelete = () => {
+    if (photoPreviewUrl && photoPreviewUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(photoPreviewUrl);
+    }
+
+    setPhotoAction('delete');
+    setPhotoPreviewUrl(null);
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const onSubmitHandler: SubmitHandler<Inspection> = async (values) => {
+    setIsSubmitting(true);
     try {
-      await updateInspectionMutation(convertSchemaToPayload(values));
+      const url = `/visits/${visitId}/inspections/${inspection?.id}`;
+      const payload = convertSchemaToPayload(values);
+
+      if (photoAction === 'replace' && selectedFile) {
+        const formData = new FormData();
+
+        Object.entries(payload).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            value.forEach((item) => {
+              formData.append(`${key}[]`, String(item));
+            });
+          } else if (value !== undefined && value !== null) {
+            formData.append(key, String(value));
+          }
+        });
+
+        formData.append('photo', selectedFile);
+
+        await authApi.put(url, formData, {
+          headers: { 'Content-Type': undefined },
+        });
+      } else if (photoAction === 'delete') {
+        await authApi.put(url, { ...payload, delete_photo: true, photo: null });
+      } else {
+        await authApi.put(url, payload);
+      }
 
       enqueueSnackbar(t('admin:visits.inspection.edit.success'), {
         variant: 'success',
@@ -139,6 +218,8 @@ const EditInspectionDialog = ({
           variant: 'error',
         });
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -174,6 +255,14 @@ const EditInspectionDialog = ({
                 name="breadingSiteType"
                 label={t('admin:visits.inspection.columns.breadingSiteType')}
                 options={optionsData.breadingSiteType}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormSelect
+                className="mt-2"
+                name="location"
+                label={t('admin:visits.inspection.columns.location')}
+                options={optionsData.locations}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -254,9 +343,41 @@ const EditInspectionDialog = ({
             </Grid>
           </Grid>
 
+          <div className="mt-8 flex items-start gap-4">
+            <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded border border-gray-300">
+              {photoPreviewUrl ? (
+                <Link to={photoPreviewUrl} target="_blank" rel="noreferrer">
+                  <img src={photoPreviewUrl} alt="" className="h-full w-full object-cover" />
+                </Link>
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-500">
+                  {t('admin:visits.inspection.photo.noPhoto')}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col gap-2">
+              <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
+              <Button
+                buttonType="medium"
+                label={t('admin:visits.inspection.photo.upload')}
+                onClick={() => fileInputRef.current?.click()}
+                type="button"
+              />
+              {photoPreviewUrl && (
+                <Button
+                  buttonType="medium"
+                  primary={false}
+                  label={t('admin:visits.inspection.photo.delete')}
+                  onClick={handlePhotoDelete}
+                  type="button"
+                />
+              )}
+            </div>
+          </div>
+
           <div className="mt-8 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
             <div className="md:mr-2">
-              <Button buttonType="large" label={t('edit.action')} disabled={false} type="submit" />
+              <Button buttonType="large" label={t('edit.action')} disabled={isSubmitting} type="submit" />
             </div>
 
             <div>
@@ -269,13 +390,13 @@ const EditInspectionDialog = ({
   );
 };
 
-const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionDialogProps) => {
-  const [inspectionData, setInspectionData] =
-    useState<Record<keyof InspectionSelectable, ({ selected: boolean } & BaseEntity)[]>>();
+const PreloadInspection = ({ inspection, handleClose, visitId }: PreloadInspectionProps) => {
+  const [inspectionData, setInspectionData] = useState<InspectionData>();
   const [optionsData, setOptionsData] = useState<InspectionFormOptions>({
     breadingSiteType: [{ value: '', label: '' }],
     containerProtections: [{ value: '', label: '' }],
     eliminationMethodTypes: [{ value: '', label: '' }],
+    locations: [{ value: '', label: '' }],
     typeContents: [{ value: '', label: '' }],
     wasChemicallyTreated: [{ value: '', label: '' }],
     waterSourceTypes: [{ value: '', label: '' }],
@@ -290,10 +411,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
 
   useEffect(() => {
     if (data) {
-      const deserializedData = deserialize(data) as Record<
-        keyof InspectionSelectable,
-        ({ selected: boolean } & BaseEntity)[]
-      >;
+      const deserializedData = deserialize(data) as InspectionData;
 
       if (!Array.isArray(deserializedData)) {
         // eslint-disable-next-line no-console
@@ -304,6 +422,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: EditInspectionD
         breadingSiteType: convertToFormSelectOptions(deserializedData.breadingSiteType),
         containerProtections: convertToFormSelectOptions(deserializedData.containerProtections),
         eliminationMethodTypes: convertToFormSelectOptions(deserializedData.eliminationMethodTypes),
+        locations: convertToFormSelectOptions(deserializedData.locations || []),
         typeContents: convertToFormSelectOptions(deserializedData.typeContents),
         wasChemicallyTreated: convertToFormSelectOptions(
           deserializedData.wasChemicallyTreated,

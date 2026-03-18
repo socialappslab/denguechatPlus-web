@@ -57,6 +57,10 @@
   },
   "visits": {
     "title": "Visitas",
+    "delete": {
+      "confirm": "¿Está seguro de que desea eliminar esta visita?",
+      "success": "Visita eliminada con éxito"
+    },
     "visitInformation": "Información de la visita",
     "questionnaire": "Cuestionario",
     "inspectionData": "Datos del envase",
@@ -103,6 +107,7 @@
         "eliminationMethodType": "Tipo de eliminación de envase",
         "typeContents": "En este envase hay",
         "status": "Estado del envase",
+        "location": "Ubicación del envase",
         "waterSourceType": "Origen del agua",
         "hasWater": "Agua en el envase",
         "waterSourceTypeOther": "Otro origen del agua",
@@ -113,6 +118,15 @@
       },
       "edit": {
         "success": "Envase actualizado con éxito"
+      },
+      "delete": {
+        "confirm": "¿Está seguro de que desea eliminar este envase?",
+        "success": "Envase eliminado con éxito"
+      },
+      "photo": {
+        "upload": "Subir imagen",
+        "delete": "Borrar",
+        "noPhoto": "Sin foto"
       }
     }
   },

@@ -28,6 +28,12 @@ export interface VisitPermissionOption {
   other: string | null;
 }
 
+export interface VisitStartSideOption {
+  optionId: number;
+  label: string;
+  selected: boolean;
+}
+
 export interface Visit extends BaseEntity {
   visitedAt: string;
   city: string | BaseEntity;
@@ -39,7 +45,8 @@ export interface Visit extends BaseEntity {
   team: string | BaseEntity;
   visitPermission: VisitPermissionOption[];
   notes: string;
-  answers: Array<Record<string, string>>;
+  answers: Array<Record<string, string | number>>;
+  startSide?: VisitStartSideOption[];
   host: string[];
   familyEducationTopics: Record<string, string>[];
   otherFamilyEducationTopic: string | null;
@@ -55,10 +62,12 @@ export interface InspectionSelectable {
   typeContents: Record<string, string>[];
   containerProtections: Record<string, string>[];
   eliminationMethodTypes: Record<string, string>[];
+  locations: Record<string, string>[];
 }
 
 export interface Inspection extends InspectionSelectable {
   id: number;
+  location: string;
   eliminationMethodTypeOther: string;
   status: InspectionStatus;
   waterSourceOther: string;

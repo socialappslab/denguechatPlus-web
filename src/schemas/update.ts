@@ -61,16 +61,17 @@ const updateVisitSchemaForType = updateVisitSchema();
 export type UpdateVisitInputType = z.infer<typeof updateVisitSchemaForType>;
 
 export interface UpdateVisit {
-  house_id: string;
-  visited_at: string;
-  user_account_id: string;
-  host: string[];
-  notes: string;
-  answers?: Record<string, string>[];
+  house_id?: string;
+  visited_at?: string;
+  user_account_id?: string;
+  host?: string[];
+  notes?: string;
+  answers?: Record<string, string | number>[];
   family_education_topics?: string[];
-  other_family_education_topic: string | null;
+  other_family_education_topic?: string | null;
   visit_permission_option_id?: number;
   visit_permission_other?: string | null;
+  delete_inspection_ids?: number[];
 }
 
 // update inspection
@@ -97,6 +98,7 @@ export interface UpdateInspection {
   breeding_site_type_id: string;
   other_elimination_method: string;
   other_protection: string;
+  location?: string;
   was_chemically_treated: string;
   water_source_other: string;
   container_protection_ids: string[];

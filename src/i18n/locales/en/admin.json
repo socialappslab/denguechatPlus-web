@@ -58,6 +58,10 @@
   },
   "visits": {
     "title": "Visits",
+    "delete": {
+      "confirm": "Are you sure you want to delete this visit?",
+      "success": "Visit deleted successfully"
+    },
     "visitInformation": "Visit Information",
     "questionnaire": "Questionnaire",
     "inspectionData": "Inspection Data",
@@ -104,6 +108,7 @@
         "eliminationMethodType": "Container elimination type",
         "typeContents": "This container contains",
         "status": "Container status",
+        "location": "Container location",
         "waterSourceType": "Water source",
         "hasWater": "Water in the container",
         "waterSourceTypeOther": "Other water source",
@@ -114,6 +119,15 @@
       },
       "edit": {
         "success": "Inspection updated successfully"
+      },
+      "delete": {
+        "confirm": "Are you sure you want to delete this container?",
+        "success": "Container deleted successfully"
+      },
+      "photo": {
+        "upload": "Upload image",
+        "delete": "Delete",
+        "noPhoto": "No photo"
       }
     }
   },

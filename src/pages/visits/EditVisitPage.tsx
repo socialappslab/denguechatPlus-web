@@ -1,4 +1,6 @@
-import { Box, Chip, Container, Dialog, Grid, Stack, Typography } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { Box, Chip, Container, Dialog, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -40,6 +42,51 @@ enum Host {
   youngWoman = 'Young woman',
   children = 'Children',
 }
+
+const QUESTION_KEY_FORMAT = /^question_\d+_\d+$/;
+const START_SIDE_QUESTION_KEY_FALLBACK = 'question_5_0';
+
+const findStartSideQuestionKey = (
+  answers: Array<Record<string, string | number>>,
+  startSideOptions: FormSelectOption[],
+): string | null => {
+  const startSideOptionIdSet = new Set(startSideOptions.map((option) => option.value));
+  const matchedQuestion = answers
+    .flatMap((answer) => Object.entries(answer))
+    .find(([key, value]) => QUESTION_KEY_FORMAT.test(key) && startSideOptionIdSet.has(String(value)));
+
+  return matchedQuestion?.[0] ?? null;
+};
+
+const updateStartSideAnswer = (
+  answers: Array<Record<string, string | number>>,
+  startSideOptions: FormSelectOption[],
+  selectedStartSideOptionId: string,
+): Array<Record<string, string | number>> => {
+  const questionKey = findStartSideQuestionKey(answers, startSideOptions) ?? START_SIDE_QUESTION_KEY_FALLBACK;
+  let wasUpdated = false;
+
+  const updatedAnswers = answers.map((answer) => {
+    if (Object.prototype.hasOwnProperty.call(answer, questionKey)) {
+      wasUpdated = true;
+      return {
+        ...answer,
+        [questionKey]: Number(selectedStartSideOptionId),
+      };
+    }
+
+    return answer;
+  });
+
+  if (wasUpdated) return updatedAnswers;
+
+  return [
+    ...updatedAnswers,
+    {
+      [questionKey]: Number(selectedStartSideOptionId),
+    },
+  ];
+};
 
 const renderColor = (color: InspectionStatus) => {
   const colorMapping = {
@@ -144,7 +191,9 @@ export function EditVisit({ visit }: EditVisitProps) {
   const langContext = useLangContext();
   const navigate = useNavigate();
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
+  const [inspectionToDelete, setInspectionToDelete] = useState<Inspection | null>(null);
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
+  const [inspectionUpdateControl, setInspectionUpdateControl] = useState(0);
 
   const rootElement = document.getElementById('root-app');
   // fetched from attributes (passed as state) update after endpoint
@@ -152,6 +201,10 @@ export function EditVisit({ visit }: EditVisitProps) {
   const date = formatDateFromString(langContext.state.selected, visit.visitedAt);
 
   const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
+  const startSideOptions: FormSelectOption[] = (visit.startSide || []).map((option) => ({
+    label: option.label,
+    value: String(option.optionId),
+  }));
 
   const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: `/users?page[number]=1&page[size]=100&filter[roles][name]=brigadista&filter[team_id]=${(visit.team as BaseEntity)?.id}`,
@@ -180,8 +233,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       visitPermission: (visit.visitPermission || []).find((i) => i.selected)?.label ?? '',
       visitPermissionOther:
         (visit.visitPermission || []).find((i) => i.selected && i.typeOption === 'textArea')?.other ?? '',
-      // i18n
-      visitStartPlace: 'Huerta/Casa',
+      visitStartPlace: String((visit.startSide || []).find((i) => i.selected)?.optionId ?? ''),
       household: visit?.host?.map((i) => ({ label: i, value: i })) || [],
       familyEducationTopics: (visit.familyEducationTopics || [])
         .filter((i) => i.checked)
@@ -196,9 +248,11 @@ export function EditVisit({ visit }: EditVisitProps) {
 
   const { handleSubmit, watch, setError, setValue } = methods;
 
-  const { udpateMutation: updateVisitMutation } = useUpdateMutation<UpdateVisit, Visit>(`visits/${visit?.id}`);
+  const { udpateMutation: updateVisitMutation, loading: updateVisitLoading } = useUpdateMutation<UpdateVisit, Visit>(
+    `visits/${visit?.id}`,
+  );
 
-  const downloadCsv = useDownloadCsvQuery(visit.id);
+  const downloadCsv = useDownloadCsvQuery(Number(visit.id));
   const possibleDuplicateVisitIds = visit.possibleDuplicateVisitIds ?? [];
   const offlineVisitStatus = visit.wasOffline ? t('admin:visits.metadata.yes') : t('admin:visits.metadata.no');
   const offlineVisitLabel = t('admin:visits.metadata.offlineLabel');
@@ -230,8 +284,11 @@ export function EditVisit({ visit }: EditVisitProps) {
   const onSubmitHandler: SubmitHandler<UpdateVisitInputType> = async (values) => {
     try {
       const payload: UpdateVisit = convertSchemaToPayload(values);
+      const answers = values.visitStartPlace
+        ? updateStartSideAnswer(visit.answers, startSideOptions, values.visitStartPlace)
+        : visit.answers;
 
-      await updateVisitMutation({ ...payload, answers: visit.answers });
+      await updateVisitMutation({ ...payload, answers });
 
       enqueueSnackbar(t('admin:cities.edit.success'), {
         variant: 'success',
@@ -269,19 +326,48 @@ export function EditVisit({ visit }: EditVisitProps) {
     }
   };
 
+  const handleDeleteInspection = async (inspection: Inspection) => {
+    try {
+      await updateVisitMutation({ delete_inspection_ids: [inspection.id] });
+      setInspectionUpdateControl((value) => value + 1);
+      setInspectionToDelete(null);
+      enqueueSnackbar(t('admin:visits.inspection.delete.success'), {
+        variant: 'success',
+      });
+    } catch {
+      enqueueSnackbar(t('errorCodes:generic'), {
+        variant: 'error',
+      });
+    }
+  };
+
   const actions = (inspection: Inspection, loading?: boolean) => {
     return (
-      <div className="flex flex-row">
-        <Button
-          primary
-          disabled={!!loading}
-          onClick={() => {
-            setSelectedInspection(inspection);
-            setOpenEditDialog(true);
-          }}
-          label={t('translation:table.actions.edit')}
-          buttonType="cell"
-        />
+      <div className="flex flex-row items-center gap-1">
+        <Tooltip title={t('translation:table.actions.edit')}>
+          <IconButton
+            size="small"
+            color="primary"
+            disabled={!!loading || updateVisitLoading}
+            onClick={() => {
+              setSelectedInspection(inspection);
+              setOpenEditDialog(true);
+            }}
+          >
+            <EditOutlinedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={t('translation:table.actions.delete')}>
+          <IconButton
+            size="small"
+            color="error"
+            disabled={!!loading || updateVisitLoading}
+            onClick={() => setInspectionToDelete(inspection)}
+          >
+            <DeleteOutlineIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </div>
     );
   };
@@ -503,12 +589,12 @@ export function EditVisit({ visit }: EditVisitProps) {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormInput
-                className="mt-2 h-full"
-                disabled
+              <FormSelect
+                className="mt-2"
                 name="visitStartPlace"
                 label={t('admin:visits.inspection.visitStart')}
-                type="text"
+                options={startSideOptions}
+                disabled={startSideOptions.length === 0}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -557,14 +643,53 @@ export function EditVisit({ visit }: EditVisitProps) {
         pageSize={5}
         actions={actions}
         searchable={false}
+        updateControl={inspectionUpdateControl}
       />
 
+      <Dialog
+        container={rootElement}
+        fullWidth
+        maxWidth="xs"
+        open={!!inspectionToDelete}
+        onClose={() => setInspectionToDelete(null)}
+      >
+        <div className="flex flex-col py-7 px-8">
+          <Title type="section" label={t('translation:table.actions.delete')} className="mb-4" />
+          <p className="text-sm text-darkest">{t('admin:visits.inspection.delete.confirm')}</p>
+
+          <div className="mt-6 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
+            <div className="md:mr-2">
+              <Button
+                buttonType="medium"
+                primary={false}
+                disabled={updateVisitLoading}
+                label={t('register:cancel')}
+                onClick={() => setInspectionToDelete(null)}
+              />
+            </div>
+            <div>
+              <Button
+                buttonType="medium"
+                disabled={updateVisitLoading}
+                label={t('translation:table.actions.delete')}
+                onClick={() => inspectionToDelete && handleDeleteInspection(inspectionToDelete)}
+              />
+            </div>
+          </div>
+        </div>
+      </Dialog>
+
       <Dialog container={rootElement} fullWidth maxWidth="md" open={openEditDialog} onClose={handleClose}>
-        <EditInspectionDialog
-          visitId={visit.id as number}
-          handleClose={() => setOpenEditDialog(false)}
-          inspection={selectedInspection}
-        />
+        {openEditDialog && (
+          <EditInspectionDialog
+            visitId={visit.id as number}
+            handleClose={() => {
+              setOpenEditDialog(false);
+              setInspectionUpdateControl((c) => c + 1);
+            }}
+            inspection={selectedInspection}
+          />
+        )}
       </Dialog>
     </Container>
   );
