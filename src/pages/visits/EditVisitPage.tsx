@@ -138,6 +138,7 @@ const headCells: HeadCell<Inspection>[] = [
 
 export interface EditVisitProps {
   visit: Visit;
+  refetch?: () => void;
 }
 
 type StatusPlain = 'Rojo' | 'Verde' | 'Amarillo';
@@ -186,7 +187,7 @@ const HouseStatusBanner = ({ color: colorPlain }: HouseStatusProps) => {
   );
 };
 
-export function EditVisit({ visit }: EditVisitProps) {
+export function EditVisit({ visit, refetch }: EditVisitProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation', 'questionnaire']);
   const langContext = useLangContext();
   const navigate = useNavigate();
@@ -334,6 +335,7 @@ export function EditVisit({ visit }: EditVisitProps) {
       enqueueSnackbar(t('admin:visits.inspection.delete.success'), {
         variant: 'success',
       });
+      refetch?.();
     } catch {
       enqueueSnackbar(t('errorCodes:generic'), {
         variant: 'error',

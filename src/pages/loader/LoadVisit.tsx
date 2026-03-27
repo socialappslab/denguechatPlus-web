@@ -28,8 +28,6 @@ export function LoadVisit() {
     if (data) {
       const deserializedData = deserialize<Visit>(data);
       if (!Array.isArray(deserializedData)) {
-        // eslint-disable-next-line no-console
-        console.log('deserializedData load user', deserializedData);
         setVisit(deserializedData);
       }
     }
@@ -41,7 +39,7 @@ export function LoadVisit() {
   return (
     <>
       {loading && <Loader />}
-      {!loading && !error && visit && <EditVisit visit={visit} />}
+      {!loading && !error && visit && <EditVisit visit={visit} refetch={fetchEntity} />}
       {error && <AppErrorPage message={error?.message} />}
     </>
   );
