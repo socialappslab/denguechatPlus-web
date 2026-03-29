@@ -1,11 +1,10 @@
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Dialog, IconButton, Tooltip } from '@mui/material';
+import { Dialog, IconButton, Link, Tooltip } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
 import useAxios from 'axios-hooks';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '@/themed/button/Button';
 import FilteredDataTable from '../../components/list/FilteredDataTable';
 import { House, Visit } from '../../schemas/entities';
@@ -77,7 +76,6 @@ export default function VisitsList() {
   const { t } = useTranslation(['translation', 'admin', 'errorCodes', 'register']);
   const { enqueueSnackbar } = useSnackbar();
   const rootElement = document.getElementById('root-app');
-  const navigate = useNavigate();
   const [updateControl, setUpdateControl] = useState(0);
   const [visitToDelete, setVisitToDelete] = useState<Visit | null>(null);
 
@@ -104,13 +102,15 @@ export default function VisitsList() {
   };
 
   const actions = (row: Visit, loading?: boolean) => {
-    const navigateWithPayload = () => {
-      navigate(`${row.id}/edit`, { state: { attributes: row } });
-    };
     return (
       <div className="flex flex-row items-center gap-1">
         <Tooltip title={t('translation:table.actions.edit')}>
-          <IconButton color="primary" disabled={loading || deletingVisit} onClick={navigateWithPayload}>
+          <IconButton
+            LinkComponent={Link}
+            color="primary"
+            disabled={loading || deletingVisit}
+            href={`/visits/${row.id}/edit`}
+          >
             <EditOutlinedIcon />
           </IconButton>
         </Tooltip>
