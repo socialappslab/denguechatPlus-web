@@ -46,12 +46,15 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 }
 
 export type DataCellType = 'date' | 'boolean' | 'enum' | undefined;
+export type FilterInputType = 'text' | 'select' | 'date';
 
 export interface HeadCell<T> {
   withPadding?: boolean;
   id: Extract<keyof T, string>;
   label: string;
   type?: DataCellType;
+  filterType?: FilterInputType;
+  filterKey?: string;
   render?: (row: T, headCell: HeadCell<T>) => JSX.Element;
   sortable?: boolean;
   sortKey?: string;

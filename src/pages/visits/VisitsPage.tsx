@@ -21,6 +21,9 @@ const headCells: HeadCell<Visit>[] = [
     id: 'visitedAt',
     label: 'visitedAt',
     type: 'date',
+    filterable: true,
+    filterType: 'date',
+    filterKey: 'visited_at',
     sortable: true,
   },
   {
