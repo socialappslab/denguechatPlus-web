@@ -1,4 +1,5 @@
 import ClearIcon from '@mui/icons-material/Clear';
+import { DatePicker } from '@mui/x-date-pickers';
 import {
   FormControl,
   Grid,
@@ -11,6 +12,7 @@ import {
   TextField,
 } from '@mui/material';
 import useAxios from 'axios-hooks';
+import { Dayjs } from 'dayjs';
 import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
@@ -40,6 +42,26 @@ interface FilterOptionsObject {
   [key: string]: string[];
 }
 
+const getFilterType = <T,>(headCell?: DataTableProps<T>['headCells'][number]) => {
+  if (!headCell) {
+    return 'text';
+  }
+
+  if (headCell.filterType) {
+    return headCell.filterType;
+  }
+
+  if (headCell.filterOptions) {
+    return 'select';
+  }
+
+  if (headCell.type === 'date') {
+    return 'date';
+  }
+
+  return 'text';
+};
+
 export default function FilteredDataTable<T>({
   endpoint,
   headCells,
@@ -62,8 +84,16 @@ export default function FilteredDataTable<T>({
 
   const [searchText, setSearchText] = useState('');
   const [searchSelect, setSearchSelect] = useState('');
+  const [searchDate, setSearchDate] = useState<Dayjs | null>(null);
   const [selectedOption, setSelectedOption] = useState(defaultFilter || '');
   const options = headCells.filter((cell) => cell.filterable).map((cell) => ({ value: cell.id, label: cell.label }));
+  const selectedHeadCell = headCells.find((cell) => cell.id === selectedOption);
+  const selectedFilterType = getFilterType(selectedHeadCell);
+  const selectedFilterKey = selectedHeadCell?.filterKey ?? selectedOption;
+  const selectFilterKeys = useMemo(
+    () => headCells.filter((cell) => getFilterType(cell) === 'select').map((cell) => cell.filterKey ?? cell.id),
+    [headCells],
+  );
   const filterOptions = useMemo(() => {
     const filterOptionsObject: FilterOptionsObject = {};
 
@@ -91,7 +121,7 @@ export default function FilteredDataTable<T>({
     url: `/${endpoint}`,
     params: {
       ...payload,
-      ...constructFilterObject(filter, Object.keys(filterOptions)),
+      ...constructFilterObject(filter, selectFilterKeys),
     },
   });
 
@@ -131,9 +161,9 @@ export default function FilteredDataTable<T>({
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     setSelectedOption(event.target.value);
-    if (filterOptions[event.target.value]) {
-      setSearchSelect('');
-    }
+    setSearchText('');
+    setSearchSelect('');
+    setSearchDate(null);
   };
 
   const handleSelectOptionChange = (event: SelectChangeEvent<string>) => {
@@ -141,11 +171,21 @@ export default function FilteredDataTable<T>({
   };
 
   function handleSearch(): void {
-    if (filterOptions[selectedOption]) {
-      setFilter({ [selectedOption]: searchSelect });
-    } else {
-      setFilter({ [selectedOption]: searchText });
+    if (!selectedFilterKey) {
+      return;
     }
+
+    if (selectedFilterType === 'select') {
+      setFilter({ [selectedFilterKey]: searchSelect });
+      return;
+    }
+
+    if (selectedFilterType === 'date') {
+      setFilter({ [selectedFilterKey]: searchDate ? searchDate.format('YYYY-MM-DD') : '' });
+      return;
+    }
+
+    setFilter({ [selectedFilterKey]: searchText });
   }
 
   if (error) {
@@ -162,7 +202,12 @@ export default function FilteredDataTable<T>({
 
   const handleClear = () => () => {
     setSearchText('');
-    setFilter({ [selectedOption]: '' });
+    setSearchSelect('');
+    setSearchDate(null);
+
+    if (selectedFilterKey) {
+      setFilter({ [selectedFilterKey]: '' });
+    }
   };
 
   return (
@@ -173,7 +218,7 @@ export default function FilteredDataTable<T>({
       {searchable && (
         <Grid className="mb-8 " container spacing={3} direction="row" justifyContent="flex-start" alignItems="center">
           <Grid item xs={12} sm={5}>
-            {!filterOptions[selectedOption] && (
+            {selectedFilterType === 'text' && (
               <TextField
                 fullWidth
                 onKeyDown={handleKeyPress}
@@ -192,7 +237,7 @@ export default function FilteredDataTable<T>({
                 }}
               />
             )}
-            {filterOptions[selectedOption] && (
+            {selectedFilterType === 'select' && (
               <FormControl fullWidth variant="outlined">
                 <InputLabel id="label-attribute-search"> {t(`table.searchValue`)}</InputLabel>
                 <Select
@@ -205,7 +250,7 @@ export default function FilteredDataTable<T>({
                   <MenuItem disabled value="">
                     {t(`table.searchValue`)}
                   </MenuItem>
-                  {filterOptions[selectedOption].map((option, index) => (
+                  {filterOptions[selectedOption]?.map((option, index) => (
                     <MenuItem key={`${option}-${index}`} value={option}>
                       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                       {/* @ts-expect-error */}
@@ -214,6 +259,32 @@ export default function FilteredDataTable<T>({
                   ))}
                 </Select>
               </FormControl>
+            )}
+            {selectedFilterType === 'date' && (
+              <DatePicker
+                label={t(`table.searchValue`)}
+                format="YYYY-MM-DD"
+                value={searchDate}
+                onChange={(value) => {
+                  const date = value as Dayjs | null;
+                  setSearchDate(date && date.isValid() ? date : null);
+                }}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    onKeyDown: handleKeyPress,
+                    InputProps: {
+                      endAdornment: searchDate ? (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleClear()}>
+                            <ClearIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ) : undefined,
+                    },
+                  },
+                }}
+              />
             )}
           </Grid>
           <Grid item xs={8} sm={4}>
@@ -242,7 +313,12 @@ export default function FilteredDataTable<T>({
           </Grid>
           <Grid item>
             <Button
-              disabled={(filterOptions[selectedOption] ? !searchSelect : !searchText) || !selectedOption}
+              disabled={
+                !selectedOption ||
+                (selectedFilterType === 'select' && !searchSelect) ||
+                (selectedFilterType === 'date' && !searchDate) ||
+                (selectedFilterType === 'text' && !searchText)
+              }
               className="justify-start text-md"
               label={t(`table.search`)}
               onClick={handleSearch}
