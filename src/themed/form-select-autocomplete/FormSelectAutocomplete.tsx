@@ -53,10 +53,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
 
           if (page === 1 || query) {
             if (Array.isArray(deserializedData)) {
-              console.log(deserializedData);
               const selectOptions = convertToFormSelectOptions(deserializedData, entityKey);
-
-              console.log(selectOptions, deserializedData);
               setOptions(selectOptions);
             }
           } else {
@@ -69,7 +66,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
           setHasMore(data.links?.self !== data.links?.last);
         }
       } catch (err) {
-        console.log('error>>>>>>', err);
+        console.error('error>>>>>>', err);
         setError(t('errorCodes:generic'));
       } finally {
         setLoadingMore(false);
