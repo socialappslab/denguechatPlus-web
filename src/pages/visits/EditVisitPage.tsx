@@ -10,7 +10,7 @@ import useAxios from 'axios-hooks';
 import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { capitalize } from 'lodash-es';
 import { enqueueSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ErrorResponse, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 import { authApi } from '@/api/axios';
@@ -159,6 +159,27 @@ const IconMap = {
   yellow: YellowHouse,
 };
 
+function useUsersQuery(teamId?: number) {
+  return useQuery({
+    enabled: !!teamId,
+    queryKey: ['users', teamId!],
+    queryFn: async () =>
+      (
+        await authApi.get('/users', {
+          params: {
+            page: { number: 1, size: 100 },
+            filter: {
+              roles: { name: 'brigadista' },
+              team_id: teamId!,
+            },
+            sort: 'user_profiles.first_name',
+            order: 'asc',
+          },
+        })
+      ).data,
+  });
+}
+
 function useDownloadCsvQuery(visitId: number) {
   return useQuery({
     queryKey: ['downloadCsv', visitId],
@@ -167,7 +188,7 @@ function useDownloadCsvQuery(visitId: number) {
   });
 }
 
-const HouseStatusBanner = ({ color: colorPlain }: HouseStatusProps) => {
+function HouseStatusBanner({ color: colorPlain }: HouseStatusProps) {
   const { t } = useTranslation('admin');
   const color = ColorMap[colorPlain as StatusPlain];
   return (
@@ -185,12 +206,13 @@ const HouseStatusBanner = ({ color: colorPlain }: HouseStatusProps) => {
       </Box>
     </Box>
   );
-};
+}
 
 export function EditVisit({ visit, refetch }: EditVisitProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation', 'questionnaire']);
   const langContext = useLangContext();
   const navigate = useNavigate();
+
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
   const [inspectionToDelete, setInspectionToDelete] = useState<Inspection | null>(null);
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
@@ -201,24 +223,19 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
   const status = visit.visitStatus;
   const date = formatDateFromString(langContext.state.selected, visit.visitedAt);
 
-  const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
   const startSideOptions: FormSelectOption[] = (visit.startSide || []).map((option) => ({
     label: option.label,
     value: String(option.optionId),
   }));
 
-  const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: `/users?page[number]=1&page[size]=100&filter[roles][name]=brigadista&filter[team_id]=${(visit.team as BaseEntity)?.id}`,
-  });
-
-  useEffect(() => {
-    if (!usersData) return;
-    const deserializedData = deserialize(usersData);
-    if (Array.isArray(deserializedData)) {
-      const users = convertToFormSelectOptions(deserializedData, 'firstName', 'lastName');
-      setUserOptions(users);
-    }
-  }, [usersData]);
+  // @ts-expect-error type is wrong
+  const users = useUsersQuery(visit.team?.id);
+  const userOptions = useMemo(() => {
+    if (!users.data) return [];
+    const deserializedData = deserialize(users.data);
+    // @ts-expect-error type is wrong
+    return convertToFormSelectOptions(deserializedData, 'firstName', 'lastName');
+  }, [users.data]);
 
   const defaultHouse = {
     value: String((visit.house as House).id),
@@ -541,7 +558,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 className="mt-2"
                 label={t('admin:visits.inspection.brigadist')}
                 options={userOptions}
-                loading={loadingUsers}
+                loading={users.isLoading}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
