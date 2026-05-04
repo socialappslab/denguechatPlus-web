@@ -330,6 +330,7 @@ const EditInspectionDialog = ({
                 name="eliminationMethodTypes"
                 label={t('admin:visits.inspection.columns.eliminationMethodType')}
                 options={optionsData.eliminationMethodTypes}
+                required
               />
             </Grid>
             <Grid item xs={12} sm={6}>
