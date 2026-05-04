@@ -21,6 +21,7 @@ export type FormMultipleSelectProps = {
   options: FormSelectOption[] | string[];
   renderOption?: (option: FormSelectOption) => string;
   disabled?: boolean;
+  required?: boolean;
 };
 
 const defaultRenderOption = (option: FormSelectOption) => option.label;
@@ -43,6 +44,7 @@ export function FormMultipleSelect({
   renderOption = defaultRenderOption,
   options,
   disabled = false,
+  required = false,
 }: FormMultipleSelectProps) {
   const {
     control,
@@ -121,6 +123,7 @@ export function FormMultipleSelect({
                     params.InputProps.endAdornment
                   ),
                 }}
+                required={required}
               />
             )}
           />
