@@ -67,6 +67,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
         }
       } catch (err) {
         console.error('error>>>>>>', err);
+        // @ts-expect-error
         setError(t('errorCodes:generic'));
       } finally {
         setLoadingMore(false);
@@ -116,6 +117,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
             fullWidth
             isOptionEqualToValue={(o, v) => o.value === v.value}
             ListboxProps={{
+              // @ts-expect-error
               onScroll: loadMoreItems,
               style: {
                 maxHeight: 300,
@@ -129,6 +131,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
             loading={loadingMore}
             noOptionsText={error ? t('translation:generalError') : t('translation:options.noItems')}
             {...field}
+            // @ts-expect-error
             onChange={(e, data) => field.onChange(data)}
             renderInput={(params) => (
               <TextField

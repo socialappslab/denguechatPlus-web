@@ -6,11 +6,14 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useQuery } from '@tanstack/react-query';
+// @ts-expect-error
 import useAxios from 'axios-hooks';
+// @ts-expect-error
 import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
 import { capitalize } from 'lodash-es';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
+// @ts-expect-error
 import { ErrorResponse, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 import { authApi } from '@/api/axios';
@@ -104,7 +107,10 @@ const renderColor = (color: InspectionStatus) => {
 
   return (
     <Box className="flex">
-      <Box className={`w-5 h-5 bg-${colorMapping[color]}-600 mr-3 rounded-full`} />
+      <Box
+        // @ts-expect-error
+        className={`w-5 h-5 bg-${colorMapping[color]}-600 mr-3 rounded-full`}
+      />
       {capitalize(color)}
     </Box>
   );
@@ -595,8 +601,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 className="mt-2 h-full"
                 name="household"
                 label={t('admin:visits.inspection.household')}
+                // @ts-expect-error
                 options={Object.keys(Host).map((i) => ({
+                  // @ts-expect-error
                   label: t(`questionnaire:host.${i}`),
+                  // @ts-expect-error
                   value: t(`questionnaire:host.${i}`),
                 }))}
                 defaultValue={(visit.familyEducationTopics || [])

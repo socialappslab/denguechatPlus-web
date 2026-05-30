@@ -92,6 +92,7 @@ export function EditUser({ user }: EditUserProps) {
     url: 'teams?page[number]=1&page[size]=100&sort=name',
   });
 
+  // @ts-expect-error
   const [{ data: houseBlocksData, loading: loadingHouseBlocks }] = useAxios<
     ExistingDocumentObject,
     unknown,

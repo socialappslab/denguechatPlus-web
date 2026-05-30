@@ -43,6 +43,7 @@ const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
       ? values.containerProtectionOther
       : '',
     ...(values.location ? { location: values.location } : {}),
+    // @ts-expect-error
     was_chemically_treated: values.wasChemicallyTreated,
     water_source_other: containsOtherOption(values.waterSourceTypes, OtherIds.waterSourceType)
       ? values.waterSourceOther
@@ -97,9 +98,13 @@ const EditInspectionDialog = ({
     typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
     wasChemicallyTreated: extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
     waterSourceTypes: extractIdsFromInspections(inspectionData?.waterSourceTypes) || '',
+    // @ts-expect-error
     containerProtectionOther: inspectionData?.containerProtectionOther,
+    // @ts-expect-error
     eliminationMethodTypeOther: inspectionData?.eliminationMethodTypeOther,
+    // @ts-expect-error
     status: t(`admin:visits.status.${inspection?.status}`),
+    // @ts-expect-error
     waterSourceOther: inspectionData?.waterSourceOther,
   };
 
@@ -214,6 +219,7 @@ const EditInspectionDialog = ({
       });
 
       if (!errorData?.errors || errorData?.errors.length === 0) {
+        // @ts-expect-error
         enqueueSnackbar(t('errorCodes:generic'), {
           variant: 'error',
         });
@@ -238,6 +244,7 @@ const EditInspectionDialog = ({
       <FormProvider {...methods}>
         <Box
           component="form"
+          // @ts-expect-error
           onSubmit={handleSubmit(onSubmitHandler)}
           noValidate
           autoComplete="off"

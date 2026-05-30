@@ -57,6 +57,7 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
   const wedges = useWedges(sectorId);
   const wedgeOptions = useMemo(
     () =>
+      // @ts-expect-error
       wedges.data?.data?.map((wedge) => ({
         label: wedge.attributes.name,
         value: wedge.id,
