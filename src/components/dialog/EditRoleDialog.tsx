@@ -69,8 +69,7 @@ export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDia
   const {
     handleSubmit,
     setError,
-    // setValue,
-    watch,
+    getValues,
     // formState: { isValid, errors },
   } = methods;
 
@@ -98,13 +97,13 @@ export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDia
 
        
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
              
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {

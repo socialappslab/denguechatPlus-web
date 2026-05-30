@@ -79,7 +79,7 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
     },
   });
 
-  const { handleSubmit, setError, watch } = methods;
+  const { handleSubmit, setError, getValues } = methods;
 
   const onSubmit = handleSubmit(async (values) => {
     try {
@@ -100,12 +100,12 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
       const errorData = extractAxiosErrorData(error);
 
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
             // @ts-expect-error we expect an item of the union
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {

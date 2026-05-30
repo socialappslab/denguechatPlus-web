@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 
-import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSnackbar } from 'notistack';
@@ -43,9 +43,9 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
     },
   });
 
-  const { handleSubmit, setError, setValue, watch } = methods;
+  const { handleSubmit, setError, setValue, control, getValues } = methods;
 
-  const watchNeighborhoods = watch('neighborhoods', ['']);
+  const watchNeighborhoods = useWatch({ control, name: 'neighborhoods', defaultValue: [''] });
 
   const onRemoveNeighborhood = (id: number) => {
     watchNeighborhoods.splice(id, 1);
@@ -77,13 +77,13 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
 
       errorData?.errors?.forEach((error: any) => {
         console.log(error);
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
 
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {

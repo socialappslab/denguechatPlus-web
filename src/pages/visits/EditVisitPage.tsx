@@ -1,7 +1,7 @@
 import { DeleteOutline as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
 import { Box, Button as MuiButton, Chip, Container, Dialog, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 
-import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useQuery } from '@tanstack/react-query';
@@ -267,7 +267,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
     },
   });
 
-  const { handleSubmit, watch, setError, setValue } = methods;
+  const { handleSubmit, setError, setValue, control, getValues } = methods;
 
   const { udpateMutation: updateVisitMutation, loading: updateVisitLoading } = useUpdateMutation<UpdateVisit, Visit>(
     `visits/${visit?.id}`,
@@ -320,13 +320,13 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
       const errorData = extractAxiosErrorData(error);
 
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
 
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
@@ -405,14 +405,15 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
     }
   };
 
-  const familyEducationTopicsContainsOtherOption = watch('familyEducationTopics').some(
+  const familyEducationTopics = useWatch({ control, name: 'familyEducationTopics', defaultValue: [] });
+  const familyEducationTopicsContainsOtherOption = familyEducationTopics.some(
     (option) =>
       option.value === 'Otro tema importante' ||
       option.value === 'Another important topic' ||
       option.value === 'Outro tópico importante',
   );
 
-  const selectedVisitPermission = watch('visitPermission');
+  const selectedVisitPermission = useWatch({ control, name: 'visitPermission' });
   const visitPermissionIsOther = (visit.visitPermission || []).some(
     (i) => i.typeOption === 'textArea' && i.label === selectedVisitPermission,
   );

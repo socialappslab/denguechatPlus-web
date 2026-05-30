@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 
-import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
@@ -113,7 +113,7 @@ const EditInspectionDialog = ({
     defaultValues,
   });
 
-  const { handleSubmit, watch, setError } = methods;
+  const { handleSubmit, setError, control, getValues } = methods;
   const inspectionDataPhotoUrl = (inspectionData as { photoUrl?: { url?: string; photo_url?: string } } | undefined)
     ?.photoUrl;
 
@@ -200,13 +200,13 @@ const EditInspectionDialog = ({
 
        
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
              
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
@@ -229,13 +229,17 @@ const EditInspectionDialog = ({
     }
   };
 
+  const containerProtections = useWatch({ control, name: 'containerProtections' });
+  const waterSourceTypes = useWatch({ control, name: 'waterSourceTypes' });
+  const eliminationMethodTypes = useWatch({ control, name: 'eliminationMethodTypes' });
+
   const containerProtectionsContainsOtherOption = containsOtherOption(
-    watch('containerProtections'),
+    containerProtections,
     OtherIds.containerProtection,
   );
-  const waterSourceTypesContainsOtherOption = containsOtherOption(watch('waterSourceTypes'), OtherIds.waterSourceType);
+  const waterSourceTypesContainsOtherOption = containsOtherOption(waterSourceTypes, OtherIds.waterSourceType);
   const eliminationMethodTypesContainsOtherOption = containsOtherOption(
-    watch('eliminationMethodTypes'),
+    eliminationMethodTypes,
     OtherIds.eliminationMethodType,
   );
 

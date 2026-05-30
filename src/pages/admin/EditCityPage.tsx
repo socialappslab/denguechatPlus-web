@@ -1,6 +1,6 @@
 import { Box, Container, Grid } from '@mui/material';
 
-import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -51,12 +51,13 @@ export function EditCity({ city }: EditCityProps) {
     handleSubmit,
     setError,
     setValue,
-    watch,
+    control,
+    getValues,
     // formState: { isValid, errors },
   } = methods;
 
-  const watchNeighborhoods = watch('neighborhoods', mappedNeighborhoods);
-  const watchNew = watch('newNeighborhoods', []);
+  const watchNeighborhoods = useWatch({ control, name: 'neighborhoods', defaultValue: mappedNeighborhoods });
+  const watchNew = useWatch({ control, name: 'newNeighborhoods', defaultValue: [] });
 
   const onRemoveNeighborhood = (id: string) => {
     const { [id]: tmp, ...rest } = watchNeighborhoods;
@@ -104,13 +105,13 @@ export function EditCity({ city }: EditCityProps) {
       const errorData = extractAxiosErrorData(error);
 
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
 
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {

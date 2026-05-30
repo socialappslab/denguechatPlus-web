@@ -63,7 +63,7 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
     },
   });
 
-  const { handleSubmit, setError, watch } = methods;
+  const { handleSubmit, setError, getValues } = methods;
 
   const onSubmitHandler: SubmitHandler<UpdateHouseBlockInputType> = async (values) => {
     try {
@@ -84,12 +84,12 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
       const errorData = extractAxiosErrorData(error);
 
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
             // @ts-expect-error we expect an item from the union
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {

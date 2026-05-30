@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Container } from '@mui/material';
 
-import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
@@ -36,8 +36,8 @@ export function CreateAccountPage() {
     resolver: zodResolver(RegisterSchema),
   });
 
-  const { handleSubmit, setError, setValue, watch, getValues } = methods;
-  const [cityValue] = watch(['city']);
+  const { handleSubmit, setError, setValue, getValues, control } = methods;
+  const cityValue = useWatch({ control, name: 'city' });
   const usernameErrorCounter = useRef(0);
 
   const [{ data: citiesData, loading: loadingCities }] = useAxiosNoAuth<ExistingDocumentObject, unknown, ErrorResponse>(

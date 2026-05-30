@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 
-import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSnackbar } from 'notistack';
@@ -51,9 +51,9 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
     resolver: zodResolver(createTeamSchema()),
     defaultValues: {},
   });
-  const { handleSubmit, resetField, setError, watch } = methods;
+  const { handleSubmit, resetField, setError, control, getValues } = methods;
 
-  const sectorId = watch('sectorId');
+  const sectorId = useWatch({ control, name: 'sectorId' });
   const wedges = useWedges(sectorId);
   const wedgeOptions = useMemo(
     () =>
@@ -153,13 +153,13 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
 
        
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
              
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
