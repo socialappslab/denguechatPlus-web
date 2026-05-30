@@ -1,6 +1,6 @@
 import { Alert, Box, Stack, Tooltip, Typography } from '@mui/material';
-import Uploady, { BatchItem, useItemErrorListener, useItemFinishListener } from '@rpldy/uploady';
-import { asUploadButton, UploadButtonProps } from '@rpldy/upload-button';
+import Uploady, { type BatchItem, useItemErrorListener, useItemFinishListener } from '@rpldy/uploady';
+import { asUploadButton, type UploadButtonProps } from '@rpldy/upload-button';
 import UploadDropZone from '@rpldy/upload-drop-zone';
 import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';

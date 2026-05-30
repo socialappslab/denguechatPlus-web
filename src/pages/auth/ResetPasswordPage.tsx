@@ -1,14 +1,12 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box, Container } from '@mui/material';
 import * as z from 'zod/mini';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import validator from 'validator';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import LogoSquare from '../../assets/images/logo-square.svg';
@@ -78,9 +76,9 @@ const ResetPasswordPage = () => {
       });
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         
         // @ts-ignore
         enqueueSnackbar(t(`errorCodes:${error.error_code || 'generic'}`), {
           variant: 'error',

@@ -2,7 +2,7 @@ import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
 import * as z from 'zod/mini';
-import { Visit } from '@/schemas/entities';
+import type { Visit } from '@/schemas/entities';
 import { useParamsTypeSafe } from '../../hooks/useParamsTypeSafe';
 import Loader from '../../themed/loader/Loader';
 import AppErrorPage from '../AppErrorPage';

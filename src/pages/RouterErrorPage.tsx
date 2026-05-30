@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { useTranslation } from 'react-i18next';
 import { useRouteError } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';

@@ -1,4 +1,4 @@
-import { ExistingResourceObject, MetaObject } from 'jsonapi-fractal';
+import type { ExistingResourceObject, MetaObject } from 'jsonapi-fractal';
 
 export type ErrorResponse = {
   errors: {

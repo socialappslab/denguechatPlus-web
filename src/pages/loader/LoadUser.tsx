@@ -3,7 +3,7 @@ import { deserialize } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
 import * as z from 'zod/mini';
 import { useParamsTypeSafe } from '../../hooks/useParamsTypeSafe';
-import { IUser } from '../../schemas/auth';
+import type { IUser } from '../../schemas/auth';
 import Loader from '../../themed/loader/Loader';
 import AppErrorPage from '../AppErrorPage';
 import EditUserPage from '../admin/EditUserPage';
@@ -27,7 +27,7 @@ export function LoadUser() {
     if (data) {
       const deserializedData = deserialize<IUser>(data);
       if (!Array.isArray(deserializedData)) {
-        // eslint-disable-next-line no-console
+         
         console.log('deserializedData load user', deserializedData);
         setUser(deserializedData);
       }

@@ -7,10 +7,10 @@ import CreateCityDialog from '@/components/dialog/CreateCityDialog';
 import { CITIES_CREATE, CITIES_EDIT } from '@/constants/permissions';
 import useStateContext from '@/hooks/useStateContext';
 import ProtectedView from '@/layout/ProtectedView';
-import { BaseObject, City } from '@/schemas';
-import { IUser } from '@/schemas/auth';
+import type { BaseObject, City } from '@/schemas';
+import type { IUser } from '@/schemas/auth';
 import Button from '@/themed/button/Button';
-import { HeadCell } from '@/themed/table/DataTable';
+import type { HeadCell } from '@/themed/table/DataTable';
 
 import FilteredDataTable from './FilteredDataTable';
 

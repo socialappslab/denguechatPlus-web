@@ -1,4 +1,5 @@
-import { Button as MUIButton, ButtonProps as MUIButtonProps } from '@mui/material';
+import { Button as MUIButton } from '@mui/material';
+import type { ButtonProps as MUIButtonProps } from '@mui/material';
 import { twMerge } from 'tailwind-merge';
 
 type SizeType = 'large' | 'small' | 'medium' | 'cell';

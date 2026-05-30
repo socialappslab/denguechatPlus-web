@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import useApproveUser from '../../hooks/useApproveUser';
-import { IUser, RegisterInputType } from '../../schemas/auth';
+import type { IUser, RegisterInputType } from '../../schemas/auth';
 import Button from '../../themed/button/Button';
 import FormInput from '../../themed/form-input/FormInput';
 import Title from '../../themed/title/Title';
@@ -33,9 +33,9 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
       });
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         
         // @ts-ignore
         enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
           variant: 'error',

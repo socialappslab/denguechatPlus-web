@@ -8,7 +8,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   TextField,
 } from '@mui/material';
 import useAxios from 'axios-hooks';
@@ -17,10 +17,10 @@ import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PAGE_SIZES, PageSizes } from '../../constants';
-import { PaginationInput } from '../../schemas/entities';
+import { PAGE_SIZES, type PageSizes } from '../../constants';
+import type { PaginationInput } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
-import DataTable, { DataTableProps, Order } from '../../themed/table/DataTable';
+import DataTable, { type DataTableProps, type Order } from '../../themed/table/DataTable';
 import Title from '../../themed/title/Title';
 import { constructFilterObject } from '../../util';
 
@@ -252,7 +252,7 @@ export default function FilteredDataTable<T>({
                   </MenuItem>
                   {filterOptions[selectedOption]?.map((option, index) => (
                     <MenuItem key={`${option}-${index}`} value={option}>
-                      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                      { }
                       {/* @ts-expect-error */}
                       {t(`options.${option}`)}
                     </MenuItem>
@@ -303,7 +303,7 @@ export default function FilteredDataTable<T>({
 
                 {options.map((option, index) => (
                   <MenuItem key={`${option.value}-${index}`} value={option.value}>
-                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                    { }
                     {/* @ts-expect-error */}
                     {t(`columns.${option.label}`)}
                   </MenuItem>

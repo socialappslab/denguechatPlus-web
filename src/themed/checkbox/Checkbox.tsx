@@ -6,7 +6,7 @@ import { twMerge } from 'tailwind-merge';
 import Checked from '../../assets/icons/check-checked.svg';
 import NotChecked from '../../assets/icons/check-empty.svg';
 import { getProperty } from '../../util';
-import { FieldErrorType, FormInputError } from '../form-input/FormInputError';
+import { FormInputError, type FieldErrorType } from '../form-input/FormInputError';
 
 export type CheckboxProps = {
   name: string;

@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { TableCellProps } from '@mui/material/TableCell';
+import TableCell, { type TableCellProps } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
@@ -13,7 +13,7 @@ import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
-import { PAGE_SIZES, PageSizes } from '@/constants';
+import { PAGE_SIZES, type PageSizes } from '@/constants';
 import { formatDateFromString } from '@/util';
 import useLangContext from '../../hooks/useLangContext';
 
@@ -135,7 +135,7 @@ function DataTableHead<T>({
                 className="flex flex-row justify-between text-grass text-sm font-bold"
                 onClick={createSortHandler(headCell.id)}
               >
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                { }
                 {/* @ts-expect-error */}
                 {t(`columns.${headCell.label}`)}
               </TableSortLabel>
@@ -191,7 +191,7 @@ export function DataTable<T>({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState<PageSizes>(pageSize);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const renderValue = (row: T, headCell: HeadCell<T>): string | React.ReactNode => {
     if (headCell.render) {
       return headCell.render(row, headCell);
@@ -202,7 +202,7 @@ export function DataTable<T>({
     }
 
     if (headCell.type === 'enum') {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+       
       // @ts-expect-error
       return t(`options.${row[headCell.id]}`);
     }

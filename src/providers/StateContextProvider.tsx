@@ -1,11 +1,11 @@
 import React, { useEffect, useReducer, useState } from 'react';
 
 import useAxios from 'axios-hooks';
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
-import { ErrorResponse } from 'react-router-dom';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
+import type { ErrorResponse } from 'react-router-dom';
 import { getUser, saveUser } from '../api/localstore';
 import { DISPATCH_ACTIONS } from '../constants';
-import { IUser } from '../schemas/auth';
+import type { IUser } from '../schemas/auth';
 
 type AuthState = {
   user: IUser | null | unknown;

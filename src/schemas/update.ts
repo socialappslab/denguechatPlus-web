@@ -1,6 +1,6 @@
 import * as z from 'zod/mini';
 import i18nInstance from '../i18n/config';
-import { CreateRole } from './create';
+import type { CreateRole } from './create';
 import { HouseBlockType } from './entities';
 
 const t = (key: string, args?: { [key: string]: string | number }) => i18nInstance.t(key, args);
@@ -111,7 +111,7 @@ export interface UpdateInspection {
 export const updateHouseBlockSchema = () => {
   return z.object({
     name: z.string().check(z.minLength(1, t('validation:requiredField.name'))),
-    blockType: z.enum(HouseBlockType),
+    blockType: z.enum([HouseBlockType.FrenteAFrente, HouseBlockType.Block]),
     houseIds: z.array(z.object({ value: z.string(), label: z.string() })),
   });
 };

@@ -2,12 +2,12 @@ import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
 import * as z from 'zod/mini';
-import { BaseObject, City } from '@/schemas';
+import type { BaseObject, City } from '@/schemas';
 import { useParamsTypeSafe } from '../../hooks/useParamsTypeSafe';
 import Loader from '../../themed/loader/Loader';
 import AppErrorPage from '../AppErrorPage';
 import EditCityPage from '../admin/EditCityPage';
-import { IUser } from '@/schemas/auth';
+import type { IUser } from '@/schemas/auth';
 import useStateContext from '@/hooks/useStateContext';
 
 export function LoadCity() {
@@ -32,7 +32,7 @@ export function LoadCity() {
     if (data) {
       const deserializedData = deserialize<City>(data);
       if (!Array.isArray(deserializedData)) {
-        // eslint-disable-next-line no-console
+         
         console.log('deserializedData load user', deserializedData);
         setCity(deserializedData);
       }

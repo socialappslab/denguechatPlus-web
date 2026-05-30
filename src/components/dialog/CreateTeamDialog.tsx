@@ -1,23 +1,23 @@
 import { Box, Grid } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSnackbar } from 'notistack';
 
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useEffect, useMemo, useState } from 'react';
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router-dom';
 import useAxios from 'axios-hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import useCreateMutation from '@/hooks/useCreateMutation';
-import { BaseObject, FormSelectOption } from '@/schemas';
-import { CreateTeam, CreateTeamInputType, createTeamSchema } from '@/schemas/create';
-import { Team } from '@/schemas/entities';
+import type { BaseObject, FormSelectOption } from '@/schemas';
+import { createTeamSchema, type CreateTeam, type CreateTeamInputType } from '@/schemas/create';
+import type { Team } from '@/schemas/entities';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import FormSelect from '@/themed/form-select/FormSelect';
-import { IUser } from '../../schemas/auth';
+import type { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
@@ -151,19 +151,19 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
               field: watch(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           enqueueSnackbar(t([`errorCodes:${error?.error_code}`, 'errorCodes:generic']), {
             variant: 'error',

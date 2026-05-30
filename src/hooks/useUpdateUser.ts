@@ -1,8 +1,8 @@
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router-dom';
 
 import useAxios from 'axios-hooks';
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
-import { IUser, UserUpdate } from '../schemas/auth';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
+import type { IUser, UserUpdate } from '../schemas/auth';
 
 type IUseUpdateUser = {
   udpateUserMutation: (payload: UserUpdate) => Promise<void>;
@@ -23,7 +23,7 @@ export default function useUpdateUser(idParam?: string): IUseUpdateUser {
     // console.log('createRes', createRes);
 
     const deserializedData = deserialize<IUser>(createRes.data);
-    // eslint-disable-next-line no-console
+     
     console.log('deserializedData update', deserializedData);
   };
 

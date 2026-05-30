@@ -30,9 +30,11 @@ export const DISPATCH_ACTIONS = {
   SET_LANG: 'SET_LANG',
 };
 
-export enum UserTypes {
-  ADMIN = 'ADMIN',
-}
+export const UserTypes = {
+  ADMIN: 'ADMIN',
+} as const;
+
+export type UserTypes = (typeof UserTypes)[keyof typeof UserTypes];
 
 export const drawerWidth = 260;
 

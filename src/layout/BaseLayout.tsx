@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/material';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { ScrollToTop } from '../components/ScrollToTop';
 import { drawerWidth } from '../constants';

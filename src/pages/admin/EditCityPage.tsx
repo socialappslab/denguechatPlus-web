@@ -1,6 +1,6 @@
 import { Box, Container, Grid } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,9 +9,9 @@ import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import useStateContext from '@/hooks/useStateContext';
 import useUpdateCity from '@/hooks/useUpdateCity';
-import { IUser } from '@/schemas/auth';
-import { CityUpdate, UpdateCityInputType, updateCitySchema } from '@/schemas/update';
-import { BaseObject, City } from '../../schemas';
+import type { IUser } from '@/schemas/auth';
+import { type CityUpdate, type UpdateCityInputType, updateCitySchema } from '@/schemas/update';
+import type { BaseObject, City } from '../../schemas';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
@@ -103,19 +103,19 @@ export function EditCity({ city }: EditCityProps) {
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
               field: watch(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',

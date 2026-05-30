@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -90,9 +89,9 @@ const NewPasswordPage = () => {
       setSuccess(true);
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         
         // @ts-ignore
         enqueueSnackbar(t(`errorCodes:${error.error_code || 'generic'}`), {
           variant: 'error',

@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { PropsWithChildren } from 'react';
+ 
+import type { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 
-import { UserTypes } from '../constants';
+import type { UserTypes } from '../constants';
 import useUser from '../hooks/useUser';
-import { IUser } from '../schemas/auth';
+import type { IUser } from '../schemas/auth';
 
 export interface ProtectedRouteProps extends PropsWithChildren {
   requiredUserType?: UserTypes;
@@ -22,6 +22,5 @@ export default function ProtectedRoute({ children, requiredUserType }: Protected
     throw new Error(t('errors.unauthorized'));
   }
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{children}</>;
 }

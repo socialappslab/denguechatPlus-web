@@ -1,7 +1,7 @@
 import { CssBaseline } from '@mui/material';
 import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material/styles';
 import { SnackbarProvider } from 'notistack';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type {} from '@mui/lab/themeAugmentation';
 
 import { COLORS } from './constants';
@@ -91,7 +91,7 @@ const theme = createTheme({
         },
       },
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+     
     // @ts-ignore
     MuiPickersDay: {
       styleOverrides: {

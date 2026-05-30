@@ -5,8 +5,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { convertToFormSelectOptions } from '@/util';
-import { BaseEntity } from '@/schemas/entities';
-import { FormSelectOption } from '@/schemas';
+import type { BaseEntity } from '@/schemas/entities';
+import type { FormSelectOption } from '@/schemas';
 import { authApi } from '@/api/axios';
 
 type Props = {

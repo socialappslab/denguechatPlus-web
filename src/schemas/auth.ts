@@ -1,5 +1,5 @@
 import * as z from 'zod/mini';
-import { BaseObject, FormSelectOption } from '.';
+import type { BaseObject, FormSelectOption } from '.';
 
 export type FieldErrorForTranslation = {
   key: string;

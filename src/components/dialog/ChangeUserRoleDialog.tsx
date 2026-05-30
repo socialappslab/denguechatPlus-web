@@ -1,15 +1,15 @@
 import { Box, Dialog, Grid } from '@mui/material';
 
 import useAxios from 'axios-hooks';
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import useUpdateUser from '../../hooks/useUpdateUser';
-import { ErrorResponse, FormSelectOption } from '../../schemas';
-import { ChangeUserRoleInputType, IUser, UserUpdate } from '../../schemas/auth';
-import { Role } from '../../schemas/entities';
+import type { ErrorResponse, FormSelectOption } from '../../schemas';
+import type { ChangeUserRoleInputType, IUser, UserUpdate } from '../../schemas/auth';
+import type { Role } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
 import FormInput from '../../themed/form-input/FormInput';
 import FormMultipleSelect from '../../themed/form-multiple-select/FormMultipleSelect';
@@ -73,19 +73,19 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
               field: watch(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',

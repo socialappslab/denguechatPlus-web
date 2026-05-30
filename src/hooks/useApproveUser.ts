@@ -1,9 +1,9 @@
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router-dom';
 
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 
 import useAxios from 'axios-hooks';
-import { ChangeStatus, IUser } from '../schemas/auth';
+import type { ChangeStatus, IUser } from '../schemas/auth';
 
 type IUseApproveUser = {
   approveUserMutation: (payload: ChangeStatus) => Promise<void>;
@@ -24,7 +24,7 @@ export default function useApproveUser(idParam?: string): IUseApproveUser {
     const deserializedData = deserialize<IUser>(mutationResponse.data);
 
     if (!Array.isArray(deserializedData)) {
-      // eslint-disable-next-line no-console
+       
       console.log('deserializedData approve', deserializedData);
     } else {
       throw new Error("Couldn't deserialize user data");

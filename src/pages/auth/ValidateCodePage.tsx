@@ -1,13 +1,12 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
+import { type ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import useAxios from 'axios-hooks';
-import { ExistingDocumentObject } from 'jsonapi-fractal';
+import type { ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import * as z from 'zod/mini';
 import { extractAxiosErrorData } from '@/util';
@@ -17,7 +16,7 @@ import LogoSquare from '../../assets/images/logo-square.svg';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
-import { BaseResetForm, ValidatePhone } from './ResetPasswordPage';
+import { BaseResetForm, type ValidatePhone } from './ResetPasswordPage';
 
 const trimString = (str: string) => `${'*'.repeat(3)}${str.slice(str.length - 5, str.length)}`;
 
@@ -71,9 +70,9 @@ const ValidateCodePage = () => {
       });
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         
         // @ts-ignore
         enqueueSnackbar(t(`errorCodes:${error.error_code || 'generic'}`), {
           variant: 'error',
@@ -99,7 +98,7 @@ const ValidateCodePage = () => {
         phone: phoneNumber,
       };
       const data = await validateCodeMutation({ data: payload });
-      // eslint-disable-next-line prefer-destructuring
+       
       const url = (data?.data as unknown as { url: string }).url;
       const token = url.split('/').pop();
       enqueueSnackbar(t('auth:resetPassword.validatedCode'), {
@@ -108,9 +107,9 @@ const ValidateCodePage = () => {
       navigate('/new-password', { state: { token } });
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         
         // @ts-ignore
         enqueueSnackbar(error.detail || t(`errorCodes:${error.error_code || 'generic'}`), {
           variant: 'error',

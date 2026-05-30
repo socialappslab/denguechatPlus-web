@@ -1,4 +1,4 @@
-import { Box, Divider, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Box, Divider, FormControl, InputLabel, MenuItem, Select, type SelectChangeEvent } from '@mui/material';
 import { deserialize } from 'jsonapi-fractal';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,8 +8,8 @@ import PostBox from '@/components/PostBox';
 import RiskChart from '@/components/RiskChart';
 import RankViewBox from '@/components/list/RankViewBox';
 import useUser from '@/hooks/useUser';
-import { BaseObject } from '@/schemas';
-import { Post, Team } from '@/schemas/entities';
+import type { BaseObject } from '@/schemas';
+import { type Post, type Team } from '@/schemas/entities';
 import Loader from '@/themed/loader/Loader';
 import Title from '@/themed/title/Title';
 

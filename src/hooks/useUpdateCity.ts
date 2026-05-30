@@ -1,9 +1,9 @@
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router-dom';
 
 import useAxios from 'axios-hooks';
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
-import { City } from '@/schemas';
-import { CityUpdate } from '@/schemas/update';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
+import type { City } from '@/schemas';
+import type { CityUpdate } from '@/schemas/update';
 
 type IUseUpdateCity = {
   udpateCityMutation: (payload: CityUpdate) => Promise<void>;
@@ -24,7 +24,7 @@ export default function useUpdateCity(endpoint: string): IUseUpdateCity {
     // console.log('createRes', createRes);
 
     const deserializedData = deserialize<City>(createRes.data);
-    // eslint-disable-next-line no-console
+     
     console.log('deserializedData update', deserializedData);
   };
 

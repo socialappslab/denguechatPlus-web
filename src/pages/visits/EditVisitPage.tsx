@@ -2,19 +2,18 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Box, Chip, Container, Dialog, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useQuery } from '@tanstack/react-query';
 // @ts-expect-error
 import useAxios from 'axios-hooks';
 // @ts-expect-error
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { capitalize } from 'lodash-es';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
-// @ts-expect-error
-import { ErrorResponse, Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 import { authApi } from '@/api/axios';
 import GreenHouse from '@/assets/icons/house-green.svg';
@@ -24,27 +23,33 @@ import EditInspectionDialog from '@/components/dialog/EditInspectionDialog';
 import FilteredDataTable from '@/components/list/FilteredDataTable';
 import useLangContext from '@/hooks/useLangContext';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
-import { FormSelectOption } from '@/schemas';
-import { BaseEntity, House, Inspection, InspectionStatus, Visit } from '@/schemas/entities';
-import { UpdateVisit, UpdateVisitInputType } from '@/schemas/update';
+import type { FormSelectOption } from '@/schemas';
+import {
+  type BaseEntity,
+  type House,
+  type Inspection,
+  type InspectionStatus,
+  type Visit,
+} from '@/schemas/entities';
+import { type UpdateVisit, type UpdateVisitInputType } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import FormSelectAutocomplete from '@/themed/form-select-autocomplete/FormSelectAutocomplete';
 import FormSelect from '@/themed/form-select/FormSelect';
-import { HeadCell } from '@/themed/table/DataTable';
+import type { HeadCell } from '@/themed/table/DataTable';
 import Text from '@/themed/text/Text';
 import { convertToFormSelectOptions, downloadFile, extractAxiosErrorData, formatDateFromString } from '@/util';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 
-enum Host {
-  seniorAdult = 'Senior adult',
-  adultMan = 'Adult man',
-  adultWoman = 'Adult woman',
-  youngMan = 'Young man',
-  youngWoman = 'Young woman',
-  children = 'Children',
-}
+const Host = {
+  seniorAdult: 'Senior adult',
+  adultMan: 'Adult man',
+  adultWoman: 'Adult woman',
+  youngMan: 'Young man',
+  youngWoman: 'Young woman',
+  children: 'Children',
+} as const;
 
 const QUESTION_KEY_FORMAT = /^question_\d+_\d+$/;
 const START_SIDE_QUESTION_KEY_FALLBACK = 'question_5_0';
@@ -322,19 +327,19 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
               field: watch(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',

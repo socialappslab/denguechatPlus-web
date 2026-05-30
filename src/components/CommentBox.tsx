@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import useAxios from 'axios-hooks';
-import { deserialize, DocumentObject } from 'jsonapi-fractal';
+import { deserialize, type DocumentObject } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
 import ThumbsUp from '@/assets/icons/thumbs-up.svg';
 import useLangContext from '@/hooks/useLangContext';

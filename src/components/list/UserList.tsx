@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import ProtectedView from '../../layout/ProtectedView';
-import { IUser, UserStatusValues } from '../../schemas/auth';
+import { UserStatusValues, type IUser } from '../../schemas/auth';
 import Button from '../../themed/button/Button';
-import { HeadCell } from '../../themed/table/DataTable';
+import type { HeadCell } from '../../themed/table/DataTable';
 import ApproveUserDialog from '../dialog/ApproveUserDialog';
 import ChangeUserRoleDialog from '../dialog/ChangeUserRoleDialog';
 import FilteredDataTable from './FilteredDataTable';
@@ -81,7 +81,7 @@ export default function UserList() {
     setUpdateControl((prev) => prev + 1);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow
+   
   const actions = (row: IUser, loading?: boolean) => (
     <div className="flex flex-row">
       <ProtectedView hasPermission={['users-update']}>

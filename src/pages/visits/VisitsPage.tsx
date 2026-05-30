@@ -7,8 +7,8 @@ import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import Button from '@/themed/button/Button';
 import FilteredDataTable from '../../components/list/FilteredDataTable';
-import { House, Visit } from '../../schemas/entities';
-import { HeadCell } from '../../themed/table/DataTable';
+import { type House, type Visit } from '../../schemas/entities';
+import type { HeadCell } from '../../themed/table/DataTable';
 import Title from '../../themed/title/Title';
 
 const headCells: HeadCell<Visit>[] = [

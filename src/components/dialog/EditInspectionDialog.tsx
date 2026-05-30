@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
@@ -9,9 +9,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { authApi } from '@/api/axios';
-import { FormSelectOption } from '@/schemas';
-import { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';
-import { UpdateInspection } from '@/schemas/update';
+import type { FormSelectOption } from '@/schemas';
+import type { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';
+import type { UpdateInspection } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import FormSelect from '@/themed/form-select/FormSelect';
 import Loader from '@/themed/loader/Loader';
@@ -198,19 +198,19 @@ const EditInspectionDialog = ({
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
               field: watch(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',
@@ -422,7 +422,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: PreloadInspecti
       const deserializedData = deserialize(data) as InspectionData;
 
       if (!Array.isArray(deserializedData)) {
-        // eslint-disable-next-line no-console
+         
         console.log('deserializedData load user', deserializedData);
       }
 

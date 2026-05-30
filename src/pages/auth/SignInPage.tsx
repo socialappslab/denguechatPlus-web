@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { useRef, useState } from 'react';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ import { useSnackbar } from 'notistack';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import useSignIn from '../../hooks/useSignIn';
 import TabPanel from '../../layout/TabPanel';
-import { LoginInputType, LoginRequestType, loginSchema } from '../../schemas/auth';
+import { type LoginInputType, type LoginRequestType, loginSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
 import { FormInput } from '../../themed/form-input/FormInput';
 import { Text } from '../../themed/text/Text';

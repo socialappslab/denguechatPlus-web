@@ -1,9 +1,9 @@
 import { AxiosError } from 'axios';
 import * as z from 'zod/mini';
-import { ErrorResponse, FormSelectOption, State } from '../schemas';
-import { BaseEntity } from '@/schemas/entities';
+import type { ErrorResponse, FormSelectOption, State } from '../schemas';
+import type { BaseEntity } from '@/schemas/entities';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 export function getProperty(obj: any, propertyString: string): any {
   if (!obj) {
     return undefined;
@@ -11,7 +11,7 @@ export function getProperty(obj: any, propertyString: string): any {
   const properties = propertyString.split('.');
   let result = obj;
 
-  // eslint-disable-next-line no-restricted-syntax
+   
   for (const property of properties) {
     result = result[property];
     if (result === undefined) {
@@ -126,11 +126,11 @@ export const constructFilterObject = (
 };
 
 export class ValidationError extends Error {
-  constructor(
-    message: string,
-    public readonly cause: z.core.$ZodError,
-  ) {
+  readonly cause: z.core.$ZodError;
+
+  constructor(message: string, cause: z.core.$ZodError) {
     super(message);
+    this.cause = cause;
   }
 }
 

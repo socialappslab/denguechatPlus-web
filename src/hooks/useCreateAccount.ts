@@ -1,8 +1,8 @@
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router-dom';
 
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useAxiosNoAuth } from '../api/axios';
-import { UserAccount } from '../schemas/auth';
+import type { UserAccount } from '../schemas/auth';
 
 type IUseCreateAccount = {
   createAccountMutation: (payload: UserAccount) => Promise<void>;
@@ -23,7 +23,7 @@ export default function useCreateAccount(): IUseCreateAccount {
     // console.log('createRes', createRes);
 
     const deserializedData = deserialize(createRes.data);
-    // eslint-disable-next-line no-console
+     
     console.log('deserializedData create', deserializedData);
   };
 

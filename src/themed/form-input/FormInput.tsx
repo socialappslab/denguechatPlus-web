@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import {
   FormControl,
   FormHelperText,
   IconButton,
   TextField as Input,
   InputAdornment,
-  TextFieldProps,
+  type TextFieldProps,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DateField as MUIDateField, DatePicker as MUIDatePicker } from '@mui/x-date-pickers';
@@ -15,7 +15,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { MuiTelInput } from 'mui-tel-input';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import { NumericFormat, type NumericFormatProps } from 'react-number-format';
 
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -23,7 +23,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { twMerge } from 'tailwind-merge';
 import { COLORS } from '../../constants';
 import { getProperty } from '../../util';
-import { FieldErrorType, FormInputError } from './FormInputError';
+import { FormInputError, type FieldErrorType } from './FormInputError';
 
 export const DateField = styled(MUIDateField)`
   .MuiInputBase-root.MuiInput-root:before,
@@ -151,7 +151,7 @@ export function FormInput({
             <Input
               label={label}
               variant="outlined"
-              // eslint-disable-next-line no-nested-ternary
+               
               type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
               {...field}
               fullWidth={fullWidth}
@@ -206,7 +206,7 @@ export function FormInput({
               type={type}
               value={field.value}
               onBlur={field.onBlur}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               onChange={field.onChange}
               fullWidth={fullWidth}
