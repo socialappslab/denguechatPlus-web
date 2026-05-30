@@ -1,5 +1,6 @@
 import { Button as MUIButton } from '@mui/material';
 import type { ButtonProps as MUIButtonProps } from '@mui/material';
+import type { ElementType } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type SizeType = 'large' | 'small' | 'medium' | 'cell';
@@ -12,7 +13,7 @@ export interface ButtonProps {
   onClick?: () => void;
 }
 
-export function Button<C extends React.ElementType>({
+export function Button<C extends ElementType>({
   primary = true,
   buttonType = 'large',
   disabled = false,

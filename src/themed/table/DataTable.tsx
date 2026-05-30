@@ -9,7 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import * as React from 'react';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
@@ -55,7 +55,7 @@ export interface HeadCell<T> {
   type?: DataCellType;
   filterType?: FilterInputType;
   filterKey?: string;
-  render?: (row: T, headCell: HeadCell<T>) => JSX.Element;
+  render?: (row: T, headCell: HeadCell<T>) => ReactElement<any>;
   sortable?: boolean;
   sortKey?: string;
   filterable?: boolean;
@@ -141,7 +141,7 @@ function DataTableHead<T>({
               </TableSortLabel>
             ) : (
               // @ts-expect-error label is string but we're expecting an union
-              <DataTableHeadLabel label={t(`columns.${headCell.label}`)} />
+              (<DataTableHeadLabel label={t(`columns.${headCell.label}`)} />)
             )}
           </DataTableHeadCell>
         ))}
@@ -166,7 +166,7 @@ export interface DataTableProps<T> {
   useEmptyRows?: boolean;
   handleRequestSort?: (property: Extract<keyof T, string> | string, sortOrder: Order) => void;
   pagination?: HandlePagination;
-  actions?: (row: T, isLoading?: boolean) => JSX.Element;
+  actions?: (row: T, isLoading?: boolean) => ReactElement<any>;
   isLoading?: boolean;
   pageSize?: PageSizes;
 }

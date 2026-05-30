@@ -15,7 +15,7 @@ import useCreateAccount from '../../hooks/useCreateAccount';
 import { type City, type ErrorResponse, type FormSelectOption, type Neighborhood } from '../../schemas';
 import { type RegisterInputType, RegisterSchema, type UserAccount } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import FormSelect from '../../themed/form-select/FormSelect';
 import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData, findOptionByName } from '../../util';

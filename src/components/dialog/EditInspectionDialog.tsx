@@ -17,7 +17,7 @@ import FormSelect from '@/themed/form-select/FormSelect';
 import Loader from '@/themed/loader/Loader';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '@/util';
 import { Button } from '@/themed/button/Button';
-import { FormInput } from '@/themed/form-input/FormInput';
+import FormInput from '@/themed/form-input/FormInput';
 import { Title } from '@/themed/title/Title';
 
 type InspectionData = Record<keyof InspectionSelectable, ({ selected: boolean; value: string } & BaseEntity)[]>;

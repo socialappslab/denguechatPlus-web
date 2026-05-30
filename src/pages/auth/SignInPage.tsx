@@ -15,12 +15,12 @@ import useSignIn from '../../hooks/useSignIn';
 import TabPanel from '../../layout/TabPanel';
 import { type LoginInputType, type LoginRequestType, loginSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Text } from '../../themed/text/Text';
 import { Title } from '../../themed/title/Title';
 import { a11yProps, extractAxiosErrorData } from '../../util';
 
-export function SignInPage() {
+export default function SignInPage() {
   const { t } = useTranslation(['auth', 'errorCodes']);
   const navigate = useNavigate();
 
@@ -179,5 +179,3 @@ export function SignInPage() {
     </Container>
   );
 }
-
-export default SignInPage;

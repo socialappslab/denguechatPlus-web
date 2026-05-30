@@ -15,7 +15,7 @@ import useAxios from 'axios-hooks';
 import { Dayjs } from 'dayjs';
 import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PAGE_SIZES, type PageSizes } from '../../constants';
 import type { PaginationInput } from '../../schemas/entities';
@@ -32,8 +32,8 @@ interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
   defaultOrder?: Order;
   defaultFilter?: string;
   updateControl?: number;
-  actions?: (row: T, loading?: boolean) => JSX.Element;
-  create?: () => JSX.Element;
+  actions?: (row: T, loading?: boolean) => ReactElement<any>;
+  create?: () => ReactElement<any>;
   pageSize?: PageSizes;
   searchable?: boolean;
 }

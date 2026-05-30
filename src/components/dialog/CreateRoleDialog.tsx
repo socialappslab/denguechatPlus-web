@@ -14,7 +14,7 @@ import type { Permission, Role } from '@/schemas/entities';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import type { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 

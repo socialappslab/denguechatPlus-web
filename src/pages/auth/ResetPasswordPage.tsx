@@ -1,6 +1,7 @@
 import { Box, Container } from '@mui/material';
 import * as z from 'zod/mini';
 
+import { type ReactElement } from 'react';
 import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -11,11 +12,11 @@ import validator from 'validator';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 
-export function BaseResetForm({ children }: { children: JSX.Element }) {
+export function BaseResetForm({ children }: { children: ReactElement<any> }) {
   return (
     <Container
       maxWidth={false}

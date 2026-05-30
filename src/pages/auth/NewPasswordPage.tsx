@@ -15,7 +15,7 @@ import SuccessIcon from '@/assets/icons/success-icon.svg';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { passwordConfirmSchema, passwordSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 import { BaseResetForm } from './ResetPasswordPage';

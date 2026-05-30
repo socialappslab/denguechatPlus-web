@@ -14,6 +14,10 @@ export default function RouterErrorPage() {
     message = t((error as { statusText?: string }).statusText as any);
   } else if (typeof error === 'string') {
     message = t(error as any);
+  } else if (error instanceof Error) {
+    message = error.message;
+  } else if (error && typeof error === 'object' && 'message' in error) {
+    message = String((error as { message: unknown }).message);
   } else {
     message = t('generalError');
   }

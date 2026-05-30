@@ -20,7 +20,7 @@ import {
 import { type IUser, type UpdateUserInputType, UpdateUserSchema, type UserUpdate } from '@/schemas/auth';
 import { type HouseBlock, HouseBlockType, type Team } from '@/schemas/entities';
 import { Button } from '@/themed/button/Button';
-import { FormInput } from '@/themed/form-input/FormInput';
+import FormInput from '@/themed/form-input/FormInput';
 import FormSelect from '@/themed/form-select/FormSelect';
 import { Title } from '@/themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData, setPhone } from '@/util';

@@ -13,7 +13,7 @@ import type { IUser } from '@/schemas/auth';
 import { type CityUpdate, type UpdateCityInputType, updateCitySchema } from '@/schemas/update';
 import type { BaseObject, City } from '../../schemas';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 

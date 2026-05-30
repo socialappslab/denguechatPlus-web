@@ -39,7 +39,7 @@ import type { HeadCell } from '@/themed/table/DataTable';
 import Text from '@/themed/text/Text';
 import { convertToFormSelectOptions, downloadFile, extractAxiosErrorData, formatDateFromString } from '@/util';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 
 const Host = {

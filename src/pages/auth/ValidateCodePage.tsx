@@ -14,7 +14,7 @@ import Text from '@/themed/text/Text';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { BaseResetForm, type ValidatePhone } from './ResetPasswordPage';
 
