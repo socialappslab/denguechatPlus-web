@@ -4,7 +4,7 @@ import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { Cancel as CancelIcon } from '@mui/icons-material';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import useStateContext from '@/hooks/useStateContext';
@@ -103,19 +103,17 @@ export function EditCity({ city }: EditCityProps) {
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-       
       errorData?.errors?.forEach((error: any) => {
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
-             
+
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
               field: watch(error.field),
             }),
           });
         } else {
-           
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',

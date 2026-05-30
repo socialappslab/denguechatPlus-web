@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useSnackbar } from 'notistack';
 
-import CancelIcon from '@mui/icons-material/Cancel';
+import { Cancel as CancelIcon } from '@mui/icons-material';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import useStateContext from '@/hooks/useStateContext';
@@ -75,20 +75,18 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-       
       errorData?.errors?.forEach((error: any) => {
         console.log(error);
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
-             
+
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
               field: watch(error.field),
             }),
           });
         } else {
-           
           // @ts-ignore
           enqueueSnackbar(t([`errorCodes:${error?.error_code}`, 'errorCodes:generic']), {
             variant: 'error',

@@ -1,5 +1,4 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { DeleteOutline as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
 import { Box, Chip, Container, Dialog, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 
 import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
@@ -24,13 +23,7 @@ import FilteredDataTable from '@/components/list/FilteredDataTable';
 import useLangContext from '@/hooks/useLangContext';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
 import type { FormSelectOption } from '@/schemas';
-import {
-  type BaseEntity,
-  type House,
-  type Inspection,
-  type InspectionStatus,
-  type Visit,
-} from '@/schemas/entities';
+import { type BaseEntity, type House, type Inspection, type InspectionStatus, type Visit } from '@/schemas/entities';
 import { type UpdateVisit, type UpdateVisitInputType } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import FormSelectAutocomplete from '@/themed/form-select-autocomplete/FormSelectAutocomplete';
@@ -327,19 +320,17 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-       
       errorData?.errors?.forEach((error: any) => {
         if (error?.field && watch(error.field)) {
           setError(error.field, {
             type: 'manual',
-             
+
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
               field: watch(error.field),
             }),
           });
         } else {
-           
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',

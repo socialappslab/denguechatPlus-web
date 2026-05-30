@@ -1,4 +1,4 @@
-import ClearIcon from '@mui/icons-material/Clear';
+import { Clear as ClearIcon } from '@mui/icons-material';
 import { DatePicker } from '@mui/x-date-pickers';
 import {
   FormControl,
@@ -252,7 +252,7 @@ export default function FilteredDataTable<T>({
                   </MenuItem>
                   {filterOptions[selectedOption]?.map((option, index) => (
                     <MenuItem key={`${option}-${index}`} value={option}>
-                      { }
+                      {}
                       {/* @ts-expect-error */}
                       {t(`options.${option}`)}
                     </MenuItem>
@@ -303,7 +303,7 @@ export default function FilteredDataTable<T>({
 
                 {options.map((option, index) => (
                   <MenuItem key={`${option.value}-${index}`} value={option.value}>
-                    { }
+                    {}
                     {/* @ts-expect-error */}
                     {t(`columns.${option.label}`)}
                   </MenuItem>

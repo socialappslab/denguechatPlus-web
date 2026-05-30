@@ -1,5 +1,4 @@
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import { CheckBox as CheckBoxIcon, CheckBoxOutlineBlank as CheckBoxOutlineBlankIcon } from '@mui/icons-material';
 import { Autocomplete, Box, Checkbox, CircularProgress, FormControl, FormHelperText, TextField } from '@mui/material';
 
 import { useMemo, useState } from 'react';
@@ -91,7 +90,6 @@ export function FormMultipleSelect({
             renderOption={
               checkBoxOptions
                 ? (props, option, { selected }) => {
-                     
                     // @ts-ignore - key is not a valid prop for li
                     const { key, ...optionProps } = props;
 

@@ -2,7 +2,7 @@ import { Box, Chip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 import asuncion from '@/assets/images/asuncion.png';
 import comunidad from '@/assets/images/comunidad.png';
 import datos from '@/assets/images/datos.png';

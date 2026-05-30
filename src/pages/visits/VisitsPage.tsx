@@ -1,5 +1,4 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { DeleteOutline as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
 import { Dialog, IconButton, Link, Tooltip } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
 import useAxios from 'axios-hooks';

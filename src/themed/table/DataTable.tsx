@@ -135,13 +135,13 @@ function DataTableHead<T>({
                 className="flex flex-row justify-between text-grass text-sm font-bold"
                 onClick={createSortHandler(headCell.id)}
               >
-                { }
+                {}
                 {/* @ts-expect-error */}
                 {t(`columns.${headCell.label}`)}
               </TableSortLabel>
             ) : (
               // @ts-expect-error label is string but we're expecting an union
-              (<DataTableHeadLabel label={t(`columns.${headCell.label}`)} />)
+              <DataTableHeadLabel label={t(`columns.${headCell.label}`)} />
             )}
           </DataTableHeadCell>
         ))}
@@ -191,7 +191,6 @@ export function DataTable<T>({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState<PageSizes>(pageSize);
 
-   
   const renderValue = (row: T, headCell: HeadCell<T>): string | React.ReactNode => {
     if (headCell.render) {
       return headCell.render(row, headCell);
@@ -202,7 +201,6 @@ export function DataTable<T>({
     }
 
     if (headCell.type === 'enum') {
-       
       // @ts-expect-error
       return t(`options.${row[headCell.id]}`);
     }
