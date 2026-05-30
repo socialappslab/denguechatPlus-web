@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
-import validator from 'validator';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { Button } from '../../themed/button/Button';
@@ -45,7 +44,7 @@ const ResetPasswordPage = () => {
   const validatePhoneSchema = z.object({
     phone: z
       .string()
-      .check(z.refine((value) => validator.isMobilePhone(value, 'any'), t('auth:resetPassword.phoneNumber_error'))),
+      .check(z.minLength(1, t('auth:resetPassword.phoneNumber_error')), z.e164(t('auth:resetPassword.phoneNumber_error'))),
     username: z.string().check(z.minLength(1, t('auth:resetPassword.username_error'))),
   });
 

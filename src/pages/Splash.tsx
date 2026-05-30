@@ -2,14 +2,22 @@ import { Box, Chip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
+import {
+  BarChartOutlined,
+  GroupsOutlined,
+  HowToRegOutlined,
+  InfoOutlined as InfoOutlinedIcon,
+  LocationCityOutlined,
+  OpenInNew,
+  VerifiedOutlined,
+  WavingHandOutlined,
+} from '@mui/icons-material';
 import asuncion from '@/assets/images/asuncion.png';
 import comunidad from '@/assets/images/comunidad.png';
 import datos from '@/assets/images/datos.png';
 import iquitos from '@/assets/images/iquitos.png';
 import managua from '@/assets/images/managua.png';
 import splash1 from '@/assets/images/splash-1.png';
-import Icon from '@/components/icon';
 import { COLORS } from '@/constants';
 import { Button } from '@/themed/button/Button';
 import Text from '@/themed/text/Text';
@@ -114,7 +122,7 @@ function Splash() {
 
         {/* Participants */}
         <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl mt-10">
-          <Icon type="Hello" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+          <WavingHandOutlined className="text-green-600 bg-green-100 box-content rounded-full p-3" sx={{ fontSize: 48 }} />
           <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('participants.knowParticipants')} />
           <Text className="flex-row">{t('participants.actorsInvolved')}</Text>
           <Box className="mt-10">
@@ -139,7 +147,7 @@ function Splash() {
 
         {/* Cities */}
         <Box className="flex flex-col items-center justify-center mt-20 mb-20 bg-gray-300">
-          <Icon type="City" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+          <LocationCityOutlined className="text-green-600 bg-green-100 box-content rounded-full p-3" sx={{ fontSize: 48 }} />
           <Title type="page" className="flex-row mt-4 mb-12 align-center" label={t('cities.citiesWithDengueChat')} />
 
           {/* Columns */}
@@ -153,7 +161,7 @@ function Splash() {
                 className="flex items-center justify-between no-underline decoration-black visited:text-black"
               >
                 <p className="font-bold">Iquitos, Perú</p>
-                <Icon type="Export" className="stroke-black" />
+                <OpenInNew className="text-black" />
               </a>
             </Box>
             <Box>
@@ -165,7 +173,7 @@ function Splash() {
                 className="flex items-center justify-between no-underline decoration-black visited:text-black"
               >
                 <p className="font-bold">Managua, Nicaragua</p>
-                <Icon type="Export" className="stroke-black" />
+                <OpenInNew className="text-black" />
               </a>
             </Box>
             <Box>
@@ -177,7 +185,7 @@ function Splash() {
                 className="flex items-center justify-between no-underline decoration-black visited:text-black"
               >
                 <p className="font-bold">Asunción, Paraguay</p>
-                <Icon type="Export" className="stroke-black" />
+                <OpenInNew className="text-black" />
               </a>
             </Box>
           </Box>
@@ -187,15 +195,15 @@ function Splash() {
         <Box className="grid grid-cols-2 py-20">
           <img src={comunidad} alt="" className="rounded-xl" />
           <Box>
-            <Icon type="Community" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+            <GroupsOutlined className="text-green-600 bg-green-100 box-content rounded-full p-3" sx={{ fontSize: 48 }} />
             <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('community.dengueChatCommunity')} />
             <Text className="mb-10">{t('community.communityInvolvement')}</Text>
             <Box className="flex">
-              <Icon type="Verified" fill={COLORS.green[600]} className="mr-2 w-8 flex-none" />
+              <VerifiedOutlined sx={{ color: COLORS.green[600], fontSize: 32 }} className="mr-2 flex-none" />
               <Text>{t('community.chatWithMembers')}</Text>
             </Box>
             <Box className="flex">
-              <Icon type="Verified" fill={COLORS.green[600]} className="mr-2 w-8 flex-none" />
+              <VerifiedOutlined sx={{ color: COLORS.green[600], fontSize: 32 }} className="mr-2 flex-none" />
               <Text>{t('community.joinTeams')}</Text>
             </Box>
           </Box>
@@ -204,15 +212,15 @@ function Splash() {
         {/* Datos */}
         <Box className="grid grid-cols-2 py-20">
           <Box>
-            <Icon type="Data" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+            <BarChartOutlined className="text-green-600 bg-green-100 box-content rounded-full p-3" sx={{ fontSize: 48 }} />
             <Title type="page" className="flex-row mt-4 mb-4 align-center" label={t('data.dengueChatData')} />
             <Text className="mb-10">{t('data.analyzeAndMeasure')}</Text>
             <Box className="flex">
-              <Icon type="Verified" fill={COLORS.green[600]} className="mr-2 w-8 flex-none" />
+              <VerifiedOutlined sx={{ color: COLORS.green[600], fontSize: 32 }} className="mr-2 flex-none" />
               <Text>{t('data.versatileTools')}</Text>
             </Box>
             <Box className="flex">
-              <Icon type="Verified" fill={COLORS.green[600]} className="mr-2 w-8 flex-none" />
+              <VerifiedOutlined sx={{ color: COLORS.green[600], fontSize: 32 }} className="mr-2 flex-none" />
               <Text>{t('data.generateReports')}</Text>
             </Box>
           </Box>
@@ -221,7 +229,7 @@ function Splash() {
 
         {/* Register */}
         <Box className="flex flex-col items-center justify-center py-16 bg-neutral-50 rounded-2xl mt-12">
-          <Icon type="Register" className="fill-green-600 bg-green-100 box-content rounded-full p-3" />
+          <HowToRegOutlined className="text-green-600 bg-green-100 box-content rounded-full p-3" sx={{ fontSize: 48 }} />
           <Title type="page" className="flex-row mt-4 mb-5 align-center" label={t('register.platformRegister')} />
 
           <Text className="flex-row">{t('register.joinCommunity')}</Text>

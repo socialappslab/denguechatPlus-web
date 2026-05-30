@@ -24,7 +24,7 @@ export const userNameSchema = z
 
 export const phoneSchema = z
   .string()
-  .check(z.minLength(1, t('validation:requiredField.phone')), z.minLength(8, t('validation:phoneLength')));
+  .check(z.minLength(1, t('validation:requiredField.phone')), z.e164(t('validation:phoneLength')));
 
 const TYPE_LOGIN = ['username', 'phone'] as const;
 
