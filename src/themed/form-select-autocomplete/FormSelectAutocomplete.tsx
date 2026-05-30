@@ -153,7 +153,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
             renderOption={(props, option) => (
               <li {...props} key={option.value}>
                 <Grid container sx={{ alignItems: 'center' }}>
-                  <Grid item sx={{ width: '100%', wordWrap: 'break-word' }}>
+                  <Grid sx={{ width: '100%', wordWrap: 'break-word' }}>
                     <Box component="span" sx={{ display: 'block', typography: 'body1' }}>
                       {option.label}
                     </Box>

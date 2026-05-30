@@ -217,7 +217,11 @@ export default function FilteredDataTable<T>({
       {(title || subtitle) && <div className="mb-8" />}
       {searchable && (
         <Grid className="mb-8 " container spacing={3} direction="row" justifyContent="flex-start" alignItems="center">
-          <Grid item xs={12} sm={5}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 5
+            }}>
             {selectedFilterType === 'text' && (
               <TextField
                 fullWidth
@@ -287,7 +291,11 @@ export default function FilteredDataTable<T>({
               />
             )}
           </Grid>
-          <Grid item xs={8} sm={4}>
+          <Grid
+            size={{
+              xs: 8,
+              sm: 4
+            }}>
             <FormControl fullWidth variant="outlined">
               <InputLabel id="label-attribute-search"> {t(`table.selectAttribute`)}</InputLabel>
               <Select
@@ -311,7 +319,7 @@ export default function FilteredDataTable<T>({
               </Select>
             </FormControl>
           </Grid>
-          <Grid item>
+          <Grid>
             <Button
               disabled={
                 !selectedOption ||
@@ -324,7 +332,7 @@ export default function FilteredDataTable<T>({
               onClick={handleSearch}
             />
           </Grid>
-          {create && <Grid item>{create()}</Grid>}
+          {create && <Grid>{create()}</Grid>}
         </Grid>
       )}
       <TypedDataTable

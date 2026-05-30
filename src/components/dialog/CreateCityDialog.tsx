@@ -114,7 +114,11 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
         >
           <Title type="section" className="self-center mb-8i w-full" label={t('admin:cities.create_city')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -124,12 +128,21 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
               />
             </Grid>
 
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <Title type="subsection" label={t('admin:cities.neighborhoods')} />
             </Grid>
             {Object.keys(watchNeighborhoods).map((id, idx) => {
               return (
-                <Grid item xs={12} sm={12} key={id}>
+                <Grid
+                  key={id}
+                  size={{
+                    xs: 12,
+                    sm: 12
+                  }}>
                   <Box className="flex flex-row items-center">
                     <FormInput
                       className=""
@@ -144,7 +157,7 @@ export function CreateCityDialog({ handleClose, updateTable }: CreateCityDialogP
               );
             })}
 
-            <Grid item>
+            <Grid>
               <Button
                 primary={false}
                 variant="outlined"

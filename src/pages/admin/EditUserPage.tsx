@@ -267,7 +267,11 @@ export function EditUser({ user }: EditUserProps) {
         <Box component="form" onSubmit={handleSubmit(onSubmitHandler)} noValidate autoComplete="off">
           <Title type="section" className="self-center mb-8" label={t('edit.title')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="firstName"
@@ -276,7 +280,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.firstName_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="lastName"
@@ -285,7 +293,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.lastName_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="username"
@@ -294,7 +306,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.username_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="phone"
@@ -303,7 +319,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.phone_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="email"
@@ -312,7 +332,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.email_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelect
                 name="organization"
                 className="mt-2"
@@ -322,7 +346,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.organization_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 name="password"
                 className="mt-2"
@@ -332,7 +360,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.password_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 name="passwordConfirm"
                 className="mt-2"
@@ -341,7 +373,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.passwordConfirm_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelect
                 name="city"
                 className="mt-2"
@@ -351,7 +387,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.city_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelect
                 name="neighborhood"
                 className="mt-2"
@@ -361,7 +401,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.neighborhood_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelect
                 name="team"
                 className="mt-2"
@@ -371,7 +415,11 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.team_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <Controller
                 name="houseBlock"
                 render={({ field }) => (

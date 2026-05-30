@@ -130,7 +130,11 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
         <Box component="form" onSubmit={onSubmit} noValidate autoComplete="off" className="w-full p-8">
           <Title type="section" className="self-center mb-8i w-full" label={t('admin:teams.edit.edit_team')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -140,7 +144,11 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
                 placeholder={t('admin:teams.form.name_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormMultipleSelect
                 name="members"
                 loading={loading}

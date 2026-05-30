@@ -144,7 +144,11 @@ export function EditCity({ city }: EditCityProps) {
           <Title type="section" className="self-center mb-8" label={t('admin:cities.edit.edit_city')} />
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormInput
                 className="mt-2 h-full"
                 name="name"
@@ -155,7 +159,11 @@ export function EditCity({ city }: EditCityProps) {
             </Grid>
 
             {Object.keys(watchNeighborhoods).length !== 0 && (
-              <Grid item xs={12} sm={12}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 12
+                }}>
                 <Title type="subsection" label={t('admin:cities.edit.edit_current_neighborhoods')} />
               </Grid>
             )}
@@ -163,7 +171,12 @@ export function EditCity({ city }: EditCityProps) {
             {Object.keys(watchNeighborhoods).map((id) => {
               if (watchNeighborhoods[id] === DESTROY_FLAG)
                 return (
-                  <Grid item xs={12} sm={12} key={id}>
+                  <Grid
+                    key={id}
+                    size={{
+                      xs: 12,
+                      sm: 12
+                    }}>
                     <Box className="flex flex-row items-center">
                       <FormInput
                         className="mt-2 h-full"
@@ -177,7 +190,12 @@ export function EditCity({ city }: EditCityProps) {
                   </Grid>
                 );
               return (
-                <Grid item xs={12} sm={12} key={id}>
+                <Grid
+                  key={id}
+                  size={{
+                    xs: 12,
+                    sm: 12
+                  }}>
                   <Box className="flex flex-row items-center">
                     <FormInput
                       className="mt-2 h-full"
@@ -192,12 +210,21 @@ export function EditCity({ city }: EditCityProps) {
               );
             })}
 
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <Title type="subsection" label={t('admin:cities.edit.add_new_neighborhoods')} />
             </Grid>
             {Object.keys(watchNew).map((id, idx) => {
               return (
-                <Grid item xs={12} sm={12} key={id}>
+                <Grid
+                  key={id}
+                  size={{
+                    xs: 12,
+                    sm: 12
+                  }}>
                   <Box className="flex flex-row items-center">
                     <FormInput
                       className="mt-2 h-full"
@@ -215,7 +242,7 @@ export function EditCity({ city }: EditCityProps) {
               );
             })}
 
-            <Grid item>
+            <Grid>
               <Button
                 primary={false}
                 variant="outlined"

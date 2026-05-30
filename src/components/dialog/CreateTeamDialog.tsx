@@ -191,7 +191,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
         >
           <Title type="section" className="self-center mb-8i w-full" label={t('admin:teams.create_team')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -200,7 +204,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 placeholder={t('admin:teams.form.name_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormMultipleSelect
                 name="memberIds"
                 loading={loadingUsers}
@@ -209,7 +217,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 options={userOptions}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 name="cityId"
                 className="mt-2"
@@ -219,7 +231,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 placeholder={t('admin:teams.form.city_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 name="sectorId"
                 className="mt-2"
@@ -232,7 +248,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 name="wedgeId"
                 className="mt-2"
@@ -243,7 +263,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 placeholder={t('admin:teams.form.wedge_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 name="organizationId"
                 className="mt-2"

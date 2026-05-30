@@ -256,7 +256,11 @@ const EditInspectionDialog = ({
             label={t('admin:visits.inspection.containerType')}
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 className="mt-2"
                 name="breadingSiteType"
@@ -264,7 +268,11 @@ const EditInspectionDialog = ({
                 options={optionsData.breadingSiteType}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 className="mt-2"
                 name="location"
@@ -272,7 +280,11 @@ const EditInspectionDialog = ({
                 options={optionsData.locations}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2"
                 name="waterSourceTypes"
@@ -280,7 +292,11 @@ const EditInspectionDialog = ({
                 options={optionsData.waterSourceTypes}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="waterSourceOther"
@@ -289,7 +305,11 @@ const EditInspectionDialog = ({
                 type="text"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2"
                 name="containerProtections"
@@ -297,7 +317,11 @@ const EditInspectionDialog = ({
                 options={optionsData.containerProtections}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="containerProtectionOther"
@@ -306,7 +330,11 @@ const EditInspectionDialog = ({
                 type="text"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelect
                 className="mt-2"
                 name="wasChemicallyTreated"
@@ -314,7 +342,11 @@ const EditInspectionDialog = ({
                 options={optionsData.wasChemicallyTreated}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2"
                 name="typeContents"
@@ -331,7 +363,11 @@ const EditInspectionDialog = ({
           />
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2"
                 name="eliminationMethodTypes"
@@ -340,7 +376,11 @@ const EditInspectionDialog = ({
                 required
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="eliminationMethodTypeOther"

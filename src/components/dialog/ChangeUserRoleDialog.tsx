@@ -110,53 +110,89 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
 
             <Grid container spacing={2}>
               {user.firstName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.firstName} name="firstName" label={t('firstName')} type="text" />
                 </Grid>
               )}
 
               {user.lastName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.lastName} name="lastName" label={t('lastName')} type="text" />
                 </Grid>
               )}
 
               {user.username && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.username} name="username" label={t('username')} type="text" />
                 </Grid>
               )}
 
               {user.phone && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={setPhone(user.phone)} name="phone" label={t('phone')} type="phone" />
                 </Grid>
               )}
 
               {user.email && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.email} name="email" label={t('email')} type="text" />
                 </Grid>
               )}
 
               {user.cityName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.cityName} name="city" label={t('city')} />
                 </Grid>
               )}
               {user.neighborhoodName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.neighborhoodName} name="neighborhood" label={t('neighborhood')} />
                 </Grid>
               )}
 
               {user.organizationName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.organizationName} name="organization" label={t('organization')} />
                 </Grid>
               )}
 
-              <Grid item xs={12} sm={12}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 12
+                }}>
                 <FormMultipleSelect
                   name="roles"
                   loading={loadingRoles}

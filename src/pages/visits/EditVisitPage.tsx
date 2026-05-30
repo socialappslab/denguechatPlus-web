@@ -536,7 +536,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
           </Stack>
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelectAutocomplete
                 defaultValue={defaultHouse}
                 name="site"
@@ -545,7 +549,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 endpoint="/houses"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2 h-full"
                 name="date"
@@ -553,7 +561,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 type="date-picker"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelect
                 name="brigadist"
                 className="mt-2"
@@ -562,7 +574,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 loading={users.isLoading}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 disabled
                 className="mt-2 h-full"
@@ -571,7 +587,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 type="text"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelect
                 className="mt-2"
                 name="visitPermission"
@@ -582,7 +602,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 }))}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2 h-full"
                 name="visitPermissionOther"
@@ -591,7 +615,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 type="text"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2 h-full"
                 name="household"
@@ -611,7 +639,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                   }))}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelect
                 className="mt-2"
                 name="visitStartPlace"
@@ -620,7 +652,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 disabled={startSideOptions.length === 0}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2 h-full"
                 name="familyEducationTopics"
@@ -631,7 +667,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 }))}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="otherFamilyEducationTopic"
@@ -640,7 +680,11 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 type="text"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput className="mt-2 h-full" name="notes" label={t('admin:visits.inspection.notes')} type="text" />
             </Grid>
           </Grid>
@@ -656,9 +700,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
           </div>
         </Box>
       </FormProvider>
-
       <Title type="section" className="self-start mt-10 mb-1" label={t('admin:visits.inspectionData')} />
-
       <VisitDataTable
         endpoint={`visits/${visit.id}/inspections`}
         defaultFilter="brigadist"
@@ -668,7 +710,6 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
         searchable={false}
         updateControl={inspectionUpdateControl}
       />
-
       <Dialog
         container={rootElement}
         fullWidth
@@ -701,7 +742,6 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
           </div>
         </div>
       </Dialog>
-
       <Dialog container={rootElement} fullWidth maxWidth="md" open={openEditDialog} onClose={handleClose}>
         {openEditDialog && (
           <EditInspectionDialog

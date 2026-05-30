@@ -136,7 +136,11 @@ export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDia
         >
           <Title type="section" className="self-center mb-8i w-full" label={t('admin:roles.create_role')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -145,7 +149,11 @@ export function EditRoleDialog({ role, handleClose, updateTable }: CreateRoleDia
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormMultipleSelect
                 name="permissionIds"
                 loading={loading}

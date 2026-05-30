@@ -120,7 +120,7 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
         >
           <Title type="section" className="self-center w-full" label={t('admin:house_block.edit_house_block')} />
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -130,7 +130,7 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
                 disabled
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormSelect
                 label={t('admin:house_block.form.type')}
                 name="blockType"
@@ -140,7 +140,7 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
                 }))}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormMultipleSelect
                 name="houseIds"
                 loading={loading}
