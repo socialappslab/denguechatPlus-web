@@ -1,7 +1,7 @@
 import { Box, Container } from '@mui/material';
 
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import ArrowLeft from '../../assets/icons/arrow-left-green.svg';
 import IconSuccess from '../../assets/icons/icon-success.svg';

@@ -7,15 +7,15 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
 } from '@mui/material';
 
 import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { FormSelectOption } from '@/schemas';
+import type { FormSelectOption } from '@/schemas';
 import { getProperty } from '@/util';
-import { FieldErrorType, FormInputError } from '../form-input/FormInputError';
+import { FormInputError, type FieldErrorType } from '../form-input/FormInputError';
 
 export type FormSelectProps = {
   name: string;

@@ -11,7 +11,7 @@ i18next
   .use(
     resourcesToBackend((language: string, namespace: string) => {
       if (language === 'dev') return;
-      // eslint-disable-next-line consistent-return
+       
       return import(`./locales/${language}/${namespace}.json`);
     }),
   )

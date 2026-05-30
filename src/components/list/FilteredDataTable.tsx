@@ -1,4 +1,4 @@
-import ClearIcon from '@mui/icons-material/Clear';
+import { Clear as ClearIcon } from '@mui/icons-material';
 import { DatePicker } from '@mui/x-date-pickers';
 import {
   FormControl,
@@ -8,19 +8,19 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   TextField,
 } from '@mui/material';
 import useAxios from 'axios-hooks';
 import { Dayjs } from 'dayjs';
 import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PAGE_SIZES, PageSizes } from '../../constants';
-import { PaginationInput } from '../../schemas/entities';
+import { PAGE_SIZES, type PageSizes } from '../../constants';
+import type { PaginationInput } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
-import DataTable, { DataTableProps, Order } from '../../themed/table/DataTable';
+import DataTable, { type DataTableProps, type Order } from '../../themed/table/DataTable';
 import Title from '../../themed/title/Title';
 import { constructFilterObject } from '../../util';
 
@@ -32,8 +32,8 @@ interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
   defaultOrder?: Order;
   defaultFilter?: string;
   updateControl?: number;
-  actions?: (row: T, loading?: boolean) => JSX.Element;
-  create?: () => JSX.Element;
+  actions?: (row: T, loading?: boolean) => ReactElement<any>;
+  create?: () => ReactElement<any>;
   pageSize?: PageSizes;
   searchable?: boolean;
 }
@@ -217,7 +217,11 @@ export default function FilteredDataTable<T>({
       {(title || subtitle) && <div className="mb-8" />}
       {searchable && (
         <Grid className="mb-8 " container spacing={3} direction="row" justifyContent="flex-start" alignItems="center">
-          <Grid item xs={12} sm={5}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 5
+            }}>
             {selectedFilterType === 'text' && (
               <TextField
                 fullWidth
@@ -252,7 +256,7 @@ export default function FilteredDataTable<T>({
                   </MenuItem>
                   {filterOptions[selectedOption]?.map((option, index) => (
                     <MenuItem key={`${option}-${index}`} value={option}>
-                      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                      {}
                       {/* @ts-expect-error */}
                       {t(`options.${option}`)}
                     </MenuItem>
@@ -287,7 +291,11 @@ export default function FilteredDataTable<T>({
               />
             )}
           </Grid>
-          <Grid item xs={8} sm={4}>
+          <Grid
+            size={{
+              xs: 8,
+              sm: 4
+            }}>
             <FormControl fullWidth variant="outlined">
               <InputLabel id="label-attribute-search"> {t(`table.selectAttribute`)}</InputLabel>
               <Select
@@ -303,7 +311,7 @@ export default function FilteredDataTable<T>({
 
                 {options.map((option, index) => (
                   <MenuItem key={`${option.value}-${index}`} value={option.value}>
-                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                    {}
                     {/* @ts-expect-error */}
                     {t(`columns.${option.label}`)}
                   </MenuItem>
@@ -311,7 +319,7 @@ export default function FilteredDataTable<T>({
               </Select>
             </FormControl>
           </Grid>
-          <Grid item>
+          <Grid>
             <Button
               disabled={
                 !selectedOption ||
@@ -324,7 +332,7 @@ export default function FilteredDataTable<T>({
               onClick={handleSearch}
             />
           </Grid>
-          {create && <Grid item>{create()}</Grid>}
+          {create && <Grid>{create()}</Grid>}
         </Grid>
       )}
       <TypedDataTable

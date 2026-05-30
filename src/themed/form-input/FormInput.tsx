@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  Box,
   FormControl,
   FormHelperText,
-  IconButton,
   TextField as Input,
   InputAdornment,
-  TextFieldProps,
+  type TextFieldProps,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DateField as MUIDateField, DatePicker as MUIDatePicker } from '@mui/x-date-pickers';
@@ -15,15 +14,16 @@ import dayjs, { Dayjs } from 'dayjs';
 import { MuiTelInput } from 'mui-tel-input';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import { NumericFormat, type NumericFormatProps } from 'react-number-format';
 
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-
+import {
+  VisibilityOffOutlined,
+  VisibilityOutlined,
+} from '@mui/icons-material';
 import { twMerge } from 'tailwind-merge';
 import { COLORS } from '../../constants';
 import { getProperty } from '../../util';
-import { FieldErrorType, FormInputError } from './FormInputError';
+import { FormInputError, type FieldErrorType } from './FormInputError';
 
 export const DateField = styled(MUIDateField)`
   .MuiInputBase-root.MuiInput-root:before,
@@ -101,12 +101,11 @@ export type FormInputProps = {
   labelClassName?: string;
   formControlClasses?: string;
   fontVariant?: boolean;
-  inputCell?: boolean;
 } & TextFieldProps;
 
 const TEXT_TYPES = ['text', 'email', 'password', 'number'];
 
-export function FormInput({
+export default function FormInput({
   name,
   label,
   placeholder,
@@ -116,7 +115,6 @@ export function FormInput({
   labelClassName,
   fontVariant,
   className,
-  inputCell,
   formControlClasses,
   ...otherProps
 }: FormInputProps) {
@@ -140,7 +138,11 @@ export function FormInput({
       control={control}
       defaultValue=""
       name={name}
-      render={({ field }) => (
+      render={({ field }) => {
+        const { ref, ...fieldProps } = field;
+        const { InputProps: inputPropsFromOther, ...textFieldProps } = otherProps;
+
+        return (
         <FormControl
           fullWidth={fullWidth}
           sx={{ mb: 2 }}
@@ -151,28 +153,46 @@ export function FormInput({
             <Input
               label={label}
               variant="outlined"
-              // eslint-disable-next-line no-nested-ternary
               type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
-              {...field}
+              {...fieldProps}
+              inputRef={ref}
               fullWidth={fullWidth}
               placeholder={placeholder}
               error={!!fieldError}
-              {...otherProps}
+              {...textFieldProps}
               className={className}
               InputProps={{
+                ...inputPropsFromOther,
                 endAdornment:
                   type === 'password' ? (
                     <InputAdornment position="end">
-                      <IconButton
+                      <Box
+                        component="button"
+                        type="button"
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        edge="end"
+                        sx={{
+                          display: 'flex',
+                          cursor: 'pointer',
+                          alignItems: 'center',
+                          border: 0,
+                          background: 'none',
+                          padding: 0,
+                          font: 'inherit',
+                          color: 'inherit',
+                        }}
                       >
-                        {showPassword ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />}
-                      </IconButton>
+                        {showPassword ? (
+                          <VisibilityOffOutlined fontSize="small" />
+                        ) : (
+                          <VisibilityOutlined fontSize="small" />
+                        )}
+                      </Box>
                     </InputAdornment>
-                  ) : null,
+                  ) : (
+                    inputPropsFromOther?.endAdornment ?? null
+                  ),
               }}
             />
           )}
@@ -206,7 +226,6 @@ export function FormInput({
               type={type}
               value={field.value}
               onBlur={field.onBlur}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               onChange={field.onChange}
               fullWidth={fullWidth}
@@ -280,9 +299,8 @@ export function FormInput({
           )}
           <FormInputError className={`font-light text-sm mx-0 ${labelClassName}`} fieldError={fieldError} />
         </FormControl>
-      )}
+        );
+      }}
     />
   );
 }
-
-export default FormInput;

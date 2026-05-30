@@ -1,9 +1,9 @@
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { saveRefreshToken, setAccessTokenToHeaders, useAxiosNoAuth } from '../api/axios';
 import { DISPATCH_ACTIONS } from '../constants';
-import { ILoginResponse, IUser, LoginRequestType } from '../schemas/auth';
+import type { ILoginResponse, IUser, LoginRequestType } from '../schemas/auth';
 import useStateContext from './useStateContext';
 
 type IUseSignIn = {
@@ -32,7 +32,7 @@ export default function useSignIn(): IUseSignIn {
     const deserializedData = deserialize<IUser>(loginRes.data);
 
     if (!Array.isArray(deserializedData)) {
-      // eslint-disable-next-line no-console
+       
       console.log('deserializedData login', deserializedData);
 
       stateContext.dispatch({ type: DISPATCH_ACTIONS.SET_USER, payload: deserializedData });

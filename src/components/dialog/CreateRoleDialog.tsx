@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSnackbar } from 'notistack';
@@ -8,13 +8,13 @@ import { useSnackbar } from 'notistack';
 import useAxios from 'axios-hooks';
 import { useEffect, useState } from 'react';
 import useCreateMutation from '@/hooks/useCreateMutation';
-import { FormSelectOption } from '@/schemas';
-import { CreateRole, CreateRoleInputType } from '@/schemas/create';
-import { Permission, Role } from '@/schemas/entities';
+import type { FormSelectOption } from '@/schemas';
+import type { CreateRole, CreateRoleInputType } from '@/schemas/create';
+import type { Permission, Role } from '@/schemas/entities';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
-import { IUser } from '../../schemas/auth';
+import type { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 
@@ -60,8 +60,7 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
   const {
     handleSubmit,
     setError,
-    // setValue,
-    watch,
+    getValues,
     // formState: { isValid, errors },
   } = methods;
 
@@ -83,19 +82,19 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',
@@ -123,7 +122,11 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
         >
           <Title type="section" className="self-center mb-8i w-full" label={t('admin:roles.create_role')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -132,7 +135,11 @@ export function CreateRoleDialog({ handleClose, updateTable }: CreateRoleDialogP
                 placeholder={t('admin:roles.form.name_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormMultipleSelect
                 name="permissionIds"
                 loading={loading}

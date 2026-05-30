@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type TextTypeType = 'menuItem';

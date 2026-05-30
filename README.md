@@ -7,7 +7,6 @@ Base project having:
 - React
 - TypeScript
 - Vite
-- Vitest
 - Tailwind CSS
 - Eslint
 - Prettier
@@ -52,8 +51,6 @@ $ yarn dev
 | lint       | Runs the Eslint and show code problems                                      |
 | format     | Runs the Prettier and fix code style                                        |
 | preview    | Builds the app for production to the `dist` folder, and run locally server. |
-| test       | Run the app tests.                                                          |
-| test:watch | Run the app tests in watch mode.                                            |
 
 ## About the absolute imports
 
@@ -70,6 +67,5 @@ Absolute imports with **@/** are configured in these files:
 - [EsLint](https://eslint.org/) - Pluggable JavaScript linter
 - [Prettier](https://prettier.io) - Opinionated Code Formatter
 - [Husky](https://github.com/typicode/husky) - Native Git hooks
-- [Vitest](https://vitest.dev/guide/) - Testing library
 - [Commitlint](https://commitlint.js.org/) - Linting your commits based on commit convention
 - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss) - Styling

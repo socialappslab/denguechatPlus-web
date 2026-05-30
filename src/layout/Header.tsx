@@ -3,7 +3,7 @@ import { Box, Container, IconButton, Menu, MenuItem, Toolbar, useMediaQuery } fr
 import MuiAppBar from '@mui/material/AppBar';
 import { useTranslation } from 'react-i18next';
 
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 import React, { useState } from 'react';
 

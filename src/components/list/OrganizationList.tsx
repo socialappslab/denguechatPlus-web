@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Organization } from '../../schemas/entities';
-import { HeadCell } from '../../themed/table/DataTable';
+import type { Organization } from '../../schemas/entities';
+import type { HeadCell } from '../../themed/table/DataTable';
 import FilteredDataTable from './FilteredDataTable';
 
 const headCells: HeadCell<Organization>[] = [

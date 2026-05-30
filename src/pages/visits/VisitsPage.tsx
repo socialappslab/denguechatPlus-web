@@ -1,5 +1,4 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { DeleteOutline as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
 import { Dialog, IconButton, Link, Tooltip } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
 import useAxios from 'axios-hooks';
@@ -7,8 +6,8 @@ import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import Button from '@/themed/button/Button';
 import FilteredDataTable from '../../components/list/FilteredDataTable';
-import { House, Visit } from '../../schemas/entities';
-import { HeadCell } from '../../themed/table/DataTable';
+import { type House, type Visit } from '../../schemas/entities';
+import type { HeadCell } from '../../themed/table/DataTable';
 import Title from '../../themed/title/Title';
 
 const headCells: HeadCell<Visit>[] = [

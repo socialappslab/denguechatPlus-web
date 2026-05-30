@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { type AxiosError, type AxiosRequestConfig } from 'axios';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { configure, makeUseAxios } from 'axios-hooks';
 import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, REFRESH_TOKEN_LOCAL_STORAGE_KEY, USER_LOCAL_STORAGE_KEY } from '../constants';
@@ -100,7 +100,7 @@ export function getRefreshToken(): string | null {
 setHeaderFromLocalStorage(); // set header token from local storage on first load
 
 // Function that will be called to refresh authorization
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const refreshAuthLogic = (failedRequest: any) => {
   const refreshToken = getRefreshToken();
   console.log('refreshAuthLogic with refresh>>>>>>', refreshToken);
@@ -123,7 +123,7 @@ const refreshAuthLogic = (failedRequest: any) => {
       }
 
       console.log('failedRequest with new token>>>>>>', newToken);
-      // eslint-disable-next-line no-param-reassign
+       
       failedRequest.response.config.headers['X-Authorization'] = `${newToken}`;
       setAccessTokenToHeaders(newToken);
       return Promise.resolve();
@@ -158,6 +158,7 @@ createAuthRefreshInterceptor(authApi, refreshAuthLogic, {
     console.log('onRetry url >>>>>>', requestConfig.url);
     return requestConfig;
   },
+  // @ts-expect-error option exists at runtime but is missing from published types
   pauseInstanceWhileRefreshing: false,
 });
 

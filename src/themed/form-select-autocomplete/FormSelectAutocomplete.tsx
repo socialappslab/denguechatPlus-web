@@ -5,8 +5,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { convertToFormSelectOptions } from '@/util';
-import { BaseEntity } from '@/schemas/entities';
-import { FormSelectOption } from '@/schemas';
+import type { BaseEntity } from '@/schemas/entities';
+import type { FormSelectOption } from '@/schemas';
 import { authApi } from '@/api/axios';
 
 type Props = {
@@ -67,6 +67,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
         }
       } catch (err) {
         console.error('error>>>>>>', err);
+        // @ts-expect-error
         setError(t('errorCodes:generic'));
       } finally {
         setLoadingMore(false);
@@ -116,6 +117,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
             fullWidth
             isOptionEqualToValue={(o, v) => o.value === v.value}
             ListboxProps={{
+              // @ts-expect-error
               onScroll: loadMoreItems,
               style: {
                 maxHeight: 300,
@@ -129,6 +131,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
             loading={loadingMore}
             noOptionsText={error ? t('translation:generalError') : t('translation:options.noItems')}
             {...field}
+            // @ts-expect-error
             onChange={(e, data) => field.onChange(data)}
             renderInput={(params) => (
               <TextField
@@ -150,7 +153,7 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
             renderOption={(props, option) => (
               <li {...props} key={option.value}>
                 <Grid container sx={{ alignItems: 'center' }}>
-                  <Grid item sx={{ width: '100%', wordWrap: 'break-word' }}>
+                  <Grid sx={{ width: '100%', wordWrap: 'break-word' }}>
                     <Box component="span" sx={{ display: 'block', typography: 'body1' }}>
                       {option.label}
                     </Box>

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { SpecialPlace } from '../../schemas/entities';
-import { HeadCell } from '../../themed/table/DataTable';
+import type { SpecialPlace } from '../../schemas/entities';
+import type { HeadCell } from '../../themed/table/DataTable';
 
 import FilteredDataTable from './FilteredDataTable';
 

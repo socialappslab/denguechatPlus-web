@@ -1,23 +1,21 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box, Container } from '@mui/material';
 import * as z from 'zod/mini';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { type ReactElement } from 'react';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import validator from 'validator';
 import useCreateMutation from '@/hooks/useCreateMutation';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 
-export function BaseResetForm({ children }: { children: JSX.Element }) {
+export function BaseResetForm({ children }: { children: ReactElement<any> }) {
   return (
     <Container
       maxWidth={false}
@@ -46,7 +44,7 @@ const ResetPasswordPage = () => {
   const validatePhoneSchema = z.object({
     phone: z
       .string()
-      .check(z.refine((value) => validator.isMobilePhone(value, 'any'), t('auth:resetPassword.phoneNumber_error'))),
+      .check(z.minLength(1, t('auth:resetPassword.phoneNumber_error')), z.e164(t('auth:resetPassword.phoneNumber_error'))),
     username: z.string().check(z.minLength(1, t('auth:resetPassword.username_error'))),
   });
 
@@ -78,9 +76,9 @@ const ResetPasswordPage = () => {
       });
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         
         // @ts-ignore
         enqueueSnackbar(t(`errorCodes:${error.error_code || 'generic'}`), {
           variant: 'error',

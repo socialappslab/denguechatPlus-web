@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSnackbar } from 'notistack';
@@ -9,13 +9,13 @@ import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { useEffect, useState } from 'react';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
-import { FormSelectOption } from '@/schemas';
-import { HouseBlock, HouseBlockType } from '@/schemas/entities';
-import { UpdateHouseBlock, UpdateHouseBlockInputType } from '@/schemas/update';
+import type { FormSelectOption } from '@/schemas';
+import { HouseBlockType, type HouseBlock } from '@/schemas/entities';
+import type { UpdateHouseBlock, UpdateHouseBlockInputType } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
-import { IUser } from '../../schemas/auth';
+import type { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '../../util';
 import useHouseBlockTypeToLabel from '@/hooks/useHouseBlockTypeToLabel';
@@ -63,7 +63,7 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
     },
   });
 
-  const { handleSubmit, setError, watch } = methods;
+  const { handleSubmit, setError, getValues } = methods;
 
   const onSubmitHandler: SubmitHandler<UpdateHouseBlockInputType> = async (values) => {
     try {
@@ -84,12 +84,12 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
       const errorData = extractAxiosErrorData(error);
 
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
             // @ts-expect-error we expect an item from the union
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
@@ -120,7 +120,7 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
         >
           <Title type="section" className="self-center w-full" label={t('admin:house_block.edit_house_block')} />
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -130,7 +130,7 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
                 disabled
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormSelect
                 label={t('admin:house_block.form.type')}
                 name="blockType"
@@ -140,7 +140,7 @@ export default function EditHouseBlockDialog({ houseBlock, handleClose, updateTa
                 }))}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormMultipleSelect
                 name="houseIds"
                 loading={loading}

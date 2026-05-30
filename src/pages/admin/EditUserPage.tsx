@@ -2,19 +2,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Chip, Container, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 
 import useAxios from 'axios-hooks';
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import useUpdateUser from '@/hooks/useUpdateUser';
-import { BaseObject, City, ErrorResponse, FormSelectOption, Neighborhood } from '@/schemas';
-import { IUser, UpdateUserInputType, UpdateUserSchema, UserUpdate } from '@/schemas/auth';
-import { HouseBlock, HouseBlockType, Team } from '@/schemas/entities';
+import { type BaseObject, type City, type ErrorResponse, type FormSelectOption, type Neighborhood } from '@/schemas';
+import { type IUser, type UpdateUserInputType, UpdateUserSchema, type UserUpdate } from '@/schemas/auth';
+import { type HouseBlock, HouseBlockType, type Team } from '@/schemas/entities';
 import { Button } from '@/themed/button/Button';
-import { FormInput } from '@/themed/form-input/FormInput';
+import FormInput from '@/themed/form-input/FormInput';
 import FormSelect from '@/themed/form-select/FormSelect';
 import { Title } from '@/themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData, setPhone } from '@/util';
@@ -58,15 +58,14 @@ export function EditUser({ user }: EditUserProps) {
     handleSubmit,
     setError,
     setValue,
-    watch,
+    control,
+    getValues,
     formState: { errors },
   } = methods;
-  const [cityValue, neighborhoodValue, teamValue, houseBlockValue] = watch([
-    'city',
-    'neighborhood',
-    'team',
-    'houseBlock',
-  ]);
+  const [cityValue, neighborhoodValue, teamValue, houseBlockValue] = useWatch({
+    control,
+    name: ['city', 'neighborhood', 'team', 'houseBlock'],
+  });
 
   const [{ data: citiesData, loading: loadingCities }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
     url: `cities?page[number]=1&page[size]=1000`,
@@ -92,6 +91,7 @@ export function EditUser({ user }: EditUserProps) {
     url: 'teams?page[number]=1&page[size]=100&sort=name',
   });
 
+  // @ts-expect-error
   const [{ data: houseBlocksData, loading: loadingHouseBlocks }] = useAxios<
     ExistingDocumentObject,
     unknown,
@@ -217,19 +217,17 @@ export function EditUser({ user }: EditUserProps) {
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',
@@ -258,9 +256,14 @@ export function EditUser({ user }: EditUserProps) {
     >
       <FormProvider {...methods}>
         <Box component="form" onSubmit={handleSubmit(onSubmitHandler)} noValidate autoComplete="off">
-          <Title type="section" className="self-center mb-8" label={t('edit.title')} />
+          <Title type="section" className="mb-8 self-center" label={t('edit.title')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2"
                 name="firstName"
@@ -269,7 +272,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.firstName_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2"
                 name="lastName"
@@ -278,7 +286,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.lastName_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2"
                 name="username"
@@ -287,7 +300,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.username_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2"
                 name="phone"
@@ -296,7 +314,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.phone_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2"
                 name="email"
@@ -305,7 +328,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.email_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormSelect
                 name="organization"
                 className="mt-2"
@@ -315,7 +343,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.organization_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormInput
                 name="password"
                 className="mt-2"
@@ -325,7 +358,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.password_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormInput
                 name="passwordConfirm"
                 className="mt-2"
@@ -334,7 +372,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.passwordConfirm_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormSelect
                 name="city"
                 className="mt-2"
@@ -344,7 +387,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.city_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormSelect
                 name="neighborhood"
                 className="mt-2"
@@ -354,7 +402,12 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.neighborhood_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormSelect
                 name="team"
                 className="mt-2"
@@ -364,13 +417,18 @@ export function EditUser({ user }: EditUserProps) {
                 placeholder={t('edit.team_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <Controller
                 name="houseBlock"
                 render={({ field }) => (
                   <FormControl fullWidth sx={{ marginTop: 1 }}>
                     <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
-                    <Select {...field} placeholder={t('edit.house_block_placeholder')} error={!!errors.houseBlock}>
+                    <Select {...field} error={!!errors.houseBlock}>
                       {houseBlockOptions.map((houseBlock) => (
                         <MenuItem key={houseBlock.value} value={houseBlock.value}>
                           {houseBlock.label}
@@ -385,7 +443,7 @@ export function EditUser({ user }: EditUserProps) {
                       ))}
                     </Select>
 
-                    <FormInputError className="font-light text-sm mx-0" fieldError={errors.houseBlock} />
+                    <FormInputError className="mx-0 text-sm font-light" fieldError={errors.houseBlock} />
                   </FormControl>
                 )}
               />

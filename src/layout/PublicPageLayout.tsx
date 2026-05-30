@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import BaseLayout from './BaseLayout';
 

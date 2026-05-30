@@ -1,5 +1,5 @@
 import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, LANG_STORAGE_KEY, USER_LOCAL_STORAGE_KEY } from '../constants';
-import { IUser } from '../schemas/auth';
+import type { IUser } from '../schemas/auth';
 
 export function getUser(): IUser | null {
   const user = localStorage.getItem(USER_LOCAL_STORAGE_KEY);
