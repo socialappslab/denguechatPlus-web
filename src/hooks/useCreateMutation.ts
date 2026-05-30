@@ -2,7 +2,7 @@
  * Generalized Create Mutation
  * It requires a type matching the payload type
  */
-import type { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 
 import useAxios from 'axios-hooks';
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';

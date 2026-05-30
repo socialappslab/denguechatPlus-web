@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useAxios from 'axios-hooks';
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useEffect, useMemo, useState } from 'react';
-import type { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 import { TEAM_MEMBER_ROLE } from '@/constants';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
 import type { FormSelectOption, Member } from '@/schemas';

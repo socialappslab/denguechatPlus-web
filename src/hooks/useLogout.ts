@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { resetAuthApi } from '../api/axios';
 import { DISPATCH_ACTIONS } from '../constants';

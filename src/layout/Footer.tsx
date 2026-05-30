@@ -1,7 +1,7 @@
 import { Box, Container, Toolbar } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Text from '@/themed/text/Text';
 import Button from '@/themed/button/Button';
 import Logo from '../assets/images/logo.svg';

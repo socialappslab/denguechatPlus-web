@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useAxiosNoAuth } from '../../api/axios';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { DEFAULT_OPTION_CITY_NAME } from '../../constants';

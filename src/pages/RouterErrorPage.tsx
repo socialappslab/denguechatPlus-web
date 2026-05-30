@@ -1,6 +1,6 @@
  
 import { useTranslation } from 'react-i18next';
-import { useRouteError } from 'react-router-dom';
+import { useRouteError } from 'react-router';
 import PageLayout from '../layout/PageLayout';
 import { Text } from '../themed/text/Text';
 import { Title } from '../themed/title/Title';

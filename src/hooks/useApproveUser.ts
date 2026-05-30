@@ -1,4 +1,4 @@
-import type { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 

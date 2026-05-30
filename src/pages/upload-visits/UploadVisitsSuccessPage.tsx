@@ -1,6 +1,6 @@
 import { Box, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material';
 import { Link as LinkIcon, FactCheckOutlined as FactCheckOutlinedIcon } from '@mui/icons-material';
-import { Link as RouterLink, type Location, useLocation } from 'react-router-dom';
+import { Link as RouterLink, type Location, useLocation } from 'react-router';
 import Title from '@/themed/title/Title';
 import { useTranslation } from 'react-i18next';
 

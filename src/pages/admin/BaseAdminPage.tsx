@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import PageLayout from '../../layout/PageLayout';
 import ProtectedRoute from '../../routes/ProtectedRoute';
 

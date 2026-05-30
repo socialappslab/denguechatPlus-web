@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useEffect, useMemo, useState } from 'react';
-import type { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 import useAxios from 'axios-hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';

@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 
 import useAxios from 'axios-hooks';
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
-import type { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 import { getUser, saveUser } from '../api/localstore';
 import { DISPATCH_ACTIONS } from '../constants';
 import type { IUser } from '../schemas/auth';

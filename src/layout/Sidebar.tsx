@@ -20,7 +20,7 @@ import {
 import { matches } from 'lodash-es';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 import {
   CITIES_INDEX,
   HOUSE_BLOCKS_INDEX,

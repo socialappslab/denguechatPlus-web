@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Cancel as CancelIcon } from '@mui/icons-material';
 import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import useStateContext from '@/hooks/useStateContext';
 import useUpdateCity from '@/hooks/useUpdateCity';
 import type { IUser } from '@/schemas/auth';

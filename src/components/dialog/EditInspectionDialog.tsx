@@ -7,7 +7,7 @@ import { deserialize } from 'jsonapi-fractal';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { authApi } from '@/api/axios';
 import type { FormSelectOption } from '@/schemas';
 import type { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';

@@ -12,7 +12,7 @@ import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { capitalize } from 'lodash-es';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router';
 import { authApi } from '@/api/axios';
 import GreenHouse from '@/assets/icons/house-green.svg';
 import RedHouse from '@/assets/icons/house-red.svg';

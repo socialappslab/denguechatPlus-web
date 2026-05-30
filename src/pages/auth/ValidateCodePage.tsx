@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 
 import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { type ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
+import { type ErrorResponse, useLocation, useNavigate } from 'react-router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import useAxios from 'axios-hooks';

@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 
 import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 
 import { useSnackbar } from 'notistack';
 import LogoSquare from '../../assets/images/logo-square.svg';
