@@ -1,5 +1,5 @@
 import { DeleteOutline as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
-import { Box, Chip, Container, Dialog, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Button as MuiButton, Chip, Container, Dialog, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 
 import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,6 @@ import { capitalize } from 'lodash-es';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { LoadingButton } from '@mui/lab';
 import { authApi } from '@/api/axios';
 import GreenHouse from '@/assets/icons/house-green.svg';
 import RedHouse from '@/assets/icons/house-red.svg';
@@ -457,9 +456,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             </Box>
 
             <Box>
-              <LoadingButton onClick={handleDownload} loading={downloadCsv.isLoading}>
+              <MuiButton onClick={handleDownload} loading={downloadCsv.isLoading}>
                 {t('admin:visits.exportData')}
-              </LoadingButton>
+              </MuiButton>
             </Box>
           </Box>
 

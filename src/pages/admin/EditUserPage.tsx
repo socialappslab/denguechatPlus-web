@@ -377,7 +377,7 @@ export function EditUser({ user }: EditUserProps) {
                 render={({ field }) => (
                   <FormControl fullWidth sx={{ marginTop: 1 }}>
                     <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
-                    <Select {...field} placeholder={t('edit.house_block_placeholder')} error={!!errors.houseBlock}>
+                    <Select {...field} error={!!errors.houseBlock}>
                       {houseBlockOptions.map((houseBlock) => (
                         <MenuItem key={houseBlock.value} value={houseBlock.value}>
                           {houseBlock.label}

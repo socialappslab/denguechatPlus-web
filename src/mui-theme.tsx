@@ -2,7 +2,7 @@ import { CssBaseline } from '@mui/material';
 import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material/styles';
 import { SnackbarProvider } from 'notistack';
 import type { ReactNode } from 'react';
-import type {} from '@mui/lab/themeAugmentation';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
 
 import { COLORS } from './constants';
 
@@ -91,8 +91,6 @@ const theme = createTheme({
         },
       },
     },
-     
-    // @ts-ignore
     MuiPickersDay: {
       styleOverrides: {
         root: {
