@@ -30,6 +30,12 @@ export default function SignInPage() {
 
   const methods = useForm<LoginInputType>({
     resolver: zodResolver(loginSchema),
+    mode: 'onChange',
+    defaultValues: {
+      username: '',
+      phone: '',
+      password: '',
+    },
   });
 
   const {
@@ -140,6 +146,7 @@ export default function SignInPage() {
               label={t('username')}
               type="text"
               placeholder={t('username_placeholder')}
+              autoFocus
             />
           </TabPanel>
 
