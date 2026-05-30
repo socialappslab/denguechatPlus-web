@@ -13,8 +13,6 @@ module.exports = {
   ignorePatterns: [
     'dist',
     'vite.config.ts',
-    'vitest.config.ts',
-    'tests',
     '*.cjs',
     '.eslintrc.cjs',
     'eslint.config.js',
