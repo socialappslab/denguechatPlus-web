@@ -17,7 +17,7 @@ import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useMemo, useState, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PAGE_SIZES, type PageSizes } from '../../constants';
+import { DEFAULT_PAGE_SIZE, PAGE_SIZES, type PageSizes } from '../../constants';
 import type { PaginationInput } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
 import DataTable, { type DataTableProps, type Order } from '../../themed/table/DataTable';
@@ -73,7 +73,7 @@ export default function FilteredDataTable<T>({
   updateControl,
   actions,
   create,
-  pageSize = PAGE_SIZES[0],
+  pageSize = DEFAULT_PAGE_SIZE,
   searchable = true,
   ...otherDataTableProps
 }: FilteredDataTableProps<T>) {

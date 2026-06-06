@@ -34,9 +34,6 @@ export function Button<C extends ElementType>({
       break;
     default: // cell
       sizeClass = 'px-2 py-1 text-xs rounded-full mr-1';
-      if (!primary) {
-        sizeClass += ' justify-start';
-      }
       break;
   }
 

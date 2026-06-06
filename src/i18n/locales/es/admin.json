@@ -1,4 +1,12 @@
 {
+  "users": {
+    "delete": {
+      "title": "Eliminar usuario",
+      "confirm": "¿Está seguro de que desea eliminar a {{name}}? Esta acción no se puede deshacer.",
+      "action": "Eliminar",
+      "success": "Usuario eliminado con éxito"
+    }
+  },
   "roles": {
     "create_role": "Crear Rol",
     "success": "Rol creado con éxito",

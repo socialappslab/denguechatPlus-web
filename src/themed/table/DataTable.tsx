@@ -13,7 +13,7 @@ import { useEffect, useMemo, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
-import { PAGE_SIZES, type PageSizes } from '@/constants';
+import { DEFAULT_PAGE_SIZE, PAGE_SIZES, type PageSizes } from '@/constants';
 import { formatDateFromString } from '@/util';
 import useLangContext from '../../hooks/useLangContext';
 
@@ -179,7 +179,7 @@ export function DataTable<T>({
   pagination,
   actions,
   isLoading,
-  pageSize = PAGE_SIZES[0],
+  pageSize = DEFAULT_PAGE_SIZE,
 }: DataTableProps<T>) {
   const { t } = useTranslation('translation');
 

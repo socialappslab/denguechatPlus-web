@@ -1,4 +1,12 @@
 {
+  "users": {
+    "delete": {
+      "title": "Excluir usuário",
+      "confirm": "Tem certeza de que deseja excluir {{name}}? Esta ação não pode ser desfeita.",
+      "action": "Excluir",
+      "success": "Usuário excluído com sucesso"
+    }
+  },
   "roles": {
     "create_role": "Criar Função",
     "success": "Função criada com sucesso",
