@@ -1,3 +1,11 @@
+import {
+  CheckCircleOutline as CheckCircleOutlineIcon,
+  DeleteOutline as DeleteOutlineIcon,
+  EditOutlined as EditOutlinedIcon,
+  LockOpenOutlined as LockOpenOutlinedIcon,
+  ManageAccountsOutlined as ManageAccountsOutlinedIcon,
+} from '@mui/icons-material';
+import { IconButton, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
@@ -5,7 +13,6 @@ import { USERS_DESTROY } from '@/constants/permissions';
 import useStateContext from '@/hooks/useStateContext';
 import ProtectedView from '../../layout/ProtectedView';
 import { UserStatusValues, type IUser } from '../../schemas/auth';
-import Button from '../../themed/button/Button';
 import type { HeadCell } from '../../themed/table/DataTable';
 import ApproveUserDialog from '../dialog/ApproveUserDialog';
 import ChangeUserRoleDialog from '../dialog/ChangeUserRoleDialog';
@@ -89,49 +96,68 @@ export default function UserList() {
 
    
   const actions = (row: IUser, loading?: boolean) => (
-    <div className="flex flex-row">
+    <div className="flex flex-row items-center gap-1">
       <ProtectedView hasPermission={['users-update']}>
-        <Button primary component={Link} to={`${row.id}/edit`} label={t('table.actions.edit')} buttonType="cell" />
+        <Tooltip title={t('table.actions.edit')}>
+          <IconButton component={Link} to={`${row.id}/edit`} color="primary" disabled={loading} size="small">
+            <EditOutlinedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </ProtectedView>
 
       {(row.status === 'pending' || row.status === 'locked') && (
         <ProtectedView hasPermission={['users-users_confirm_account']}>
-          <Button
-            primary
-            disabled={loading}
-            onClick={() => {
-              setSelectedUser(row);
-              setOpenStatusDialog(true);
-            }}
-            label={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}
-            buttonType="cell"
-          />
+          <Tooltip
+            title={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}
+          >
+            <IconButton
+              color="primary"
+              disabled={loading}
+              size="small"
+              onClick={() => {
+                setSelectedUser(row);
+                setOpenStatusDialog(true);
+              }}
+            >
+              {row.status === 'pending' ? (
+                <CheckCircleOutlineIcon fontSize="small" />
+              ) : (
+                <LockOpenOutlinedIcon fontSize="small" />
+              )}
+            </IconButton>
+          </Tooltip>
         </ProtectedView>
       )}
       <ProtectedView hasPermission={['users-update']}>
-        <Button
-          primary
-          disabled={loading}
-          onClick={() => {
-            setSelectedUser(row);
-            setOpenRolesDialog(true);
-          }}
-          label={t('table.actions.roles')}
-          buttonType="cell"
-        />
+        <Tooltip title={t('table.actions.roles')}>
+          <IconButton
+            color="primary"
+            disabled={loading}
+            size="small"
+            onClick={() => {
+              setSelectedUser(row);
+              setOpenRolesDialog(true);
+            }}
+          >
+            <ManageAccountsOutlinedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </ProtectedView>
       {String(row.id) !== String(currentUser.id) && (
         <ProtectedView hasPermission={[USERS_DESTROY]}>
-          <Button
-            primary={false}
-            disabled={loading}
-            onClick={() => {
-              setSelectedUser(row);
-              setOpenDeleteDialog(true);
-            }}
-            label={t('table.actions.delete')}
-            buttonType="cell"
-          />
+          <Tooltip title={t('table.actions.delete')}>
+            <IconButton
+              color="error"
+              disabled={loading}
+              size="small"
+              onClick={() => {
+                setSelectedUser(row);
+                setOpenDeleteDialog(true);
+              }}
+            >
+              <DeleteOutlineIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </ProtectedView>
       )}
     </div>
