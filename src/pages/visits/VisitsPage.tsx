@@ -1,9 +1,10 @@
 import { DeleteOutline as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
-import { Dialog, IconButton, Link, Tooltip } from '@mui/material';
+import { Dialog, IconButton, Tooltip } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
 import useAxios from 'axios-hooks';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
+import { Link } from 'react-router';
 import Button from '@/themed/button/Button';
 import FilteredDataTable from '../../components/list/FilteredDataTable';
 import { type House, type Visit } from '../../schemas/entities';
@@ -108,10 +109,10 @@ export default function VisitsList() {
       <div className="flex flex-row items-center gap-1">
         <Tooltip title={t('translation:table.actions.edit')}>
           <IconButton
-            LinkComponent={Link}
+            component={Link}
+            to={`/visits/${row.id}/edit`}
             color="primary"
             disabled={loading || deletingVisit}
-            href={`/visits/${row.id}/edit`}
           >
             <EditOutlinedIcon />
           </IconButton>
