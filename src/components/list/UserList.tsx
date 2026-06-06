@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
+import { USERS_DESTROY } from '@/constants/permissions';
+import useStateContext from '@/hooks/useStateContext';
 import ProtectedView from '../../layout/ProtectedView';
 import { UserStatusValues, type IUser } from '../../schemas/auth';
 import Button from '../../themed/button/Button';
 import type { HeadCell } from '../../themed/table/DataTable';
 import ApproveUserDialog from '../dialog/ApproveUserDialog';
 import ChangeUserRoleDialog from '../dialog/ChangeUserRoleDialog';
+import DeleteUserDialog from '../dialog/DeleteUserDialog';
 import FilteredDataTable from './FilteredDataTable';
 
 const headCells: HeadCell<IUser>[] = [
@@ -65,15 +68,18 @@ const IUserDataTable = FilteredDataTable<IUser>;
 
 export default function UserList() {
   const { t } = useTranslation('translation');
+  const { state } = useStateContext();
+  const currentUser = state.user as IUser;
   const [updateControl, setUpdateControl] = useState<number>(0);
   const [openStatusDialog, setOpenStatusDialog] = useState<boolean>(false);
-
   const [openRolesDialog, setOpenRolesDialog] = useState<boolean>(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
   const handleClose = () => {
     setOpenStatusDialog(false);
     setOpenRolesDialog(false);
+    setOpenDeleteDialog(false);
     setSelectedUser(null);
   };
 
@@ -114,6 +120,20 @@ export default function UserList() {
           buttonType="cell"
         />
       </ProtectedView>
+      {String(row.id) !== String(currentUser.id) && (
+        <ProtectedView hasPermission={[USERS_DESTROY]}>
+          <Button
+            primary={false}
+            disabled={loading}
+            onClick={() => {
+              setSelectedUser(row);
+              setOpenDeleteDialog(true);
+            }}
+            label={t('table.actions.delete')}
+            buttonType="cell"
+          />
+        </ProtectedView>
+      )}
     </div>
   );
 
@@ -138,6 +158,12 @@ export default function UserList() {
           />
           <ChangeUserRoleDialog
             open={openRolesDialog}
+            updateTable={updateTable}
+            handleClose={handleClose}
+            user={selectedUser}
+          />
+          <DeleteUserDialog
+            open={openDeleteDialog}
             updateTable={updateTable}
             handleClose={handleClose}
             user={selectedUser}
