@@ -1,11 +1,9 @@
-import { Dialog } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { authApi } from '@/api/axios';
 import type { IUser } from '../../schemas/auth';
-import Button from '../../themed/button/Button';
-import Title from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 
 function useDeleteUser(idParam?: string) {
@@ -59,28 +57,19 @@ export function DeleteUserDialog({ open, handleClose, updateTable, user }: Delet
   };
 
   return (
-    <Dialog fullWidth maxWidth="xs" container={rootElement} open={open} onClose={handleClose}>
-      <div className="flex flex-col py-7 px-8">
-        <Title type="section" label={t('admin:users.delete.title')} className="mb-4" />
-        <p className="text-sm text-darkest">
-          {t('admin:users.delete.confirm', { name: displayName })}
-        </p>
-
-        <div className="mt-6 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
-          <div className="md:mr-2">
-            <Button buttonType="medium" primary={false} disabled={loading} label={t('register:cancel')} onClick={handleClose} />
-          </div>
-
-          <div>
-            <Button
-              buttonType="medium"
-              label={t('admin:users.delete.action')}
-              disabled={loading}
-              onClick={confirmDelete}
-            />
-          </div>
-        </div>
-      </div>
+    <Dialog open={open} onClose={handleClose} container={rootElement} role="alertdialog">
+      <DialogTitle>{t('admin:users.delete.title')}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>{t('admin:users.delete.confirm', { name: displayName })}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} disabled={loading}>
+          {t('register:cancel')}
+        </Button>
+        <Button onClick={confirmDelete} color="error" disabled={loading}>
+          {t('admin:users.delete.action')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }
