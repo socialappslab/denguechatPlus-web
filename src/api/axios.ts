@@ -1,17 +1,10 @@
-import axios, { type AxiosError, type AxiosRequestConfig } from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { configure, makeUseAxios } from 'axios-hooks';
-import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, REFRESH_TOKEN_LOCAL_STORAGE_KEY, USER_LOCAL_STORAGE_KEY } from '../constants';
-import { extractAxiosErrorData } from '../util';
+import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, REFRESH_TOKEN_LOCAL_STORAGE_KEY, USER_LOCAL_STORAGE_KEY } from '@/constants';
+import { extractAxiosErrorData } from '@/util';
 
-interface RetryConfig extends AxiosRequestConfig {
-  retry: number;
-  retryDelay: number;
-}
-
-export const globalConfig: RetryConfig = {
-  retry: 0,
-  retryDelay: 1000,
+export const globalConfig: AxiosRequestConfig = {
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
   headers: {
     'Content-Type': 'application/json',
@@ -59,30 +52,6 @@ export const setHeaderFromLocalStorage = () => {
   setAccessTokenToHeaders(token);
 };
 
-authApi.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError) => {
-    const config = error.config as RetryConfig;
-
-    if (!config) {
-      return Promise.reject(error);
-    }
-
-    const delayRetryRequest = new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, config.retryDelay || 1000);
-    });
-
-    if (!config.retry) {
-      return Promise.reject(error);
-    }
-
-    config.retry -= 1;
-    return delayRetryRequest.then(() => authApi(config));
-  },
-);
-
 export const publicApi = axios.create(globalConfig);
 
 export const useAxiosNoAuth = makeUseAxios({
@@ -100,12 +69,12 @@ export function getRefreshToken(): string | null {
 setHeaderFromLocalStorage(); // set header token from local storage on first load
 
 // Function that will be called to refresh authorization
- 
-const refreshAuthLogic = (failedRequest: any) => {
+
+async function refreshAuthLogic(failedRequest: any) {
   const refreshToken = getRefreshToken();
   console.log('refreshAuthLogic with refresh>>>>>>', refreshToken);
-  return publicApi
-    .post(
+  try {
+    const refreshResult = await publicApi.post(
       '/users/session/refresh_token',
       {},
       {
@@ -113,30 +82,28 @@ const refreshAuthLogic = (failedRequest: any) => {
           'X-Refresh-Token': refreshToken,
         },
       },
-    )
-    .then((refreshResult) => {
-      const newToken = refreshResult.data?.meta?.jwt?.res?.access;
-      console.log('refreshResult newToken', newToken);
+    );
+    const newToken = refreshResult.data?.meta?.jwt?.res?.access;
+    console.log('refreshResult newToken', newToken);
 
-      if (!newToken) {
-        return Promise.reject();
-      }
-
-      console.log('failedRequest with new token>>>>>>', newToken);
-       
-      failedRequest.response.config.headers['X-Authorization'] = `${newToken}`;
-      setAccessTokenToHeaders(newToken);
-      return Promise.resolve();
-    })
-    .catch((error) => {
-      console.log('error refreshAuthLogic', JSON.stringify(error));
-      resetAuthApi();
-      window.location.href = '/login';
-      // TODO logout user
-
+    if (!newToken) {
       return Promise.reject();
-    });
-};
+    }
+
+    console.log('failedRequest with new token>>>>>>', newToken);
+
+    failedRequest.response.config.headers['X-Authorization'] = `${newToken}`;
+    setAccessTokenToHeaders(newToken);
+    return Promise.resolve();
+  } catch (error) {
+    console.log('error refreshAuthLogic', JSON.stringify(error));
+    resetAuthApi();
+    window.location.href = '/login';
+    // TODO logout user
+
+    return Promise.reject();
+  }
+}
 
 createAuthRefreshInterceptor(authApi, refreshAuthLogic, {
   statusCodes: [401],
