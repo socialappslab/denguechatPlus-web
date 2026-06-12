@@ -50,6 +50,7 @@ export const useAxiosNoAuth = makeUseAxios({ axios: publicApi });
 
 setHeaderFromLocalStorage(); // set header token from local storage on first load
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function refreshAuthLogic(failedRequest: any) {
   const refreshToken = localStorage.getItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY);
 
@@ -66,7 +67,7 @@ async function refreshAuthLogic(failedRequest: any) {
     const newToken = refreshResult.data?.meta?.jwt?.res?.access;
 
     if (!newToken) {
-      return Promise.reject();
+      throw new Error('Refresh response did not include an access token');
     }
 
     failedRequest.response.config.headers['X-Authorization'] = `${newToken}`;
@@ -82,6 +83,7 @@ async function refreshAuthLogic(failedRequest: any) {
 }
 
 createAuthRefreshInterceptor(authApi, refreshAuthLogic, {
+  deduplicateRefresh: false,
   shouldRefresh: (error) => {
     if (error.response?.status !== 401) return false;
 
@@ -95,6 +97,15 @@ createAuthRefreshInterceptor(authApi, refreshAuthLogic, {
     }
 
     return false;
+  },
+  onRetry: (requestConfig) => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
+
+    if (accessToken) {
+      requestConfig.headers.set('X-Authorization', accessToken);
+    }
+
+    return requestConfig;
   },
 });
 
