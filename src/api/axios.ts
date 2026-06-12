@@ -14,27 +14,19 @@ export const globalConfig: AxiosRequestConfig = {
 
 export const authApi = axios.create(globalConfig);
 
-export function getAccessToken(): string | null {
-  return localStorage.getItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
-}
-
 export function removeUser(): void {
   localStorage.removeItem(USER_LOCAL_STORAGE_KEY);
   localStorage.removeItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
   localStorage.removeItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY);
 }
 
-export function saveAccessToken(accessToken: string): void {
-  localStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, accessToken);
-}
-
-export const resetAuthApi = () => {
+export function resetAuthApi() {
   if (globalConfig.headers) {
     delete globalConfig.headers['X-Authorization'];
   }
   delete authApi.defaults.headers['X-Authorization'];
   removeUser();
-};
+}
 
 export const setAccessTokenToHeaders = (accessToken: string | null) => {
   if (!accessToken) {
@@ -42,36 +34,25 @@ export const setAccessTokenToHeaders = (accessToken: string | null) => {
     return;
   }
 
-  saveAccessToken(accessToken);
+  localStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, accessToken);
   authApi.defaults.headers['X-Authorization'] = `${accessToken}`;
 };
 
 export const setHeaderFromLocalStorage = () => {
-  const token = getAccessToken();
+  const token = localStorage.getItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
 
   setAccessTokenToHeaders(token);
 };
 
 export const publicApi = axios.create(globalConfig);
 
-export const useAxiosNoAuth = makeUseAxios({
-  axios: publicApi,
-});
-
-export const saveRefreshToken = (refreshToken: string) => {
-  localStorage.setItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY, refreshToken);
-};
-
-export function getRefreshToken(): string | null {
-  return localStorage.getItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY);
-}
+export const useAxiosNoAuth = makeUseAxios({ axios: publicApi });
 
 setHeaderFromLocalStorage(); // set header token from local storage on first load
 
-// Function that will be called to refresh authorization
-
 async function refreshAuthLogic(failedRequest: any) {
-  const refreshToken = getRefreshToken();
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY);
+
   try {
     const refreshResult = await publicApi.post(
       '/users/session/refresh_token',
@@ -101,10 +82,10 @@ async function refreshAuthLogic(failedRequest: any) {
 }
 
 createAuthRefreshInterceptor(authApi, refreshAuthLogic, {
-  statusCodes: [401],
   shouldRefresh: (error) => {
-    const { config } = error;
-    if (config?.url?.endsWith('refresh_token')) {
+    if (error.response?.status !== 401) return false;
+
+    if (error.config?.url?.endsWith('refresh_token')) {
       return false;
     }
     const errorData = extractAxiosErrorData(error);
@@ -115,8 +96,6 @@ createAuthRefreshInterceptor(authApi, refreshAuthLogic, {
 
     return false;
   },
-  // @ts-expect-error option exists at runtime but is missing from published types
-  pauseInstanceWhileRefreshing: false,
 });
 
 configure({ axios: authApi, cache: false });

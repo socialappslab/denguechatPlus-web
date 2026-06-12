@@ -1,8 +1,8 @@
 import type { ErrorResponse } from 'react-router';
 
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
-import { saveRefreshToken, setAccessTokenToHeaders, useAxiosNoAuth } from '../api/axios';
-import { DISPATCH_ACTIONS } from '../constants';
+import { setAccessTokenToHeaders, useAxiosNoAuth } from '../api/axios';
+import { DISPATCH_ACTIONS, REFRESH_TOKEN_LOCAL_STORAGE_KEY } from '@/constants';
 import type { ILoginResponse, IUser, LoginRequestType } from '../schemas/auth';
 import useStateContext from './useStateContext';
 
@@ -26,22 +26,21 @@ export default function useSignIn(): IUseSignIn {
     { manual: true },
   );
 
-  const signInMutation = async (data: LoginRequestType) => {
+  async function signInMutation(data: LoginRequestType) {
     const loginRes = await loginPost({ data });
 
     const deserializedData = deserialize<IUser>(loginRes.data);
 
     if (!Array.isArray(deserializedData)) {
-       
-      console.log('deserializedData login', deserializedData);
-
       stateContext.dispatch({ type: DISPATCH_ACTIONS.SET_USER, payload: deserializedData });
-      setAccessTokenToHeaders(loginRes.data.meta.jwt.res.access);
-      saveRefreshToken(loginRes.data.meta.jwt.res.refresh);
+
+      const { access, refresh } = loginRes.data.meta.jwt.res;
+      setAccessTokenToHeaders(access);
+      localStorage.setItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY, refresh);
     } else {
       throw new Error("Couldn't deserialize user data");
     }
-  };
+  }
 
   return { signInMutation, loading };
 }
