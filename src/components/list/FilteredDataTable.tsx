@@ -17,7 +17,7 @@ import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useMemo, useState, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DEFAULT_PAGE_SIZE, PAGE_SIZES, type PageSizes } from '../../constants';
+import { DEFAULT_PAGE_SIZE, type PageSizes } from '../../constants';
 import type { PaginationInput } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
 import DataTable, { type DataTableProps, type Order } from '../../themed/table/DataTable';
@@ -220,8 +220,9 @@ export default function FilteredDataTable<T>({
           <Grid
             size={{
               xs: 12,
-              sm: 5
-            }}>
+              sm: 5,
+            }}
+          >
             {selectedFilterType === 'text' && (
               <TextField
                 fullWidth
@@ -294,8 +295,9 @@ export default function FilteredDataTable<T>({
           <Grid
             size={{
               xs: 8,
-              sm: 4
-            }}>
+              sm: 4,
+            }}
+          >
             <FormControl fullWidth variant="outlined">
               <InputLabel id="label-attribute-search"> {t(`table.selectAttribute`)}</InputLabel>
               <Select
@@ -327,7 +329,7 @@ export default function FilteredDataTable<T>({
                 (selectedFilterType === 'date' && !searchDate) ||
                 (selectedFilterType === 'text' && !searchText)
               }
-              className="justify-start text-md"
+              className="text-md justify-start"
               label={t(`table.search`)}
               onClick={handleSearch}
             />

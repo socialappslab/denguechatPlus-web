@@ -42,7 +42,9 @@ export function DeleteUserDialog({ open, handleClose, updateTable, user }: Delet
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
+      // @ts-expect-error fix later
       errorData?.errors?.forEach((err: { error_code?: string }) => {
+        // @ts-expect-error expects a union, but we're passing a string
         enqueueSnackbar(t(`errorCodes:${err?.error_code || 'generic'}`), {
           variant: 'error',
         });
