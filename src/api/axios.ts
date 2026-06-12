@@ -72,7 +72,6 @@ setHeaderFromLocalStorage(); // set header token from local storage on first loa
 
 async function refreshAuthLogic(failedRequest: any) {
   const refreshToken = getRefreshToken();
-  console.log('refreshAuthLogic with refresh>>>>>>', refreshToken);
   try {
     const refreshResult = await publicApi.post(
       '/users/session/refresh_token',
@@ -84,19 +83,15 @@ async function refreshAuthLogic(failedRequest: any) {
       },
     );
     const newToken = refreshResult.data?.meta?.jwt?.res?.access;
-    console.log('refreshResult newToken', newToken);
 
     if (!newToken) {
       return Promise.reject();
     }
 
-    console.log('failedRequest with new token>>>>>>', newToken);
-
     failedRequest.response.config.headers['X-Authorization'] = `${newToken}`;
     setAccessTokenToHeaders(newToken);
     return Promise.resolve();
-  } catch (error) {
-    console.log('error refreshAuthLogic', JSON.stringify(error));
+  } catch {
     resetAuthApi();
     window.location.href = '/login';
     // TODO logout user
@@ -114,16 +109,11 @@ createAuthRefreshInterceptor(authApi, refreshAuthLogic, {
     }
     const errorData = extractAxiosErrorData(error);
 
-    console.log('shouldRefresh url >>>>>>', JSON.stringify(error.response));
     if (errorData?.errors && `${errorData?.errors[0]?.error_code}` === 'expired_token') {
       return true;
     }
 
     return false;
-  },
-  onRetry: (requestConfig) => {
-    console.log('onRetry url >>>>>>', requestConfig.url);
-    return requestConfig;
   },
   // @ts-expect-error option exists at runtime but is missing from published types
   pauseInstanceWhileRefreshing: false,
