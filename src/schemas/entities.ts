@@ -1,4 +1,4 @@
-import { Member } from '.';
+import type { Member } from '.';
 
 export interface PaginationInput {
   'page[number]': number;
@@ -109,10 +109,12 @@ export interface House extends BaseEntity {
   referenceCode: string;
 }
 
-export enum HouseBlockType {
-  FrenteAFrente = 'frente_a_frente',
-  Block = 'block',
-}
+export const HouseBlockType = {
+  FrenteAFrente: 'frente_a_frente',
+  Block: 'block',
+} as const;
+
+export type HouseBlockType = (typeof HouseBlockType)[keyof typeof HouseBlockType];
 
 export interface HouseBlock extends BaseEntity {
   id: number;

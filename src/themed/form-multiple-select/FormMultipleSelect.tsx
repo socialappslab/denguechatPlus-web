@@ -1,13 +1,12 @@
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import { CheckBox as CheckBoxIcon, CheckBoxOutlineBlank as CheckBoxOutlineBlankIcon } from '@mui/icons-material';
 import { Autocomplete, Box, Checkbox, CircularProgress, FormControl, FormHelperText, TextField } from '@mui/material';
 
 import { useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { FormSelectOption } from '../../schemas';
+import type { FormSelectOption } from '../../schemas';
 import { getProperty } from '../../util';
-import { FieldErrorType, FormInputError } from '../form-input/FormInputError';
+import { FormInputError, type FieldErrorType } from '../form-input/FormInputError';
 
 export type FormMultipleSelectProps = {
   name: string;
@@ -91,7 +90,6 @@ export function FormMultipleSelect({
             renderOption={
               checkBoxOptions
                 ? (props, option, { selected }) => {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore - key is not a valid prop for li
                     const { key, ...optionProps } = props;
 

@@ -1,19 +1,19 @@
 import { Box, Container, Grid } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { Cancel as CancelIcon } from '@mui/icons-material';
 import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import useStateContext from '@/hooks/useStateContext';
 import useUpdateCity from '@/hooks/useUpdateCity';
-import { IUser } from '@/schemas/auth';
-import { CityUpdate, UpdateCityInputType, updateCitySchema } from '@/schemas/update';
-import { BaseObject, City } from '../../schemas';
+import type { IUser } from '@/schemas/auth';
+import { type CityUpdate, type UpdateCityInputType, updateCitySchema } from '@/schemas/update';
+import type { BaseObject, City } from '../../schemas';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 
@@ -51,12 +51,13 @@ export function EditCity({ city }: EditCityProps) {
     handleSubmit,
     setError,
     setValue,
-    watch,
+    control,
+    getValues,
     // formState: { isValid, errors },
   } = methods;
 
-  const watchNeighborhoods = watch('neighborhoods', mappedNeighborhoods);
-  const watchNew = watch('newNeighborhoods', []);
+  const watchNeighborhoods = useWatch({ control, name: 'neighborhoods', defaultValue: mappedNeighborhoods });
+  const watchNew = useWatch({ control, name: 'newNeighborhoods', defaultValue: [] });
 
   const onRemoveNeighborhood = (id: string) => {
     const { [id]: tmp, ...rest } = watchNeighborhoods;
@@ -103,19 +104,17 @@ export function EditCity({ city }: EditCityProps) {
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',
@@ -146,7 +145,11 @@ export function EditCity({ city }: EditCityProps) {
           <Title type="section" className="self-center mb-8" label={t('admin:cities.edit.edit_city')} />
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormInput
                 className="mt-2 h-full"
                 name="name"
@@ -157,7 +160,11 @@ export function EditCity({ city }: EditCityProps) {
             </Grid>
 
             {Object.keys(watchNeighborhoods).length !== 0 && (
-              <Grid item xs={12} sm={12}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 12
+                }}>
                 <Title type="subsection" label={t('admin:cities.edit.edit_current_neighborhoods')} />
               </Grid>
             )}
@@ -165,7 +172,12 @@ export function EditCity({ city }: EditCityProps) {
             {Object.keys(watchNeighborhoods).map((id) => {
               if (watchNeighborhoods[id] === DESTROY_FLAG)
                 return (
-                  <Grid item xs={12} sm={12} key={id}>
+                  <Grid
+                    key={id}
+                    size={{
+                      xs: 12,
+                      sm: 12
+                    }}>
                     <Box className="flex flex-row items-center">
                       <FormInput
                         className="mt-2 h-full"
@@ -179,7 +191,12 @@ export function EditCity({ city }: EditCityProps) {
                   </Grid>
                 );
               return (
-                <Grid item xs={12} sm={12} key={id}>
+                <Grid
+                  key={id}
+                  size={{
+                    xs: 12,
+                    sm: 12
+                  }}>
                   <Box className="flex flex-row items-center">
                     <FormInput
                       className="mt-2 h-full"
@@ -194,12 +211,21 @@ export function EditCity({ city }: EditCityProps) {
               );
             })}
 
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <Title type="subsection" label={t('admin:cities.edit.add_new_neighborhoods')} />
             </Grid>
             {Object.keys(watchNew).map((id, idx) => {
               return (
-                <Grid item xs={12} sm={12} key={id}>
+                <Grid
+                  key={id}
+                  size={{
+                    xs: 12,
+                    sm: 12
+                  }}>
                   <Box className="flex flex-row items-center">
                     <FormInput
                       className="mt-2 h-full"
@@ -217,7 +243,7 @@ export function EditCity({ city }: EditCityProps) {
               );
             })}
 
-            <Grid item>
+            <Grid>
               <Button
                 primary={false}
                 variant="outlined"

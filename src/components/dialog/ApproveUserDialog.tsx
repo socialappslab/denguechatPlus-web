@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import useApproveUser from '../../hooks/useApproveUser';
-import { IUser, RegisterInputType } from '../../schemas/auth';
+import type { IUser, RegisterInputType } from '../../schemas/auth';
 import Button from '../../themed/button/Button';
 import FormInput from '../../themed/form-input/FormInput';
 import Title from '../../themed/title/Title';
@@ -33,9 +33,9 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
       });
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         
         // @ts-ignore
         enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
           variant: 'error',
@@ -59,7 +59,11 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
         <FormProvider {...methods}>
           <Grid container spacing={2}>
             {user.firstName && (
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormInput
                   disabled
                   value={user.firstName}
@@ -72,7 +76,11 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
             )}
 
             {user.lastName && (
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormInput
                   disabled
                   value={user.lastName}
@@ -85,7 +93,11 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
             )}
 
             {user.username && (
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormInput
                   disabled
                   value={user.username}
@@ -98,7 +110,11 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
             )}
 
             {user.phone && (
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormInput
                   disabled
                   value={setPhone(user.phone)}
@@ -111,7 +127,11 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
             )}
 
             {user.email && (
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormInput
                   disabled
                   value={user.email}
@@ -124,7 +144,11 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
             )}
 
             {user.cityName && (
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormInput
                   disabled
                   value={user.cityName}
@@ -135,7 +159,11 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
               </Grid>
             )}
             {user.neighborhoodName && (
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormInput
                   disabled
                   value={user.neighborhoodName}
@@ -147,7 +175,11 @@ export function ApproveUserDialog({ open, handleClose, updateTable, user }: Appr
             )}
 
             {user.organizationName && (
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormInput
                   disabled
                   value={user.organizationName}

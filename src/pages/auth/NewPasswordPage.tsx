@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
@@ -16,7 +15,7 @@ import SuccessIcon from '@/assets/icons/success-icon.svg';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { passwordConfirmSchema, passwordSchema } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 import { BaseResetForm } from './ResetPasswordPage';
@@ -90,9 +89,9 @@ const NewPasswordPage = () => {
       setSuccess(true);
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         
         // @ts-ignore
         enqueueSnackbar(t(`errorCodes:${error.error_code || 'generic'}`), {
           variant: 'error',

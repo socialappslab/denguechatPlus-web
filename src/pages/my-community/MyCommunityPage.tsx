@@ -7,7 +7,7 @@ import { authApi } from '@/api/axios';
 import PostBox from '@/components/PostBox';
 import SitesReport from '@/components/SitesReport';
 import useUser from '@/hooks/useUser';
-import { Post, Team } from '@/schemas/entities';
+import { type Post, type Team } from '@/schemas/entities';
 import Loader from '@/themed/loader/Loader';
 import Title from '@/themed/title/Title';
 import Text from '@/themed/text/Text';

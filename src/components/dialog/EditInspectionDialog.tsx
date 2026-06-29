@@ -1,23 +1,23 @@
 import { Box, Grid } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { authApi } from '@/api/axios';
-import { FormSelectOption } from '@/schemas';
-import { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';
-import { UpdateInspection } from '@/schemas/update';
+import type { FormSelectOption } from '@/schemas';
+import type { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';
+import type { UpdateInspection } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import FormSelect from '@/themed/form-select/FormSelect';
 import Loader from '@/themed/loader/Loader';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '@/util';
 import { Button } from '@/themed/button/Button';
-import { FormInput } from '@/themed/form-input/FormInput';
+import FormInput from '@/themed/form-input/FormInput';
 import { Title } from '@/themed/title/Title';
 
 type InspectionData = Record<keyof InspectionSelectable, ({ selected: boolean; value: string } & BaseEntity)[]>;
@@ -43,6 +43,7 @@ const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
       ? values.containerProtectionOther
       : '',
     ...(values.location ? { location: values.location } : {}),
+    // @ts-expect-error
     was_chemically_treated: values.wasChemicallyTreated,
     water_source_other: containsOtherOption(values.waterSourceTypes, OtherIds.waterSourceType)
       ? values.waterSourceOther
@@ -97,9 +98,13 @@ const EditInspectionDialog = ({
     typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
     wasChemicallyTreated: extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
     waterSourceTypes: extractIdsFromInspections(inspectionData?.waterSourceTypes) || '',
+    // @ts-expect-error
     containerProtectionOther: inspectionData?.containerProtectionOther,
+    // @ts-expect-error
     eliminationMethodTypeOther: inspectionData?.eliminationMethodTypeOther,
+    // @ts-expect-error
     status: t(`admin:visits.status.${inspection?.status}`),
+    // @ts-expect-error
     waterSourceOther: inspectionData?.waterSourceOther,
   };
 
@@ -108,7 +113,7 @@ const EditInspectionDialog = ({
     defaultValues,
   });
 
-  const { handleSubmit, watch, setError } = methods;
+  const { handleSubmit, setError, control, getValues } = methods;
   const inspectionDataPhotoUrl = (inspectionData as { photoUrl?: { url?: string; photo_url?: string } } | undefined)
     ?.photoUrl;
 
@@ -193,19 +198,19 @@ const EditInspectionDialog = ({
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',
@@ -214,6 +219,7 @@ const EditInspectionDialog = ({
       });
 
       if (!errorData?.errors || errorData?.errors.length === 0) {
+        // @ts-expect-error
         enqueueSnackbar(t('errorCodes:generic'), {
           variant: 'error',
         });
@@ -223,13 +229,17 @@ const EditInspectionDialog = ({
     }
   };
 
+  const containerProtections = useWatch({ control, name: 'containerProtections' });
+  const waterSourceTypes = useWatch({ control, name: 'waterSourceTypes' });
+  const eliminationMethodTypes = useWatch({ control, name: 'eliminationMethodTypes' });
+
   const containerProtectionsContainsOtherOption = containsOtherOption(
-    watch('containerProtections'),
+    containerProtections,
     OtherIds.containerProtection,
   );
-  const waterSourceTypesContainsOtherOption = containsOtherOption(watch('waterSourceTypes'), OtherIds.waterSourceType);
+  const waterSourceTypesContainsOtherOption = containsOtherOption(waterSourceTypes, OtherIds.waterSourceType);
   const eliminationMethodTypesContainsOtherOption = containsOtherOption(
-    watch('eliminationMethodTypes'),
+    eliminationMethodTypes,
     OtherIds.eliminationMethodType,
   );
 
@@ -238,6 +248,7 @@ const EditInspectionDialog = ({
       <FormProvider {...methods}>
         <Box
           component="form"
+          // @ts-expect-error
           onSubmit={handleSubmit(onSubmitHandler)}
           noValidate
           autoComplete="off"
@@ -249,7 +260,11 @@ const EditInspectionDialog = ({
             label={t('admin:visits.inspection.containerType')}
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 className="mt-2"
                 name="breadingSiteType"
@@ -257,7 +272,11 @@ const EditInspectionDialog = ({
                 options={optionsData.breadingSiteType}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 className="mt-2"
                 name="location"
@@ -265,7 +284,11 @@ const EditInspectionDialog = ({
                 options={optionsData.locations}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2"
                 name="waterSourceTypes"
@@ -273,7 +296,11 @@ const EditInspectionDialog = ({
                 options={optionsData.waterSourceTypes}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="waterSourceOther"
@@ -282,7 +309,11 @@ const EditInspectionDialog = ({
                 type="text"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2"
                 name="containerProtections"
@@ -290,7 +321,11 @@ const EditInspectionDialog = ({
                 options={optionsData.containerProtections}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="containerProtectionOther"
@@ -299,7 +334,11 @@ const EditInspectionDialog = ({
                 type="text"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormSelect
                 className="mt-2"
                 name="wasChemicallyTreated"
@@ -307,7 +346,11 @@ const EditInspectionDialog = ({
                 options={optionsData.wasChemicallyTreated}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2"
                 name="typeContents"
@@ -324,7 +367,11 @@ const EditInspectionDialog = ({
           />
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormMultipleSelect
                 className="mt-2"
                 name="eliminationMethodTypes"
@@ -333,7 +380,11 @@ const EditInspectionDialog = ({
                 required
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormInput
                 className="mt-2"
                 name="eliminationMethodTypeOther"
@@ -415,7 +466,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: PreloadInspecti
       const deserializedData = deserialize(data) as InspectionData;
 
       if (!Array.isArray(deserializedData)) {
-        // eslint-disable-next-line no-console
+         
         console.log('deserializedData load user', deserializedData);
       }
 

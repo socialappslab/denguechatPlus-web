@@ -1,21 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Container } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { ExistingDocumentObject, deserialize } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useAxiosNoAuth } from '../../api/axios';
 import LogoSquare from '../../assets/images/logo-square.svg';
 import { DEFAULT_OPTION_CITY_NAME } from '../../constants';
 import useCreateAccount from '../../hooks/useCreateAccount';
-import { City, ErrorResponse, FormSelectOption, Neighborhood } from '../../schemas';
-import { RegisterInputType, RegisterSchema, UserAccount } from '../../schemas/auth';
+import { type City, type ErrorResponse, type FormSelectOption, type Neighborhood } from '../../schemas';
+import { type RegisterInputType, RegisterSchema, type UserAccount } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import FormSelect from '../../themed/form-select/FormSelect';
 import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData, findOptionByName } from '../../util';
@@ -36,8 +36,8 @@ export function CreateAccountPage() {
     resolver: zodResolver(RegisterSchema),
   });
 
-  const { handleSubmit, setError, setValue, watch, getValues } = methods;
-  const [cityValue] = watch(['city']);
+  const { handleSubmit, setError, setValue, getValues, control } = methods;
+  const cityValue = useWatch({ control, name: 'city' });
   const usernameErrorCounter = useRef(0);
 
   const [{ data: citiesData, loading: loadingCities }] = useAxiosNoAuth<ExistingDocumentObject, unknown, ErrorResponse>(
@@ -90,7 +90,7 @@ export function CreateAccountPage() {
     if (cityValue !== undefined) {
       setValue('neighborhood', '');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [cityValue, setValue]);
 
   useEffect(() => {

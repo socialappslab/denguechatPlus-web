@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import useAxios from 'axios-hooks';
 import { useTranslation } from 'react-i18next';
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 import useUser from '@/hooks/useUser';
-import { BaseObject } from '@/schemas';
+import type { BaseObject } from '@/schemas';
 import Loader from '@/themed/loader/Loader';
 import { ProgressBar } from '@/themed/progress-bar/ProgressBar';
 import Title from '@/themed/title/Title';

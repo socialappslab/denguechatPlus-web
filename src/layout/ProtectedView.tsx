@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 import { memoize } from 'lodash-es';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import useUser from '../hooks/useUser';
-import { IUser } from '../schemas/auth';
+import type { IUser } from '../schemas/auth';
 
 export interface ProtectedViewProps extends PropsWithChildren {
   hasPermission?: string | string[];
@@ -51,17 +51,14 @@ export default function ProtectedView({
   if (!user) return null;
 
   if (hasPermission && chekcHasPermission(user, hasPermission)) {
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
 
   if (hasSomePermission && checkHasSomePermission(user, hasSomePermission)) {
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
 
   if (hasSomeResource && checkHasSomeResource(user, hasSomeResource)) {
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
 }

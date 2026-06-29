@@ -1,7 +1,7 @@
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 
 import useAxios from 'axios-hooks';
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 
 type IUseUpdateMutation<P> = {
   udpateMutation: (payload: P) => Promise<void>;
@@ -22,7 +22,7 @@ export default function useUpdateMutation<P, S>(endpoint: string): IUseUpdateMut
     // console.log('createRes', createRes);
 
     const deserializedData = deserialize<S>(createRes.data);
-    // eslint-disable-next-line no-console
+     
     console.log('deserializedData update', deserializedData);
   };
 

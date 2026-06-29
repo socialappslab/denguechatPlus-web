@@ -1,15 +1,15 @@
 import { Box, Dialog, Grid } from '@mui/material';
 
 import useAxios from 'axios-hooks';
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import useUpdateUser from '../../hooks/useUpdateUser';
-import { ErrorResponse, FormSelectOption } from '../../schemas';
-import { ChangeUserRoleInputType, IUser, UserUpdate } from '../../schemas/auth';
-import { Role } from '../../schemas/entities';
+import type { ErrorResponse, FormSelectOption } from '../../schemas';
+import type { ChangeUserRoleInputType, IUser, UserUpdate } from '../../schemas/auth';
+import type { Role } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
 import FormInput from '../../themed/form-input/FormInput';
 import FormMultipleSelect from '../../themed/form-multiple-select/FormMultipleSelect';
@@ -52,7 +52,7 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
   const {
     handleSubmit,
     setError,
-    watch,
+    getValues,
     // formState: { isValid, errors },
   } = methods;
 
@@ -73,19 +73,19 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
             variant: 'error',
@@ -110,53 +110,89 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
 
             <Grid container spacing={2}>
               {user.firstName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.firstName} name="firstName" label={t('firstName')} type="text" />
                 </Grid>
               )}
 
               {user.lastName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.lastName} name="lastName" label={t('lastName')} type="text" />
                 </Grid>
               )}
 
               {user.username && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.username} name="username" label={t('username')} type="text" />
                 </Grid>
               )}
 
               {user.phone && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={setPhone(user.phone)} name="phone" label={t('phone')} type="phone" />
                 </Grid>
               )}
 
               {user.email && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.email} name="email" label={t('email')} type="text" />
                 </Grid>
               )}
 
               {user.cityName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.cityName} name="city" label={t('city')} />
                 </Grid>
               )}
               {user.neighborhoodName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.neighborhoodName} name="neighborhood" label={t('neighborhood')} />
                 </Grid>
               )}
 
               {user.organizationName && (
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormInput disabled value={user.organizationName} name="organization" label={t('organization')} />
                 </Grid>
               )}
 
-              <Grid item xs={12} sm={12}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 12
+                }}>
                 <FormMultipleSelect
                   name="roles"
                   loading={loadingRoles}

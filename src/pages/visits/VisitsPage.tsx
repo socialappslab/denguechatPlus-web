@@ -1,15 +1,43 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Dialog, IconButton, Link, Tooltip } from '@mui/material';
+import { DeleteOutline as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
+import { Box, Dialog, IconButton, Tooltip } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
 import useAxios from 'axios-hooks';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
+import { Link } from 'react-router';
 import Button from '@/themed/button/Button';
 import FilteredDataTable from '../../components/list/FilteredDataTable';
-import { House, Visit } from '../../schemas/entities';
-import { HeadCell } from '../../themed/table/DataTable';
+import { type House, type InspectionStatus, type Visit } from '../../schemas/entities';
+import type { HeadCell } from '../../themed/table/DataTable';
 import Title from '../../themed/title/Title';
+
+const visitStatusColorClasses: Record<InspectionStatus, string> = {
+  green: 'bg-green-600',
+  yellow: 'bg-yellow-600',
+  red: 'bg-red-600',
+};
+
+const visitStatusAliases: Record<string, InspectionStatus> = {
+  green: 'green',
+  verde: 'green',
+  yellow: 'yellow',
+  amarillo: 'yellow',
+  amarelo: 'yellow',
+  red: 'red',
+  rojo: 'red',
+  vermelho: 'red',
+};
+
+function VisitStatusSwatch({ status }: { status: string }) {
+  const normalizedStatus = visitStatusAliases[status.trim().toLocaleLowerCase()];
+  const colorClass = normalizedStatus ? visitStatusColorClasses[normalizedStatus] : 'bg-neutral-300';
+
+  return (
+    <Tooltip title={status}>
+      <Box component="span" tabIndex={0} className={`block h-5 w-5 rounded-full ${colorClass}`} />
+    </Tooltip>
+  );
+}
 
 const headCells: HeadCell<Visit>[] = [
   {
@@ -60,6 +88,7 @@ const headCells: HeadCell<Visit>[] = [
   {
     id: 'visitStatus',
     label: 'visitStatus',
+    render: (row) => <VisitStatusSwatch status={row.visitStatus} />,
     filterable: true,
     sortable: true,
   },
@@ -109,10 +138,10 @@ export default function VisitsList() {
       <div className="flex flex-row items-center gap-1">
         <Tooltip title={t('translation:table.actions.edit')}>
           <IconButton
-            LinkComponent={Link}
+            component={Link}
+            to={`/visits/${row.id}/edit`}
             color="primary"
             disabled={loading || deletingVisit}
-            href={`/visits/${row.id}/edit`}
           >
             <EditOutlinedIcon />
           </IconButton>

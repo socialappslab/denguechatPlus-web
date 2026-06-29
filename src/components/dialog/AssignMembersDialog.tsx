@@ -8,18 +8,18 @@ import { useSnackbar } from 'notistack';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import useAxios from 'axios-hooks';
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useEffect, useMemo, useState } from 'react';
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 import { TEAM_MEMBER_ROLE } from '@/constants';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
-import { FormSelectOption, Member } from '@/schemas';
-import { Team } from '@/schemas/entities';
-import { UpdateTeam } from '@/schemas/update';
+import type { FormSelectOption, Member } from '@/schemas';
+import type { Team } from '@/schemas/entities';
+import type { UpdateTeam } from '@/schemas/update';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
-import { IUser } from '../../schemas/auth';
+import type { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { extractAxiosErrorData } from '../../util';
 
@@ -79,7 +79,7 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
     },
   });
 
-  const { handleSubmit, setError, watch } = methods;
+  const { handleSubmit, setError, getValues } = methods;
 
   const onSubmit = handleSubmit(async (values) => {
     try {
@@ -100,12 +100,12 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
       const errorData = extractAxiosErrorData(error);
 
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
             // @ts-expect-error we expect an item of the union
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
@@ -130,7 +130,11 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
         <Box component="form" onSubmit={onSubmit} noValidate autoComplete="off" className="w-full p-8">
           <Title type="section" className="self-center mb-8i w-full" label={t('admin:teams.edit.edit_team')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -140,7 +144,11 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
                 placeholder={t('admin:teams.form.name_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormMultipleSelect
                 name="members"
                 loading={loading}

@@ -1,41 +1,30 @@
-import eslintPlugin from '@nabla/vite-plugin-eslint';
-import react from '@vitejs/plugin-react-swc';
-import path from 'path';
-import { defineConfig } from 'vite';
-import svgr from 'vite-plugin-svgr';
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { visualizer } from 'rollup-plugin-visualizer';
 
-// @ts-ignore
-/**
- * @see https://vitejs.dev/config/
- */
-export default defineConfig({
-  plugins: [
-    react(),
-    eslintPlugin(),
-    svgr({
-      include: '**/*.svg?react',
-    }),
-    sentryVitePlugin({
-      org: 'denguechatplus',
-      project: 'denguechatplus',
-      authToken: process.env.SENTRY_AUTH_TOKEN,
+// https://vite.dev/config/
+export default defineConfig(({ mode }) => {
+  // Load env file based on `mode` in the current working directory.
+  // Set the third parameter to '' to load all env regardless of the
+  // `VITE_` prefix.
+  const env = loadEnv(mode, process.cwd(), '');
 
-      sourcemaps: {
-        assets: './dist/**/*.js.map',
-        deleteFiles: true,
-      },
-    }),
-    visualizer(),
-  ],
-  resolve: {
-    alias: {
-      '@': path.resolve('./src'),
-      src: path.resolve(__dirname, './src'),
-    },
-  },
-  build: {
-    sourcemap: process.env.NODE_ENV !== 'production',
-  },
+  return {
+    plugins: [
+      react(),
+      sentryVitePlugin({
+        disable: env.NODE_ENV === 'development',
+        org: 'denguechatplus',
+        project: 'denguechatplus',
+        authToken: env.SENTRY_AUTH_TOKEN,
+        sourcemaps: {
+          filesToDeleteAfterUpload: ['./dist/**/*.map'],
+        },
+      }),
+      visualizer(),
+    ],
+    resolve: { tsconfigPaths: true },
+    build: { sourcemap: 'hidden' },
+  };
 });

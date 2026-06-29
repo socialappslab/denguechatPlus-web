@@ -1,4 +1,11 @@
-import { ExpandLess, ExpandMore, UploadFile } from '@mui/icons-material';
+import {
+  ExpandLess,
+  ExpandMore,
+  FactCheckOutlined,
+  GroupsOutlined,
+  LocationCityOutlined,
+  UploadFile,
+} from '@mui/icons-material';
 import {
   Box,
   Collapse,
@@ -13,7 +20,7 @@ import {
 import { matches } from 'lodash-es';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 import {
   CITIES_INDEX,
   HOUSE_BLOCKS_INDEX,
@@ -27,7 +34,6 @@ import {
   VISITS_BULK_UPLOAD,
 } from '@/constants/permissions';
 import { drawerWidth } from '@/constants';
-import Icon from '@/components/icon';
 import { version } from '../../package.json';
 import ReportsIcon from '../assets/icons/reports.svg';
 import SettingsIcon from '../assets/icons/settings.svg';
@@ -119,13 +125,13 @@ export default function Sidebar({ logout }: { logout: () => void }) {
             >
               <ListItemButton component={Link} to={MY_CITY} selected={pathname.includes(MY_CITY)}>
                 <ListItemIcon>
-                  <Icon type="City" />
+                  <LocationCityOutlined />
                 </ListItemIcon>
                 <ListItemText primary={<Text type="menuItem">{t('menu.myCity')}</Text>} />
               </ListItemButton>
               <ListItemButton component={Link} to={MY_COMMUNITY} selected={pathname.includes(MY_COMMUNITY)}>
                 <ListItemIcon>
-                  <Icon type="Community" />
+                  <GroupsOutlined />
                 </ListItemIcon>
                 <ListItemText primary={<Text type="menuItem">{t('menu.myCommunity')}</Text>} />
               </ListItemButton>
@@ -133,7 +139,7 @@ export default function Sidebar({ logout }: { logout: () => void }) {
               <ProtectedView hasPermission={[VISITS_INDEX]}>
                 <ListItemButton component={Link} to={VISITS} selected={pathname.includes(VISITS)}>
                   <ListItemIcon>
-                    <Icon type="FactCheck" />
+                    <FactCheckOutlined />
                   </ListItemIcon>
                   <ListItemText primary={<Text type="menuItem">{t('menu.visits')}</Text>} />
                 </ListItemButton>

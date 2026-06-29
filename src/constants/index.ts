@@ -24,15 +24,18 @@ export const LANG_STORAGE_KEY = 'DENGUECHAT_LANG';
 
 export const PAGE_SIZES = [5, 10, 15, 25] as const;
 export type PageSizes = (typeof PAGE_SIZES)[number];
+export const DEFAULT_PAGE_SIZE: PageSizes = 10;
 
 export const DISPATCH_ACTIONS = {
   SET_USER: 'SET_USER',
   SET_LANG: 'SET_LANG',
 };
 
-export enum UserTypes {
-  ADMIN = 'ADMIN',
-}
+export const UserTypes = {
+  ADMIN: 'ADMIN',
+} as const;
+
+export type UserTypes = (typeof UserTypes)[keyof typeof UserTypes];
 
 export const drawerWidth = 260;
 

@@ -12,10 +12,12 @@ function a11yProps(index: number) {
   };
 }
 
-enum RankView {
-  VisitRank = 'visitRank',
-  GreenHouseRank = 'greenHouseRank',
-}
+const RankView = {
+  VisitRank: 'visitRank',
+  GreenHouseRank: 'greenHouseRank',
+} as const;
+
+type RankView = (typeof RankView)[keyof typeof RankView];
 
 interface Rank {
   first_name: string;
@@ -30,7 +32,7 @@ interface BrigadistPerformance {
 
 const RankViewBox = () => {
   const { t } = useTranslation('feed');
-  const [rankView, setRankView] = useState(RankView.VisitRank);
+  const [rankView, setRankView] = useState<RankView>(RankView.VisitRank);
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setRankView(Object.values(RankView)[newValue] as RankView);

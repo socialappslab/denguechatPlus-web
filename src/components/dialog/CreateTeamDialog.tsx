@@ -1,25 +1,25 @@
 import { Box, Grid } from '@mui/material';
 
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSnackbar } from 'notistack';
 
-import { deserialize, ExistingDocumentObject } from 'jsonapi-fractal';
+import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useEffect, useMemo, useState } from 'react';
-import { ErrorResponse } from 'react-router-dom';
+import type { ErrorResponse } from 'react-router';
 import useAxios from 'axios-hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import useCreateMutation from '@/hooks/useCreateMutation';
-import { BaseObject, FormSelectOption } from '@/schemas';
-import { CreateTeam, CreateTeamInputType, createTeamSchema } from '@/schemas/create';
-import { Team } from '@/schemas/entities';
+import type { BaseObject, FormSelectOption } from '@/schemas';
+import { createTeamSchema, type CreateTeam, type CreateTeamInputType } from '@/schemas/create';
+import type { Team } from '@/schemas/entities';
 import FormMultipleSelect from '@/themed/form-multiple-select/FormMultipleSelect';
 import FormSelect from '@/themed/form-select/FormSelect';
-import { IUser } from '../../schemas/auth';
+import type { IUser } from '../../schemas/auth';
 import { Button } from '../../themed/button/Button';
-import { FormInput } from '../../themed/form-input/FormInput';
+import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '../../util';
 import useStateContext from '@/hooks/useStateContext';
@@ -51,12 +51,13 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
     resolver: zodResolver(createTeamSchema()),
     defaultValues: {},
   });
-  const { handleSubmit, resetField, setError, watch } = methods;
+  const { handleSubmit, resetField, setError, control, getValues } = methods;
 
-  const sectorId = watch('sectorId');
+  const sectorId = useWatch({ control, name: 'sectorId' });
   const wedges = useWedges(sectorId);
   const wedgeOptions = useMemo(
     () =>
+      // @ts-expect-error
       wedges.data?.data?.map((wedge) => ({
         label: wedge.attributes.name,
         value: wedge.id,
@@ -150,19 +151,19 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/no-explicit-any
+       
       errorData?.errors?.forEach((error: any) => {
-        if (error?.field && watch(error.field)) {
+        if (error?.field && getValues(error.field)) {
           setError(error.field, {
             type: 'manual',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             
             // @ts-ignore
             message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: watch(error.field),
+              field: getValues(error.field),
             }),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           enqueueSnackbar(t([`errorCodes:${error?.error_code}`, 'errorCodes:generic']), {
             variant: 'error',
@@ -190,7 +191,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
         >
           <Title type="section" className="self-center mb-8i w-full" label={t('admin:teams.create_team')} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormInput
                 className="mt-2"
                 name="name"
@@ -199,7 +204,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 placeholder={t('admin:teams.form.name_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormMultipleSelect
                 name="memberIds"
                 loading={loadingUsers}
@@ -208,7 +217,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 options={userOptions}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 name="cityId"
                 className="mt-2"
@@ -218,7 +231,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 placeholder={t('admin:teams.form.city_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 name="sectorId"
                 className="mt-2"
@@ -231,7 +248,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 name="wedgeId"
                 className="mt-2"
@@ -242,7 +263,11 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
                 placeholder={t('admin:teams.form.wedge_placeholder')}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <FormSelect
                 name="organizationId"
                 className="mt-2"
