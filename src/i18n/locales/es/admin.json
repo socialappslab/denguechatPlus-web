@@ -127,6 +127,14 @@
       "edit": {
         "success": "Envase actualizado con éxito"
       },
+      "create": {
+        "action": "Agregar envase",
+        "success": "Envase agregado con éxito"
+      },
+      "locations": {
+        "house": "En la casa",
+        "orchard": "En la huerta"
+      },
       "delete": {
         "confirm": "¿Está seguro de que desea eliminar este envase?",
         "success": "Envase eliminado con éxito"
