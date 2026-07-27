@@ -1,5 +1,20 @@
-import { DeleteOutline as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
-import { Box, Button as MuiButton, Chip, Container, Dialog, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import {
+  Add as AddIcon,
+  DeleteOutline as DeleteOutlineIcon,
+  EditOutlined as EditOutlinedIcon,
+} from '@mui/icons-material';
+import {
+  Box,
+  Button as MuiButton,
+  Chip,
+  Container,
+  Dialog,
+  Grid,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
 import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -19,8 +34,10 @@ import RedHouse from '@/assets/icons/house-red.svg';
 import YellowHouse from '@/assets/icons/house-yellow.svg';
 import EditInspectionDialog from '@/components/dialog/EditInspectionDialog';
 import FilteredDataTable from '@/components/list/FilteredDataTable';
+import { INSPECTIONS_CREATE } from '@/constants/permissions';
 import useLangContext from '@/hooks/useLangContext';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
+import ProtectedView from '@/layout/ProtectedView';
 import type { FormSelectOption } from '@/schemas';
 import { type BaseEntity, type House, type Inspection, type InspectionStatus, type Visit } from '@/schemas/entities';
 import { type UpdateVisit, type UpdateVisitInputType } from '@/schemas/update';
@@ -106,7 +123,7 @@ const renderColor = (color: InspectionStatus) => {
     <Box className="flex">
       <Box
         // @ts-expect-error
-        className={`w-5 h-5 bg-${colorMapping[color]}-600 mr-3 rounded-full`}
+        className={`h-5 w-5 bg-${colorMapping[color]}-600 mr-3 rounded-full`}
       />
       {capitalize(color)}
     </Box>
@@ -196,13 +213,13 @@ function HouseStatusBanner({ color: colorPlain }: HouseStatusProps) {
   const color = ColorMap[colorPlain as StatusPlain];
   return (
     <Box className="my-4 flex items-center">
-      <Box className={`bg-${color}-600 w-20 h-20 rounded-full mr-4 flex items-center justify-center`}>
+      <Box className={`bg-${color}-600 mr-4 flex h-20 w-20 items-center justify-center rounded-full`}>
         <img src={IconMap[color]} alt="icon" className="w-7/12" />
       </Box>
-      <Box className="flex justify-center flex-col h-max">
+      <Box className="flex h-max flex-col justify-center">
         <Title
           type="section"
-          className="text-xl mb-0 font-semibold"
+          className="mb-0 text-xl font-semibold"
           label={`${t('visits.inspection.inspectionStatus')} ${t(`visits.status.${color}`)}`}
         />
         <Title type="subsection" className="mb-0" label={t('visits.inspection.statusDescription')} />
@@ -219,6 +236,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
   const [inspectionToDelete, setInspectionToDelete] = useState<Inspection | null>(null);
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
+  const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [inspectionUpdateControl, setInspectionUpdateControl] = useState(0);
 
   const rootElement = document.getElementById('root-app');
@@ -393,6 +411,12 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
   };
 
   const handleClose = () => setOpenEditDialog(false);
+  const handleInspectionSaved = () => {
+    setOpenEditDialog(false);
+    setOpenCreateDialog(false);
+    setInspectionUpdateControl((value) => value + 1);
+    refetch?.();
+  };
 
   const handleDownload = async () => {
     try {
@@ -426,7 +450,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
 
   return (
     <Container
-      className="bg-background w-full"
+      className="w-full bg-background"
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -436,7 +460,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
     >
       <FormProvider {...methods}>
         <Box component="form" onSubmit={handleSubmit(onSubmitHandler)} noValidate autoComplete="off">
-          <Box className="flex items-center mb-5">
+          <Box className="mb-5 flex items-center">
             <Text type="menuItem" className="opacity-50">
               {t('admin:visits.title')}
             </Text>
@@ -471,7 +495,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 <Box component="span" className="font-semibold">
                   {offlineVisitLabel}
                 </Box>
-                <Box component="span" className="font-normal ml-1">
+                <Box component="span" className="ml-1 font-normal">
                   {offlineVisitStatus}
                 </Box>
               </Typography>
@@ -501,7 +525,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                   <Box component="span" className="font-semibold">
                     {uploadFileLabel}
                   </Box>
-                  <Box component="span" className="font-normal ml-1">
+                  <Box component="span" className="ml-1 font-normal">
                     {uploadFileNoneLabel}
                   </Box>
                 </Typography>
@@ -513,7 +537,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                   {duplicatesHeadingLabel}
                 </Box>
                 {!hasDuplicateVisits && (
-                  <Box component="span" className="font-normal ml-1">
+                  <Box component="span" className="ml-1 font-normal">
                     {noDuplicatesValue}
                   </Box>
                 )}
@@ -540,8 +564,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormSelectAutocomplete
                 defaultValue={defaultHouse}
                 name="site"
@@ -553,8 +578,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2 h-full"
                 name="date"
@@ -565,8 +591,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormSelect
                 name="brigadist"
                 className="mt-2"
@@ -578,8 +605,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormInput
                 disabled
                 className="mt-2 h-full"
@@ -591,8 +619,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormSelect
                 className="mt-2"
                 name="visitPermission"
@@ -606,8 +635,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2 h-full"
                 name="visitPermissionOther"
@@ -619,8 +649,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormMultipleSelect
                 className="mt-2 h-full"
                 name="household"
@@ -643,8 +674,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormSelect
                 className="mt-2"
                 name="visitStartPlace"
@@ -656,8 +688,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormMultipleSelect
                 className="mt-2 h-full"
                 name="familyEducationTopics"
@@ -671,8 +704,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2"
                 name="otherFamilyEducationTopic"
@@ -684,8 +718,9 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormInput className="mt-2 h-full" name="notes" label={t('admin:visits.inspection.notes')} type="text" />
             </Grid>
           </Grid>
@@ -701,7 +736,19 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
           </div>
         </Box>
       </FormProvider>
-      <Title type="section" className="self-start mt-10 mb-1" label={t('admin:visits.inspectionData')} />
+      <Box className="mb-1 mt-10 flex w-full items-center justify-between gap-4">
+        <Title type="section" className="mb-0" label={t('admin:visits.inspectionData')} />
+        <ProtectedView hasPermission={INSPECTIONS_CREATE}>
+          <MuiButton
+            variant="contained"
+            disableElevation
+            startIcon={<AddIcon />}
+            onClick={() => setOpenCreateDialog(true)}
+          >
+            {t('admin:visits.inspection.create.action')}
+          </MuiButton>
+        </ProtectedView>
+      </Box>
       <VisitDataTable
         endpoint={`visits/${visit.id}/inspections`}
         defaultFilter="brigadist"
@@ -718,7 +765,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
         open={!!inspectionToDelete}
         onClose={() => setInspectionToDelete(null)}
       >
-        <div className="flex flex-col py-7 px-8">
+        <div className="flex flex-col px-8 py-7">
           <Title type="section" label={t('translation:table.actions.delete')} className="mb-4" />
           <p className="text-sm text-darkest">{t('admin:visits.inspection.delete.confirm')}</p>
 
@@ -743,15 +790,39 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
           </div>
         </div>
       </Dialog>
-      <Dialog container={rootElement} fullWidth maxWidth="md" open={openEditDialog} onClose={handleClose}>
+      <Dialog
+        aria-labelledby="edit-inspection-dialog-title"
+        container={rootElement}
+        fullWidth
+        maxWidth="md"
+        open={openEditDialog}
+        onClose={handleClose}
+        scroll="paper"
+      >
         {openEditDialog && (
           <EditInspectionDialog
             visitId={visit.id as number}
-            handleClose={() => {
-              setOpenEditDialog(false);
-              setInspectionUpdateControl((c) => c + 1);
-            }}
+            handleClose={handleClose}
+            onSaved={handleInspectionSaved}
             inspection={selectedInspection}
+          />
+        )}
+      </Dialog>
+      <Dialog
+        aria-labelledby="create-inspection-dialog-title"
+        container={rootElement}
+        fullWidth
+        maxWidth="md"
+        open={openCreateDialog}
+        onClose={() => setOpenCreateDialog(false)}
+        scroll="paper"
+      >
+        {openCreateDialog && (
+          <EditInspectionDialog
+            visitId={visit.id as number}
+            handleClose={() => setOpenCreateDialog(false)}
+            onSaved={handleInspectionSaved}
+            inspection={null}
           />
         )}
       </Dialog>
