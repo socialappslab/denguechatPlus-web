@@ -5,10 +5,11 @@ import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-
 import useAxios from 'axios-hooks';
 import { deserialize } from 'jsonapi-fractal';
 import { enqueueSnackbar } from 'notistack';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { authApi } from '@/api/axios';
+import useLangContext from '@/hooks/useLangContext';
 import type { FormSelectOption } from '@/schemas';
 import type { BaseEntity, Inspection, InspectionSelectable } from '@/schemas/entities';
 import type { UpdateInspection } from '@/schemas/update';
@@ -20,8 +21,39 @@ import { Button } from '@/themed/button/Button';
 import FormInput from '@/themed/form-input/FormInput';
 import { Title } from '@/themed/title/Title';
 
-type InspectionData = Record<keyof InspectionSelectable, ({ selected: boolean; value: string } & BaseEntity)[]>;
-type InspectionFormOptions = Record<keyof InspectionSelectable, FormSelectOption[]>;
+type InspectionOption = { selected: boolean; value: string } & BaseEntity;
+type InspectionData = Record<keyof InspectionSelectable, InspectionOption[]> & {
+  containerProtectionOther?: string;
+  eliminationMethodTypeOther?: string;
+  location?: string;
+  photoUrl?: { url?: string; photo_url?: string } | '';
+  waterSourceOther?: string;
+};
+type InspectionFormOption = FormSelectOption & { isOther?: boolean };
+type InspectionFormOptions = Record<keyof InspectionSelectable, InspectionFormOption[]>;
+type InspectionFormValues = {
+  breadingSiteType: string;
+  containerProtectionOther: string;
+  containerProtections: InspectionFormOption[];
+  eliminationMethodTypeOther: string;
+  eliminationMethodTypes: InspectionFormOption[];
+  location: string;
+  typeContents: InspectionFormOption[];
+  wasChemicallyTreated: string;
+  waterSourceOther: string;
+  waterSourceTypes: InspectionFormOption[];
+};
+type QuestionnaireOption = {
+  name: string;
+  optionType?: string;
+  resourceId?: number | string | null;
+};
+type QuestionnaireData = {
+  questions?: {
+    options: QuestionnaireOption[];
+    resourceName?: string | null;
+  }[];
+};
 
 // Other Ids
 const OtherIds = {
@@ -30,10 +62,10 @@ const OtherIds = {
   eliminationMethodType: '9',
 } as const;
 
-const containsOtherOption = (options: Record<string, string>[], otherId: (typeof OtherIds)[keyof typeof OtherIds]) =>
-  options.some((option) => option.value === otherId);
+const containsOtherOption = (options: InspectionFormOption[], otherId: (typeof OtherIds)[keyof typeof OtherIds]) =>
+  options.some((option) => option.isOther || option.value === otherId);
 
-const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
+const convertSchemaToPayload = (values: InspectionFormValues): UpdateInspection => {
   return {
     breeding_site_type_id: values.breadingSiteType,
     other_elimination_method: containsOtherOption(values.eliminationMethodTypes, OtherIds.eliminationMethodType)
@@ -43,7 +75,6 @@ const convertSchemaToPayload = (values: Inspection): UpdateInspection => {
       ? values.containerProtectionOther
       : '',
     ...(values.location ? { location: values.location } : {}),
-    // @ts-expect-error
     was_chemically_treated: values.wasChemicallyTreated,
     water_source_other: containsOtherOption(values.waterSourceTypes, OtherIds.waterSourceType)
       ? values.waterSourceOther
@@ -59,6 +90,7 @@ interface EditInspectionDialogProps {
   inspection: Inspection | null;
   visitId: number;
   handleClose: () => void;
+  onSaved: () => void;
   inspectionData?: InspectionData;
   optionsData: InspectionFormOptions;
 }
@@ -67,61 +99,56 @@ interface PreloadInspectionProps {
   inspection: Inspection | null;
   visitId: number;
   handleClose: () => void;
+  onSaved: () => void;
 }
 
 const EditInspectionDialog = ({
   inspection,
   handleClose,
+  onSaved,
   inspectionData,
   visitId,
   optionsData,
 }: EditInspectionDialogProps) => {
   const { t } = useTranslation(['register', 'admin']);
+  const isCreating = inspection === null;
 
-  const extractIdsFromInspections = (values?: ({ selected: boolean; value: string } & BaseEntity)[]) => {
+  const extractIdsFromInspections = (values?: InspectionOption[]) => {
     if (!values) return null;
     return values.filter((i) => i.selected).map((i) => ({ label: i.name, value: i.value?.toString() }));
   };
 
-  const extractIdFromInspections = (values?: ({ selected: boolean; value: string } & BaseEntity)[]) => {
+  const extractIdFromInspections = (values?: InspectionOption[]) => {
     if (!values) return '';
     return extractIdsFromInspections(values)?.pop()?.value?.toString();
   };
 
   const defaultValues = {
-    breadingSiteType: extractIdFromInspections(inspectionData?.breadingSiteType) || '',
-    location:
-      extractIdFromInspections(inspectionData?.locations) ||
-      ((inspectionData as { location?: string } | undefined)?.location ?? ''),
-    containerProtections: extractIdsFromInspections(inspectionData?.containerProtections) || '',
-    eliminationMethodTypes: extractIdsFromInspections(inspectionData?.eliminationMethodTypes) || '',
-    typeContents: extractIdsFromInspections(inspectionData?.typeContents) || '',
-    wasChemicallyTreated: extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
-    waterSourceTypes: extractIdsFromInspections(inspectionData?.waterSourceTypes) || '',
-    // @ts-expect-error
-    containerProtectionOther: inspectionData?.containerProtectionOther,
-    // @ts-expect-error
-    eliminationMethodTypeOther: inspectionData?.eliminationMethodTypeOther,
-    // @ts-expect-error
-    status: t(`admin:visits.status.${inspection?.status}`),
-    // @ts-expect-error
-    waterSourceOther: inspectionData?.waterSourceOther,
-  };
+    breadingSiteType: isCreating ? '' : extractIdFromInspections(inspectionData?.breadingSiteType) || '',
+    location: isCreating ? '' : extractIdFromInspections(inspectionData?.locations) || inspectionData?.location || '',
+    containerProtections: isCreating ? [] : extractIdsFromInspections(inspectionData?.containerProtections) || [],
+    eliminationMethodTypes: isCreating ? [] : extractIdsFromInspections(inspectionData?.eliminationMethodTypes) || [],
+    typeContents: isCreating ? [] : extractIdsFromInspections(inspectionData?.typeContents) || [],
+    wasChemicallyTreated: isCreating ? '' : extractIdFromInspections(inspectionData?.wasChemicallyTreated) || '',
+    waterSourceTypes: isCreating ? [] : extractIdsFromInspections(inspectionData?.waterSourceTypes) || [],
+    containerProtectionOther: isCreating ? '' : inspectionData?.containerProtectionOther || '',
+    eliminationMethodTypeOther: isCreating ? '' : inspectionData?.eliminationMethodTypeOther || '',
+    waterSourceOther: isCreating ? '' : inspectionData?.waterSourceOther || '',
+  } satisfies InspectionFormValues;
 
-  const methods = useForm<Inspection>({
-    // @ts-expect-error status is not compatible
-    defaultValues,
-  });
+  const methods = useForm<InspectionFormValues>({ defaultValues });
 
   const { handleSubmit, setError, control, getValues } = methods;
-  const inspectionDataPhotoUrl = (inspectionData as { photoUrl?: { url?: string; photo_url?: string } } | undefined)
-    ?.photoUrl;
+  const inspectionDataPhotoUrl =
+    inspectionData?.photoUrl && typeof inspectionData.photoUrl === 'object' ? inspectionData.photoUrl : undefined;
 
   type PhotoAction = 'keep' | 'delete' | 'replace';
   const [photoAction, setPhotoAction] = useState<PhotoAction>('keep');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(
-    inspectionDataPhotoUrl?.url ?? inspectionDataPhotoUrl?.photo_url ?? inspection?.photoUrl?.url ?? null,
+    isCreating
+      ? null
+      : (inspectionDataPhotoUrl?.url ?? inspectionDataPhotoUrl?.photo_url ?? inspection?.photoUrl?.url ?? null),
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -160,10 +187,15 @@ const EditInspectionDialog = ({
     }
   };
 
-  const onSubmitHandler: SubmitHandler<Inspection> = async (values) => {
+  const onSubmitHandler: SubmitHandler<InspectionFormValues> = async (values) => {
+    if (!values.breadingSiteType) {
+      setError('breadingSiteType', { type: 'required', message: '*' });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      const url = `/visits/${visitId}/inspections/${inspection?.id}`;
+      const url = isCreating ? `/visits/${visitId}/inspections` : `/visits/${visitId}/inspections/${inspection.id}`;
       const payload = convertSchemaToPayload(values);
 
       if (photoAction === 'replace' && selectedFile) {
@@ -181,46 +213,59 @@ const EditInspectionDialog = ({
 
         formData.append('photo', selectedFile);
 
-        await authApi.put(url, formData, {
+        await authApi.request({
+          url,
+          method: isCreating ? 'POST' : 'PUT',
+          data: formData,
           headers: { 'Content-Type': undefined },
         });
       } else if (photoAction === 'delete') {
         await authApi.put(url, { ...payload, delete_photo: true, photo: null });
+      } else if (isCreating) {
+        await authApi.post(url, payload);
       } else {
         await authApi.put(url, payload);
       }
 
-      enqueueSnackbar(t('admin:visits.inspection.edit.success'), {
-        variant: 'success',
-      });
+      enqueueSnackbar(
+        t(isCreating ? 'admin:visits.inspection.create.success' : 'admin:visits.inspection.edit.success'),
+        {
+          variant: 'success',
+        },
+      );
 
-      handleClose();
+      onSaved();
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
 
-       
-      errorData?.errors?.forEach((error: any) => {
-        if (error?.field && getValues(error.field)) {
-          setError(error.field, {
+      errorData?.errors?.forEach((apiError) => {
+        const fieldMap: Partial<Record<string, keyof InspectionFormValues>> = {
+          breeding_site_type_id: 'breadingSiteType',
+          container_protection_ids: 'containerProtections',
+          elimination_method_type_ids: 'eliminationMethodTypes',
+          location: 'location',
+          type_content_ids: 'typeContents',
+          was_chemically_treated: 'wasChemicallyTreated',
+          water_source_type_ids: 'waterSourceTypes',
+        };
+        const formField = apiError.field ? fieldMap[apiError.field] : undefined;
+
+        if (formField) {
+          setError(formField, {
             type: 'manual',
-             
-            // @ts-ignore
-            message: t(`errorCodes:${String(error?.error_code)}` || 'errorCodes:genericField', {
-              field: getValues(error.field),
+            message: t(`errorCodes:${String(apiError.error_code)}` as never, {
+              field: String(getValues(formField)),
             }),
           });
         } else {
-           
-          // @ts-ignore
-          enqueueSnackbar(t(`errorCodes:${error?.error_code || 'generic'}`), {
+          enqueueSnackbar(t(`errorCodes:${String(apiError.error_code)}` as never), {
             variant: 'error',
           });
         }
       });
 
       if (!errorData?.errors || errorData?.errors.length === 0) {
-        // @ts-expect-error
-        enqueueSnackbar(t('errorCodes:generic'), {
+        enqueueSnackbar(t('errorCodes:generic' as never), {
           variant: 'error',
         });
       }
@@ -244,39 +289,43 @@ const EditInspectionDialog = ({
   );
 
   return (
-    <div className="flex flex-col py-6 px-2">
+    <div className="flex flex-col px-2 py-6">
       <FormProvider {...methods}>
         <Box
           component="form"
-          // @ts-expect-error
           onSubmit={handleSubmit(onSubmitHandler)}
           noValidate
           autoComplete="off"
           className="w-full p-8"
         >
-          <Title
-            type="section"
-            className="self-center mb-8i w-full"
-            label={t('admin:visits.inspection.containerType')}
-          />
+          <div id={isCreating ? 'create-inspection-dialog-title' : 'edit-inspection-dialog-title'}>
+            <Title
+              type="section"
+              className="mb-8i w-full self-center"
+              label={t('admin:visits.inspection.containerType')}
+            />
+          </div>
           <Grid container spacing={2}>
             <Grid
               size={{
                 xs: 12,
-                sm: 12
-              }}>
+                sm: 12,
+              }}
+            >
               <FormSelect
                 className="mt-2"
                 name="breadingSiteType"
                 label={t('admin:visits.inspection.columns.breadingSiteType')}
                 options={optionsData.breadingSiteType}
+                required
               />
             </Grid>
             <Grid
               size={{
                 xs: 12,
-                sm: 12
-              }}>
+                sm: 12,
+              }}
+            >
               <FormSelect
                 className="mt-2"
                 name="location"
@@ -287,8 +336,9 @@ const EditInspectionDialog = ({
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormMultipleSelect
                 className="mt-2"
                 name="waterSourceTypes"
@@ -299,8 +349,9 @@ const EditInspectionDialog = ({
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2"
                 name="waterSourceOther"
@@ -312,8 +363,9 @@ const EditInspectionDialog = ({
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormMultipleSelect
                 className="mt-2"
                 name="containerProtections"
@@ -324,8 +376,9 @@ const EditInspectionDialog = ({
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2"
                 name="containerProtectionOther"
@@ -337,8 +390,9 @@ const EditInspectionDialog = ({
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormSelect
                 className="mt-2"
                 name="wasChemicallyTreated"
@@ -349,8 +403,9 @@ const EditInspectionDialog = ({
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormMultipleSelect
                 className="mt-2"
                 name="typeContents"
@@ -362,7 +417,7 @@ const EditInspectionDialog = ({
 
           <Title
             type="section"
-            className="self-center mb-8i w-full mt-8"
+            className="mb-8i mt-8 w-full self-center"
             label={t('admin:visits.inspection.actionsPerfomed')}
           />
 
@@ -370,8 +425,9 @@ const EditInspectionDialog = ({
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormMultipleSelect
                 className="mt-2"
                 name="eliminationMethodTypes"
@@ -383,8 +439,9 @@ const EditInspectionDialog = ({
             <Grid
               size={{
                 xs: 12,
-                sm: 6
-              }}>
+                sm: 6,
+              }}
+            >
               <FormInput
                 className="mt-2"
                 name="eliminationMethodTypeOther"
@@ -396,13 +453,13 @@ const EditInspectionDialog = ({
           </Grid>
 
           <div className="mt-8 flex items-start gap-4">
-            <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded border border-gray-300">
+            <div className="border-gray-300 h-32 w-32 flex-shrink-0 overflow-hidden rounded border">
               {photoPreviewUrl ? (
                 <Link to={photoPreviewUrl} target="_blank" rel="noreferrer">
                   <img src={photoPreviewUrl} alt="" className="h-full w-full object-cover" />
                 </Link>
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-500">
+                <div className="bg-gray-100 text-gray-500 flex h-full w-full items-center justify-center text-sm">
                   {t('admin:visits.inspection.photo.noPhoto')}
                 </div>
               )}
@@ -429,7 +486,13 @@ const EditInspectionDialog = ({
 
           <div className="mt-8 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
             <div className="md:mr-2">
-              <Button buttonType="large" label={t('edit.action')} disabled={isSubmitting} type="submit" />
+              <Button
+                buttonType="large"
+                label={t(isCreating ? 'admin:visits.inspection.create.action' : 'edit.action')}
+                loading={isSubmitting}
+                disabled={isSubmitting}
+                type="submit"
+              />
             </div>
 
             <div>
@@ -442,55 +505,87 @@ const EditInspectionDialog = ({
   );
 };
 
-const PreloadInspection = ({ inspection, handleClose, visitId }: PreloadInspectionProps) => {
-  const [inspectionData, setInspectionData] = useState<InspectionData>();
-  const [optionsData, setOptionsData] = useState<InspectionFormOptions>({
-    breadingSiteType: [{ value: '', label: '' }],
-    containerProtections: [{ value: '', label: '' }],
-    eliminationMethodTypes: [{ value: '', label: '' }],
-    locations: [{ value: '', label: '' }],
-    typeContents: [{ value: '', label: '' }],
-    wasChemicallyTreated: [{ value: '', label: '' }],
-    waterSourceTypes: [{ value: '', label: '' }],
-  });
+const PreloadInspection = ({ inspection, handleClose, onSaved, visitId }: PreloadInspectionProps) => {
+  const langContext = useLangContext();
+  const { t } = useTranslation('admin');
+  const isCreating = inspection === null;
 
   const [{ data, loading }] = useAxios(
     {
-      url: `/visits/${visitId}/inspections/${inspection?.id}`,
+      url: isCreating ? '/questionnaires/current' : `/visits/${visitId}/inspections/${inspection.id}`,
+      params: { language: langContext.state.selected },
     },
     { useCache: false },
   );
 
-  useEffect(() => {
-    if (data) {
-      const deserializedData = deserialize(data) as InspectionData;
+  const sourceData = useMemo(() => (data ? deserialize(data) : undefined), [data]);
+  const inspectionData = isCreating ? undefined : (sourceData as InspectionData | undefined);
 
-      if (!Array.isArray(deserializedData)) {
-         
-        console.log('deserializedData load user', deserializedData);
-      }
+  const optionsData = useMemo<InspectionFormOptions | undefined>(() => {
+    if (!sourceData) return undefined;
 
-      const optionsDataTemp: InspectionFormOptions = {
-        breadingSiteType: convertToFormSelectOptions(deserializedData.breadingSiteType),
-        containerProtections: convertToFormSelectOptions(deserializedData.containerProtections),
-        eliminationMethodTypes: convertToFormSelectOptions(deserializedData.eliminationMethodTypes),
-        locations: convertToFormSelectOptions(deserializedData.locations || []),
-        typeContents: convertToFormSelectOptions(deserializedData.typeContents),
-        wasChemicallyTreated: convertToFormSelectOptions(
-          deserializedData.wasChemicallyTreated,
-          undefined,
-          undefined,
-          'value',
-        ),
-        waterSourceTypes: convertToFormSelectOptions(deserializedData.waterSourceTypes),
+    if (isCreating) {
+      const questionnaire = sourceData as QuestionnaireData;
+      const questions = questionnaire.questions || [];
+
+      const optionsFor = (...resourceNames: string[]): InspectionFormOption[] => {
+        const question = questions.find(({ resourceName }) => resourceName && resourceNames.includes(resourceName));
+
+        return (question?.options || []).flatMap((option) => {
+          if (option.resourceId === undefined || option.resourceId === null) return [];
+
+          return [
+            {
+              label: option.name,
+              value: String(option.resourceId),
+              isOther: option.optionType === 'textArea',
+            },
+          ];
+        });
       };
 
-      setOptionsData(optionsDataTemp);
-      setInspectionData(deserializedData);
-    }
-  }, [data]);
+      const valueOptionsFor = (resourceName: string): InspectionFormOption[] => {
+        const question = questions.find((item) => item.resourceName === resourceName);
 
-  if (!inspectionData || loading) {
+        return (question?.options || []).map((option) => ({
+          label: option.name,
+          value: option.name,
+        }));
+      };
+
+      return {
+        breadingSiteType: optionsFor('breeding_site_type_id'),
+        containerProtections: optionsFor('container_protection_id', 'container_protection_ids'),
+        eliminationMethodTypes: optionsFor('elimination_method_type_id', 'elimination_method_type_ids'),
+        locations: [
+          { label: t('visits.inspection.locations.house'), value: 'house' },
+          { label: t('visits.inspection.locations.orchard'), value: 'orchard' },
+        ],
+        typeContents: optionsFor('type_content_id', 'type_content_ids'),
+        wasChemicallyTreated: valueOptionsFor('was_chemically_treated'),
+        waterSourceTypes: optionsFor('water_source_type_id', 'water_source_type_ids'),
+      };
+    }
+
+    const existingInspection = sourceData as InspectionData;
+
+    return {
+      breadingSiteType: convertToFormSelectOptions(existingInspection.breadingSiteType),
+      containerProtections: convertToFormSelectOptions(existingInspection.containerProtections),
+      eliminationMethodTypes: convertToFormSelectOptions(existingInspection.eliminationMethodTypes),
+      locations: convertToFormSelectOptions(existingInspection.locations || []),
+      typeContents: convertToFormSelectOptions(existingInspection.typeContents),
+      wasChemicallyTreated: convertToFormSelectOptions(
+        existingInspection.wasChemicallyTreated,
+        undefined,
+        undefined,
+        'value',
+      ),
+      waterSourceTypes: convertToFormSelectOptions(existingInspection.waterSourceTypes),
+    };
+  }, [isCreating, sourceData, t]);
+
+  if (!sourceData || !optionsData || loading) {
     return <Loader />;
   }
 
@@ -498,6 +593,7 @@ const PreloadInspection = ({ inspection, handleClose, visitId }: PreloadInspecti
     <EditInspectionDialog
       inspection={inspection}
       handleClose={handleClose}
+      onSaved={onSaved}
       visitId={visitId}
       inspectionData={inspectionData}
       optionsData={optionsData}

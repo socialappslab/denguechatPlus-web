@@ -127,6 +127,14 @@
       "edit": {
         "success": "Inspeção atualizada com sucesso"
       },
+      "create": {
+        "action": "Adicionar recipiente",
+        "success": "Recipiente adicionado com sucesso"
+      },
+      "locations": {
+        "house": "Na casa",
+        "orchard": "No quintal"
+      },
       "delete": {
         "confirm": "Tem certeza de que deseja excluir este recipiente?",
         "success": "Recipiente excluído com sucesso"

@@ -71,6 +71,8 @@ const REPORTS_INDEX = 'reports-index';
 const VISITS_INDEX = 'visits-index';
 const VISITS_BULK_UPLOAD = 'visits-bulk_upload';
 
+const INSPECTIONS_CREATE = 'inspections-create';
+
 const HOUSE_BLOCKS_INDEX = 'house_blocks-index';
 
 export {
@@ -134,5 +136,6 @@ export {
   REPORTS_INDEX,
   VISITS_INDEX,
   VISITS_BULK_UPLOAD,
+  INSPECTIONS_CREATE,
   HOUSE_BLOCKS_INDEX,
 };
