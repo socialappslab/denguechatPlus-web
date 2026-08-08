@@ -7,7 +7,11 @@ import {
   type TextFieldProps,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { DateField as MUIDateField, DatePicker as MUIDatePicker } from '@mui/x-date-pickers';
+import {
+  DateField as MUIDateField,
+  DatePicker as MUIDatePicker,
+  DateTimePicker as MUIDateTimePicker,
+} from '@mui/x-date-pickers';
 import { useTranslation } from 'react-i18next';
 
 import dayjs, { Dayjs } from 'dayjs';
@@ -48,6 +52,30 @@ export const DateField = styled(MUIDateField)`
 `;
 
 export const DatePicker = styled(MUIDatePicker)`
+  .MuiInputBase-root.MuiInput-root:before,
+  .MuiInputBase-root.MuiInput-root:after,
+  .MuiInputBase-root.MuiInput-root:hover:before,
+  .MuiInputBase-root.MuiInput-root:hover {
+    content: '';
+    border-bottom: 0px;
+  }
+  .Mui-error {
+    input {
+      border-color: ${COLORS.red};
+      color: ${COLORS.red};
+    }
+  }
+  &.MuiTextField-root {
+    border-color: ${COLORS.fieldBorder};
+    &.Mui-error,
+    &:has(.Mui-error) {
+      border-color: ${COLORS.red};
+      color: ${COLORS.red};
+    }
+  }
+`;
+
+const DateTimePicker = styled(MUIDateTimePicker)`
   .MuiInputBase-root.MuiInput-root:before,
   .MuiInputBase-root.MuiInput-root:after,
   .MuiInputBase-root.MuiInput-root:hover:before,
@@ -253,6 +281,39 @@ export default function FormInput({
                   label,
                   variant: 'outlined',
                   value: dayjs(field.value),
+                  onBlur: field.onBlur,
+                  fullWidth,
+                  error: !!fieldError,
+                },
+              }}
+              sx={
+                fontVariant
+                  ? {
+                      fontFamily: 'Inter',
+                    }
+                  : {}
+              }
+            />
+          )}
+          {type === 'date-time-picker' && (
+            <DateTimePicker
+              value={field.value ? dayjs(field.value) : null}
+              localeText={{
+                fieldYearPlaceholder: () => t('YYYY'),
+              }}
+              format="YYYY/MM/DD HH:mm"
+              ampm={false}
+              className={className}
+              inputRef={ref}
+              onChange={(value: Dayjs | null) => {
+                if (value?.isValid()) {
+                  field.onChange(value.toISOString());
+                }
+              }}
+              slotProps={{
+                textField: {
+                  label,
+                  variant: 'outlined',
                   onBlur: field.onBlur,
                   fullWidth,
                   error: !!fieldError,
