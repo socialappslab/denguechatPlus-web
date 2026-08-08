@@ -35,6 +35,7 @@ import YellowHouse from '@/assets/icons/house-yellow.svg';
 import EditInspectionDialog from '@/components/dialog/EditInspectionDialog';
 import FilteredDataTable from '@/components/list/FilteredDataTable';
 import { INSPECTIONS_CREATE } from '@/constants/permissions';
+import useLangContext from '@/hooks/useLangContext';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
 import ProtectedView from '@/layout/ProtectedView';
 import type { FormSelectOption } from '@/schemas';
@@ -45,7 +46,7 @@ import FormSelectAutocomplete from '@/themed/form-select-autocomplete/FormSelect
 import FormSelect from '@/themed/form-select/FormSelect';
 import type { HeadCell } from '@/themed/table/DataTable';
 import Text from '@/themed/text/Text';
-import { convertToFormSelectOptions, downloadFile, extractAxiosErrorData } from '@/util';
+import { convertToFormSelectOptions, downloadFile, extractAxiosErrorData, formatDateFromString } from '@/util';
 import { Button } from '../../themed/button/Button';
 import FormInput from '../../themed/form-input/FormInput';
 import { Title } from '../../themed/title/Title';
@@ -229,6 +230,7 @@ function HouseStatusBanner({ color: colorPlain }: HouseStatusProps) {
 
 export function EditVisit({ visit, refetch }: EditVisitProps) {
   const { t } = useTranslation(['register', 'errorCodes', 'admin', 'translation', 'questionnaire']);
+  const langContext = useLangContext();
   const navigate = useNavigate();
 
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
@@ -240,7 +242,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
   const rootElement = document.getElementById('root-app');
   // fetched from attributes (passed as state) update after endpoint
   const status = visit.visitStatus;
-  const date = visit.visitedAt;
+  const formattedDate = formatDateFromString(langContext.state.selected, visit.visitedAt);
 
   const startSideOptions: FormSelectOption[] = (visit.startSide || []).map((option) => ({
     label: option.label,
@@ -264,7 +266,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
   const methods = useForm({
     defaultValues: {
       site: defaultHouse,
-      date,
+      date: visit.visitedAt,
       brigadist: visit.brigadist ? String((visit?.brigadist as BaseEntity)?.id) : '',
       brigade: visit.team ? String((visit?.team as BaseEntity)?.name) : '',
       visitPermission: (visit.visitPermission || []).find((i) => i.selected)?.label ?? '',
@@ -466,7 +468,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
               /
             </Text>
             <Text type="menuItem" className="opacity-50">
-              {date}
+              {formattedDate}
             </Text>
           </Box>
 
