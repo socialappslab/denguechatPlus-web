@@ -18,7 +18,14 @@ import { Button } from '../../themed/button/Button';
 import FormInput from '../../themed/form-input/FormInput';
 import { Text } from '../../themed/text/Text';
 import { Title } from '../../themed/title/Title';
-import { a11yProps, extractAxiosErrorData } from '../../util';
+import { extractAxiosErrorData } from '../../util';
+
+function a11yProps(index: number) {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  };
+}
 
 export default function SignInPage() {
   const { t } = useTranslation(['auth', 'errorCodes']);
@@ -124,8 +131,8 @@ export default function SignInPage() {
             borderRadius: 0,
           }}
         >
-          <img className="self-center mb-8" src={LogoSquare} alt="logo" />
-          <Title type="section" className="self-center mb-8" label={t('title')} />
+          <img className="mb-8 self-center" src={LogoSquare} alt="logo" />
+          <Title type="section" className="mb-8 self-center" label={t('title')} />
 
           <Tabs
             variant="fullWidth"
@@ -177,7 +184,7 @@ export default function SignInPage() {
           <Button className="mb-8" label={t('action')} type="submit" disabled={loading || !isValid} />
           <Box className="self-center">
             <Text className="inline-block text-lg">{t('registerMessage')}</Text>
-            <Link className="ml-2 font-semibold text-grass no-underline text-lg" to="/register">
+            <Link className="ml-2 text-lg font-semibold text-grass no-underline" to="/register">
               {t('register')}
             </Link>
           </Box>

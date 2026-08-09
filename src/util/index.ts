@@ -3,7 +3,6 @@ import * as z from 'zod/mini';
 import type { ErrorResponse, FormSelectOption, State } from '../schemas';
 import type { BaseEntity } from '@/schemas/entities';
 
- 
 export function getProperty(obj: any, propertyString: string): any {
   if (!obj) {
     return undefined;
@@ -11,7 +10,6 @@ export function getProperty(obj: any, propertyString: string): any {
   const properties = propertyString.split('.');
   let result = obj;
 
-   
   for (const property of properties) {
     result = result[property];
     if (result === undefined) {
@@ -40,13 +38,6 @@ export const formatDateFromString = (_locale: string, date: string | null | unde
   const dateObj = new Date(date);
   return dateObj.toLocaleDateString('zh-Hans-CN', dateFormatOptions);
 };
-
-export function a11yProps(index: number) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
-  };
-}
 
 // Function to extract error information from an Axios error
 export function extractAxiosErrorData(error: unknown): ErrorResponse | null {
