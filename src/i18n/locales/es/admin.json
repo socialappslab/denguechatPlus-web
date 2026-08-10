@@ -98,7 +98,7 @@
       "inspectionStatus": "Estado de la visita: ",
       "statusDescription": "Estado en el que se encontraba el sitio al momento de la visita",
       "siteNumber": "Número de sitio",
-      "date": "Fecha",
+      "date": "Fecha y hora",
       "brigadist": "Brigadista",
       "brigade": "Brigada",
       "household": "Acompañó la visita",
