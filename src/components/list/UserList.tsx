@@ -1,6 +1,6 @@
 import {
-  CheckCircleOutline as CheckCircleOutlineIcon,
-  DeleteOutline as DeleteOutlineIcon,
+  CheckCircleOutlined as CheckCircleOutlineIcon,
+  DeleteOutlined as DeleteOutlineIcon,
   EditOutlined as EditOutlinedIcon,
   LockOpenOutlined as LockOpenOutlinedIcon,
   ManageAccountsOutlined as ManageAccountsOutlinedIcon,
@@ -94,7 +94,6 @@ export default function UserList() {
     setUpdateControl((prev) => prev + 1);
   };
 
-   
   const actions = (row: IUser, loading?: boolean) => (
     <div className="flex flex-row items-center gap-1">
       <ProtectedView hasPermission={['users-update']}>
@@ -107,9 +106,7 @@ export default function UserList() {
 
       {(row.status === 'pending' || row.status === 'locked') && (
         <ProtectedView hasPermission={['users-users_confirm_account']}>
-          <Tooltip
-            title={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}
-          >
+          <Tooltip title={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}>
             <IconButton
               color="primary"
               disabled={loading}

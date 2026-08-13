@@ -216,7 +216,13 @@ export default function FilteredDataTable<T>({
       {subtitle && <Title type="subsection" label={subtitle} />}
       {(title || subtitle) && <div className="mb-8" />}
       {searchable && (
-        <Grid className="mb-8 " container spacing={3} direction="row" justifyContent="flex-start" alignItems="center">
+        <Grid
+          className="mb-8 "
+          container
+          spacing={3}
+          direction="row"
+          sx={{ justifyContent: 'flex-start', alignItems: 'center' }}
+        >
           <Grid
             size={{
               xs: 12,
@@ -231,14 +237,16 @@ export default function FilteredDataTable<T>({
                 variant="outlined"
                 value={searchText}
                 onChange={handleTextChange}
-                InputProps={{
-                  endAdornment: searchText ? (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleClear()}>
-                        <ClearIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ) : null,
+                slotProps={{
+                  input: {
+                    endAdornment: searchText ? (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClear()}>
+                          <ClearIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ) : null,
+                  },
                 }}
               />
             )}
@@ -278,14 +286,16 @@ export default function FilteredDataTable<T>({
                   textField: {
                     fullWidth: true,
                     onKeyDown: handleKeyPress,
-                    InputProps: {
-                      endAdornment: searchDate ? (
-                        <InputAdornment position="end">
-                          <IconButton onClick={handleClear()}>
-                            <ClearIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ) : undefined,
+                    slotProps: {
+                      input: {
+                        endAdornment: searchDate ? (
+                          <InputAdornment position="end">
+                            <IconButton onClick={handleClear()}>
+                              <ClearIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        ) : undefined,
+                      },
                     },
                   },
                 }}

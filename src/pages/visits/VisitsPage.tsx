@@ -1,4 +1,4 @@
-import { DeleteOutline as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
+import { DeleteOutlined as DeleteOutlineIcon, EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
 import { Box, Dialog, IconButton, Tooltip } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
 import useAxios from 'axios-hooks';
@@ -165,7 +165,7 @@ export default function VisitsList() {
         open={!!visitToDelete}
         onClose={() => setVisitToDelete(null)}
       >
-        <div className="flex flex-col py-7 px-8">
+        <div className="flex flex-col px-8 py-7">
           <Title type="section" label={t('translation:table.actions.delete')} className="mb-4" />
           <p className="text-sm text-darkest">{t('admin:visits.delete.confirm')}</p>
 

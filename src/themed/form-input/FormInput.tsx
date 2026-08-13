@@ -7,6 +7,7 @@ import {
   type TextFieldProps,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import type { TextFieldOwnerState } from '@mui/material/TextField';
 import { DateTimePicker as MUIDateTimePicker } from '@mui/x-date-pickers';
 import { useTranslation } from 'react-i18next';
 
@@ -16,10 +17,7 @@ import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { NumericFormat, type NumericFormatProps } from 'react-number-format';
 
-import {
-  VisibilityOffOutlined,
-  VisibilityOutlined,
-} from '@mui/icons-material';
+import { VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { twMerge } from 'tailwind-merge';
 import { COLORS } from '../../constants';
 import { getProperty } from '../../util';
@@ -118,139 +116,152 @@ export default function FormInput({
       name={name}
       render={({ field }) => {
         const { ref, ...fieldProps } = field;
-        const { InputProps: inputPropsFromOther, ...textFieldProps } = otherProps;
+        const { slotProps, ...textFieldProps } = otherProps;
+        const resolveInputSlotProps = (ownerState: TextFieldOwnerState) =>
+          typeof slotProps?.input === 'function' ? slotProps.input(ownerState) : slotProps?.input;
 
         return (
-        <FormControl
-          fullWidth={fullWidth}
-          sx={{ mb: 2 }}
-          className={twMerge(`${formControlClasses}`)}
-          error={!!fieldError}
-        >
-          {(!type || TEXT_TYPES.includes(type)) && (
-            <Input
-              label={label}
-              variant="outlined"
-              type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
-              {...fieldProps}
-              inputRef={ref}
-              fullWidth={fullWidth}
-              placeholder={placeholder}
-              error={!!fieldError}
-              {...textFieldProps}
-              className={className}
-              InputProps={{
-                ...inputPropsFromOther,
-                endAdornment:
-                  type === 'password' ? (
-                    <InputAdornment position="end">
-                      <Box
-                        component="button"
-                        type="button"
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        sx={{
-                          display: 'flex',
-                          cursor: 'pointer',
-                          alignItems: 'center',
-                          border: 0,
-                          background: 'none',
-                          padding: 0,
-                          font: 'inherit',
-                          color: 'inherit',
-                        }}
-                      >
-                        {showPassword ? (
-                          <VisibilityOffOutlined fontSize="small" />
+          <FormControl
+            fullWidth={fullWidth}
+            sx={{ mb: 2 }}
+            className={twMerge(`${formControlClasses}`)}
+            error={!!fieldError}
+          >
+            {(!type || TEXT_TYPES.includes(type)) && (
+              <Input
+                label={label}
+                variant="outlined"
+                type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
+                {...fieldProps}
+                inputRef={ref}
+                fullWidth={fullWidth}
+                placeholder={placeholder}
+                error={!!fieldError}
+                {...textFieldProps}
+                className={className}
+                slotProps={{
+                  ...slotProps,
+                  input: (ownerState) => {
+                    const inputSlotProps = resolveInputSlotProps(ownerState);
+
+                    return {
+                      ...inputSlotProps,
+                      endAdornment:
+                        type === 'password' ? (
+                          <InputAdornment position="end">
+                            <Box
+                              component="button"
+                              type="button"
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              sx={{
+                                display: 'flex',
+                                cursor: 'pointer',
+                                alignItems: 'center',
+                                border: 0,
+                                background: 'none',
+                                padding: 0,
+                                font: 'inherit',
+                                color: 'inherit',
+                              }}
+                            >
+                              {showPassword ? (
+                                <VisibilityOffOutlined fontSize="small" />
+                              ) : (
+                                <VisibilityOutlined fontSize="small" />
+                              )}
+                            </Box>
+                          </InputAdornment>
                         ) : (
-                          <VisibilityOutlined fontSize="small" />
-                        )}
-                      </Box>
-                    </InputAdornment>
-                  ) : (
-                    inputPropsFromOther?.endAdornment ?? null
-                  ),
-              }}
-            />
-          )}
-          {type === 'currency' && (
-            <Input
-              variant="outlined"
-              InputProps={{
-                inputComponent: NumericFormatCustom as any,
-              }}
-              label={label}
-              type={type}
-              value={field.value}
-              onBlur={field.onBlur}
-              onChange={field.onChange}
-              fullWidth={fullWidth}
-              placeholder={placeholder}
-              error={!!fieldError}
-              {...otherProps}
-            />
-          )}
-          {type === 'phone' && (
-            <MuiTelInput
-              forceCallingCode
-              focusOnSelectCountry
-              defaultCountry="PE"
-              preferredCountries={['PE', 'BR', 'PY']}
-              disableFormatting
-              MenuProps={{ disableAutoFocusItem: true }}
-              variant="outlined"
-              label={label}
-              type={type}
-              value={field.value}
-              onBlur={field.onBlur}
-              // @ts-ignore
-              onChange={field.onChange}
-              fullWidth={fullWidth}
-              placeholder={placeholder}
-              error={!!fieldError}
-              className={className}
-              {...otherProps}
-            />
-          )}
-          {type === 'date-time-picker' && (
-            <DateTimePicker
-              value={field.value ? dayjs(field.value) : null}
-              localeText={{
-                fieldYearPlaceholder: () => t('YYYY'),
-              }}
-              format="YYYY/MM/DD HH:mm"
-              ampm={false}
-              className={className}
-              inputRef={ref}
-              onChange={(value: Dayjs | null) => {
-                if (value?.isValid()) {
-                  field.onChange(value.toISOString());
+                          (inputSlotProps?.endAdornment ?? null)
+                        ),
+                    };
+                  },
+                }}
+              />
+            )}
+            {type === 'currency' && (
+              <Input
+                variant="outlined"
+                label={label}
+                type={type}
+                value={field.value}
+                onBlur={field.onBlur}
+                onChange={field.onChange}
+                fullWidth={fullWidth}
+                placeholder={placeholder}
+                error={!!fieldError}
+                {...textFieldProps}
+                slotProps={{
+                  ...slotProps,
+                  input: (ownerState) => ({
+                    ...resolveInputSlotProps(ownerState),
+                    inputComponent: NumericFormatCustom as any,
+                  }),
+                }}
+              />
+            )}
+            {type === 'phone' && (
+              <MuiTelInput
+                forceCallingCode
+                focusOnSelectCountry
+                defaultCountry="PE"
+                preferredCountries={['PE', 'BR', 'PY']}
+                disableFormatting
+                MenuProps={{ disableAutoFocusItem: true }}
+                variant="outlined"
+                label={label}
+                type={type}
+                value={field.value}
+                onBlur={field.onBlur}
+                // @ts-ignore
+                onChange={field.onChange}
+                fullWidth={fullWidth}
+                placeholder={placeholder}
+                error={!!fieldError}
+                className={className}
+                {...otherProps}
+              />
+            )}
+            {type === 'date-time-picker' && (
+              <DateTimePicker
+                value={field.value ? dayjs(field.value) : null}
+                localeText={{
+                  fieldYearPlaceholder: () => t('YYYY'),
+                }}
+                format="YYYY/MM/DD HH:mm"
+                ampm={false}
+                className={className}
+                inputRef={ref}
+                onChange={(value: Dayjs | null) => {
+                  if (value?.isValid()) {
+                    field.onChange(value.toISOString());
+                  }
+                }}
+                slotProps={{
+                  textField: {
+                    label,
+                    variant: 'outlined',
+                    onBlur: field.onBlur,
+                    fullWidth,
+                    error: !!fieldError,
+                  },
+                }}
+                sx={
+                  fontVariant
+                    ? {
+                        fontFamily: 'Inter',
+                      }
+                    : {}
                 }
-              }}
-              slotProps={{
-                textField: {
-                  label,
-                  variant: 'outlined',
-                  onBlur: field.onBlur,
-                  fullWidth,
-                  error: !!fieldError,
-                },
-              }}
-              sx={
-                fontVariant
-                  ? {
-                      fontFamily: 'Inter',
-                    }
-                  : {}
-              }
-            />
-          )}
-          {helperText && !fieldError && (
-            <FormHelperText className={`font-light text-sm mx-0 ${className}`}>{helperText}</FormHelperText>
-          )}
-          <FormInputError className={`font-light text-sm mx-0 ${labelClassName}`} fieldError={fieldError} />
-        </FormControl>
+              />
+            )}
+            {helperText && !fieldError && (
+              <FormHelperText className={`mx-0 text-sm font-light ${className}`}>{helperText}</FormHelperText>
+            )}
+            <FormInputError className={`mx-0 text-sm font-light ${labelClassName}`} fieldError={fieldError} />
+          </FormControl>
         );
       }}
     />

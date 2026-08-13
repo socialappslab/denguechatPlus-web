@@ -1,6 +1,6 @@
 import {
   Add as AddIcon,
-  DeleteOutline as DeleteOutlineIcon,
+  DeleteOutlined as DeleteOutlineIcon,
   EditOutlined as EditOutlinedIcon,
 } from '@mui/icons-material';
 import {
