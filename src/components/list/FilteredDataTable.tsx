@@ -12,10 +12,10 @@ import {
   TextField,
 } from '@mui/material';
 import useAxios from 'axios-hooks';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
-import { useEffect, useMemo, useState, type ReactElement } from 'react';
+import { useEffect, useMemo, useState, type ReactElement, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DEFAULT_PAGE_SIZE, type PageSizes } from '../../constants';
 import type { PaginationInput } from '../../schemas/entities';
@@ -24,7 +24,7 @@ import DataTable, { type DataTableProps, type Order } from '../../themed/table/D
 import Title from '../../themed/title/Title';
 import { constructFilterObject } from '../../util';
 
-interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
+interface FilteredDataTableProps<T, M> extends Omit<DataTableProps<T>, 'rows'> {
   title?: string;
   subtitle?: string;
   endpoint: string;
@@ -34,12 +34,18 @@ interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
   updateControl?: number;
   actions?: (row: T, loading?: boolean) => ReactElement<any>;
   create?: () => ReactElement<any>;
+  banner?: (props: BannerProps<M>) => ReactNode;
   pageSize?: PageSizes;
   searchable?: boolean;
 }
 
 interface FilterOptionsObject {
   [key: string]: string[];
+}
+
+export interface BannerProps<M> {
+  meta: M;
+  applyFilter: (columnId: string, value: string) => void;
 }
 
 const getFilterType = <T,>(headCell?: DataTableProps<T>['headCells'][number]) => {
@@ -62,7 +68,7 @@ const getFilterType = <T,>(headCell?: DataTableProps<T>['headCells'][number]) =>
   return 'text';
 };
 
-export default function FilteredDataTable<T>({
+export default function FilteredDataTable<T, M = unknown>({
   endpoint,
   headCells,
   title,
@@ -73,10 +79,11 @@ export default function FilteredDataTable<T>({
   updateControl,
   actions,
   create,
+  banner,
   pageSize = DEFAULT_PAGE_SIZE,
   searchable = true,
   ...otherDataTableProps
-}: FilteredDataTableProps<T>) {
+}: FilteredDataTableProps<T, M>) {
   const { t } = useTranslation('translation');
   const { enqueueSnackbar } = useSnackbar();
 
@@ -116,6 +123,7 @@ export default function FilteredDataTable<T>({
   const [filter, setFilter] = useState<{ [key: string]: string }>({});
   const [rows, setRows] = useState<T[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [meta, setMeta] = useState<M | null>(null);
 
   const [{ data, loading, error }, refetch] = useAxios({
     url: `/${endpoint}`,
@@ -152,6 +160,7 @@ export default function FilteredDataTable<T>({
 
       setRows(deserializedData);
       setTotalCount(data.meta.total);
+      setMeta(data.meta);
     }
   }, [data]);
 
@@ -200,14 +209,26 @@ export default function FilteredDataTable<T>({
     }
   };
 
+  const applyFilter = (columnId: string, value: string) => {
+    const headCell = headCells.find((cell) => cell.id === columnId);
+    const filterType = getFilterType(headCell);
+
+    setSelectedOption(columnId);
+    setSearchText(filterType === 'text' ? value : '');
+    setSearchSelect(filterType === 'select' ? value : '');
+    setSearchDate(filterType === 'date' && value ? dayjs(value) : null);
+    setFilter({ [headCell?.filterKey ?? columnId]: value });
+  };
+
+  const hasFilterToClear =
+    Object.values(filter).some((value) => value !== '') || !!searchText || !!searchSelect || !!searchDate;
+
   const handleClear = () => () => {
+    setSelectedOption(defaultFilter || '');
     setSearchText('');
     setSearchSelect('');
     setSearchDate(null);
-
-    if (selectedFilterKey) {
-      setFilter({ [selectedFilterKey]: '' });
-    }
+    setFilter({});
   };
 
   return (
@@ -344,9 +365,19 @@ export default function FilteredDataTable<T>({
               onClick={handleSearch}
             />
           </Grid>
+          <Grid>
+            <Button
+              primary={false}
+              disabled={!hasFilterToClear}
+              className="text-md justify-start"
+              label={t(`table.clear`)}
+              onClick={handleClear()}
+            />
+          </Grid>
           {create && <Grid>{create()}</Grid>}
         </Grid>
       )}
+      {meta && banner?.({ meta, applyFilter })}
       <TypedDataTable
         {...otherDataTableProps}
         rows={rows}

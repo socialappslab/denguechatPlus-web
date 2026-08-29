@@ -107,6 +107,10 @@ export const constructFilterObject = (
 
   const result: { [key: string]: string } = {};
   Object.entries(filter).forEach(([key, value]) => {
+    if (value === '') {
+      return;
+    }
+
     if (filterOptions?.find((option) => option === key)) {
       result[`filter[${key}][]`] = value;
     } else {
