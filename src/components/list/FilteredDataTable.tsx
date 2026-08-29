@@ -220,6 +220,9 @@ export default function FilteredDataTable<T, M = unknown>({
     setFilter({ [headCell?.filterKey ?? columnId]: value });
   };
 
+  const hasFilterToClear =
+    Object.values(filter).some((value) => value !== '') || !!searchText || !!searchSelect || !!searchDate;
+
   const handleClear = () => () => {
     setSearchText('');
     setSearchSelect('');
@@ -362,6 +365,15 @@ export default function FilteredDataTable<T, M = unknown>({
               className="text-md justify-start"
               label={t(`table.search`)}
               onClick={handleSearch}
+            />
+          </Grid>
+          <Grid>
+            <Button
+              primary={false}
+              disabled={!hasFilterToClear}
+              className="text-md justify-start"
+              label={t(`table.clear`)}
+              onClick={handleClear()}
             />
           </Grid>
           {create && <Grid>{create()}</Grid>}
