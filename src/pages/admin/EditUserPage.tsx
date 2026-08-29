@@ -91,7 +91,6 @@ export function EditUser({ user }: EditUserProps) {
     url: 'teams?page[number]=1&page[size]=100&sort=name',
   });
 
-  // @ts-expect-error
   const [{ data: houseBlocksData, loading: loadingHouseBlocks }] = useAxios<
     ExistingDocumentObject,
     unknown,
@@ -439,7 +438,7 @@ export function EditUser({ user }: EditUserProps) {
               <Controller
                 name="houseBlock"
                 render={({ field }) => (
-                  <FormControl fullWidth sx={{ marginTop: 1 }}>
+                  <FormControl fullWidth sx={{ marginTop: 1 }} disabled={loadingHouseBlocks}>
                     <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
                     <Select {...field} error={!!errors.houseBlock}>
                       {houseBlockOptionsByType.flatMap(([type, houseBlocks]) => [
