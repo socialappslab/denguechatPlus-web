@@ -227,10 +227,7 @@ export default function FilteredDataTable<T, M = unknown>({
     setSearchText('');
     setSearchSelect('');
     setSearchDate(null);
-
-    if (selectedFilterKey) {
-      setFilter({ [selectedFilterKey]: '' });
-    }
+    setFilter({});
   };
 
   return (
