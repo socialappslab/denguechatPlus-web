@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Box,
+  Chip,
   Container,
   FormControl,
   Grid,
@@ -443,7 +444,27 @@ export function EditUser({ user }: EditUserProps) {
                   render={({ field }) => (
                     <FormControl fullWidth sx={{ marginTop: 1 }}>
                       <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
-                      <Select {...field} error={!!errors.houseBlock}>
+                      <Select
+                        {...field}
+                        error={!!errors.houseBlock}
+                        renderValue={(value) => {
+                          const selected = houseBlockOptions.find((houseBlock) => houseBlock.value === value);
+                          if (!selected) return null;
+
+                          return (
+                            <>
+                              {selected.label}
+                              <Chip
+                                label={getHouseBlockTypeLabel(selected.type)}
+                                sx={{ marginLeft: 1 }}
+                                color="primary"
+                                variant="outlined"
+                                size="small"
+                              />
+                            </>
+                          );
+                        }}
+                      >
                         {houseBlockOptions.map((houseBlock, index) => [
                           houseBlock.type !== houseBlockOptions[index - 1]?.type && (
                             <ListSubheader key={houseBlock.type}>
