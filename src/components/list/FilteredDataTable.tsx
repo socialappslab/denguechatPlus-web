@@ -224,6 +224,7 @@ export default function FilteredDataTable<T, M = unknown>({
     Object.values(filter).some((value) => value !== '') || !!searchText || !!searchSelect || !!searchDate;
 
   const handleClear = () => () => {
+    setSelectedOption(defaultFilter || '');
     setSearchText('');
     setSearchSelect('');
     setSearchDate(null);
