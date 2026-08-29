@@ -248,10 +248,10 @@ export function DataTable<T>({
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = useMemo(
-    () => (useEmptyRows ? Math.max(0, rowsPerPage - rows.length) : 0),
-    [rows, rowsPerPage, useEmptyRows],
-  );
+  const emptyRows = useMemo(() => {
+    const hasMultiplePages = (pagination?.totalCount ?? rows.length) > rowsPerPage;
+    return useEmptyRows && hasMultiplePages ? Math.max(0, rowsPerPage - rows.length) : 0;
+  }, [rows, rowsPerPage, useEmptyRows, pagination?.totalCount]);
 
   return (
     <Box className="min-w-full">

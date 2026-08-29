@@ -753,7 +753,6 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
         endpoint={`visits/${visit.id}/inspections`}
         defaultFilter="brigadist"
         headCells={headCells}
-        pageSize={5}
         actions={actions}
         searchable={false}
         updateControl={inspectionUpdateControl}

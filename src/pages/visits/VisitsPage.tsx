@@ -197,7 +197,6 @@ export default function VisitsList() {
         headCells={headCells}
         title={t('menu.visits')}
         subtitle={t('menu.descriptions.visits')}
-        pageSize={15}
         actions={actions}
         updateControl={updateControl}
       />
