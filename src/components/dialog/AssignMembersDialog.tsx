@@ -48,7 +48,7 @@ export function AssignMembersDialog({ team, handleClose, updateTable }: CreateRo
   const { enqueueSnackbar } = useSnackbar();
 
   const [{ data, loading }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: `users?filter[roles]=${TEAM_MEMBER_ROLE}&page[size]=500&page[number]=1`,
+    url: `users?filter[roles]=${TEAM_MEMBER_ROLE}&page[size]=500&page[number]=1&sort=user_profiles.first_name&order=asc`,
   });
 
   useEffect(() => {

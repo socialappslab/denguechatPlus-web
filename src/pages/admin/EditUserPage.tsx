@@ -79,7 +79,7 @@ export function EditUser({ user }: EditUserProps) {
   });
 
   const [{ data: citiesData, loading: loadingCities }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: `cities?page[number]=1&page[size]=1000`,
+    url: `cities?page[number]=1&page[size]=1000&sort=name`,
   });
 
   const [{ data: neighborhoodsData, loading: loadingNeighborhoods }] = useAxios<
@@ -99,7 +99,7 @@ export function EditUser({ user }: EditUserProps) {
   });
 
   const [{ data: teamData, loading: loadingTeams }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: 'teams?page[number]=1&page[size]=100&sort=name',
+    url: 'teams?page[number]=1&page[size]=100',
   });
 
   const [{ data: houseBlocksData, loading: loadingHouseBlocks }] = useAxios<
