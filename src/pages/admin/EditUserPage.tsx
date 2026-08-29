@@ -14,7 +14,7 @@ import {
 import useAxios from 'axios-hooks';
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -178,27 +178,17 @@ export function EditUser({ user }: EditUserProps) {
     if (!houseBlocksData) return;
     const deserializedData = deserialize<HouseBlock>(houseBlocksData);
     if (Array.isArray(deserializedData)) {
-      const houseBlocks = deserializedData.map((houseBlock) => ({
-        label: houseBlock.name.trim(),
-        value: houseBlock.id.toString(),
-        type: houseBlock.type,
-      }));
+      // The API already sorts by name, and sorting is stable, so this only clusters each type together.
+      const houseBlocks = deserializedData
+        .map((houseBlock) => ({
+          label: houseBlock.name.trim(),
+          value: houseBlock.id.toString(),
+          type: houseBlock.type,
+        }))
+        .sort((a, b) => a.type.localeCompare(b.type));
       setHouseBlockOptions(houseBlocks);
     }
   }, [houseBlocksData]);
-
-  const houseBlockOptionsByType = useMemo(() => {
-    const groups = new Map<HouseBlockType, FormSelectOption[]>();
-    houseBlockOptions.forEach(({ type, ...houseBlock }) => {
-      const group = groups.get(type);
-      if (group) {
-        group.push(houseBlock);
-      } else {
-        groups.set(type, [houseBlock]);
-      }
-    });
-    return [...groups];
-  }, [houseBlockOptions]);
 
   const onSubmitHandler: SubmitHandler<UpdateUserInputType> = async (values) => {
     try {
@@ -454,13 +444,15 @@ export function EditUser({ user }: EditUserProps) {
                     <FormControl fullWidth sx={{ marginTop: 1 }}>
                       <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
                       <Select {...field} error={!!errors.houseBlock}>
-                        {houseBlockOptionsByType.flatMap(([type, houseBlocks]) => [
-                          <ListSubheader key={type}>{getHouseBlockTypeLabel(type)}</ListSubheader>,
-                          ...houseBlocks.map((houseBlock) => (
-                            <MenuItem key={houseBlock.value} value={houseBlock.value}>
-                              {houseBlock.label}
-                            </MenuItem>
-                          )),
+                        {houseBlockOptions.map((houseBlock, index) => [
+                          houseBlock.type !== houseBlockOptions[index - 1]?.type && (
+                            <ListSubheader key={houseBlock.type}>
+                              {getHouseBlockTypeLabel(houseBlock.type)}
+                            </ListSubheader>
+                          ),
+                          <MenuItem key={houseBlock.value} value={houseBlock.value}>
+                            {houseBlock.label}
+                          </MenuItem>,
                         ])}
                       </Select>
 
