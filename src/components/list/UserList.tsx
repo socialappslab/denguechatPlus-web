@@ -18,6 +18,7 @@ import ApproveUserDialog from '../dialog/ApproveUserDialog';
 import ChangeUserRoleDialog from '../dialog/ChangeUserRoleDialog';
 import DeleteUserDialog from '../dialog/DeleteUserDialog';
 import FilteredDataTable from './FilteredDataTable';
+import PendingUsersAlert from './PendingUsersAlert';
 
 const headCells: HeadCell<IUser>[] = [
   {
@@ -71,7 +72,11 @@ const headCells: HeadCell<IUser>[] = [
   },
 ];
 
-const IUserDataTable = FilteredDataTable<IUser>;
+interface UsersMeta {
+  pending_count?: number;
+}
+
+const IUserDataTable = FilteredDataTable<IUser, UsersMeta>;
 
 export default function UserList() {
   const { t } = useTranslation('translation');
@@ -170,6 +175,11 @@ export default function UserList() {
         title={t('menu.users')}
         subtitle={t('menu.descriptions.users')}
         actions={actions}
+        banner={({ meta, applyFilter }) => (
+          <ProtectedView hasPermission={['users-users_confirm_account']}>
+            <PendingUsersAlert count={meta.pending_count} onSeePending={() => applyFilter('status', 'pending')} />
+          </ProtectedView>
+        )}
       />
       {selectedUser && (
         <>
