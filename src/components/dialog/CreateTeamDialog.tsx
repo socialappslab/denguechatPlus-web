@@ -72,7 +72,7 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
   );
 
   const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: '/users?filter[roles][name]=brigadista&filter[without_team]=true',
+    url: '/users?filter[roles][name]=brigadista&filter[without_team]=true&sort=user_profiles.first_name&order=asc',
   });
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
     unknown,
     ErrorResponse
   >({
-    url: '/organizations',
+    url: '/organizations?sort=name',
   });
 
   useEffect(() => {
@@ -121,7 +121,7 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
   const [cityOptions, setCityOptions] = useState<FormSelectOption[]>([]);
 
   const [{ data: cityData, loading: loadingCities }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: `countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities`,
+    url: `countries/${(user.country as BaseObject).id}/states/${user.state.id}/cities?sort=name`,
   });
 
   useEffect(() => {
