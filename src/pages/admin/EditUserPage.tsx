@@ -1,5 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Container, FormControl, Grid, InputLabel, ListSubheader, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  ListSubheader,
+  MenuItem,
+  Select,
+  Skeleton,
+} from '@mui/material';
 
 import useAxios from 'axios-hooks';
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
@@ -435,26 +445,30 @@ export function EditUser({ user }: EditUserProps) {
                 sm: 6,
               }}
             >
-              <Controller
-                name="houseBlock"
-                render={({ field }) => (
-                  <FormControl fullWidth sx={{ marginTop: 1 }} disabled={loadingHouseBlocks}>
-                    <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
-                    <Select {...field} error={!!errors.houseBlock}>
-                      {houseBlockOptionsByType.flatMap(([type, houseBlocks]) => [
-                        <ListSubheader key={type}>{getHouseBlockTypeLabel(type)}</ListSubheader>,
-                        ...houseBlocks.map((houseBlock) => (
-                          <MenuItem key={houseBlock.value} value={houseBlock.value}>
-                            {houseBlock.label}
-                          </MenuItem>
-                        )),
-                      ])}
-                    </Select>
+              {loadingHouseBlocks ? (
+                <Skeleton variant="rounded" height={56} sx={{ marginTop: 1 }} />
+              ) : (
+                <Controller
+                  name="houseBlock"
+                  render={({ field }) => (
+                    <FormControl fullWidth sx={{ marginTop: 1 }}>
+                      <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
+                      <Select {...field} error={!!errors.houseBlock}>
+                        {houseBlockOptionsByType.flatMap(([type, houseBlocks]) => [
+                          <ListSubheader key={type}>{getHouseBlockTypeLabel(type)}</ListSubheader>,
+                          ...houseBlocks.map((houseBlock) => (
+                            <MenuItem key={houseBlock.value} value={houseBlock.value}>
+                              {houseBlock.label}
+                            </MenuItem>
+                          )),
+                        ])}
+                      </Select>
 
-                    <FormInputError className="mx-0 text-sm font-light" fieldError={errors.houseBlock} />
-                  </FormControl>
-                )}
-              />
+                      <FormInputError className="mx-0 text-sm font-light" fieldError={errors.houseBlock} />
+                    </FormControl>
+                  )}
+                />
+              )}
             </Grid>
           </Grid>
 
