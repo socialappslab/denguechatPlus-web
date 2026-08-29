@@ -1,5 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Chip, Container, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Chip,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  ListSubheader,
+  MenuItem,
+  Select,
+  Skeleton,
+} from '@mui/material';
 
 import useAxios from 'axios-hooks';
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
@@ -91,7 +102,6 @@ export function EditUser({ user }: EditUserProps) {
     url: 'teams?page[number]=1&page[size]=100&sort=name',
   });
 
-  // @ts-expect-error
   const [{ data: houseBlocksData, loading: loadingHouseBlocks }] = useAxios<
     ExistingDocumentObject,
     unknown,
@@ -169,11 +179,14 @@ export function EditUser({ user }: EditUserProps) {
     if (!houseBlocksData) return;
     const deserializedData = deserialize<HouseBlock>(houseBlocksData);
     if (Array.isArray(deserializedData)) {
-      const houseBlocks = deserializedData.map((houseBlock) => ({
-        label: houseBlock.name.trim(),
-        value: houseBlock.id.toString(),
-        type: houseBlock.type,
-      }));
+      // The API already sorts by name, and sorting is stable, so this only clusters each type together.
+      const houseBlocks = deserializedData
+        .map((houseBlock) => ({
+          label: houseBlock.name.trim(),
+          value: houseBlock.id.toString(),
+          type: houseBlock.type,
+        }))
+        .sort((a, b) => a.type.localeCompare(b.type));
       setHouseBlockOptions(houseBlocks);
     }
   }, [houseBlocksData]);
@@ -423,30 +436,52 @@ export function EditUser({ user }: EditUserProps) {
                 sm: 6,
               }}
             >
-              <Controller
-                name="houseBlock"
-                render={({ field }) => (
-                  <FormControl fullWidth sx={{ marginTop: 1 }}>
-                    <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
-                    <Select {...field} error={!!errors.houseBlock}>
-                      {houseBlockOptions.map((houseBlock) => (
-                        <MenuItem key={houseBlock.value} value={houseBlock.value}>
-                          {houseBlock.label}
-                          <Chip
-                            label={getHouseBlockTypeLabel(houseBlock.type)}
-                            sx={{ marginLeft: 1 }}
-                            color="primary"
-                            variant="outlined"
-                            size="small"
-                          />
-                        </MenuItem>
-                      ))}
-                    </Select>
+              {loadingHouseBlocks ? (
+                <Skeleton variant="rounded" height={56} sx={{ marginTop: 1 }} />
+              ) : (
+                <Controller
+                  name="houseBlock"
+                  render={({ field }) => (
+                    <FormControl fullWidth sx={{ marginTop: 1 }}>
+                      <InputLabel sx={{ background: 'white', paddingX: 1 }}>{t('houseBlock')}</InputLabel>
+                      <Select
+                        {...field}
+                        error={!!errors.houseBlock}
+                        renderValue={(value) => {
+                          const selected = houseBlockOptions.find((houseBlock) => houseBlock.value === value);
+                          if (!selected) return null;
 
-                    <FormInputError className="mx-0 text-sm font-light" fieldError={errors.houseBlock} />
-                  </FormControl>
-                )}
-              />
+                          return (
+                            <>
+                              {selected.label}
+                              <Chip
+                                label={getHouseBlockTypeLabel(selected.type)}
+                                sx={{ marginLeft: 1 }}
+                                color="primary"
+                                variant="outlined"
+                                size="small"
+                              />
+                            </>
+                          );
+                        }}
+                      >
+                        {houseBlockOptions.map((houseBlock, index) => [
+                          houseBlock.type !== houseBlockOptions[index - 1]?.type && (
+                            <ListSubheader key={houseBlock.type}>
+                              {getHouseBlockTypeLabel(houseBlock.type)}
+                            </ListSubheader>
+                          ),
+                          <MenuItem key={houseBlock.value} value={houseBlock.value}>
+                            {houseBlock.label}
+                          </MenuItem>,
+                        ])}
+                      </Select>
+
+                      <FormInputError className="mx-0 text-sm font-light" fieldError={errors.houseBlock} />
+                    </FormControl>
+                  )}
+                />
+              )}
             </Grid>
           </Grid>
 
