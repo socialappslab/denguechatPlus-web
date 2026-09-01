@@ -82,6 +82,7 @@
       "roles": "Roles"
     },
     "search": "Buscar",
+    "clear": "Limpiar",
     "searchValue": "Valor de búsqueda",
     "selectAttribute": "Seleccionar Atributo",
     "selectOption": "Seleccionar Opción",

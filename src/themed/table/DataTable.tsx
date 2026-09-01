@@ -168,7 +168,6 @@ export interface DataTableProps<T> {
   pagination?: HandlePagination;
   actions?: (row: T, isLoading?: boolean) => ReactElement<any>;
   isLoading?: boolean;
-  pageSize?: PageSizes;
 }
 
 export function DataTable<T>({
@@ -179,7 +178,6 @@ export function DataTable<T>({
   pagination,
   actions,
   isLoading,
-  pageSize = DEFAULT_PAGE_SIZE,
 }: DataTableProps<T>) {
   const { t } = useTranslation('translation');
 
@@ -189,7 +187,7 @@ export function DataTable<T>({
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<Extract<keyof T, string> | undefined>();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<PageSizes>(pageSize);
+  const [rowsPerPage, setRowsPerPage] = React.useState<PageSizes>(DEFAULT_PAGE_SIZE);
 
   const renderValue = (row: T, headCell: HeadCell<T>): string | React.ReactNode => {
     if (headCell.render) {
@@ -248,10 +246,10 @@ export function DataTable<T>({
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = useMemo(
-    () => (useEmptyRows ? Math.max(0, rowsPerPage - rows.length) : 0),
-    [rows, rowsPerPage, useEmptyRows],
-  );
+  const emptyRows = useMemo(() => {
+    const hasMultiplePages = (pagination?.totalCount ?? rows.length) > rowsPerPage;
+    return useEmptyRows && hasMultiplePages ? Math.max(0, rowsPerPage - rows.length) : 0;
+  }, [rows, rowsPerPage, useEmptyRows, pagination?.totalCount]);
 
   return (
     <Box className="min-w-full">

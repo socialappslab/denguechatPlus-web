@@ -1,5 +1,8 @@
 {
   "users": {
+    "pendingApproval_one": "{{count}} usuário está pendente de aprovação.",
+    "pendingApproval_other": "{{count}} usuários estão pendentes de aprovação.",
+    "seePendingApproval": "Ver usuários pendentes",
     "delete": {
       "title": "Excluir usuário",
       "confirm": "Tem certeza de que deseja excluir {{name}}? Esta ação não pode ser desfeita.",
@@ -98,7 +101,7 @@
       "inspectionStatus": "Estado da visita: ",
       "statusDescription": "Estado em que se encontrava o local no momento da visita",
       "siteNumber": "Número do local",
-      "date": "Data",
+      "date": "Data e hora",
       "brigadist": "Brigadista",
       "brigade": "Brigada",
       "household": "Acompanhou a visita",

@@ -1,6 +1,6 @@
 import {
-  CheckCircleOutline as CheckCircleOutlineIcon,
-  DeleteOutline as DeleteOutlineIcon,
+  CheckCircleOutlined as CheckCircleOutlineIcon,
+  DeleteOutlined as DeleteOutlineIcon,
   EditOutlined as EditOutlinedIcon,
   LockOpenOutlined as LockOpenOutlinedIcon,
   ManageAccountsOutlined as ManageAccountsOutlinedIcon,
@@ -18,6 +18,7 @@ import ApproveUserDialog from '../dialog/ApproveUserDialog';
 import ChangeUserRoleDialog from '../dialog/ChangeUserRoleDialog';
 import DeleteUserDialog from '../dialog/DeleteUserDialog';
 import FilteredDataTable from './FilteredDataTable';
+import PendingUsersAlert from './PendingUsersAlert';
 
 const headCells: HeadCell<IUser>[] = [
   {
@@ -71,7 +72,11 @@ const headCells: HeadCell<IUser>[] = [
   },
 ];
 
-const IUserDataTable = FilteredDataTable<IUser>;
+interface UsersMeta {
+  pending_count?: number;
+}
+
+const IUserDataTable = FilteredDataTable<IUser, UsersMeta>;
 
 export default function UserList() {
   const { t } = useTranslation('translation');
@@ -94,7 +99,6 @@ export default function UserList() {
     setUpdateControl((prev) => prev + 1);
   };
 
-   
   const actions = (row: IUser, loading?: boolean) => (
     <div className="flex flex-row items-center gap-1">
       <ProtectedView hasPermission={['users-update']}>
@@ -107,9 +111,7 @@ export default function UserList() {
 
       {(row.status === 'pending' || row.status === 'locked') && (
         <ProtectedView hasPermission={['users-users_confirm_account']}>
-          <Tooltip
-            title={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}
-          >
+          <Tooltip title={row.status === 'pending' ? t('table.actions.approve') : t('table.actions.unlock')}>
             <IconButton
               color="primary"
               disabled={loading}
@@ -173,6 +175,11 @@ export default function UserList() {
         title={t('menu.users')}
         subtitle={t('menu.descriptions.users')}
         actions={actions}
+        banner={({ meta, applyFilter }) => (
+          <ProtectedView hasPermission={['users-users_confirm_account']}>
+            <PendingUsersAlert count={meta.pending_count} onSeePending={() => applyFilter('status', 'pending')} />
+          </ProtectedView>
+        )}
       />
       {selectedUser && (
         <>

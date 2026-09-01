@@ -91,7 +91,7 @@ const theme = createTheme({
         },
       },
     },
-    MuiPickersDay: {
+    MuiPickerDay: {
       styleOverrides: {
         root: {
           borderRadius: 2,

@@ -44,8 +44,9 @@ vite.config.d.ts
 *.sw?
 
 
-.env
-.env.development
+# Environment files
+.env*
+!.env.example
 .eslintcache
 
 # Visualizer

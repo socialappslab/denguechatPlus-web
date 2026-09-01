@@ -1,5 +1,8 @@
 {
   "users": {
+    "pendingApproval_one": "{{count}} user is pending approval.",
+    "pendingApproval_other": "{{count}} users are pending approval.",
+    "seePendingApproval": "See pending users",
     "delete": {
       "title": "Delete User",
       "confirm": "Are you sure you want to delete {{name}}? This action cannot be undone.",
@@ -99,7 +102,7 @@
       "inspectionStatus": "Visit Status: ",
       "statusDescription": "State of the site at the time of the visit",
       "siteNumber": "Site Number",
-      "date": "Date",
+      "date": "Date and time",
       "brigadist": "Brigadist",
       "brigade": "Brigade",
       "household": "Accompanied the visit",

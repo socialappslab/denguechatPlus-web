@@ -1,6 +1,6 @@
 import {
   Add as AddIcon,
-  DeleteOutline as DeleteOutlineIcon,
+  DeleteOutlined as DeleteOutlineIcon,
   EditOutlined as EditOutlinedIcon,
 } from '@mui/icons-material';
 import {
@@ -242,7 +242,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
   const rootElement = document.getElementById('root-app');
   // fetched from attributes (passed as state) update after endpoint
   const status = visit.visitStatus;
-  const date = formatDateFromString(langContext.state.selected, visit.visitedAt);
+  const formattedDate = formatDateFromString(langContext.state.selected, visit.visitedAt);
 
   const startSideOptions: FormSelectOption[] = (visit.startSide || []).map((option) => ({
     label: option.label,
@@ -266,7 +266,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
   const methods = useForm({
     defaultValues: {
       site: defaultHouse,
-      date,
+      date: visit.visitedAt,
       brigadist: visit.brigadist ? String((visit?.brigadist as BaseEntity)?.id) : '',
       brigade: visit.team ? String((visit?.team as BaseEntity)?.name) : '',
       visitPermission: (visit.visitPermission || []).find((i) => i.selected)?.label ?? '',
@@ -468,7 +468,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
               /
             </Text>
             <Text type="menuItem" className="opacity-50">
-              {date}
+              {formattedDate}
             </Text>
           </Box>
 
@@ -585,7 +585,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 className="mt-2 h-full"
                 name="date"
                 label={t('admin:visits.inspection.date')}
-                type="date-picker"
+                type="date-time-picker"
               />
             </Grid>
             <Grid
@@ -753,7 +753,6 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
         endpoint={`visits/${visit.id}/inspections`}
         defaultFilter="brigadist"
         headCells={headCells}
-        pageSize={5}
         actions={actions}
         searchable={false}
         updateControl={inspectionUpdateControl}

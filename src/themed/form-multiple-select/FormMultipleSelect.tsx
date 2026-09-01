@@ -111,24 +111,27 @@ export function FormMultipleSelect({
                 variant="outlined"
                 error={!!fieldError}
                 label={label}
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: loading ? (
-                    <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem' }}>
-                      <CircularProgress size={24} />
-                    </Box>
-                  ) : (
-                    params.InputProps.endAdornment
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+                  input: {
+                    ...params.slotProps.input,
+                    endAdornment: loading ? (
+                      <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem' }}>
+                        <CircularProgress size={24} />
+                      </Box>
+                    ) : (
+                      params.slotProps.input.endAdornment
+                    ),
+                  },
                 }}
                 required={required}
               />
             )}
           />
           {helperText && !fieldError && (
-            <FormHelperText className={`font-light text-sm mx-0 ${className}`}>{helperText}</FormHelperText>
+            <FormHelperText className={`mx-0 text-sm font-light ${className}`}>{helperText}</FormHelperText>
           )}
-          <FormInputError className={`font-light text-sm mx-0 ${className}`} fieldError={fieldError} />
+          <FormInputError className={`mx-0 text-sm font-light ${className}`} fieldError={fieldError} />
         </FormControl>
       )}
     />

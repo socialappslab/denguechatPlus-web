@@ -96,8 +96,8 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
 
   const debouncedSearch = useMemo(() => debounce(setSearchTerm, 300), []);
 
-  function loadMoreItems(event: Event) {
-    const target = event.target as HTMLElement;
+  function loadMoreItems(event: React.UIEvent<HTMLElement>) {
+    const target = event.currentTarget;
     const isEnd = Math.abs(target.scrollHeight - target.clientHeight - target.scrollTop) < 1;
     if (isEnd && !loadingMore && hasMore && !error) {
       setCurrentPage(currentPage + 1);
@@ -116,12 +116,13 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
           <Autocomplete
             fullWidth
             isOptionEqualToValue={(o, v) => o.value === v.value}
-            ListboxProps={{
-              // @ts-expect-error
-              onScroll: loadMoreItems,
-              style: {
-                maxHeight: 300,
-                overflowY: 'scroll',
+            slotProps={{
+              listbox: {
+                onScroll: loadMoreItems,
+                style: {
+                  maxHeight: 300,
+                  overflowY: 'scroll',
+                },
               },
             }}
             style={{ marginTop: '8px' }}
@@ -138,15 +139,18 @@ export default function FormSelectAutocomplete<T extends BaseEntity>({
                 {...params}
                 label={label}
                 name={name}
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: loadingMore ? (
-                    <Box sx={{ display: 'flex', marginRight: '-25px' }}>
-                      <CircularProgress size={24} />
-                    </Box>
-                  ) : (
-                    params.InputProps.endAdornment
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+                  input: {
+                    ...params.slotProps.input,
+                    endAdornment: loadingMore ? (
+                      <Box sx={{ display: 'flex', marginRight: '-25px' }}>
+                        <CircularProgress size={24} />
+                      </Box>
+                    ) : (
+                      params.slotProps.input.endAdornment
+                    ),
+                  },
                 }}
               />
             )}

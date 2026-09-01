@@ -82,6 +82,7 @@
       "roles": "Roles"
     },
     "search": "Search",
+    "clear": "Clear",
     "searchValue": "Search Value",
     "selectAttribute": "Select Attribute",
     "rowsInPage": "Rows in page",

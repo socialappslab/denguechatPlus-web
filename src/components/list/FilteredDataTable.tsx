@@ -12,19 +12,19 @@ import {
   TextField,
 } from '@mui/material';
 import useAxios from 'axios-hooks';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { deserialize } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
-import { useEffect, useMemo, useState, type ReactElement } from 'react';
+import { useEffect, useMemo, useState, type ReactElement, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DEFAULT_PAGE_SIZE, type PageSizes } from '../../constants';
+import { DEFAULT_PAGE_SIZE } from '../../constants';
 import type { PaginationInput } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
 import DataTable, { type DataTableProps, type Order } from '../../themed/table/DataTable';
 import Title from '../../themed/title/Title';
 import { constructFilterObject } from '../../util';
 
-interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
+interface FilteredDataTableProps<T, M> extends Omit<DataTableProps<T>, 'rows'> {
   title?: string;
   subtitle?: string;
   endpoint: string;
@@ -34,12 +34,17 @@ interface FilteredDataTableProps<T> extends Omit<DataTableProps<T>, 'rows'> {
   updateControl?: number;
   actions?: (row: T, loading?: boolean) => ReactElement<any>;
   create?: () => ReactElement<any>;
-  pageSize?: PageSizes;
+  banner?: (props: BannerProps<M>) => ReactNode;
   searchable?: boolean;
 }
 
 interface FilterOptionsObject {
   [key: string]: string[];
+}
+
+export interface BannerProps<M> {
+  meta: M;
+  applyFilter: (columnId: string, value: string) => void;
 }
 
 const getFilterType = <T,>(headCell?: DataTableProps<T>['headCells'][number]) => {
@@ -62,7 +67,7 @@ const getFilterType = <T,>(headCell?: DataTableProps<T>['headCells'][number]) =>
   return 'text';
 };
 
-export default function FilteredDataTable<T>({
+export default function FilteredDataTable<T, M = unknown>({
   endpoint,
   headCells,
   title,
@@ -73,10 +78,10 @@ export default function FilteredDataTable<T>({
   updateControl,
   actions,
   create,
-  pageSize = DEFAULT_PAGE_SIZE,
+  banner,
   searchable = true,
   ...otherDataTableProps
-}: FilteredDataTableProps<T>) {
+}: FilteredDataTableProps<T, M>) {
   const { t } = useTranslation('translation');
   const { enqueueSnackbar } = useSnackbar();
 
@@ -108,7 +113,7 @@ export default function FilteredDataTable<T>({
 
   const [payload, setPayload] = useState<PaginationInput>({
     'page[number]': 1,
-    'page[size]': pageSize,
+    'page[size]': DEFAULT_PAGE_SIZE,
     sort: defaultSort,
     order: defaultSort ? defaultOrder : undefined,
   });
@@ -116,6 +121,7 @@ export default function FilteredDataTable<T>({
   const [filter, setFilter] = useState<{ [key: string]: string }>({});
   const [rows, setRows] = useState<T[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [meta, setMeta] = useState<M | null>(null);
 
   const [{ data, loading, error }, refetch] = useAxios({
     url: `/${endpoint}`,
@@ -152,6 +158,7 @@ export default function FilteredDataTable<T>({
 
       setRows(deserializedData);
       setTotalCount(data.meta.total);
+      setMeta(data.meta);
     }
   }, [data]);
 
@@ -200,14 +207,26 @@ export default function FilteredDataTable<T>({
     }
   };
 
+  const applyFilter = (columnId: string, value: string) => {
+    const headCell = headCells.find((cell) => cell.id === columnId);
+    const filterType = getFilterType(headCell);
+
+    setSelectedOption(columnId);
+    setSearchText(filterType === 'text' ? value : '');
+    setSearchSelect(filterType === 'select' ? value : '');
+    setSearchDate(filterType === 'date' && value ? dayjs(value) : null);
+    setFilter({ [headCell?.filterKey ?? columnId]: value });
+  };
+
+  const hasFilterToClear =
+    Object.values(filter).some((value) => value !== '') || !!searchText || !!searchSelect || !!searchDate;
+
   const handleClear = () => () => {
+    setSelectedOption(defaultFilter || '');
     setSearchText('');
     setSearchSelect('');
     setSearchDate(null);
-
-    if (selectedFilterKey) {
-      setFilter({ [selectedFilterKey]: '' });
-    }
+    setFilter({});
   };
 
   return (
@@ -216,7 +235,13 @@ export default function FilteredDataTable<T>({
       {subtitle && <Title type="subsection" label={subtitle} />}
       {(title || subtitle) && <div className="mb-8" />}
       {searchable && (
-        <Grid className="mb-8 " container spacing={3} direction="row" justifyContent="flex-start" alignItems="center">
+        <Grid
+          className="mb-8 "
+          container
+          spacing={3}
+          direction="row"
+          sx={{ justifyContent: 'flex-start', alignItems: 'center' }}
+        >
           <Grid
             size={{
               xs: 12,
@@ -231,14 +256,16 @@ export default function FilteredDataTable<T>({
                 variant="outlined"
                 value={searchText}
                 onChange={handleTextChange}
-                InputProps={{
-                  endAdornment: searchText ? (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleClear()}>
-                        <ClearIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ) : null,
+                slotProps={{
+                  input: {
+                    endAdornment: searchText ? (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClear()}>
+                          <ClearIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ) : null,
+                  },
                 }}
               />
             )}
@@ -278,14 +305,16 @@ export default function FilteredDataTable<T>({
                   textField: {
                     fullWidth: true,
                     onKeyDown: handleKeyPress,
-                    InputProps: {
-                      endAdornment: searchDate ? (
-                        <InputAdornment position="end">
-                          <IconButton onClick={handleClear()}>
-                            <ClearIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ) : undefined,
+                    slotProps: {
+                      input: {
+                        endAdornment: searchDate ? (
+                          <InputAdornment position="end">
+                            <IconButton onClick={handleClear()}>
+                              <ClearIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        ) : undefined,
+                      },
                     },
                   },
                 }}
@@ -334,9 +363,19 @@ export default function FilteredDataTable<T>({
               onClick={handleSearch}
             />
           </Grid>
+          <Grid>
+            <Button
+              primary={false}
+              disabled={!hasFilterToClear}
+              className="text-md justify-start"
+              label={t(`table.clear`)}
+              onClick={handleClear()}
+            />
+          </Grid>
           {create && <Grid>{create()}</Grid>}
         </Grid>
       )}
+      {meta && banner?.({ meta, applyFilter })}
       <TypedDataTable
         {...otherDataTableProps}
         rows={rows}
@@ -349,7 +388,6 @@ export default function FilteredDataTable<T>({
         }}
         isLoading={loading}
         actions={actions}
-        pageSize={pageSize}
       />
     </>
   );
