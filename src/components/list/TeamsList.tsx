@@ -19,10 +19,10 @@ function PeopleCountCell({
 }: {
   count: number;
   people: Team['members'];
-  column: 'leader' | 'memberCount';
+  column: 'facilitators' | 'brigadists';
 }) {
   const { t } = useTranslation('translation');
-  const label = column === 'leader' ? t('columns.leader') : t('columns.memberCount');
+  const label = column === 'facilitators' ? t('columns.facilitators') : t('columns.brigadists');
 
   if (count === 0) return <span>0</span>;
 
@@ -92,14 +92,16 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
     },
     {
       id: 'members',
-      label: 'memberCount',
+      label: 'brigadists',
       filterable: false,
-      render: (row) => <PeopleCountCell count={row.members.length} people={row.members} column="memberCount" />,
+      render: (row) => <PeopleCountCell count={row.members.length} people={row.members} column="brigadists" />,
     },
     {
       id: 'facilitators',
-      label: 'leader',
-      render: (row) => <PeopleCountCell count={row.facilitators.length} people={row.facilitators} column="leader" />,
+      label: 'facilitators',
+      render: (row) => (
+        <PeopleCountCell count={row.facilitators.length} people={row.facilitators} column="facilitators" />
+      ),
     },
   ];
 
