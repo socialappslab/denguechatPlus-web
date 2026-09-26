@@ -20,7 +20,7 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
     },
     {
       id: 'name',
-      label: 'team',
+      label: 'brigade',
       sortable: true,
       filterable: true,
     },
@@ -100,7 +100,7 @@ export default function TeamList() {
             disabled={loading}
             label={t('admin:teams.edit.manage_members')}
             buttonType="cell"
-            onClick={() => navigate(`/admin/teams/${row.id}/members`)}
+            onClick={() => navigate(`/admin/brigades/${row.id}/members`)}
           />
         </ProtectedView>
       </div>

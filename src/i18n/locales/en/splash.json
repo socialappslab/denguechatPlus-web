@@ -6,7 +6,7 @@
     "watchMore": "Watch more videos"
   },
   "main": {
-    "joinTeam": "Join your community's team",
+    "joinTeam": "Join your community's brigade",
     "dengueChatPlus": "DengueChatPlus",
     "citizensCopy": "Citizens in the fight against dengue and mosquitoes."
   },
@@ -26,7 +26,7 @@
     "dengueChatCommunity": "Community in DengueChatPlus",
     "communityInvolvement": "DengueChatPlus involves communities in the fight against dengue fever",
     "chatWithMembers": "Chat with other community members to report and control mosquito breeding sites",
-    "joinTeams": "Join teams to fight dengue and earn points"
+    "joinTeams": "Join brigades to fight dengue and earn points"
   },
   "data": {
     "dengueChatData": "Data in DengueChatPlus",

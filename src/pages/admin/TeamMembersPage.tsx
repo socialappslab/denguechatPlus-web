@@ -112,7 +112,7 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
     try {
       await udpateMutation({ team: { name, memberIds: selectedMembers.map((member) => member.value) } });
       enqueueSnackbar(t('admin:teams.edit.success'), { variant: 'success' });
-      navigate('/admin/teams');
+      navigate('/admin/brigades');
     } catch (error) {
       const errorData = extractAxiosErrorData(error);
       const firstError = errorData?.errors?.[0];
@@ -189,7 +189,7 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
                 primary={false}
                 disabled={saving}
                 label={t('register:back')}
-                onClick={() => navigate('/admin/teams')}
+                onClick={() => navigate('/admin/brigades')}
               />
             </div>
           </div>

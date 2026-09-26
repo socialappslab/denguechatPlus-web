@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { Outlet, createBrowserRouter } from 'react-router';
+import { Outlet, createBrowserRouter, redirect } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import BaseLayout from '../layout/BaseLayout';
 
@@ -177,12 +177,20 @@ const router = createBrowserRouter([
         element: <SpecialPlaceList />,
       },
       {
-        path: 'teams',
+        path: 'brigades',
         element: <TeamList />,
       },
       {
-        path: 'teams/:id/members',
+        path: 'brigades/:id/members',
         element: <TeamMembersPage />,
+      },
+      {
+        path: 'teams',
+        loader: () => redirect('/admin/brigades'),
+      },
+      {
+        path: 'teams/:id/members',
+        loader: ({ params }) => redirect(`/admin/brigades/${params.id}/members`),
       },
       {
         path: 'house-blocks',
