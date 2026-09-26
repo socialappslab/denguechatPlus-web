@@ -1,7 +1,8 @@
-import { Dialog } from '@mui/material';
+import { EditOutlined as EditOutlinedIcon } from '@mui/icons-material';
+import { Dialog, IconButton, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { TEAMS_CREATE, TEAMS_UPDATE } from '@/constants/permissions';
 import useStateContext from '@/hooks/useStateContext';
 import ProtectedView from '@/layout/ProtectedView';
@@ -72,7 +73,6 @@ const TeamDataTable = FilteredDataTable<Team>;
 
 export default function TeamList() {
   const { t } = useTranslation(['translation', 'admin']);
-  const navigate = useNavigate();
   const {
     state: { user },
   } = useStateContext() as { state: { user: { roles: string[] } } };
@@ -95,13 +95,17 @@ export default function TeamList() {
     return (
       <div className="flex flex-row">
         <ProtectedView hasPermission={[TEAMS_UPDATE]}>
-          <Button
-            primary
-            disabled={loading}
-            label={t('admin:teams.edit.manage_members')}
-            buttonType="cell"
-            onClick={() => navigate(`/admin/brigades/${row.id}/members`)}
-          />
+          <Tooltip title={t('table.actions.edit')}>
+            <IconButton
+              component={Link}
+              to={`/admin/brigades/${row.id}/members`}
+              color="primary"
+              disabled={loading}
+              size="small"
+            >
+              <EditOutlinedIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </ProtectedView>
       </div>
     );
