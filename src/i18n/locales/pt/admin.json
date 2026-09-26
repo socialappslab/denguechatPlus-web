@@ -63,7 +63,22 @@
     },
     "edit": {
       "edit_team": "Atribuir membros da equipe",
-      "success": "Brigada atualizada com sucesso"
+      "success": "Brigada atualizada com sucesso",
+      "manage_members": "Gerenciar membros da brigada",
+      "edit_page": "Editar brigada",
+      "members_heading": "Membros",
+      "available": "Pessoas disponíveis",
+      "assigned": "Membros da brigada",
+      "available_hint": "As pessoas disponíveis não estão atribuídas a outra brigada.",
+      "search_members": "Buscar pessoas",
+      "loading_members": "Carregando pessoas…",
+      "no_available": "Nenhuma pessoa disponível encontrada",
+      "no_assigned": "Nenhum membro encontrado",
+      "add_selected": "Adicionar pessoas selecionadas",
+      "remove_selected": "Remover pessoas selecionadas",
+      "load_error": "Não foi possível carregar as pessoas disponíveis.",
+      "load_team_error": "Não foi possível carregar esta brigada.",
+      "save": "Salvar alterações"
     }
   },
   "visits": {

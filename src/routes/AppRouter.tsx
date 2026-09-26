@@ -13,6 +13,7 @@ import StateContextProvider from '../providers/StateContextProvider';
 
 import HouseBlockList from '@/components/list/HouseBlockList';
 import TeamList from '@/components/list/TeamsList';
+import TeamMembersPage from '@/pages/admin/TeamMembersPage';
 import AppHome from '@/pages/AppHome';
 import NewPasswordPage from '@/pages/auth/NewPasswordPage';
 import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
@@ -178,6 +179,10 @@ const router = createBrowserRouter([
       {
         path: 'teams',
         element: <TeamList />,
+      },
+      {
+        path: 'teams/:id/members',
+        element: <TeamMembersPage />,
       },
       {
         path: 'house-blocks',

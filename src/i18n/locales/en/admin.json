@@ -64,7 +64,22 @@
     },
     "edit": {
       "edit_team": "Assign team brigadists",
-      "success": "Brigade updated successfully"
+      "success": "Brigade updated successfully",
+      "manage_members": "Manage brigade members",
+      "edit_page": "Edit brigade",
+      "members_heading": "Members",
+      "available": "Available people",
+      "assigned": "Brigade members",
+      "available_hint": "Available people are not assigned to another brigade.",
+      "search_members": "Search people",
+      "loading_members": "Loading people…",
+      "no_available": "No available people found",
+      "no_assigned": "No members found",
+      "add_selected": "Add selected people",
+      "remove_selected": "Remove selected people",
+      "load_error": "Available people could not be loaded.",
+      "load_team_error": "This brigade could not be loaded.",
+      "save": "Save changes"
     }
   },
   "visits": {

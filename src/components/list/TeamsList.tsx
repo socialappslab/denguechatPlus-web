@@ -1,13 +1,13 @@
 import { Dialog } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TEAMS_CREATE } from '@/constants/permissions';
+import { useNavigate } from 'react-router';
+import { TEAMS_CREATE, TEAMS_UPDATE } from '@/constants/permissions';
 import useStateContext from '@/hooks/useStateContext';
 import ProtectedView from '@/layout/ProtectedView';
 import type { Team } from '@/schemas/entities';
 import Button from '@/themed/button/Button';
 import type { HeadCell } from '../../themed/table/DataTable';
-import { AssignMembersDialog } from '../dialog/AssignMembersDialog';
 import CreateTeamDialog from '../dialog/CreateTeamDialog';
 import FilteredDataTable from './FilteredDataTable';
 
@@ -72,27 +72,20 @@ const TeamDataTable = FilteredDataTable<Team>;
 
 export default function TeamList() {
   const { t } = useTranslation(['translation', 'admin']);
+  const navigate = useNavigate();
   const {
     state: { user },
   } = useStateContext() as { state: { user: { roles: string[] } } };
 
-  const [openDialog, setOpenDialog] = useState(false);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [updateControl, setUpdateControl] = useState(0);
 
   const handleClose = () => {
-    setOpenDialog(false);
     setOpenCreateDialog(false);
   };
 
   const rootElement = document.getElementById('root-app');
   const isAdmin = user?.roles.includes('admin');
-
-  const onEdit = (team: Team) => {
-    setOpenDialog(true);
-    setSelectedTeam(team);
-  };
 
   const updateTable = () => {
     setUpdateControl((prev) => prev + 1);
@@ -101,13 +94,15 @@ export default function TeamList() {
   const actions = (row: Team, loading?: boolean) => {
     return (
       <div className="flex flex-row">
-        <Button
-          primary
-          disabled={loading}
-          label={t('admin:teams.form.members')}
-          buttonType="cell"
-          onClick={() => onEdit(row)}
-        />
+        <ProtectedView hasPermission={[TEAMS_UPDATE]}>
+          <Button
+            primary
+            disabled={loading}
+            label={t('admin:teams.edit.manage_members')}
+            buttonType="cell"
+            onClick={() => navigate(`/admin/teams/${row.id}/members`)}
+          />
+        </ProtectedView>
       </div>
     );
   };
@@ -118,7 +113,7 @@ export default function TeamList() {
         <Button
           primary={false}
           variant="outlined"
-          className="justify-start text-md"
+          className="text-md justify-start"
           label={t(`table.create`)}
           onClick={() => setOpenCreateDialog(true)}
         />
@@ -128,11 +123,6 @@ export default function TeamList() {
 
   return (
     <>
-      {/* Edit */}
-      <Dialog container={rootElement} fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
-        <AssignMembersDialog handleClose={() => setOpenDialog(false)} updateTable={updateTable} team={selectedTeam} />
-      </Dialog>
-
       <Dialog container={rootElement} fullWidth maxWidth="sm" open={openCreateDialog} onClose={handleClose}>
         <CreateTeamDialog handleClose={() => setOpenCreateDialog(false)} updateTable={updateTable} />
       </Dialog>

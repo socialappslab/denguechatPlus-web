@@ -63,7 +63,22 @@
     },
     "edit": {
       "edit_team": "Asignar brigadistas del equipo",
-      "success": "Brigada actualizada con éxito"
+      "success": "Brigada actualizada con éxito",
+      "manage_members": "Gestionar miembros de la brigada",
+      "edit_page": "Editar brigada",
+      "members_heading": "Miembros",
+      "available": "Personas disponibles",
+      "assigned": "Miembros de la brigada",
+      "available_hint": "Las personas disponibles no están asignadas a otra brigada.",
+      "search_members": "Buscar personas",
+      "loading_members": "Cargando personas…",
+      "no_available": "No se encontraron personas disponibles",
+      "no_assigned": "No se encontraron miembros",
+      "add_selected": "Agregar personas seleccionadas",
+      "remove_selected": "Quitar personas seleccionadas",
+      "load_error": "No se pudieron cargar las personas disponibles.",
+      "load_team_error": "No se pudo cargar esta brigada.",
+      "save": "Guardar cambios"
     }
   },
   "visits": {
