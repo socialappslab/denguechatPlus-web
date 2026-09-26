@@ -45,7 +45,7 @@ function MemberList({ label, items, checked, onToggle, search, onSearch, emptyMe
         </Typography>
         <TextField
           size="small"
-          label={`${t('teams.edit.search_members')} · ${label}`}
+          label={t('teams.edit.search_members')}
           value={search}
           onChange={(event) => onSearch(event.target.value)}
         />
