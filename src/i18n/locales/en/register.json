@@ -23,7 +23,7 @@
   "roles_placeholder": "Select your roles",
   "organization": "Organization",
   "organization_placeholder": "Select your organization",
-  "team": "Team",
+  "team": "Brigade",
   "houseBlock": "$t(common:houseGroup_one)",
   "action": "Register",
   "errors": {
@@ -58,7 +58,7 @@
     "city_placeholder": "Select the city",
     "neighborhood_placeholder": "Select the sector",
     "organization_placeholder": "Select the organization",
-    "team_placeholder": "Select the team",
+    "team_placeholder": "Select the brigade",
     "house_block_placeholder": "Select the $t(common:houseGroup_one)",
     "roles_placeholder": "Select the roles",
     "password_placeholder": "Enter the password",

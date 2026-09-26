@@ -50,8 +50,8 @@
       "name_placeholder": "Ingresa un nombre",
       "members": "Brigadistas",
       "members_placeholder": "Selecciona a los brigadistas",
-      "team_leader": "Facilitador del equipo",
-      "team_leader_placeholder": "Selecciona un facilitador del equipo",
+      "team_leader": "Facilitador de la brigada",
+      "team_leader_placeholder": "Selecciona un facilitador de la brigada",
       "organization": "Organización",
       "organization_placeholder": "Selecciona una organización",
       "sector": "Sector",
@@ -62,8 +62,22 @@
       "city_placeholder": "Selecciona una ciudad"
     },
     "edit": {
-      "edit_team": "Asignar brigadistas del equipo",
-      "success": "Brigada actualizada con éxito"
+      "edit_team": "Asignar miembros de la brigada",
+      "success": "Brigada actualizada con éxito",
+      "manage_members": "Gestionar miembros de la brigada",
+      "edit_page": "Editar brigada",
+      "members_heading": "Miembros",
+      "available": "Personas disponibles",
+      "assigned": "Miembros de la brigada",
+      "search_members": "Buscar personas",
+      "loading_members": "Cargando personas…",
+      "no_available": "No se encontraron personas disponibles",
+      "no_assigned": "No se encontraron miembros",
+      "add_selected": "Agregar personas seleccionadas",
+      "remove_selected": "Quitar personas seleccionadas",
+      "load_error": "No se pudieron cargar las personas disponibles.",
+      "load_team_error": "No se pudo cargar esta brigada.",
+      "save": "Guardar cambios"
     }
   },
   "visits": {

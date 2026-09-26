@@ -98,9 +98,8 @@ export interface Team extends BaseEntity {
   sector: string;
   city: string;
   wedge: string;
-  leader: string;
-  members: Member[];
-  memberCount: number;
+  facilitators: Pick<Member, 'id' | 'fullName'>[];
+  members: Pick<Member, 'id' | 'fullName'>[];
 }
 
 export interface House extends BaseEntity {

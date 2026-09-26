@@ -53,7 +53,7 @@ const ADMIN_ROLES = '/admin/roles';
 const ADMIN_ORGANIZATIONS = '/admin/organizations';
 const ADMIN_CITIES = '/admin/cities';
 const ADMIN_SPECIAL_PLACES = '/admin/special-places';
-const ADMIN_TEAMS = '/admin/teams';
+const ADMIN_BRIGADES = '/admin/brigades';
 const ADMIN_HOUSE_BLOCKS = '/admin/house-blocks';
 
 const MY_CITY = '/my-city';
@@ -271,8 +271,8 @@ export default function Sidebar({ logout }: { logout: () => void }) {
                       <ListItemButton
                         sx={{ pl: 4 }}
                         component={Link}
-                        to={ADMIN_TEAMS}
-                        selected={pathname.includes(ADMIN_TEAMS)}
+                        to={ADMIN_BRIGADES}
+                        selected={pathname.includes(ADMIN_BRIGADES)}
                       >
                         <ListItemText primary={<Text type="menuItem">{t('menu.teams')}</Text>} />
                       </ListItemButton>
