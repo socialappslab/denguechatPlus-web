@@ -140,11 +140,8 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
             placeholder={t('admin:teams.form.name_placeholder')}
           />
           <Box sx={{ mt: 2 }}>
-            <Typography variant="h6" sx={{ mb: 1 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
               {t('admin:teams.edit.members_heading')}
-            </Typography>
-            <Typography color="text.secondary" sx={{ mb: 2 }}>
-              {t('admin:teams.edit.available_hint')}
             </Typography>
             {availableError && (
               <Alert severity="error" sx={{ mb: 2 }}>
