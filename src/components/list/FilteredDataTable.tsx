@@ -96,7 +96,10 @@ export default function FilteredDataTable<T, M = unknown>({
   const selectedFilterType = getFilterType(selectedHeadCell);
   const selectedFilterKey = selectedHeadCell?.filterKey ?? selectedOption;
   const selectFilterKeys = useMemo(
-    () => headCells.filter((cell) => getFilterType(cell) === 'select').map((cell) => cell.filterKey ?? cell.id),
+    () =>
+      headCells
+        .filter((cell) => getFilterType(cell) === 'select' && cell.filterAsArray !== false)
+        .map((cell) => cell.filterKey ?? cell.id),
     [headCells],
   );
   const filterOptions = useMemo(() => {
@@ -218,6 +221,14 @@ export default function FilteredDataTable<T, M = unknown>({
     setFilter({ [headCell?.filterKey ?? columnId]: value });
   };
 
+  const filterOptionLabel = (option: string) => {
+    if (option === 'true') return t('yes');
+    if (option === 'false') return t('no');
+
+    // @ts-expect-error -- filter options are dynamic translation keys.
+    return t(`options.${option}`) as string;
+  };
+
   const hasFilterToClear =
     Object.values(filter).some((value) => value !== '') || !!searchText || !!searchSelect || !!searchDate;
 
@@ -285,8 +296,7 @@ export default function FilteredDataTable<T, M = unknown>({
                   {filterOptions[selectedOption]?.map((option, index) => (
                     <MenuItem key={`${option}-${index}`} value={option}>
                       {}
-                      {/* @ts-expect-error */}
-                      {t(`options.${option}`)}
+                      {filterOptionLabel(option)}
                     </MenuItem>
                   ))}
                 </Select>

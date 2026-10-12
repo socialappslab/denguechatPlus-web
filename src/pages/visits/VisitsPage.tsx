@@ -95,6 +95,11 @@ const headCells: HeadCell<Visit>[] = [
   {
     id: 'possibleDuplicateVisitIds',
     label: 'possibleDuplicate',
+    filterable: true,
+    filterType: 'select',
+    filterKey: 'possible_duplicate',
+    filterOptions: ['true', 'false'],
+    filterAsArray: false,
     render: (row) => {
       if (row.possibleDuplicateVisitIds.length > 0) return <Trans i18nKey="yes" />;
       return <Trans i18nKey="no" />;
