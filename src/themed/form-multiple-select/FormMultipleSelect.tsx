@@ -1,5 +1,15 @@
 import { CheckBox as CheckBoxIcon, CheckBoxOutlineBlank as CheckBoxOutlineBlankIcon } from '@mui/icons-material';
-import { Autocomplete, Box, Checkbox, CircularProgress, FormControl, FormHelperText, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  Checkbox,
+  Chip,
+  CircularProgress,
+  createFilterOptions,
+  FormControl,
+  FormHelperText,
+  TextField,
+} from '@mui/material';
 
 import { useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -62,6 +72,14 @@ export function FormMultipleSelect({
     return options;
   }, [options]);
 
+  const filterOptions = useMemo(
+    () =>
+      createFilterOptions<FormSelectOption>({
+        stringify: (option) => [renderOption(option), option.badge].filter(Boolean).join(' '),
+      }),
+    [renderOption],
+  );
+
   const fieldError: FieldErrorType = getProperty(errors, name);
 
   return (
@@ -85,6 +103,7 @@ export function FormMultipleSelect({
             }}
             isOptionEqualToValue={(o, v) => o.value === v.value}
             getOptionLabel={renderOption}
+            filterOptions={filterOptions}
             filterSelectedOptions={filterSelectedOptions}
             disableCloseOnSelect={checkBoxOptions}
             renderOption={
@@ -96,11 +115,29 @@ export function FormMultipleSelect({
                     return (
                       <li key={`${key}-${optionProps.id}`} {...optionProps}>
                         <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-                        {renderOption(option)}
+                        <Box component="span" sx={{ mr: 1 }}>
+                          {renderOption(option)}
+                        </Box>
+                        {option.badge && (
+                          <Chip label={option.badge} size="small" variant="outlined" sx={{ ml: 'auto' }} />
+                        )}
                       </li>
                     );
                   }
-                : undefined
+                : (props, option) => {
+                    const { key, ...optionProps } = props;
+
+                    return (
+                      <li key={key} {...optionProps}>
+                        <Box component="span" sx={{ mr: 1 }}>
+                          {renderOption(option)}
+                        </Box>
+                        {option.badge && (
+                          <Chip label={option.badge} size="small" variant="outlined" sx={{ ml: 'auto' }} />
+                        )}
+                      </li>
+                    );
+                  }
             }
             disabled={disabled}
             renderInput={(params) => (

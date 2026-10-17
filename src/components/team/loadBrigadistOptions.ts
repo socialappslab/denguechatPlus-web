@@ -3,7 +3,6 @@ import { authApi } from '@/api/axios';
 import type { FormSelectOption, Member } from '@/schemas';
 
 export type BrigadistOption = FormSelectOption & {
-  name: string;
   team: { id: number; name: string } | null;
 };
 
@@ -41,9 +40,8 @@ export async function loadBrigadistOptions(
       const members = deserialize<Member>(response.data);
       if (!Array.isArray(members)) throw new Error('Expected a list of available members');
       for (const member of members) {
-        const { value, label: name } = toMemberOption(member);
         const team = member.team && String(member.team.id) !== String(currentTeamId) ? member.team : null;
-        byId.set(value, { value, name, team, label: team ? `${name} (${team.name})` : name });
+        byId.set(String(member.id), { ...toMemberOption(member), team, badge: team?.name });
       }
       loaded += members.length;
 

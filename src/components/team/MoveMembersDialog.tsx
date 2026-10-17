@@ -31,7 +31,7 @@ export default function MoveMembersDialog({ members, targetBrigade, onCancel, on
           {members.map((member) => (
             <ListItem key={member.value} disableGutters>
               <ListItemText
-                primary={member.name}
+                primary={member.label}
                 secondary={t('admin:teams.move.current_brigade', { brigade: member.team?.name })}
               />
             </ListItem>

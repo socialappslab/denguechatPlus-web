@@ -56,4 +56,5 @@ export type FormSelectOption = {
   label: string;
   value: string;
   disabled?: boolean;
+  badge?: string;
 };
