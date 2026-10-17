@@ -24,7 +24,8 @@ import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '../../util';
 import useStateContext from '@/hooks/useStateContext';
 import { authApi } from '@/api/axios';
-import { loadBrigadistOptions } from '@/components/team/loadBrigadistOptions';
+import MoveMembersDialog from '@/components/team/MoveMembersDialog';
+import { type BrigadistOption, findMembersToMove, loadBrigadistOptions } from '@/components/team/loadBrigadistOptions';
 
 export interface EditUserProps {
   user: IUser;
@@ -126,7 +127,26 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const [membersToMove, setMembersToMove] = useState<BrigadistOption[]>([]);
+
   const onSubmitHandler: SubmitHandler<CreateTeamInputType> = async (values) => {
+    const moving = findMembersToMove(
+      values.memberIds.map((member) => member.value),
+      users.data ?? [],
+    );
+    if (moving.length > 0) {
+      setMembersToMove(moving);
+      return;
+    }
+    await createTeam(values);
+  };
+
+  const confirmMove = handleSubmit(async (values) => {
+    setMembersToMove([]);
+    await createTeam(values);
+  });
+
+  const createTeam = async (values: CreateTeamInputType) => {
     try {
       const payload: CreateTeam = {
         ...values,
@@ -281,6 +301,12 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
           </div>
         </Box>
       </FormProvider>
+      <MoveMembersDialog
+        members={membersToMove}
+        targetBrigade={getValues('name')}
+        onCancel={() => setMembersToMove([])}
+        onConfirm={() => void confirmMove()}
+      />
     </div>
   );
 }

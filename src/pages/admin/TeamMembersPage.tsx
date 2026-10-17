@@ -3,13 +3,20 @@ import { Alert, Box, CircularProgress, Container, Typography, useMediaQuery, use
 import { useQuery } from '@tanstack/react-query';
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
+import { useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import * as z from 'zod';
 import { authApi } from '@/api/axios';
 import MemberTransferList from '@/components/team/MemberTransferList';
-import { loadBrigadistOptions, toMemberOption } from '@/components/team/loadBrigadistOptions';
+import MoveMembersDialog from '@/components/team/MoveMembersDialog';
+import {
+  type BrigadistOption,
+  findMembersToMove,
+  loadBrigadistOptions,
+  toMemberOption,
+} from '@/components/team/loadBrigadistOptions';
 import { TEAMS_UPDATE } from '@/constants/permissions';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
 import useUser from '@/hooks/useUser';
@@ -31,7 +38,7 @@ interface TeamDetails {
 
 interface TeamMembersFormProps {
   team: TeamDetails;
-  available: FormSelectOption[];
+  available: BrigadistOption[];
   availableLoading: boolean;
   availableError: boolean;
 }
@@ -60,6 +67,7 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
     formState: { errors, isDirty },
   } = methods;
   const members = useWatch({ control, name: 'members' });
+  const brigadeName = useWatch({ control, name: 'name' });
   const selectedOptions = members ?? [];
   const optionsById = new Map<string, FormSelectOption>();
   for (const option of [...team.members.map(toMemberOption), ...available, ...selectedOptions]) {
@@ -67,7 +75,9 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
   }
   const options = [...optionsById.values()].sort((a, b) => a.label.localeCompare(b.label));
 
-  const save = handleSubmit(async ({ name, members: selectedMembers }) => {
+  const [membersToMove, setMembersToMove] = useState<BrigadistOption[]>([]);
+
+  const submit = async ({ name, members: selectedMembers }: FormValues) => {
     try {
       await udpateMutation({ team: { name, memberIds: selectedMembers.map((member) => member.value) } });
       enqueueSnackbar(t('admin:teams.edit.success'), { variant: 'success' });
@@ -80,6 +90,23 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
       if (firstError?.field === 'member_ids') setError('members', { type: 'server', message });
       enqueueSnackbar(message, { variant: 'error' });
     }
+  };
+
+  const save = handleSubmit(async (values) => {
+    const moving = findMembersToMove(
+      values.members.map((member) => member.value),
+      available,
+    );
+    if (moving.length > 0) {
+      setMembersToMove(moving);
+      return;
+    }
+    await submit(values);
+  });
+
+  const confirmMove = handleSubmit(async (values) => {
+    setMembersToMove([]);
+    await submit(values);
   });
 
   return (
@@ -151,6 +178,12 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
           </div>
         </Box>
       </FormProvider>
+      <MoveMembersDialog
+        members={membersToMove}
+        targetBrigade={brigadeName || team.name}
+        onCancel={() => setMembersToMove([])}
+        onConfirm={() => void confirmMove()}
+      />
     </Container>
   );
 }
