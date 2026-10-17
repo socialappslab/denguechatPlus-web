@@ -24,6 +24,7 @@ import { Title } from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData } from '../../util';
 import useStateContext from '@/hooks/useStateContext';
 import { authApi } from '@/api/axios';
+import { loadBrigadistOptions } from '@/components/team/loadBrigadistOptions';
 
 export interface EditUserProps {
   user: IUser;
@@ -49,7 +50,7 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
 
   const methods = useForm<CreateTeamInputType>({
     resolver: zodResolver(createTeamSchema()),
-    defaultValues: {},
+    defaultValues: { memberIds: [] },
   });
   const { handleSubmit, resetField, setError, control, getValues } = methods;
 
@@ -65,24 +66,14 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
     [wedges],
   );
 
-  const [userOptions, setUserOptions] = useState<FormSelectOption[]>([]);
-
   const { createMutation: createTeamMutation, loading: mutationLoading } = useCreateMutation<CreateTeam, Team>(
     `/teams`,
   );
 
-  const [{ data: usersData, loading: loadingUsers }] = useAxios<ExistingDocumentObject, unknown, ErrorResponse>({
-    url: '/users?filter[roles][name]=brigadista&filter[without_team]=true&sort=user_profiles.first_name&order=asc',
+  const users = useQuery({
+    queryKey: ['brigadist-options'],
+    queryFn: ({ signal }) => loadBrigadistOptions(signal),
   });
-
-  useEffect(() => {
-    if (!usersData) return;
-    const deserializedData = deserialize(usersData);
-    if (Array.isArray(deserializedData)) {
-      const users = convertToFormSelectOptions(deserializedData, 'firstName', 'lastName');
-      setUserOptions(users);
-    }
-  }, [usersData]);
 
   const [organizationOptions, setOrganizationOptions] = useState<FormSelectOption[]>([]);
 
@@ -211,10 +202,10 @@ export function CreateTeamDialog({ handleClose, updateTable }: CreateTeamDialogP
               }}>
               <FormMultipleSelect
                 name="memberIds"
-                loading={loadingUsers}
+                loading={users.isPending}
                 label={t('admin:teams.form.members')}
                 placeholder={t('admin:teams.form.members_placeholder')}
-                options={userOptions}
+                options={users.data ?? []}
               />
             </Grid>
             <Grid
