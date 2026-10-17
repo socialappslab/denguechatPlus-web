@@ -68,8 +68,16 @@ function MemberList({ label, items, checked, onToggle, search, onSearch, emptyMe
               disableRipple
               slotProps={{ input: { 'aria-label': item.label } }}
             />
-            <ListItemText primary={item.label} />
-            {item.badge && <Chip label={item.badge} size="small" variant="outlined" sx={{ ml: 1 }} />}
+            <ListItemText
+              primary={
+                <>
+                  {item.label}
+                  {item.badge && (
+                    <Chip component="span" label={item.badge} size="small" variant="outlined" sx={{ ml: 1 }} />
+                  )}
+                </>
+              }
+            />
           </ListItemButton>
         ))}
       </List>

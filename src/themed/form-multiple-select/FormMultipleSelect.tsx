@@ -115,12 +115,8 @@ export function FormMultipleSelect({
                     return (
                       <li key={`${key}-${optionProps.id}`} {...optionProps}>
                         <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-                        <Box component="span" sx={{ mr: 1 }}>
-                          {renderOption(option)}
-                        </Box>
-                        {option.badge && (
-                          <Chip label={option.badge} size="small" variant="outlined" sx={{ ml: 'auto' }} />
-                        )}
+                        {renderOption(option)}
+                        {option.badge && <Chip label={option.badge} size="small" variant="outlined" sx={{ ml: 1 }} />}
                       </li>
                     );
                   }
@@ -129,12 +125,8 @@ export function FormMultipleSelect({
 
                     return (
                       <li key={key} {...optionProps}>
-                        <Box component="span" sx={{ mr: 1 }}>
-                          {renderOption(option)}
-                        </Box>
-                        {option.badge && (
-                          <Chip label={option.badge} size="small" variant="outlined" sx={{ ml: 'auto' }} />
-                        )}
+                        {renderOption(option)}
+                        {option.badge && <Chip label={option.badge} size="small" variant="outlined" sx={{ ml: 1 }} />}
                       </li>
                     );
                   }
