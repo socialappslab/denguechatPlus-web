@@ -50,7 +50,7 @@ export const createTeamSchema = () => {
     organizationId: z.string(),
     sectorId: z.string(),
     wedgeId: z.string(),
-    memberIds: z.array(z.object({ label: z.string(), value: z.string() })).check(z.minLength(1)),
+    memberIds: z.array(z.object({ label: z.string(), value: z.string() })),
   });
 };
 

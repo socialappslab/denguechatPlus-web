@@ -78,6 +78,12 @@
       "load_error": "Não foi possível carregar as pessoas disponíveis.",
       "load_team_error": "Não foi possível carregar esta brigada.",
       "save": "Salvar alterações"
+    },
+    "move": {
+      "title": "Mover pessoas para esta brigada?",
+      "description": "Estas pessoas já pertencem a outra brigada. Ao salvar, elas serão movidas para {{brigade}}.",
+      "current_brigade": "Atualmente em {{brigade}}",
+      "confirm": "Mover e salvar"
     }
   },
   "visits": {

@@ -3,12 +3,20 @@ import { Alert, Box, CircularProgress, Container, Typography, useMediaQuery, use
 import { useQuery } from '@tanstack/react-query';
 import { deserialize, type ExistingDocumentObject } from 'jsonapi-fractal';
 import { useSnackbar } from 'notistack';
+import { useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import * as z from 'zod';
 import { authApi } from '@/api/axios';
 import MemberTransferList from '@/components/team/MemberTransferList';
+import MoveMembersDialog from '@/components/team/MoveMembersDialog';
+import {
+  type BrigadistOption,
+  findMembersToMove,
+  loadBrigadistOptions,
+  toMemberOption,
+} from '@/components/team/loadBrigadistOptions';
 import { TEAMS_UPDATE } from '@/constants/permissions';
 import useUpdateMutation from '@/hooks/useUpdateMutation';
 import useUser from '@/hooks/useUser';
@@ -28,51 +36,9 @@ interface TeamDetails {
   members: Member[];
 }
 
-const toOption = (member: Member): FormSelectOption => ({
-  value: String(member.id),
-  label: member.fullName || `${member.firstName} ${member.lastName}`.trim(),
-});
-
-async function loadAvailableMembers(signal: AbortSignal): Promise<FormSelectOption[]> {
-  const pageSize = 500;
-  const byId = new Map<string, FormSelectOption>();
-
-  for (const roleName of ['brigadista', 'facilitador']) {
-    let page = 1;
-    let loaded = 0;
-
-    while (true) {
-      const response = await authApi.get<ExistingDocumentObject>('/users', {
-        signal,
-        params: {
-          'filter[role_name]': roleName,
-          'filter[without_team]': true,
-          'page[number]': page,
-          'page[size]': pageSize,
-          sort: 'user_profiles.first_name',
-          order: 'asc',
-        },
-      });
-      const members = deserialize<Member>(response.data);
-      if (!Array.isArray(members)) throw new Error('Expected a list of available members');
-      for (const member of members) {
-        const option = toOption(member);
-        byId.set(option.value, option);
-      }
-      loaded += members.length;
-
-      const total = Number(response.data.meta?.total);
-      if (members.length < pageSize || (Number.isFinite(total) && loaded >= total)) break;
-      page += 1;
-    }
-  }
-
-  return [...byId.values()];
-}
-
 interface TeamMembersFormProps {
   team: TeamDetails;
-  available: FormSelectOption[];
+  available: BrigadistOption[];
   availableLoading: boolean;
   availableError: boolean;
 }
@@ -86,12 +52,12 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
   const { udpateMutation, loading: saving } = useUpdateMutation<UpdateTeam, Team>(`teams/${team.id}`);
   const schema = z.object({
     name: z.string().trim().min(1, t('validation:requiredField.name')),
-    members: z.array(z.object({ label: z.string(), value: z.string() })).min(1, t('validation:required')),
+    members: z.array(z.object({ label: z.string(), value: z.string() })),
   });
   type FormValues = z.infer<typeof schema>;
   const methods = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: team.name, members: team.members.map(toOption) },
+    defaultValues: { name: team.name, members: team.members.map(toMemberOption) },
   });
   const {
     control,
@@ -101,14 +67,17 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
     formState: { errors, isDirty },
   } = methods;
   const members = useWatch({ control, name: 'members' });
+  const brigadeName = useWatch({ control, name: 'name' });
   const selectedOptions = members ?? [];
   const optionsById = new Map<string, FormSelectOption>();
-  for (const option of [...team.members.map(toOption), ...available, ...selectedOptions]) {
+  for (const option of [...team.members.map(toMemberOption), ...available, ...selectedOptions]) {
     optionsById.set(option.value, option);
   }
   const options = [...optionsById.values()].sort((a, b) => a.label.localeCompare(b.label));
 
-  const save = handleSubmit(async ({ name, members: selectedMembers }) => {
+  const [membersToMove, setMembersToMove] = useState<BrigadistOption[]>([]);
+
+  const submit = async ({ name, members: selectedMembers }: FormValues) => {
     try {
       await udpateMutation({ team: { name, memberIds: selectedMembers.map((member) => member.value) } });
       enqueueSnackbar(t('admin:teams.edit.success'), { variant: 'success' });
@@ -121,6 +90,23 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
       if (firstError?.field === 'member_ids') setError('members', { type: 'server', message });
       enqueueSnackbar(message, { variant: 'error' });
     }
+  };
+
+  const save = handleSubmit(async (values) => {
+    const moving = findMembersToMove(
+      values.members.map((member) => member.value),
+      available,
+    );
+    if (moving.length > 0) {
+      setMembersToMove(moving);
+      return;
+    }
+    await submit(values);
+  });
+
+  const confirmMove = handleSubmit(async (values) => {
+    setMembersToMove([]);
+    await submit(values);
   });
 
   return (
@@ -192,6 +178,12 @@ function TeamMembersForm({ team, available, availableLoading, availableError }: 
           </div>
         </Box>
       </FormProvider>
+      <MoveMembersDialog
+        members={membersToMove}
+        targetBrigade={brigadeName || team.name}
+        onCancel={() => setMembersToMove([])}
+        onConfirm={() => void confirmMove()}
+      />
     </Container>
   );
 }
@@ -214,7 +206,7 @@ export default function TeamMembersPage() {
   const availableQuery = useQuery({
     queryKey: ['team', id, 'available-members'],
     enabled: Boolean(id) && canUpdate,
-    queryFn: ({ signal }) => loadAvailableMembers(signal),
+    queryFn: ({ signal }) => loadBrigadistOptions(signal, id),
   });
 
   if (!canUpdate) return <AppErrorPage message={t('translation:errors.unauthorized')} />;

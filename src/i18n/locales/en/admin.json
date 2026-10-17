@@ -79,6 +79,12 @@
       "load_error": "Available people could not be loaded.",
       "load_team_error": "This brigade could not be loaded.",
       "save": "Save changes"
+    },
+    "move": {
+      "title": "Move people to this brigade?",
+      "description": "These people are already in another brigade. Saving will move them to {{brigade}}.",
+      "current_brigade": "Currently in {{brigade}}",
+      "confirm": "Move and save"
     }
   },
   "visits": {

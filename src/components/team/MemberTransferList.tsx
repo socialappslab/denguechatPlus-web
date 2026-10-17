@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Chip,
   List,
   ListItemButton,
   ListItemText,
@@ -35,7 +36,10 @@ interface MemberListProps {
 function MemberList({ label, items, checked, onToggle, search, onSearch, emptyMessage }: MemberListProps) {
   const { t } = useTranslation('admin');
   const checkedIds = new Set(checked);
-  const visibleItems = items.filter((item) => item.label.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
+  const query = search.toLocaleLowerCase();
+  const visibleItems = items.filter((item) =>
+    [item.label, item.badge].some((text) => text?.toLocaleLowerCase().includes(query)),
+  );
 
   return (
     <Paper variant="outlined" sx={{ minWidth: 0, overflow: 'hidden' }}>
@@ -64,7 +68,16 @@ function MemberList({ label, items, checked, onToggle, search, onSearch, emptyMe
               disableRipple
               slotProps={{ input: { 'aria-label': item.label } }}
             />
-            <ListItemText primary={item.label} />
+            <ListItemText
+              primary={
+                <>
+                  {item.label}
+                  {item.badge && (
+                    <Chip component="span" label={item.badge} size="small" variant="outlined" sx={{ ml: 1 }} />
+                  )}
+                </>
+              }
+            />
           </ListItemButton>
         ))}
       </List>
