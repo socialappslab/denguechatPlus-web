@@ -60,6 +60,7 @@ export interface HeadCell<T> {
   sortKey?: string;
   filterable?: boolean;
   filterOptions?: string[];
+  filterAsArray?: boolean;
   width?: number;
 }
 

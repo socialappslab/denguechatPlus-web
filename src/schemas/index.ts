@@ -36,6 +36,7 @@ export interface Member {
   firstName: string;
   lastName: string;
   fullName: string;
+  team?: { id: number; name: string } | null;
 }
 
 export interface City extends Neighborhood {
@@ -55,4 +56,5 @@ export type FormSelectOption = {
   label: string;
   value: string;
   disabled?: boolean;
+  badge?: string;
 };

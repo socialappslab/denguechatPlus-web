@@ -19,7 +19,7 @@
     "users_confirm_account": "Confirmar cuenta de usuario",
     "change_status": "Cambiar estado del usuario",
     "delete_account": "Eliminar cuenta de usuario",
-    "change_team": "Cambiar equipo del usuario",
+    "change_team": "Cambiar brigada del usuario",
     "update_password": "Actualizar contraseña",
     "change_house_blocks": "Cambiar grupo de casa",
     "change_assignment": "Cambiar brigada"
@@ -38,8 +38,8 @@
     "index": "Listar brigadas",
     "show": "Mostrar brigada",
     "create": "Crear brigadas",
-    "edit": "Editar información del equipo",
-    "update": "Cambiar equipo del usuario",
+    "edit": "Editar información de la brigada",
+    "update": "Actualizar brigada",
     "destroy": "Eliminar brigadas"
   },
   "wedges": {

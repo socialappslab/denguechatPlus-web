@@ -1,15 +1,63 @@
-import { Dialog } from '@mui/material';
+import { EditOutlined as EditOutlinedIcon, InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
+import { Box, Dialog, IconButton, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TEAMS_CREATE } from '@/constants/permissions';
+import { Link } from 'react-router';
+import { TEAMS_CREATE, TEAMS_UPDATE } from '@/constants/permissions';
 import useStateContext from '@/hooks/useStateContext';
 import ProtectedView from '@/layout/ProtectedView';
 import type { Team } from '@/schemas/entities';
 import Button from '@/themed/button/Button';
 import type { HeadCell } from '../../themed/table/DataTable';
-import { AssignMembersDialog } from '../dialog/AssignMembersDialog';
 import CreateTeamDialog from '../dialog/CreateTeamDialog';
 import FilteredDataTable from './FilteredDataTable';
+
+function PeopleCountCell({
+  count,
+  people,
+  column,
+}: {
+  count: number;
+  people: Team['members'];
+  column: 'facilitators' | 'brigadists';
+}) {
+  const { t } = useTranslation('translation');
+  const label = column === 'facilitators' ? t('columns.facilitators') : t('columns.brigadists');
+
+  if (count === 0) return <span>0</span>;
+
+  return (
+    <Tooltip
+      arrow
+      title={
+        <Box component="ul" sx={{ m: 0, pl: 2, maxHeight: 280, overflowY: 'auto' }}>
+          {people.map((person) => (
+            <li key={person.id}>{person.fullName}</li>
+          ))}
+        </Box>
+      }
+    >
+      <Box
+        component="button"
+        type="button"
+        aria-label={`${count} ${label}`}
+        sx={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 0.5,
+          p: 0,
+          border: 0,
+          bgcolor: 'transparent',
+          cursor: 'help',
+          color: 'inherit',
+        }}
+      >
+        {count}
+        <InfoOutlinedIcon fontSize="small" color="action" />
+      </Box>
+    </Tooltip>
+  );
+}
 
 function headCells(isAdmin: boolean): HeadCell<Team>[] {
   const cells: HeadCell<Team>[] = [
@@ -20,7 +68,7 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
     },
     {
       id: 'name',
-      label: 'team',
+      label: 'brigade',
       sortable: true,
       filterable: true,
     },
@@ -43,16 +91,17 @@ function headCells(isAdmin: boolean): HeadCell<Team>[] {
       sortable: true,
     },
     {
-      id: 'memberCount',
-      label: 'memberCount',
+      id: 'members',
+      label: 'brigadists',
       filterable: false,
-      sortKey: 'members',
+      render: (row) => <PeopleCountCell count={row.members.length} people={row.members} column="brigadists" />,
     },
     {
-      id: 'leader',
-      label: 'leader',
-      filterable: true,
-      sortKey: 'leader',
+      id: 'facilitators',
+      label: 'facilitators',
+      render: (row) => (
+        <PeopleCountCell count={row.facilitators.length} people={row.facilitators} column="facilitators" />
+      ),
     },
   ];
 
@@ -76,23 +125,15 @@ export default function TeamList() {
     state: { user },
   } = useStateContext() as { state: { user: { roles: string[] } } };
 
-  const [openDialog, setOpenDialog] = useState(false);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [updateControl, setUpdateControl] = useState(0);
 
   const handleClose = () => {
-    setOpenDialog(false);
     setOpenCreateDialog(false);
   };
 
   const rootElement = document.getElementById('root-app');
   const isAdmin = user?.roles.includes('admin');
-
-  const onEdit = (team: Team) => {
-    setOpenDialog(true);
-    setSelectedTeam(team);
-  };
 
   const updateTable = () => {
     setUpdateControl((prev) => prev + 1);
@@ -101,13 +142,19 @@ export default function TeamList() {
   const actions = (row: Team, loading?: boolean) => {
     return (
       <div className="flex flex-row">
-        <Button
-          primary
-          disabled={loading}
-          label={t('admin:teams.form.members')}
-          buttonType="cell"
-          onClick={() => onEdit(row)}
-        />
+        <ProtectedView hasPermission={[TEAMS_UPDATE]}>
+          <Tooltip title={t('table.actions.edit')}>
+            <IconButton
+              component={Link}
+              to={`/admin/brigades/${row.id}/members`}
+              color="primary"
+              disabled={loading}
+              size="small"
+            >
+              <EditOutlinedIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </ProtectedView>
       </div>
     );
   };
@@ -118,7 +165,7 @@ export default function TeamList() {
         <Button
           primary={false}
           variant="outlined"
-          className="justify-start text-md"
+          className="text-md justify-start"
           label={t(`table.create`)}
           onClick={() => setOpenCreateDialog(true)}
         />
@@ -128,11 +175,6 @@ export default function TeamList() {
 
   return (
     <>
-      {/* Edit */}
-      <Dialog container={rootElement} fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
-        <AssignMembersDialog handleClose={() => setOpenDialog(false)} updateTable={updateTable} team={selectedTeam} />
-      </Dialog>
-
       <Dialog container={rootElement} fullWidth maxWidth="sm" open={openCreateDialog} onClose={handleClose}>
         <CreateTeamDialog handleClose={() => setOpenCreateDialog(false)} updateTable={updateTable} />
       </Dialog>

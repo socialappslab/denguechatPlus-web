@@ -19,7 +19,7 @@
     "users_confirm_account": "Confirm User Account",
     "change_status": "Change User Status",
     "delete_account": "Delete User Account",
-    "change_team": "Change user's team",
+    "change_team": "Change user's brigade",
     "update_password": "Update password",
     "change_house_blocks": "Change house group",
     "change_assignment": "Change brigade"
@@ -38,8 +38,8 @@
     "index": "List Brigades",
     "show": "Show Brigade",
     "create": "Create Brigades",
-    "edit": "Edit Team Information",
-    "update": "Switch User Team",
+    "edit": "Edit Brigade Information",
+    "update": "Update Brigade",
     "destroy": "Delete Brigades"
   },
   "wedges": {

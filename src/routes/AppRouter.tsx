@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { Outlet, createBrowserRouter } from 'react-router';
+import { Outlet, createBrowserRouter, redirect } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import BaseLayout from '../layout/BaseLayout';
 
@@ -13,6 +13,7 @@ import StateContextProvider from '../providers/StateContextProvider';
 
 import HouseBlockList from '@/components/list/HouseBlockList';
 import TeamList from '@/components/list/TeamsList';
+import TeamMembersPage from '@/pages/admin/TeamMembersPage';
 import AppHome from '@/pages/AppHome';
 import NewPasswordPage from '@/pages/auth/NewPasswordPage';
 import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
@@ -176,8 +177,20 @@ const router = createBrowserRouter([
         element: <SpecialPlaceList />,
       },
       {
-        path: 'teams',
+        path: 'brigades',
         element: <TeamList />,
+      },
+      {
+        path: 'brigades/:id/members',
+        element: <TeamMembersPage />,
+      },
+      {
+        path: 'teams',
+        loader: () => redirect('/admin/brigades'),
+      },
+      {
+        path: 'teams/:id/members',
+        loader: ({ params }) => redirect(`/admin/brigades/${params.id}/members`),
       },
       {
         path: 'house-blocks',
