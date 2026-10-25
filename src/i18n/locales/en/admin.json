@@ -93,6 +93,14 @@
       "confirm": "Are you sure you want to delete this visit?",
       "success": "Visit deleted successfully"
     },
+    "markDuplicate": {
+      "action": "Mark as duplicate and delete",
+      "title": "Mark as duplicate",
+      "confirm": "Marking visit <b>#{{id}}</b> as a duplicate will permanently delete it from the system. Do you want to confirm this action?",
+      "confirmAction": "Confirm and delete",
+      "discard": "Discard",
+      "success": "Visit #{{id}} marked as duplicate and deleted."
+    },
     "visitInformation": "Visit Information",
     "questionnaire": "Questionnaire",
     "inspectionData": "Inspection Data",

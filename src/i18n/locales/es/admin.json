@@ -92,6 +92,14 @@
       "confirm": "¿Está seguro de que desea eliminar esta visita?",
       "success": "Visita eliminada con éxito"
     },
+    "markDuplicate": {
+      "action": "Marcar como duplicada y eliminar",
+      "title": "Marcar como duplicado",
+      "confirm": "Al marcar la visita <b>#{{id}}</b> como duplicada, esta será eliminada del sistema de forma permanente. ¿Deseas confirmar la acción?",
+      "confirmAction": "Confirmar y eliminar",
+      "discard": "Descartar",
+      "success": "Visita #{{id}} marcada como duplicada y eliminada."
+    },
     "visitInformation": "Información de la visita",
     "questionnaire": "Cuestionario",
     "inspectionData": "Datos del envase",

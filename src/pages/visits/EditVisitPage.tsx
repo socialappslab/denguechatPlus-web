@@ -1,5 +1,6 @@
 import {
   Add as AddIcon,
+  ContentCopyOutlined as ContentCopyOutlinedIcon,
   DeleteOutlined as DeleteOutlineIcon,
   EditOutlined as EditOutlinedIcon,
 } from '@mui/icons-material';
@@ -17,9 +18,9 @@ import {
 } from '@mui/material';
 
 import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 // @ts-expect-error
 import useAxios from 'axios-hooks';
 // @ts-expect-error
@@ -208,6 +209,12 @@ function useDownloadCsvQuery(visitId: number) {
   });
 }
 
+function useDeleteVisitMutation(visitId: number) {
+  return useMutation({
+    mutationFn: async () => authApi.delete(`/visits/${visitId}`),
+  });
+}
+
 function HouseStatusBanner({ color: colorPlain }: HouseStatusProps) {
   const { t } = useTranslation('admin');
   const color = ColorMap[colorPlain as StatusPlain];
@@ -235,6 +242,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
 
   const [selectedInspection, setSelectedInspection] = useState<Inspection | null>(null);
   const [inspectionToDelete, setInspectionToDelete] = useState<Inspection | null>(null);
+  const [openMarkDuplicateDialog, setOpenMarkDuplicateDialog] = useState<boolean>(false);
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [inspectionUpdateControl, setInspectionUpdateControl] = useState(0);
@@ -292,6 +300,7 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
   );
 
   const downloadCsv = useDownloadCsvQuery(Number(visit.id));
+  const deleteVisit = useDeleteVisitMutation(Number(visit.id));
   const possibleDuplicateVisitIds = visit.possibleDuplicateVisitIds ?? [];
   const offlineVisitStatus = visit.wasOffline ? t('admin:visits.metadata.yes') : t('admin:visits.metadata.no');
   const offlineVisitLabel = t('admin:visits.metadata.offlineLabel');
@@ -372,6 +381,20 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
         variant: 'success',
       });
       refetch?.();
+    } catch {
+      enqueueSnackbar(t('errorCodes:generic'), {
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleMarkAsDuplicate = async () => {
+    try {
+      await deleteVisit.mutateAsync();
+      enqueueSnackbar(t('admin:visits.markDuplicate.success', { id: visit.id }), {
+        variant: 'success',
+      });
+      navigate('/visits');
     } catch {
       enqueueSnackbar(t('errorCodes:generic'), {
         variant: 'error',
@@ -555,6 +578,15 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                       variant="outlined"
                     />
                   ))}
+                  <MuiButton
+                    variant="outlined"
+                    color="error"
+                    startIcon={<ContentCopyOutlinedIcon />}
+                    onClick={() => setOpenMarkDuplicateDialog(true)}
+                    sx={{ borderColor: 'error.main', borderRadius: '9999px', ':hover': { borderColor: 'error.main' } }}
+                  >
+                    {t('admin:visits.markDuplicate.action')}
+                  </MuiButton>
                 </Box>
               )}
             </Box>
@@ -784,6 +816,46 @@ export function EditVisit({ visit, refetch }: EditVisitProps) {
                 disabled={updateVisitLoading}
                 label={t('translation:table.actions.delete')}
                 onClick={() => inspectionToDelete && handleDeleteInspection(inspectionToDelete)}
+              />
+            </div>
+          </div>
+        </div>
+      </Dialog>
+      <Dialog
+        container={rootElement}
+        fullWidth
+        maxWidth="xs"
+        open={openMarkDuplicateDialog}
+        onClose={() => setOpenMarkDuplicateDialog(false)}
+      >
+        <div className="flex flex-col px-8 py-7">
+          <Title type="section" label={t('admin:visits.markDuplicate.title')} className="mb-4" />
+          <p className="text-sm text-darkest">
+            <Trans
+              t={t}
+              i18nKey="admin:visits.markDuplicate.confirm"
+              values={{ id: visit.id }}
+              components={{ b: <b key="visit-id" /> }}
+            />
+          </p>
+
+          <div className="mt-6 grid grid-cols-1 gap-4 md:flex md:justify-end md:gap-0">
+            <div className="md:mr-2">
+              <Button
+                buttonType="medium"
+                primary={false}
+                disabled={deleteVisit.isPending}
+                label={t('admin:visits.markDuplicate.discard')}
+                onClick={() => setOpenMarkDuplicateDialog(false)}
+              />
+            </div>
+            <div>
+              <Button
+                buttonType="medium"
+                className="bg-red-600"
+                disabled={deleteVisit.isPending}
+                label={t('admin:visits.markDuplicate.confirmAction')}
+                onClick={handleMarkAsDuplicate}
               />
             </div>
           </div>
