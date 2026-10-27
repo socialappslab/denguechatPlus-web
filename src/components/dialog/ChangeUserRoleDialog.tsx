@@ -12,7 +12,7 @@ import type { ChangeUserRoleInputType, IUser, UserUpdate } from '../../schemas/a
 import type { Role } from '../../schemas/entities';
 import Button from '../../themed/button/Button';
 import FormInput from '../../themed/form-input/FormInput';
-import FormMultipleSelect from '../../themed/form-multiple-select/FormMultipleSelect';
+import FormSelect from '../../themed/form-select/FormSelect';
 import Title from '../../themed/title/Title';
 import { convertToFormSelectOptions, extractAxiosErrorData, setPhone } from '../../util';
 
@@ -45,7 +45,7 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
 
   const methods = useForm<ChangeUserRoleInputType>({
     defaultValues: {
-      roles: user.roles?.map((role) => ({ label: role.name, value: String(role.id) })),
+      roleId: user.role ? String(user.role.id) : '',
     },
   });
 
@@ -58,10 +58,8 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
 
   const onSubmitHandler: SubmitHandler<ChangeUserRoleInputType> = async (values) => {
     try {
-      const { roles } = values;
-
       const payload: UserUpdate = {
-        roleIds: roles.map((role) => Number(role.value)),
+        roleId: Number(values.roleId),
       };
 
       await udpateUserMutation(payload);
@@ -193,11 +191,11 @@ export function ChangeUserRoleDialog({ open, handleClose, updateTable, user }: C
                   xs: 12,
                   sm: 12
                 }}>
-                <FormMultipleSelect
-                  name="roles"
+                <FormSelect
+                  name="roleId"
                   loading={loadingRoles}
-                  label={t('roles')}
-                  placeholder={t('edit.roles_placeholder')}
+                  label={t('role')}
+                  placeholder={t('edit.role_placeholder')}
                   options={roleOptions}
                 />
               </Grid>

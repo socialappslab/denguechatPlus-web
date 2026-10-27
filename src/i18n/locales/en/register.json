@@ -20,6 +20,7 @@
   "neighborhood": "Sector",
   "neighborhood_placeholder": "Select your sector",
   "roles": "Roles",
+  "role": "Role",
   "roles_placeholder": "Select your roles",
   "organization": "Organization",
   "organization_placeholder": "Select your organization",
@@ -42,9 +43,9 @@
     "success": "User approved successfully"
   },
   "changeRoles": {
-    "title": "Change User Roles",
+    "title": "Change User Role",
     "action": "Update",
-    "success": "User roles updated successfully"
+    "success": "User role updated successfully"
   },
   "edit": {
     "title": "Edit User",
@@ -61,6 +62,7 @@
     "team_placeholder": "Select the brigade",
     "house_block_placeholder": "Select the $t(common:houseGroup_one)",
     "roles_placeholder": "Select the roles",
+    "role_placeholder": "Select the role",
     "password_placeholder": "Enter the password",
     "passwordConfirm_placeholder": "Repeat the password"
   }

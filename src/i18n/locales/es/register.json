@@ -20,6 +20,7 @@
   "neighborhood": "Sector",
   "neighborhood_placeholder": "Selecciona tu sector",
   "roles": "Roles",
+  "role": "Rol",
   "roles_placeholder": "Seleccione sus roles",
   "organization": "Organización",
   "organization_placeholder": "Selecciona tu organización",
@@ -42,9 +43,9 @@
     "success": "Usuario aprobado correctamente"
   },
   "changeRoles": {
-    "title": "Cambiar Roles del Usuario",
+    "title": "Cambiar Rol del Usuario",
     "action": "Actualizar",
-    "success": "Roles del usuario actualizados con éxito"
+    "success": "Rol del usuario actualizado con éxito"
   },
   "edit": {
     "title": "Editar Usuario",
@@ -61,6 +62,7 @@
     "team_placeholder": "Seleccione la brigada",
     "house_block_placeholder": "Seleccione el $t(common:houseGroup_one)",
     "roles_placeholder": "Seleccione los roles",
+    "role_placeholder": "Seleccione el rol",
     "password_placeholder": "Ingrese la contraseña",
     "passwordConfirm_placeholder": "Repita la contraseña"
   }

@@ -20,6 +20,7 @@
   "neighborhood": "Setor",
   "neighborhood_placeholder": "Selecione seu setor",
   "roles": "Papéis",
+  "role": "Papel",
   "roles_placeholder": "Selecione seus papéis",
   "organization": "Organização",
   "organization_placeholder": "Selecione sua organização",
@@ -42,9 +43,9 @@
     "success": "Usuário aprovado com sucesso"
   },
   "changeRoles": {
-    "title": "Alterar Papéis do Usuário",
+    "title": "Alterar Papel do Usuário",
     "action": "Atualizar",
-    "success": "Papéis do usuário atualizados com sucesso"
+    "success": "Papel do usuário atualizado com sucesso"
   },
   "edit": {
     "title": "Editar Usuário",
@@ -61,6 +62,7 @@
     "team_placeholder": "Selecione a brigada",
     "house_block_placeholder": "Selecione o bloco da casa",
     "roles_placeholder": "Selecione os papéis",
+    "role_placeholder": "Selecione o papel",
     "password_placeholder": "Digite a senha",
     "passwordConfirm_placeholder": "Repita a senha"
   }

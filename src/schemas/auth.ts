@@ -1,5 +1,5 @@
 import * as z from 'zod/mini';
-import type { BaseObject, FormSelectOption } from '.';
+import type { BaseObject } from '.';
 
 export type FieldErrorForTranslation = {
   key: string;
@@ -124,7 +124,7 @@ export interface UserProfile {
   organization?: string | BaseObject;
   team?: string | BaseObject;
   houseBlock?: string | BaseObject;
-  roles?: BaseObject[];
+  role?: BaseObject;
 
   countryId?: number;
   cityId?: number;
@@ -156,7 +156,7 @@ export interface IUser extends UserProfile {
 }
 
 export type ChangeUserRoleInputType = {
-  roles: FormSelectOption[];
+  roleId: string;
 };
 
 export interface UserAccount {
@@ -173,7 +173,7 @@ export interface UserUpdate {
   username?: string;
   phone?: string;
   userProfileAttributes?: UserProfile;
-  roleIds?: number[];
+  roleId?: number;
 }
 
 export type CreateAccountInputType = UserAccount;
